@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "06.01",
+  "name": "Mechanical, Civil & Industrial",
+  "node_type": "theme",
+  "parent_id": "06",
+  "children": [
+    {
+      "id": "06.01.01",
+      "name": "Mechanical Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.01",
+      "children": [
+        {
+          "id": "06.01.01.01",
+          "name": "Mechanics of materials",
+          "node_type": "research_area",
+          "parent_id": "06.01.01",
+          "children": []
+        },
+        {
+          "id": "06.01.01.02",
+          "name": "Fluid machinery",
+          "node_type": "research_area",
+          "parent_id": "06.01.01",
+          "children": []
+        },
+        {
+          "id": "06.01.01.03",
+          "name": "Thermal systems",
+          "node_type": "research_area",
+          "parent_id": "06.01.01",
+          "children": []
+        },
+        {
+          "id": "06.01.01.04",
+          "name": "Machine design",
+          "node_type": "research_area",
+          "parent_id": "06.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.01.02",
+      "name": "Civil Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.01",
+      "children": [
+        {
+          "id": "06.01.02.01",
+          "name": "Structural design",
+          "node_type": "research_area",
+          "parent_id": "06.01.02",
+          "children": []
+        },
+        {
+          "id": "06.01.02.02",
+          "name": "Geotechnics",
+          "node_type": "research_area",
+          "parent_id": "06.01.02",
+          "children": []
+        },
+        {
+          "id": "06.01.02.03",
+          "name": "Construction materials",
+          "node_type": "research_area",
+          "parent_id": "06.01.02",
+          "children": []
+        },
+        {
+          "id": "06.01.02.04",
+          "name": "Infrastructure resilience",
+          "node_type": "research_area",
+          "parent_id": "06.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.01.03",
+      "name": "Manufacturing Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.01",
+      "children": [
+        {
+          "id": "06.01.03.01",
+          "name": "Additive manufacturing",
+          "node_type": "research_area",
+          "parent_id": "06.01.03",
+          "children": []
+        },
+        {
+          "id": "06.01.03.02",
+          "name": "Precision machining",
+          "node_type": "research_area",
+          "parent_id": "06.01.03",
+          "children": []
+        },
+        {
+          "id": "06.01.03.03",
+          "name": "Process automation",
+          "node_type": "research_area",
+          "parent_id": "06.01.03",
+          "children": []
+        },
+        {
+          "id": "06.01.03.04",
+          "name": "Quality engineering",
+          "node_type": "research_area",
+          "parent_id": "06.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.01.04",
+      "name": "Industrial Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.01",
+      "children": [
+        {
+          "id": "06.01.04.01",
+          "name": "Operations optimization",
+          "node_type": "research_area",
+          "parent_id": "06.01.04",
+          "children": []
+        },
+        {
+          "id": "06.01.04.02",
+          "name": "Supply chains",
+          "node_type": "research_area",
+          "parent_id": "06.01.04",
+          "children": []
+        },
+        {
+          "id": "06.01.04.03",
+          "name": "Reliability engineering",
+          "node_type": "research_area",
+          "parent_id": "06.01.04",
+          "children": []
+        },
+        {
+          "id": "06.01.04.04",
+          "name": "Human factors",
+          "node_type": "research_area",
+          "parent_id": "06.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.01.05",
+      "name": "Robotics",
+      "node_type": "discipline",
+      "parent_id": "06.01",
+      "children": [
+        {
+          "id": "06.01.05.01",
+          "name": "Robot kinematics",
+          "node_type": "research_area",
+          "parent_id": "06.01.05",
+          "children": []
+        },
+        {
+          "id": "06.01.05.02",
+          "name": "Motion planning",
+          "node_type": "research_area",
+          "parent_id": "06.01.05",
+          "children": []
+        },
+        {
+          "id": "06.01.05.03",
+          "name": "Manipulation",
+          "node_type": "research_area",
+          "parent_id": "06.01.05",
+          "children": []
+        },
+        {
+          "id": "06.01.05.04",
+          "name": "Autonomous navigation",
+          "node_type": "research_area",
+          "parent_id": "06.01.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.01.06",
+      "name": "Transportation Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.01",
+      "children": [
+        {
+          "id": "06.01.06.01",
+          "name": "Traffic modeling",
+          "node_type": "research_area",
+          "parent_id": "06.01.06",
+          "children": []
+        },
+        {
+          "id": "06.01.06.02",
+          "name": "Rail systems",
+          "node_type": "research_area",
+          "parent_id": "06.01.06",
+          "children": []
+        },
+        {
+          "id": "06.01.06.03",
+          "name": "Mobility systems",
+          "node_type": "research_area",
+          "parent_id": "06.01.06",
+          "children": []
+        },
+        {
+          "id": "06.01.06.04",
+          "name": "Transport safety",
+          "node_type": "research_area",
+          "parent_id": "06.01.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

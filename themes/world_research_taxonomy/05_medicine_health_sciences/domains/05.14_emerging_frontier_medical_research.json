@@ -1,0 +1,376 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.14",
+  "code": "05.14",
+  "name": "Emerging & Frontier Medical Research",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Emerging research platforms and high-potential approaches crossing the boundaries of established biomedical fields.",
+  "counts": {
+    "disciplines": 10,
+    "research_areas": 32
+  },
+  "children": [
+    {
+      "id": "05.14.01",
+      "code": "05.14.01",
+      "name": "Precision Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.01.01",
+          "code": "05.14.01.01",
+          "name": "Multi-omics integration",
+          "node_type": "research_area",
+          "parent_id": "05.14.01",
+          "children": []
+        },
+        {
+          "id": "05.14.01.02",
+          "code": "05.14.01.02",
+          "name": "Patient stratification",
+          "node_type": "research_area",
+          "parent_id": "05.14.01",
+          "children": []
+        },
+        {
+          "id": "05.14.01.03",
+          "code": "05.14.01.03",
+          "name": "Molecular treatment selection",
+          "node_type": "research_area",
+          "parent_id": "05.14.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.02",
+      "code": "05.14.02",
+      "name": "Single-Cell Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.14.02.01",
+          "code": "05.14.02.01",
+          "name": "Single-cell sequencing",
+          "node_type": "research_area",
+          "parent_id": "05.14.02",
+          "children": []
+        },
+        {
+          "id": "05.14.02.02",
+          "code": "05.14.02.02",
+          "name": "Spatial transcriptomics",
+          "node_type": "research_area",
+          "parent_id": "05.14.02",
+          "children": []
+        },
+        {
+          "id": "05.14.02.03",
+          "code": "05.14.02.03",
+          "name": "Cell atlases",
+          "node_type": "research_area",
+          "parent_id": "05.14.02",
+          "children": []
+        },
+        {
+          "id": "05.14.02.04",
+          "code": "05.14.02.04",
+          "name": "Disease tissue mapping",
+          "node_type": "research_area",
+          "parent_id": "05.14.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.03",
+      "code": "05.14.03",
+      "name": "AI-Driven Biomedical Discovery",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.03.01",
+          "code": "05.14.03.01",
+          "name": "Foundation models",
+          "node_type": "research_area",
+          "parent_id": "05.14.03",
+          "children": []
+        },
+        {
+          "id": "05.14.03.02",
+          "code": "05.14.03.02",
+          "name": "Generative molecular design",
+          "node_type": "research_area",
+          "parent_id": "05.14.03",
+          "children": []
+        },
+        {
+          "id": "05.14.03.03",
+          "code": "05.14.03.03",
+          "name": "Autonomous laboratories",
+          "node_type": "research_area",
+          "parent_id": "05.14.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.04",
+      "code": "05.14.04",
+      "name": "Advanced Genome Engineering",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.04.01",
+          "code": "05.14.04.01",
+          "name": "In vivo editing",
+          "node_type": "research_area",
+          "parent_id": "05.14.04",
+          "children": []
+        },
+        {
+          "id": "05.14.04.02",
+          "code": "05.14.04.02",
+          "name": "Precision editing",
+          "node_type": "research_area",
+          "parent_id": "05.14.04",
+          "children": []
+        },
+        {
+          "id": "05.14.04.03",
+          "code": "05.14.04.03",
+          "name": "Programmable gene regulation",
+          "node_type": "research_area",
+          "parent_id": "05.14.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.05",
+      "code": "05.14.05",
+      "name": "Next-Generation Immunotherapy",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.05.01",
+          "code": "05.14.05.01",
+          "name": "Personalized cancer vaccines",
+          "node_type": "research_area",
+          "parent_id": "05.14.05",
+          "children": []
+        },
+        {
+          "id": "05.14.05.02",
+          "code": "05.14.05.02",
+          "name": "Engineered immune cells",
+          "node_type": "research_area",
+          "parent_id": "05.14.05",
+          "children": []
+        },
+        {
+          "id": "05.14.05.03",
+          "code": "05.14.05.03",
+          "name": "Immune reprogramming",
+          "node_type": "research_area",
+          "parent_id": "05.14.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.06",
+      "code": "05.14.06",
+      "name": "Human Organ Models",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.06.01",
+          "code": "05.14.06.01",
+          "name": "Organoids",
+          "node_type": "research_area",
+          "parent_id": "05.14.06",
+          "children": []
+        },
+        {
+          "id": "05.14.06.02",
+          "code": "05.14.06.02",
+          "name": "Multi-organ chips",
+          "node_type": "research_area",
+          "parent_id": "05.14.06",
+          "children": []
+        },
+        {
+          "id": "05.14.06.03",
+          "code": "05.14.06.03",
+          "name": "Patient-derived models",
+          "node_type": "research_area",
+          "parent_id": "05.14.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.07",
+      "code": "05.14.07",
+      "name": "Nanomedicine",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.07.01",
+          "code": "05.14.07.01",
+          "name": "Targeted nanoparticles",
+          "node_type": "research_area",
+          "parent_id": "05.14.07",
+          "children": []
+        },
+        {
+          "id": "05.14.07.02",
+          "code": "05.14.07.02",
+          "name": "Nanodiagnostics",
+          "node_type": "research_area",
+          "parent_id": "05.14.07",
+          "children": []
+        },
+        {
+          "id": "05.14.07.03",
+          "code": "05.14.07.03",
+          "name": "Nanoscale therapeutics",
+          "node_type": "research_area",
+          "parent_id": "05.14.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.08",
+      "code": "05.14.08",
+      "name": "Space Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.14.08.01",
+          "code": "05.14.08.01",
+          "name": "Microgravity physiology",
+          "node_type": "research_area",
+          "parent_id": "05.14.08",
+          "children": []
+        },
+        {
+          "id": "05.14.08.02",
+          "code": "05.14.08.02",
+          "name": "Radiation health",
+          "node_type": "research_area",
+          "parent_id": "05.14.08",
+          "children": []
+        },
+        {
+          "id": "05.14.08.03",
+          "code": "05.14.08.03",
+          "name": "Astronaut bone and muscle loss",
+          "node_type": "research_area",
+          "parent_id": "05.14.08",
+          "children": []
+        },
+        {
+          "id": "05.14.08.04",
+          "code": "05.14.08.04",
+          "name": "Spaceflight neurovestibular research",
+          "node_type": "research_area",
+          "parent_id": "05.14.08",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.09",
+      "code": "05.14.09",
+      "name": "Planetary Health",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.09.01",
+          "code": "05.14.09.01",
+          "name": "Climate-sensitive diseases",
+          "node_type": "research_area",
+          "parent_id": "05.14.09",
+          "children": []
+        },
+        {
+          "id": "05.14.09.02",
+          "code": "05.14.09.02",
+          "name": "Biodiversity and health",
+          "node_type": "research_area",
+          "parent_id": "05.14.09",
+          "children": []
+        },
+        {
+          "id": "05.14.09.03",
+          "code": "05.14.09.03",
+          "name": "Environmental sustainability of healthcare",
+          "node_type": "research_area",
+          "parent_id": "05.14.09",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.14.10",
+      "code": "05.14.10",
+      "name": "Advanced Neurotechnology",
+      "node_type": "discipline",
+      "parent_id": "05.14",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.14.10.01",
+          "code": "05.14.10.01",
+          "name": "High-density neural interfaces",
+          "node_type": "research_area",
+          "parent_id": "05.14.10",
+          "children": []
+        },
+        {
+          "id": "05.14.10.02",
+          "code": "05.14.10.02",
+          "name": "Adaptive brain stimulation",
+          "node_type": "research_area",
+          "parent_id": "05.14.10",
+          "children": []
+        },
+        {
+          "id": "05.14.10.03",
+          "code": "05.14.10.03",
+          "name": "Neural restoration",
+          "node_type": "research_area",
+          "parent_id": "05.14.10",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

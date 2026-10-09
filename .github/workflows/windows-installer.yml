@@ -9,6 +9,12 @@ on:
       - 'scripts/build_windows.py'
       - 'scripts/test_windows_install.py'
       - 'backend/**'
+      - 'assets/**'
+      - 'themes/**'
+      - 'templates/**'
+      - 'prompts/runtime/**'
+      - 'schemas/**'
+      - 'documentation/**'
       - 'requirements.lock.txt'
       - 'index.html'
       - 'licenses/**'
@@ -55,9 +61,9 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v4
         with:
-          name: REI-Windows-x64-Installer
+          name: OpenBEXI-Discovery-Windows-x64
           path: |
-            dist/REIResearchExplorer-1.0.1-Windows-x64-Setup.exe
+            dist/OpenBEXIDiscovery-1.1.0-Windows-x64-Setup.exe
             dist/SHA256SUMS-Windows.txt
           if-no-files-found: error
           retention-days: 30

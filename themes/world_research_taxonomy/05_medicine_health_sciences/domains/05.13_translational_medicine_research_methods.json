@@ -1,0 +1,340 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.13",
+  "code": "05.13",
+  "name": "Translational Medicine & Research Methods",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Methods that connect discovery science to clinical evidence, effective practice, and reproducible research.",
+  "counts": {
+    "disciplines": 8,
+    "research_areas": 30
+  },
+  "children": [
+    {
+      "id": "05.13.01",
+      "code": "05.13.01",
+      "name": "Preclinical Research",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.13.01.01",
+          "code": "05.13.01.01",
+          "name": "In vitro models",
+          "node_type": "research_area",
+          "parent_id": "05.13.01",
+          "children": []
+        },
+        {
+          "id": "05.13.01.02",
+          "code": "05.13.01.02",
+          "name": "Animal models",
+          "node_type": "research_area",
+          "parent_id": "05.13.01",
+          "children": []
+        },
+        {
+          "id": "05.13.01.03",
+          "code": "05.13.01.03",
+          "name": "Disease models",
+          "node_type": "research_area",
+          "parent_id": "05.13.01",
+          "children": []
+        },
+        {
+          "id": "05.13.01.04",
+          "code": "05.13.01.04",
+          "name": "Target validation",
+          "node_type": "research_area",
+          "parent_id": "05.13.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.02",
+      "code": "05.13.02",
+      "name": "Translational Research",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.13.02.01",
+          "code": "05.13.02.01",
+          "name": "Bench-to-bedside science",
+          "node_type": "research_area",
+          "parent_id": "05.13.02",
+          "children": []
+        },
+        {
+          "id": "05.13.02.02",
+          "code": "05.13.02.02",
+          "name": "Biomarker qualification",
+          "node_type": "research_area",
+          "parent_id": "05.13.02",
+          "children": []
+        },
+        {
+          "id": "05.13.02.03",
+          "code": "05.13.02.03",
+          "name": "Proof-of-concept studies",
+          "node_type": "research_area",
+          "parent_id": "05.13.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.03",
+      "code": "05.13.03",
+      "name": "Clinical Trial Methodology",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.13.03.01",
+          "code": "05.13.03.01",
+          "name": "Randomization",
+          "node_type": "research_area",
+          "parent_id": "05.13.03",
+          "children": []
+        },
+        {
+          "id": "05.13.03.02",
+          "code": "05.13.03.02",
+          "name": "Blinding",
+          "node_type": "research_area",
+          "parent_id": "05.13.03",
+          "children": []
+        },
+        {
+          "id": "05.13.03.03",
+          "code": "05.13.03.03",
+          "name": "Statistical design",
+          "node_type": "research_area",
+          "parent_id": "05.13.03",
+          "children": []
+        },
+        {
+          "id": "05.13.03.04",
+          "code": "05.13.03.04",
+          "name": "Pragmatic trials",
+          "node_type": "research_area",
+          "parent_id": "05.13.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.04",
+      "code": "05.13.04",
+      "name": "Evidence Synthesis",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.13.04.01",
+          "code": "05.13.04.01",
+          "name": "Systematic reviews",
+          "node_type": "research_area",
+          "parent_id": "05.13.04",
+          "children": []
+        },
+        {
+          "id": "05.13.04.02",
+          "code": "05.13.04.02",
+          "name": "Meta-analysis",
+          "node_type": "research_area",
+          "parent_id": "05.13.04",
+          "children": []
+        },
+        {
+          "id": "05.13.04.03",
+          "code": "05.13.04.03",
+          "name": "Evidence grading",
+          "node_type": "research_area",
+          "parent_id": "05.13.04",
+          "children": []
+        },
+        {
+          "id": "05.13.04.04",
+          "code": "05.13.04.04",
+          "name": "Living reviews",
+          "node_type": "research_area",
+          "parent_id": "05.13.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.05",
+      "code": "05.13.05",
+      "name": "Biostatistics",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.13.05.01",
+          "code": "05.13.05.01",
+          "name": "Survival analysis",
+          "node_type": "research_area",
+          "parent_id": "05.13.05",
+          "children": []
+        },
+        {
+          "id": "05.13.05.02",
+          "code": "05.13.05.02",
+          "name": "Longitudinal models",
+          "node_type": "research_area",
+          "parent_id": "05.13.05",
+          "children": []
+        },
+        {
+          "id": "05.13.05.03",
+          "code": "05.13.05.03",
+          "name": "Bayesian methods",
+          "node_type": "research_area",
+          "parent_id": "05.13.05",
+          "children": []
+        },
+        {
+          "id": "05.13.05.04",
+          "code": "05.13.05.04",
+          "name": "Missing data methods",
+          "node_type": "research_area",
+          "parent_id": "05.13.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.06",
+      "code": "05.13.06",
+      "name": "Implementation Science",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.13.06.01",
+          "code": "05.13.06.01",
+          "name": "Intervention adoption",
+          "node_type": "research_area",
+          "parent_id": "05.13.06",
+          "children": []
+        },
+        {
+          "id": "05.13.06.02",
+          "code": "05.13.06.02",
+          "name": "Scale-up",
+          "node_type": "research_area",
+          "parent_id": "05.13.06",
+          "children": []
+        },
+        {
+          "id": "05.13.06.03",
+          "code": "05.13.06.03",
+          "name": "Health systems implementation",
+          "node_type": "research_area",
+          "parent_id": "05.13.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.07",
+      "code": "05.13.07",
+      "name": "Research Ethics",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.13.07.01",
+          "code": "05.13.07.01",
+          "name": "Informed consent",
+          "node_type": "research_area",
+          "parent_id": "05.13.07",
+          "children": []
+        },
+        {
+          "id": "05.13.07.02",
+          "code": "05.13.07.02",
+          "name": "Human-subject protection",
+          "node_type": "research_area",
+          "parent_id": "05.13.07",
+          "children": []
+        },
+        {
+          "id": "05.13.07.03",
+          "code": "05.13.07.03",
+          "name": "Research integrity",
+          "node_type": "research_area",
+          "parent_id": "05.13.07",
+          "children": []
+        },
+        {
+          "id": "05.13.07.04",
+          "code": "05.13.07.04",
+          "name": "Equitable participant recruitment",
+          "node_type": "research_area",
+          "parent_id": "05.13.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.13.08",
+      "code": "05.13.08",
+      "name": "Reproducibility & Open Science",
+      "node_type": "discipline",
+      "parent_id": "05.13",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.13.08.01",
+          "code": "05.13.08.01",
+          "name": "Research data sharing",
+          "node_type": "research_area",
+          "parent_id": "05.13.08",
+          "children": []
+        },
+        {
+          "id": "05.13.08.02",
+          "code": "05.13.08.02",
+          "name": "Protocol registration",
+          "node_type": "research_area",
+          "parent_id": "05.13.08",
+          "children": []
+        },
+        {
+          "id": "05.13.08.03",
+          "code": "05.13.08.03",
+          "name": "Reproducible pipelines",
+          "node_type": "research_area",
+          "parent_id": "05.13.08",
+          "children": []
+        },
+        {
+          "id": "05.13.08.04",
+          "code": "05.13.08.04",
+          "name": "FAIR data",
+          "node_type": "research_area",
+          "parent_id": "05.13.08",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

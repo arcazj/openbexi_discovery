@@ -1,5 +1,17 @@
 # Releases
 
+
+## 1.1.0 — OpenBEXI Discovery
+
+- Preserves the REI evidence workflow at Advanced as the default profile.
+- Adds editable JSON profiles, searchable research themes, seven learning levels, and profile-specific workspaces.
+- Adds documents, datasets, notes, locally graded quizzes, read-only SQLite connections, and offline ZIP export/read/import.
+- Adds versioned AI prompts, reviewed profile drafts, persistent token/cost budgets, and source/AI provenance colors.
+- Bundles Python, SQLite, themes, prompts, schemas, and guides in the Windows installer; preserves legacy private data locations.
+- Publishes as `openbexi_discovery`, preserving `openbexi_REI` as the legacy repository.
+
+Optional tutors, 3D simulations, research agents, and account-provider connectors remain planned. Live public evidence sources remain PubMed, Ensembl, and GWAS Catalog. No paid AI requests are used in automated verification.
+
 ## V1.0.1 — 2026-10-04
 
 - Search, More actions, and Suggest research directions share a compact row; the toolbar stays visible below sources while scrolling.

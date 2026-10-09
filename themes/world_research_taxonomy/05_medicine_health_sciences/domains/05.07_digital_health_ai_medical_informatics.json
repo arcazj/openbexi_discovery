@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.07",
+  "code": "05.07",
+  "name": "Digital Health, AI & Medical Informatics",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Data, computational models, artificial intelligence, and connected technologies supporting health research and care.",
+  "counts": {
+    "disciplines": 10,
+    "research_areas": 40
+  },
+  "children": [
+    {
+      "id": "05.07.01",
+      "code": "05.07.01",
+      "name": "Biomedical Informatics",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.01.01",
+          "code": "05.07.01.01",
+          "name": "Electronic health records",
+          "node_type": "research_area",
+          "parent_id": "05.07.01",
+          "children": []
+        },
+        {
+          "id": "05.07.01.02",
+          "code": "05.07.01.02",
+          "name": "Clinical data modeling",
+          "node_type": "research_area",
+          "parent_id": "05.07.01",
+          "children": []
+        },
+        {
+          "id": "05.07.01.03",
+          "code": "05.07.01.03",
+          "name": "Medical terminologies",
+          "node_type": "research_area",
+          "parent_id": "05.07.01",
+          "children": []
+        },
+        {
+          "id": "05.07.01.04",
+          "code": "05.07.01.04",
+          "name": "FHIR interoperability",
+          "node_type": "research_area",
+          "parent_id": "05.07.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.02",
+      "code": "05.07.02",
+      "name": "AI for Diagnostics",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.02.01",
+          "code": "05.07.02.01",
+          "name": "Medical image classification",
+          "node_type": "research_area",
+          "parent_id": "05.07.02",
+          "children": []
+        },
+        {
+          "id": "05.07.02.02",
+          "code": "05.07.02.02",
+          "name": "Pathology AI",
+          "node_type": "research_area",
+          "parent_id": "05.07.02",
+          "children": []
+        },
+        {
+          "id": "05.07.02.03",
+          "code": "05.07.02.03",
+          "name": "Clinical decision support",
+          "node_type": "research_area",
+          "parent_id": "05.07.02",
+          "children": []
+        },
+        {
+          "id": "05.07.02.04",
+          "code": "05.07.02.04",
+          "name": "Multimodal diagnostics",
+          "node_type": "research_area",
+          "parent_id": "05.07.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.03",
+      "code": "05.07.03",
+      "name": "Predictive Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.03.01",
+          "code": "05.07.03.01",
+          "name": "Risk prediction",
+          "node_type": "research_area",
+          "parent_id": "05.07.03",
+          "children": []
+        },
+        {
+          "id": "05.07.03.02",
+          "code": "05.07.03.02",
+          "name": "Disease progression modeling",
+          "node_type": "research_area",
+          "parent_id": "05.07.03",
+          "children": []
+        },
+        {
+          "id": "05.07.03.03",
+          "code": "05.07.03.03",
+          "name": "Early warning systems",
+          "node_type": "research_area",
+          "parent_id": "05.07.03",
+          "children": []
+        },
+        {
+          "id": "05.07.03.04",
+          "code": "05.07.03.04",
+          "name": "Prognostic algorithms",
+          "node_type": "research_area",
+          "parent_id": "05.07.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.04",
+      "code": "05.07.04",
+      "name": "Computational Biology",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.04.01",
+          "code": "05.07.04.01",
+          "name": "Systems medicine",
+          "node_type": "research_area",
+          "parent_id": "05.07.04",
+          "children": []
+        },
+        {
+          "id": "05.07.04.02",
+          "code": "05.07.04.02",
+          "name": "Disease network modeling",
+          "node_type": "research_area",
+          "parent_id": "05.07.04",
+          "children": []
+        },
+        {
+          "id": "05.07.04.03",
+          "code": "05.07.04.03",
+          "name": "Multiscale simulation",
+          "node_type": "research_area",
+          "parent_id": "05.07.04",
+          "children": []
+        },
+        {
+          "id": "05.07.04.04",
+          "code": "05.07.04.04",
+          "name": "Computational genomics",
+          "node_type": "research_area",
+          "parent_id": "05.07.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.05",
+      "code": "05.07.05",
+      "name": "Telemedicine",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.05.01",
+          "code": "05.07.05.01",
+          "name": "Remote consultations",
+          "node_type": "research_area",
+          "parent_id": "05.07.05",
+          "children": []
+        },
+        {
+          "id": "05.07.05.02",
+          "code": "05.07.05.02",
+          "name": "Virtual care",
+          "node_type": "research_area",
+          "parent_id": "05.07.05",
+          "children": []
+        },
+        {
+          "id": "05.07.05.03",
+          "code": "05.07.05.03",
+          "name": "Home monitoring",
+          "node_type": "research_area",
+          "parent_id": "05.07.05",
+          "children": []
+        },
+        {
+          "id": "05.07.05.04",
+          "code": "05.07.05.04",
+          "name": "Telehealth outcomes",
+          "node_type": "research_area",
+          "parent_id": "05.07.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.06",
+      "code": "05.07.06",
+      "name": "Digital Therapeutics",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.06.01",
+          "code": "05.07.06.01",
+          "name": "Software-based treatment",
+          "node_type": "research_area",
+          "parent_id": "05.07.06",
+          "children": []
+        },
+        {
+          "id": "05.07.06.02",
+          "code": "05.07.06.02",
+          "name": "Behavioral interventions",
+          "node_type": "research_area",
+          "parent_id": "05.07.06",
+          "children": []
+        },
+        {
+          "id": "05.07.06.03",
+          "code": "05.07.06.03",
+          "name": "Digital rehabilitation",
+          "node_type": "research_area",
+          "parent_id": "05.07.06",
+          "children": []
+        },
+        {
+          "id": "05.07.06.04",
+          "code": "05.07.06.04",
+          "name": "Treatment adherence",
+          "node_type": "research_area",
+          "parent_id": "05.07.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.07",
+      "code": "05.07.07",
+      "name": "Medical Digital Twins",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.07.01",
+          "code": "05.07.07.01",
+          "name": "Patient-specific simulation",
+          "node_type": "research_area",
+          "parent_id": "05.07.07",
+          "children": []
+        },
+        {
+          "id": "05.07.07.02",
+          "code": "05.07.07.02",
+          "name": "Virtual organs",
+          "node_type": "research_area",
+          "parent_id": "05.07.07",
+          "children": []
+        },
+        {
+          "id": "05.07.07.03",
+          "code": "05.07.07.03",
+          "name": "Treatment response modeling",
+          "node_type": "research_area",
+          "parent_id": "05.07.07",
+          "children": []
+        },
+        {
+          "id": "05.07.07.04",
+          "code": "05.07.07.04",
+          "name": "Physiological twins",
+          "node_type": "research_area",
+          "parent_id": "05.07.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.08",
+      "code": "05.07.08",
+      "name": "Privacy & Cybersecurity",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.08.01",
+          "code": "05.07.08.01",
+          "name": "Medical data protection",
+          "node_type": "research_area",
+          "parent_id": "05.07.08",
+          "children": []
+        },
+        {
+          "id": "05.07.08.02",
+          "code": "05.07.08.02",
+          "name": "Federated learning",
+          "node_type": "research_area",
+          "parent_id": "05.07.08",
+          "children": []
+        },
+        {
+          "id": "05.07.08.03",
+          "code": "05.07.08.03",
+          "name": "Privacy-preserving analytics",
+          "node_type": "research_area",
+          "parent_id": "05.07.08",
+          "children": []
+        },
+        {
+          "id": "05.07.08.04",
+          "code": "05.07.08.04",
+          "name": "Medical device security",
+          "node_type": "research_area",
+          "parent_id": "05.07.08",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.09",
+      "code": "05.07.09",
+      "name": "Clinical NLP",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.09.01",
+          "code": "05.07.09.01",
+          "name": "Medical text extraction",
+          "node_type": "research_area",
+          "parent_id": "05.07.09",
+          "children": []
+        },
+        {
+          "id": "05.07.09.02",
+          "code": "05.07.09.02",
+          "name": "Clinical language models",
+          "node_type": "research_area",
+          "parent_id": "05.07.09",
+          "children": []
+        },
+        {
+          "id": "05.07.09.03",
+          "code": "05.07.09.03",
+          "name": "Medical knowledge graphs",
+          "node_type": "research_area",
+          "parent_id": "05.07.09",
+          "children": []
+        },
+        {
+          "id": "05.07.09.04",
+          "code": "05.07.09.04",
+          "name": "Automated coding",
+          "node_type": "research_area",
+          "parent_id": "05.07.09",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.07.10",
+      "code": "05.07.10",
+      "name": "Medical Data Science",
+      "node_type": "discipline",
+      "parent_id": "05.07",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.07.10.01",
+          "code": "05.07.10.01",
+          "name": "Real-world evidence",
+          "node_type": "research_area",
+          "parent_id": "05.07.10",
+          "children": []
+        },
+        {
+          "id": "05.07.10.02",
+          "code": "05.07.10.02",
+          "name": "Causal inference",
+          "node_type": "research_area",
+          "parent_id": "05.07.10",
+          "children": []
+        },
+        {
+          "id": "05.07.10.03",
+          "code": "05.07.10.03",
+          "name": "Longitudinal health records",
+          "node_type": "research_area",
+          "parent_id": "05.07.10",
+          "children": []
+        },
+        {
+          "id": "05.07.10.04",
+          "code": "05.07.10.04",
+          "name": "Clinical data quality",
+          "node_type": "research_area",
+          "parent_id": "05.07.10",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

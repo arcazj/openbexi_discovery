@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "Copy": {
+      "additionalProperties": false,
+      "properties": {
+        "eyebrow": {
+          "maxLength": 180,
+          "title": "Eyebrow",
+          "type": "string"
+        },
+        "heading": {
+          "maxLength": 180,
+          "title": "Heading",
+          "type": "string"
+        },
+        "introduction": {
+          "maxLength": 1200,
+          "title": "Introduction",
+          "type": "string"
+        },
+        "sources_title": {
+          "maxLength": 80,
+          "title": "Sources Title",
+          "type": "string"
+        },
+        "sources_caption": {
+          "maxLength": 120,
+          "title": "Sources Caption",
+          "type": "string"
+        },
+        "search_label": {
+          "maxLength": 200,
+          "title": "Search Label",
+          "type": "string"
+        },
+        "search_placeholder": {
+          "maxLength": 250,
+          "title": "Search Placeholder",
+          "type": "string"
+        },
+        "examples": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "title": "Examples",
+          "type": "array"
+        },
+        "welcome_heading": {
+          "maxLength": 180,
+          "title": "Welcome Heading",
+          "type": "string"
+        },
+        "welcome_title": {
+          "maxLength": 180,
+          "title": "Welcome Title",
+          "type": "string"
+        },
+        "welcome_text": {
+          "maxLength": 1600,
+          "title": "Welcome Text",
+          "type": "string"
+        },
+        "guidance_heading": {
+          "maxLength": 180,
+          "title": "Guidance Heading",
+          "type": "string"
+        },
+        "guidance_text": {
+          "maxLength": 1200,
+          "title": "Guidance Text",
+          "type": "string"
+        },
+        "constraints_heading": {
+          "maxLength": 180,
+          "title": "Constraints Heading",
+          "type": "string"
+        },
+        "deadline_label": {
+          "maxLength": 180,
+          "title": "Deadline Label",
+          "type": "string"
+        },
+        "deadline_hint": {
+          "maxLength": 250,
+          "title": "Deadline Hint",
+          "type": "string"
+        },
+        "data_label": {
+          "maxLength": 180,
+          "title": "Data Label",
+          "type": "string"
+        },
+        "data_hint": {
+          "maxLength": 250,
+          "title": "Data Hint",
+          "type": "string"
+        },
+        "mentor_label": {
+          "maxLength": 180,
+          "title": "Mentor Label",
+          "type": "string"
+        },
+        "mentor_hint": {
+          "maxLength": 250,
+          "title": "Mentor Hint",
+          "type": "string"
+        },
+        "tip_heading": {
+          "maxLength": 80,
+          "title": "Tip Heading",
+          "type": "string"
+        },
+        "tip_text": {
+          "maxLength": 1200,
+          "title": "Tip Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "eyebrow",
+        "heading",
+        "introduction",
+        "sources_title",
+        "sources_caption",
+        "search_label",
+        "search_placeholder",
+        "examples",
+        "welcome_heading",
+        "welcome_title",
+        "welcome_text",
+        "guidance_heading",
+        "guidance_text",
+        "constraints_heading",
+        "deadline_label",
+        "deadline_hint",
+        "data_label",
+        "data_hint",
+        "mentor_label",
+        "mentor_hint",
+        "tip_heading",
+        "tip_text"
+      ],
+      "title": "Copy",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "default": "template",
+          "enum": [
+            "template",
+            "user",
+            "ai",
+            "ai_edited",
+            "unverified"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.1",
+      "default": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "default": "draft",
+      "pattern": "^[a-zA-Z0-9_-]{1,80}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "revision": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "name": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "maxLength": 1000,
+      "title": "Description",
+      "type": "string"
+    },
+    "goal": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Goal",
+      "type": "string"
+    },
+    "theme_title": {
+      "maxLength": 180,
+      "minLength": 1,
+      "title": "Theme Title",
+      "type": "string"
+    },
+    "themes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Themes",
+      "type": "array"
+    },
+    "learning_level": {
+      "default": "advanced",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced",
+        "expert",
+        "researcher",
+        "frontier",
+        "beyond_frontier"
+      ],
+      "title": "Learning Level",
+      "type": "string"
+    },
+    "tabs": {
+      "items": {
+        "enum": [
+          "evidence",
+          "documents",
+          "datasets",
+          "connections",
+          "quizzes",
+          "notes"
+        ],
+        "type": "string"
+      },
+      "maxItems": 6,
+      "minItems": 1,
+      "title": "Tabs",
+      "type": "array"
+    },
+    "default_tab": {
+      "default": "evidence",
+      "title": "Default Tab",
+      "type": "string"
+    },
+    "panels": {
+      "items": {
+        "enum": [
+          "guidance",
+          "constraints",
+          "tip"
+        ],
+        "type": "string"
+      },
+      "maxItems": 3,
+      "title": "Panels",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "enum": [
+          "pubmed",
+          "ensembl",
+          "gwas"
+        ],
+        "type": "string"
+      },
+      "maxItems": 3,
+      "title": "Sources",
+      "type": "array"
+    },
+    "tools": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 7,
+      "title": "Tools",
+      "type": "array"
+    },
+    "connection_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Connection Ids",
+      "type": "array"
+    },
+    "ui": {
+      "$ref": "#/$defs/Copy"
+    },
+    "provenance": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Provenance"
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "created_at": {
+      "default": "",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "default": "",
+      "title": "Updated At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "goal",
+    "theme_title",
+    "ui"
+  ],
+  "title": "Profile",
+  "type": "object"
+}

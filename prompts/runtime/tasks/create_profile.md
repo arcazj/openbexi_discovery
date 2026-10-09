@@ -1,0 +1,1 @@
+Propose a coherent theme title and UI wording from the selected themes, learning level, and user goal. Produce one integrated experience for multiple themes. Preserve field names and return all UI text fields required by the schema, plus a short explanation.

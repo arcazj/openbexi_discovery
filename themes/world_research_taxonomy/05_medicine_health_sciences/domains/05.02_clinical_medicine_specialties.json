@@ -1,0 +1,1252 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.02",
+  "code": "05.02",
+  "name": "Clinical Medicine & Specialties",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Clinical investigation of diseases, diagnosis, patient care, and specialty-specific interventions across the lifespan.",
+  "counts": {
+    "disciplines": 24,
+    "research_areas": 124
+  },
+  "children": [
+    {
+      "id": "05.02.01",
+      "code": "05.02.01",
+      "name": "Cardiology & Vascular Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 6,
+      "children": [
+        {
+          "id": "05.02.01.01",
+          "code": "05.02.01.01",
+          "name": "Coronary artery disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.01",
+          "children": []
+        },
+        {
+          "id": "05.02.01.02",
+          "code": "05.02.01.02",
+          "name": "Heart failure",
+          "node_type": "research_area",
+          "parent_id": "05.02.01",
+          "children": []
+        },
+        {
+          "id": "05.02.01.03",
+          "code": "05.02.01.03",
+          "name": "Arrhythmias",
+          "node_type": "research_area",
+          "parent_id": "05.02.01",
+          "children": []
+        },
+        {
+          "id": "05.02.01.04",
+          "code": "05.02.01.04",
+          "name": "Hypertension",
+          "node_type": "research_area",
+          "parent_id": "05.02.01",
+          "children": []
+        },
+        {
+          "id": "05.02.01.05",
+          "code": "05.02.01.05",
+          "name": "Valvular disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.01",
+          "children": []
+        },
+        {
+          "id": "05.02.01.06",
+          "code": "05.02.01.06",
+          "name": "Vascular disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.02",
+      "code": "05.02.02",
+      "name": "Neurology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 6,
+      "children": [
+        {
+          "id": "05.02.02.01",
+          "code": "05.02.02.01",
+          "name": "Stroke",
+          "node_type": "research_area",
+          "parent_id": "05.02.02",
+          "children": []
+        },
+        {
+          "id": "05.02.02.02",
+          "code": "05.02.02.02",
+          "name": "Epilepsy",
+          "node_type": "research_area",
+          "parent_id": "05.02.02",
+          "children": []
+        },
+        {
+          "id": "05.02.02.03",
+          "code": "05.02.02.03",
+          "name": "Multiple sclerosis",
+          "node_type": "research_area",
+          "parent_id": "05.02.02",
+          "children": []
+        },
+        {
+          "id": "05.02.02.04",
+          "code": "05.02.02.04",
+          "name": "Parkinson's disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.02",
+          "children": []
+        },
+        {
+          "id": "05.02.02.05",
+          "code": "05.02.02.05",
+          "name": "Alzheimer's disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.02",
+          "children": []
+        },
+        {
+          "id": "05.02.02.06",
+          "code": "05.02.02.06",
+          "name": "Neuromuscular disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.03",
+      "code": "05.02.03",
+      "name": "Oncology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 6,
+      "children": [
+        {
+          "id": "05.02.03.01",
+          "code": "05.02.03.01",
+          "name": "Breast cancer",
+          "node_type": "research_area",
+          "parent_id": "05.02.03",
+          "children": []
+        },
+        {
+          "id": "05.02.03.02",
+          "code": "05.02.03.02",
+          "name": "Lung cancer",
+          "node_type": "research_area",
+          "parent_id": "05.02.03",
+          "children": []
+        },
+        {
+          "id": "05.02.03.03",
+          "code": "05.02.03.03",
+          "name": "Colorectal cancer",
+          "node_type": "research_area",
+          "parent_id": "05.02.03",
+          "children": []
+        },
+        {
+          "id": "05.02.03.04",
+          "code": "05.02.03.04",
+          "name": "Hematologic cancers",
+          "node_type": "research_area",
+          "parent_id": "05.02.03",
+          "children": []
+        },
+        {
+          "id": "05.02.03.05",
+          "code": "05.02.03.05",
+          "name": "Cancer immunotherapy",
+          "node_type": "research_area",
+          "parent_id": "05.02.03",
+          "children": []
+        },
+        {
+          "id": "05.02.03.06",
+          "code": "05.02.03.06",
+          "name": "Precision oncology",
+          "node_type": "research_area",
+          "parent_id": "05.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.04",
+      "code": "05.02.04",
+      "name": "Pulmonology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.04.01",
+          "code": "05.02.04.01",
+          "name": "Asthma",
+          "node_type": "research_area",
+          "parent_id": "05.02.04",
+          "children": []
+        },
+        {
+          "id": "05.02.04.02",
+          "code": "05.02.04.02",
+          "name": "COPD",
+          "node_type": "research_area",
+          "parent_id": "05.02.04",
+          "children": []
+        },
+        {
+          "id": "05.02.04.03",
+          "code": "05.02.04.03",
+          "name": "Interstitial lung disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.04",
+          "children": []
+        },
+        {
+          "id": "05.02.04.04",
+          "code": "05.02.04.04",
+          "name": "Pulmonary hypertension",
+          "node_type": "research_area",
+          "parent_id": "05.02.04",
+          "children": []
+        },
+        {
+          "id": "05.02.04.05",
+          "code": "05.02.04.05",
+          "name": "Sleep-related breathing disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.05",
+      "code": "05.02.05",
+      "name": "Endocrinology & Metabolism",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 6,
+      "children": [
+        {
+          "id": "05.02.05.01",
+          "code": "05.02.05.01",
+          "name": "Diabetes",
+          "node_type": "research_area",
+          "parent_id": "05.02.05",
+          "children": []
+        },
+        {
+          "id": "05.02.05.02",
+          "code": "05.02.05.02",
+          "name": "Thyroid disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.05",
+          "children": []
+        },
+        {
+          "id": "05.02.05.03",
+          "code": "05.02.05.03",
+          "name": "Obesity",
+          "node_type": "research_area",
+          "parent_id": "05.02.05",
+          "children": []
+        },
+        {
+          "id": "05.02.05.04",
+          "code": "05.02.05.04",
+          "name": "Pituitary disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.05",
+          "children": []
+        },
+        {
+          "id": "05.02.05.05",
+          "code": "05.02.05.05",
+          "name": "Adrenal disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.05",
+          "children": []
+        },
+        {
+          "id": "05.02.05.06",
+          "code": "05.02.05.06",
+          "name": "Metabolic syndrome",
+          "node_type": "research_area",
+          "parent_id": "05.02.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.06",
+      "code": "05.02.06",
+      "name": "Gastroenterology & Hepatology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.06.01",
+          "code": "05.02.06.01",
+          "name": "Inflammatory bowel disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.06",
+          "children": []
+        },
+        {
+          "id": "05.02.06.02",
+          "code": "05.02.06.02",
+          "name": "Gut microbiome",
+          "node_type": "research_area",
+          "parent_id": "05.02.06",
+          "children": []
+        },
+        {
+          "id": "05.02.06.03",
+          "code": "05.02.06.03",
+          "name": "Liver fibrosis",
+          "node_type": "research_area",
+          "parent_id": "05.02.06",
+          "children": []
+        },
+        {
+          "id": "05.02.06.04",
+          "code": "05.02.06.04",
+          "name": "Cirrhosis",
+          "node_type": "research_area",
+          "parent_id": "05.02.06",
+          "children": []
+        },
+        {
+          "id": "05.02.06.05",
+          "code": "05.02.06.05",
+          "name": "Pancreatic disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.07",
+      "code": "05.02.07",
+      "name": "Nephrology & Urology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.07.01",
+          "code": "05.02.07.01",
+          "name": "Chronic kidney disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.07",
+          "children": []
+        },
+        {
+          "id": "05.02.07.02",
+          "code": "05.02.07.02",
+          "name": "Dialysis",
+          "node_type": "research_area",
+          "parent_id": "05.02.07",
+          "children": []
+        },
+        {
+          "id": "05.02.07.03",
+          "code": "05.02.07.03",
+          "name": "Kidney transplantation",
+          "node_type": "research_area",
+          "parent_id": "05.02.07",
+          "children": []
+        },
+        {
+          "id": "05.02.07.04",
+          "code": "05.02.07.04",
+          "name": "Kidney stones",
+          "node_type": "research_area",
+          "parent_id": "05.02.07",
+          "children": []
+        },
+        {
+          "id": "05.02.07.05",
+          "code": "05.02.07.05",
+          "name": "Urologic cancers",
+          "node_type": "research_area",
+          "parent_id": "05.02.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.08",
+      "code": "05.02.08",
+      "name": "Rheumatology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.08.01",
+          "code": "05.02.08.01",
+          "name": "Rheumatoid arthritis",
+          "node_type": "research_area",
+          "parent_id": "05.02.08",
+          "children": []
+        },
+        {
+          "id": "05.02.08.02",
+          "code": "05.02.08.02",
+          "name": "Lupus",
+          "node_type": "research_area",
+          "parent_id": "05.02.08",
+          "children": []
+        },
+        {
+          "id": "05.02.08.03",
+          "code": "05.02.08.03",
+          "name": "Vasculitis",
+          "node_type": "research_area",
+          "parent_id": "05.02.08",
+          "children": []
+        },
+        {
+          "id": "05.02.08.04",
+          "code": "05.02.08.04",
+          "name": "Spondyloarthritis",
+          "node_type": "research_area",
+          "parent_id": "05.02.08",
+          "children": []
+        },
+        {
+          "id": "05.02.08.05",
+          "code": "05.02.08.05",
+          "name": "Connective tissue diseases",
+          "node_type": "research_area",
+          "parent_id": "05.02.08",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.09",
+      "code": "05.02.09",
+      "name": "Dermatology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.09.01",
+          "code": "05.02.09.01",
+          "name": "Skin cancer",
+          "node_type": "research_area",
+          "parent_id": "05.02.09",
+          "children": []
+        },
+        {
+          "id": "05.02.09.02",
+          "code": "05.02.09.02",
+          "name": "Psoriasis",
+          "node_type": "research_area",
+          "parent_id": "05.02.09",
+          "children": []
+        },
+        {
+          "id": "05.02.09.03",
+          "code": "05.02.09.03",
+          "name": "Eczema",
+          "node_type": "research_area",
+          "parent_id": "05.02.09",
+          "children": []
+        },
+        {
+          "id": "05.02.09.04",
+          "code": "05.02.09.04",
+          "name": "Wound healing",
+          "node_type": "research_area",
+          "parent_id": "05.02.09",
+          "children": []
+        },
+        {
+          "id": "05.02.09.05",
+          "code": "05.02.09.05",
+          "name": "Hair and nail disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.09",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.10",
+      "code": "05.02.10",
+      "name": "Ophthalmology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.10.01",
+          "code": "05.02.10.01",
+          "name": "Retinal disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.10",
+          "children": []
+        },
+        {
+          "id": "05.02.10.02",
+          "code": "05.02.10.02",
+          "name": "Glaucoma",
+          "node_type": "research_area",
+          "parent_id": "05.02.10",
+          "children": []
+        },
+        {
+          "id": "05.02.10.03",
+          "code": "05.02.10.03",
+          "name": "Cataract",
+          "node_type": "research_area",
+          "parent_id": "05.02.10",
+          "children": []
+        },
+        {
+          "id": "05.02.10.04",
+          "code": "05.02.10.04",
+          "name": "Corneal disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.10",
+          "children": []
+        },
+        {
+          "id": "05.02.10.05",
+          "code": "05.02.10.05",
+          "name": "Ocular genetics",
+          "node_type": "research_area",
+          "parent_id": "05.02.10",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.11",
+      "code": "05.02.11",
+      "name": "Otolaryngology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.11.01",
+          "code": "05.02.11.01",
+          "name": "Hearing loss",
+          "node_type": "research_area",
+          "parent_id": "05.02.11",
+          "children": []
+        },
+        {
+          "id": "05.02.11.02",
+          "code": "05.02.11.02",
+          "name": "Vestibular disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.11",
+          "children": []
+        },
+        {
+          "id": "05.02.11.03",
+          "code": "05.02.11.03",
+          "name": "Sinus disease",
+          "node_type": "research_area",
+          "parent_id": "05.02.11",
+          "children": []
+        },
+        {
+          "id": "05.02.11.04",
+          "code": "05.02.11.04",
+          "name": "Voice disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.11",
+          "children": []
+        },
+        {
+          "id": "05.02.11.05",
+          "code": "05.02.11.05",
+          "name": "Head and neck diseases",
+          "node_type": "research_area",
+          "parent_id": "05.02.11",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.12",
+      "code": "05.02.12",
+      "name": "Orthopedics",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.12.01",
+          "code": "05.02.12.01",
+          "name": "Fracture healing",
+          "node_type": "research_area",
+          "parent_id": "05.02.12",
+          "children": []
+        },
+        {
+          "id": "05.02.12.02",
+          "code": "05.02.12.02",
+          "name": "Osteoarthritis",
+          "node_type": "research_area",
+          "parent_id": "05.02.12",
+          "children": []
+        },
+        {
+          "id": "05.02.12.03",
+          "code": "05.02.12.03",
+          "name": "Spine disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.12",
+          "children": []
+        },
+        {
+          "id": "05.02.12.04",
+          "code": "05.02.12.04",
+          "name": "Joint replacement",
+          "node_type": "research_area",
+          "parent_id": "05.02.12",
+          "children": []
+        },
+        {
+          "id": "05.02.12.05",
+          "code": "05.02.12.05",
+          "name": "Sports injuries",
+          "node_type": "research_area",
+          "parent_id": "05.02.12",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.13",
+      "code": "05.02.13",
+      "name": "Hematology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.13.01",
+          "code": "05.02.13.01",
+          "name": "Anemia",
+          "node_type": "research_area",
+          "parent_id": "05.02.13",
+          "children": []
+        },
+        {
+          "id": "05.02.13.02",
+          "code": "05.02.13.02",
+          "name": "Coagulation disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.13",
+          "children": []
+        },
+        {
+          "id": "05.02.13.03",
+          "code": "05.02.13.03",
+          "name": "Hemoglobinopathies",
+          "node_type": "research_area",
+          "parent_id": "05.02.13",
+          "children": []
+        },
+        {
+          "id": "05.02.13.04",
+          "code": "05.02.13.04",
+          "name": "Bone marrow disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.13",
+          "children": []
+        },
+        {
+          "id": "05.02.13.05",
+          "code": "05.02.13.05",
+          "name": "Thrombosis",
+          "node_type": "research_area",
+          "parent_id": "05.02.13",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.14",
+      "code": "05.02.14",
+      "name": "Infectious Disease Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.14.01",
+          "code": "05.02.14.01",
+          "name": "HIV",
+          "node_type": "research_area",
+          "parent_id": "05.02.14",
+          "children": []
+        },
+        {
+          "id": "05.02.14.02",
+          "code": "05.02.14.02",
+          "name": "Tuberculosis",
+          "node_type": "research_area",
+          "parent_id": "05.02.14",
+          "children": []
+        },
+        {
+          "id": "05.02.14.03",
+          "code": "05.02.14.03",
+          "name": "Malaria",
+          "node_type": "research_area",
+          "parent_id": "05.02.14",
+          "children": []
+        },
+        {
+          "id": "05.02.14.04",
+          "code": "05.02.14.04",
+          "name": "Emerging infections",
+          "node_type": "research_area",
+          "parent_id": "05.02.14",
+          "children": []
+        },
+        {
+          "id": "05.02.14.05",
+          "code": "05.02.14.05",
+          "name": "Antimicrobial resistance",
+          "node_type": "research_area",
+          "parent_id": "05.02.14",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.15",
+      "code": "05.02.15",
+      "name": "Psychiatry",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 6,
+      "children": [
+        {
+          "id": "05.02.15.01",
+          "code": "05.02.15.01",
+          "name": "Depression",
+          "node_type": "research_area",
+          "parent_id": "05.02.15",
+          "children": []
+        },
+        {
+          "id": "05.02.15.02",
+          "code": "05.02.15.02",
+          "name": "Anxiety disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.15",
+          "children": []
+        },
+        {
+          "id": "05.02.15.03",
+          "code": "05.02.15.03",
+          "name": "Schizophrenia",
+          "node_type": "research_area",
+          "parent_id": "05.02.15",
+          "children": []
+        },
+        {
+          "id": "05.02.15.04",
+          "code": "05.02.15.04",
+          "name": "Bipolar disorder",
+          "node_type": "research_area",
+          "parent_id": "05.02.15",
+          "children": []
+        },
+        {
+          "id": "05.02.15.05",
+          "code": "05.02.15.05",
+          "name": "Addiction",
+          "node_type": "research_area",
+          "parent_id": "05.02.15",
+          "children": []
+        },
+        {
+          "id": "05.02.15.06",
+          "code": "05.02.15.06",
+          "name": "Trauma-related disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.15",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.16",
+      "code": "05.02.16",
+      "name": "Obstetrics & Gynecology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.16.01",
+          "code": "05.02.16.01",
+          "name": "Maternal health",
+          "node_type": "research_area",
+          "parent_id": "05.02.16",
+          "children": []
+        },
+        {
+          "id": "05.02.16.02",
+          "code": "05.02.16.02",
+          "name": "Fetal medicine",
+          "node_type": "research_area",
+          "parent_id": "05.02.16",
+          "children": []
+        },
+        {
+          "id": "05.02.16.03",
+          "code": "05.02.16.03",
+          "name": "Gynecologic oncology",
+          "node_type": "research_area",
+          "parent_id": "05.02.16",
+          "children": []
+        },
+        {
+          "id": "05.02.16.04",
+          "code": "05.02.16.04",
+          "name": "Infertility",
+          "node_type": "research_area",
+          "parent_id": "05.02.16",
+          "children": []
+        },
+        {
+          "id": "05.02.16.05",
+          "code": "05.02.16.05",
+          "name": "Menopause",
+          "node_type": "research_area",
+          "parent_id": "05.02.16",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.17",
+      "code": "05.02.17",
+      "name": "Pediatrics & Neonatology",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.17.01",
+          "code": "05.02.17.01",
+          "name": "Prematurity",
+          "node_type": "research_area",
+          "parent_id": "05.02.17",
+          "children": []
+        },
+        {
+          "id": "05.02.17.02",
+          "code": "05.02.17.02",
+          "name": "Congenital disorders",
+          "node_type": "research_area",
+          "parent_id": "05.02.17",
+          "children": []
+        },
+        {
+          "id": "05.02.17.03",
+          "code": "05.02.17.03",
+          "name": "Child development",
+          "node_type": "research_area",
+          "parent_id": "05.02.17",
+          "children": []
+        },
+        {
+          "id": "05.02.17.04",
+          "code": "05.02.17.04",
+          "name": "Pediatric cancers",
+          "node_type": "research_area",
+          "parent_id": "05.02.17",
+          "children": []
+        },
+        {
+          "id": "05.02.17.05",
+          "code": "05.02.17.05",
+          "name": "Childhood infections",
+          "node_type": "research_area",
+          "parent_id": "05.02.17",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.18",
+      "code": "05.02.18",
+      "name": "Geriatric Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.18.01",
+          "code": "05.02.18.01",
+          "name": "Frailty",
+          "node_type": "research_area",
+          "parent_id": "05.02.18",
+          "children": []
+        },
+        {
+          "id": "05.02.18.02",
+          "code": "05.02.18.02",
+          "name": "Dementia",
+          "node_type": "research_area",
+          "parent_id": "05.02.18",
+          "children": []
+        },
+        {
+          "id": "05.02.18.03",
+          "code": "05.02.18.03",
+          "name": "Falls",
+          "node_type": "research_area",
+          "parent_id": "05.02.18",
+          "children": []
+        },
+        {
+          "id": "05.02.18.04",
+          "code": "05.02.18.04",
+          "name": "Multimorbidity",
+          "node_type": "research_area",
+          "parent_id": "05.02.18",
+          "children": []
+        },
+        {
+          "id": "05.02.18.05",
+          "code": "05.02.18.05",
+          "name": "Polypharmacy",
+          "node_type": "research_area",
+          "parent_id": "05.02.18",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.19",
+      "code": "05.02.19",
+      "name": "Surgery",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.19.01",
+          "code": "05.02.19.01",
+          "name": "General surgery",
+          "node_type": "research_area",
+          "parent_id": "05.02.19",
+          "children": []
+        },
+        {
+          "id": "05.02.19.02",
+          "code": "05.02.19.02",
+          "name": "Cardiothoracic surgery",
+          "node_type": "research_area",
+          "parent_id": "05.02.19",
+          "children": []
+        },
+        {
+          "id": "05.02.19.03",
+          "code": "05.02.19.03",
+          "name": "Neurosurgery",
+          "node_type": "research_area",
+          "parent_id": "05.02.19",
+          "children": []
+        },
+        {
+          "id": "05.02.19.04",
+          "code": "05.02.19.04",
+          "name": "Transplant surgery",
+          "node_type": "research_area",
+          "parent_id": "05.02.19",
+          "children": []
+        },
+        {
+          "id": "05.02.19.05",
+          "code": "05.02.19.05",
+          "name": "Minimally invasive surgery",
+          "node_type": "research_area",
+          "parent_id": "05.02.19",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.20",
+      "code": "05.02.20",
+      "name": "Emergency & Critical Care",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.20.01",
+          "code": "05.02.20.01",
+          "name": "Trauma",
+          "node_type": "research_area",
+          "parent_id": "05.02.20",
+          "children": []
+        },
+        {
+          "id": "05.02.20.02",
+          "code": "05.02.20.02",
+          "name": "Shock",
+          "node_type": "research_area",
+          "parent_id": "05.02.20",
+          "children": []
+        },
+        {
+          "id": "05.02.20.03",
+          "code": "05.02.20.03",
+          "name": "Sepsis",
+          "node_type": "research_area",
+          "parent_id": "05.02.20",
+          "children": []
+        },
+        {
+          "id": "05.02.20.04",
+          "code": "05.02.20.04",
+          "name": "Critical care ventilation",
+          "node_type": "research_area",
+          "parent_id": "05.02.20",
+          "children": []
+        },
+        {
+          "id": "05.02.20.05",
+          "code": "05.02.20.05",
+          "name": "Resuscitation",
+          "node_type": "research_area",
+          "parent_id": "05.02.20",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.21",
+      "code": "05.02.21",
+      "name": "Anesthesiology & Pain Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.21.01",
+          "code": "05.02.21.01",
+          "name": "Anesthetic safety",
+          "node_type": "research_area",
+          "parent_id": "05.02.21",
+          "children": []
+        },
+        {
+          "id": "05.02.21.02",
+          "code": "05.02.21.02",
+          "name": "Acute pain",
+          "node_type": "research_area",
+          "parent_id": "05.02.21",
+          "children": []
+        },
+        {
+          "id": "05.02.21.03",
+          "code": "05.02.21.03",
+          "name": "Chronic pain",
+          "node_type": "research_area",
+          "parent_id": "05.02.21",
+          "children": []
+        },
+        {
+          "id": "05.02.21.04",
+          "code": "05.02.21.04",
+          "name": "Regional anesthesia",
+          "node_type": "research_area",
+          "parent_id": "05.02.21",
+          "children": []
+        },
+        {
+          "id": "05.02.21.05",
+          "code": "05.02.21.05",
+          "name": "Perioperative medicine",
+          "node_type": "research_area",
+          "parent_id": "05.02.21",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.22",
+      "code": "05.02.22",
+      "name": "Rehabilitation & Physical Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.02.22.01",
+          "code": "05.02.22.01",
+          "name": "Neurological rehabilitation",
+          "node_type": "research_area",
+          "parent_id": "05.02.22",
+          "children": []
+        },
+        {
+          "id": "05.02.22.02",
+          "code": "05.02.22.02",
+          "name": "Musculoskeletal rehabilitation",
+          "node_type": "research_area",
+          "parent_id": "05.02.22",
+          "children": []
+        },
+        {
+          "id": "05.02.22.03",
+          "code": "05.02.22.03",
+          "name": "Assistive rehabilitation",
+          "node_type": "research_area",
+          "parent_id": "05.02.22",
+          "children": []
+        },
+        {
+          "id": "05.02.22.04",
+          "code": "05.02.22.04",
+          "name": "Physical therapy research",
+          "node_type": "research_area",
+          "parent_id": "05.02.22",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.23",
+      "code": "05.02.23",
+      "name": "Dentistry & Oral Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.23.01",
+          "code": "05.02.23.01",
+          "name": "Periodontology",
+          "node_type": "research_area",
+          "parent_id": "05.02.23",
+          "children": []
+        },
+        {
+          "id": "05.02.23.02",
+          "code": "05.02.23.02",
+          "name": "Endodontics",
+          "node_type": "research_area",
+          "parent_id": "05.02.23",
+          "children": []
+        },
+        {
+          "id": "05.02.23.03",
+          "code": "05.02.23.03",
+          "name": "Oral cancer",
+          "node_type": "research_area",
+          "parent_id": "05.02.23",
+          "children": []
+        },
+        {
+          "id": "05.02.23.04",
+          "code": "05.02.23.04",
+          "name": "Craniofacial anomalies",
+          "node_type": "research_area",
+          "parent_id": "05.02.23",
+          "children": []
+        },
+        {
+          "id": "05.02.23.05",
+          "code": "05.02.23.05",
+          "name": "Dental biomaterials",
+          "node_type": "research_area",
+          "parent_id": "05.02.23",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.02.24",
+      "code": "05.02.24",
+      "name": "Diagnostic Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.02",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.02.24.01",
+          "code": "05.02.24.01",
+          "name": "Radiology",
+          "node_type": "research_area",
+          "parent_id": "05.02.24",
+          "children": []
+        },
+        {
+          "id": "05.02.24.02",
+          "code": "05.02.24.02",
+          "name": "Laboratory medicine",
+          "node_type": "research_area",
+          "parent_id": "05.02.24",
+          "children": []
+        },
+        {
+          "id": "05.02.24.03",
+          "code": "05.02.24.03",
+          "name": "Clinical microbiology",
+          "node_type": "research_area",
+          "parent_id": "05.02.24",
+          "children": []
+        },
+        {
+          "id": "05.02.24.04",
+          "code": "05.02.24.04",
+          "name": "Nuclear medicine",
+          "node_type": "research_area",
+          "parent_id": "05.02.24",
+          "children": []
+        },
+        {
+          "id": "05.02.24.05",
+          "code": "05.02.24.05",
+          "name": "Diagnostic pathology",
+          "node_type": "research_area",
+          "parent_id": "05.02.24",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

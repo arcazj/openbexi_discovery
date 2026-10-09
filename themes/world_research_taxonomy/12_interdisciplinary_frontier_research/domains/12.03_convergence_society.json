@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "12.03",
+  "name": "Convergence & Society",
+  "node_type": "theme",
+  "parent_id": "12",
+  "children": [
+    {
+      "id": "12.03.01",
+      "name": "Complex Systems",
+      "node_type": "discipline",
+      "parent_id": "12.03",
+      "children": [
+        {
+          "id": "12.03.01.01",
+          "name": "Network science",
+          "node_type": "research_area",
+          "parent_id": "12.03.01",
+          "children": []
+        },
+        {
+          "id": "12.03.01.02",
+          "name": "Emergence",
+          "node_type": "research_area",
+          "parent_id": "12.03.01",
+          "children": []
+        },
+        {
+          "id": "12.03.01.03",
+          "name": "Agent-based simulation",
+          "node_type": "research_area",
+          "parent_id": "12.03.01",
+          "children": []
+        },
+        {
+          "id": "12.03.01.04",
+          "name": "Nonlinear systems",
+          "node_type": "research_area",
+          "parent_id": "12.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.03.02",
+      "name": "Computational Social Science",
+      "node_type": "discipline",
+      "parent_id": "12.03",
+      "children": [
+        {
+          "id": "12.03.02.01",
+          "name": "Social simulation",
+          "node_type": "research_area",
+          "parent_id": "12.03.02",
+          "children": []
+        },
+        {
+          "id": "12.03.02.02",
+          "name": "Digital trace analysis",
+          "node_type": "research_area",
+          "parent_id": "12.03.02",
+          "children": []
+        },
+        {
+          "id": "12.03.02.03",
+          "name": "Social network analytics",
+          "node_type": "research_area",
+          "parent_id": "12.03.02",
+          "children": []
+        },
+        {
+          "id": "12.03.02.04",
+          "name": "Collective behavior",
+          "node_type": "research_area",
+          "parent_id": "12.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.03.03",
+      "name": "Bioinformatics & Systems Biology",
+      "node_type": "discipline",
+      "parent_id": "12.03",
+      "children": [
+        {
+          "id": "12.03.03.01",
+          "name": "Multi-omics",
+          "node_type": "research_area",
+          "parent_id": "12.03.03",
+          "children": []
+        },
+        {
+          "id": "12.03.03.02",
+          "name": "Systems genetics",
+          "node_type": "research_area",
+          "parent_id": "12.03.03",
+          "children": []
+        },
+        {
+          "id": "12.03.03.03",
+          "name": "Biological networks",
+          "node_type": "research_area",
+          "parent_id": "12.03.03",
+          "children": []
+        },
+        {
+          "id": "12.03.03.04",
+          "name": "Computational drug discovery",
+          "node_type": "research_area",
+          "parent_id": "12.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.03.04",
+      "name": "Science of Science",
+      "node_type": "discipline",
+      "parent_id": "12.03",
+      "children": [
+        {
+          "id": "12.03.04.01",
+          "name": "Research mapping",
+          "node_type": "research_area",
+          "parent_id": "12.03.04",
+          "children": []
+        },
+        {
+          "id": "12.03.04.02",
+          "name": "Bibliometrics",
+          "node_type": "research_area",
+          "parent_id": "12.03.04",
+          "children": []
+        },
+        {
+          "id": "12.03.04.03",
+          "name": "Research evaluation",
+          "node_type": "research_area",
+          "parent_id": "12.03.04",
+          "children": []
+        },
+        {
+          "id": "12.03.04.04",
+          "name": "Scientific collaboration",
+          "node_type": "research_area",
+          "parent_id": "12.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.03.05",
+      "name": "Ethics & Technology Policy",
+      "node_type": "discipline",
+      "parent_id": "12.03",
+      "children": [
+        {
+          "id": "12.03.05.01",
+          "name": "AI ethics",
+          "node_type": "research_area",
+          "parent_id": "12.03.05",
+          "children": []
+        },
+        {
+          "id": "12.03.05.02",
+          "name": "Technology governance",
+          "node_type": "research_area",
+          "parent_id": "12.03.05",
+          "children": []
+        },
+        {
+          "id": "12.03.05.03",
+          "name": "Research integrity",
+          "node_type": "research_area",
+          "parent_id": "12.03.05",
+          "children": []
+        },
+        {
+          "id": "12.03.05.04",
+          "name": "Responsible innovation",
+          "node_type": "research_area",
+          "parent_id": "12.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.03.06",
+      "name": "Disaster Resilience",
+      "node_type": "discipline",
+      "parent_id": "12.03",
+      "children": [
+        {
+          "id": "12.03.06.01",
+          "name": "Compound hazards",
+          "node_type": "research_area",
+          "parent_id": "12.03.06",
+          "children": []
+        },
+        {
+          "id": "12.03.06.02",
+          "name": "Resilient infrastructure",
+          "node_type": "research_area",
+          "parent_id": "12.03.06",
+          "children": []
+        },
+        {
+          "id": "12.03.06.03",
+          "name": "Early warning",
+          "node_type": "research_area",
+          "parent_id": "12.03.06",
+          "children": []
+        },
+        {
+          "id": "12.03.06.04",
+          "name": "Community resilience",
+          "node_type": "research_area",
+          "parent_id": "12.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

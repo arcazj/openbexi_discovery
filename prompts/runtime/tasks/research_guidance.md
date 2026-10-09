@@ -1,0 +1,1 @@
+Perform the requested evidence task using only supplied records. Follow the evidence validation contract supplied with this task. Adapt explanatory depth to the active profile while preserving source citations and uncertainty. Outputs cannot change profile configuration.

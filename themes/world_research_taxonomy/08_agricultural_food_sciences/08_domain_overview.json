@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "08",
+  "name": "Agricultural & Food Sciences",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 17,
+    "research_areas": 68
+  },
+  "children": [
+    {
+      "id": "08.01",
+      "name": "Crop & Soil Sciences",
+      "node_type": "theme",
+      "parent_id": "08",
+      "file": "domains/08.01_crop_soil_sciences.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "08.02",
+      "name": "Animals, Forestry & Aquatic Food",
+      "node_type": "theme",
+      "parent_id": "08",
+      "file": "domains/08.02_animals_forestry_aquatic_food.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "08.03",
+      "name": "Food & Agricultural Systems",
+      "node_type": "theme",
+      "parent_id": "08",
+      "file": "domains/08.03_food_agricultural_systems.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

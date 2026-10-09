@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "12.01",
+  "name": "Advanced Technologies",
+  "node_type": "theme",
+  "parent_id": "12",
+  "children": [
+    {
+      "id": "12.01.01",
+      "name": "Quantum Technologies",
+      "node_type": "discipline",
+      "parent_id": "12.01",
+      "children": [
+        {
+          "id": "12.01.01.01",
+          "name": "Quantum sensing",
+          "node_type": "research_area",
+          "parent_id": "12.01.01",
+          "children": []
+        },
+        {
+          "id": "12.01.01.02",
+          "name": "Quantum communication",
+          "node_type": "research_area",
+          "parent_id": "12.01.01",
+          "children": []
+        },
+        {
+          "id": "12.01.01.03",
+          "name": "Quantum networks",
+          "node_type": "research_area",
+          "parent_id": "12.01.01",
+          "children": []
+        },
+        {
+          "id": "12.01.01.04",
+          "name": "Quantum devices",
+          "node_type": "research_area",
+          "parent_id": "12.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.01.02",
+      "name": "Neurotechnology",
+      "node_type": "discipline",
+      "parent_id": "12.01",
+      "children": [
+        {
+          "id": "12.01.02.01",
+          "name": "Brain-computer interfaces",
+          "node_type": "research_area",
+          "parent_id": "12.01.02",
+          "children": []
+        },
+        {
+          "id": "12.01.02.02",
+          "name": "Neural implants",
+          "node_type": "research_area",
+          "parent_id": "12.01.02",
+          "children": []
+        },
+        {
+          "id": "12.01.02.03",
+          "name": "Neural decoding",
+          "node_type": "research_area",
+          "parent_id": "12.01.02",
+          "children": []
+        },
+        {
+          "id": "12.01.02.04",
+          "name": "Neuroprosthetics",
+          "node_type": "research_area",
+          "parent_id": "12.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.01.03",
+      "name": "Autonomous Systems",
+      "node_type": "discipline",
+      "parent_id": "12.01",
+      "children": [
+        {
+          "id": "12.01.03.01",
+          "name": "Swarm robotics",
+          "node_type": "research_area",
+          "parent_id": "12.01.03",
+          "children": []
+        },
+        {
+          "id": "12.01.03.02",
+          "name": "Autonomous vehicles",
+          "node_type": "research_area",
+          "parent_id": "12.01.03",
+          "children": []
+        },
+        {
+          "id": "12.01.03.03",
+          "name": "Multi-agent coordination",
+          "node_type": "research_area",
+          "parent_id": "12.01.03",
+          "children": []
+        },
+        {
+          "id": "12.01.03.04",
+          "name": "Autonomous scientific discovery",
+          "node_type": "research_area",
+          "parent_id": "12.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.01.04",
+      "name": "Nanotechnology",
+      "node_type": "discipline",
+      "parent_id": "12.01",
+      "children": [
+        {
+          "id": "12.01.04.01",
+          "name": "Nanoscale fabrication",
+          "node_type": "research_area",
+          "parent_id": "12.01.04",
+          "children": []
+        },
+        {
+          "id": "12.01.04.02",
+          "name": "Nanophotonics",
+          "node_type": "research_area",
+          "parent_id": "12.01.04",
+          "children": []
+        },
+        {
+          "id": "12.01.04.03",
+          "name": "Nanomedicine",
+          "node_type": "research_area",
+          "parent_id": "12.01.04",
+          "children": []
+        },
+        {
+          "id": "12.01.04.04",
+          "name": "Nanoelectronics",
+          "node_type": "research_area",
+          "parent_id": "12.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.01.05",
+      "name": "Digital Twins",
+      "node_type": "discipline",
+      "parent_id": "12.01",
+      "children": [
+        {
+          "id": "12.01.05.01",
+          "name": "Industrial twins",
+          "node_type": "research_area",
+          "parent_id": "12.01.05",
+          "children": []
+        },
+        {
+          "id": "12.01.05.02",
+          "name": "Urban twins",
+          "node_type": "research_area",
+          "parent_id": "12.01.05",
+          "children": []
+        },
+        {
+          "id": "12.01.05.03",
+          "name": "Earth-system twins",
+          "node_type": "research_area",
+          "parent_id": "12.01.05",
+          "children": []
+        },
+        {
+          "id": "12.01.05.04",
+          "name": "Human digital twins",
+          "node_type": "research_area",
+          "parent_id": "12.01.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

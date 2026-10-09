@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.1", "id": "general", "name": "General Learning & Research",
+  "goal": "Explore evidence, connect ideas, and develop useful learning or research questions.",
+  "theme_title": "General Learning & Research", "themes": [], "learning_level": "advanced",
+  "sources": ["pubmed"],
+  "ui": {
+    "eyebrow": "Your learning and research workspace", "heading": "Explore knowledge. Build understanding.",
+    "introduction": "Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.",
+    "sources_title": "Sources", "sources_caption": "Select evidence",
+    "search_label": "Learning or research topic", "search_placeholder": "What would you like to understand?",
+    "examples": ["learning and memory", "public health", "scientific methods"],
+    "welcome_heading": "Start with your curiosity", "welcome_title": "Choose a question worth exploring.",
+    "welcome_text": "Explore a topic, collect documents, practice with quizzes, and connect evidence to your own ideas. Live source coverage currently focuses on biomedical literature and genomics; use local documents and datasets for other subjects.",
+    "guidance_heading": "Make the next step useful", "guidance_text": "Describe your goal, review a source, and write down what you still want to understand.",
+    "constraints_heading": "My learning and research constraints (optional)",
+    "deadline_label": "Target date", "deadline_hint": "When would you like to complete your goal?",
+    "data_label": "Resources available", "data_hint": "Documents, datasets, or tools you can use",
+    "mentor_label": "Support and expertise", "mentor_hint": "Prior knowledge, collaborators, or mentors",
+    "tip_heading": "Tip", "tip_text": "Separate what the evidence establishes from your interpretation. Keep a source reference with each useful idea."
+  }
+}

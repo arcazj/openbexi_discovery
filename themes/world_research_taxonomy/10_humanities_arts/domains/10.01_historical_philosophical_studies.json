@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "10.01",
+  "name": "Historical & Philosophical Studies",
+  "node_type": "theme",
+  "parent_id": "10",
+  "children": [
+    {
+      "id": "10.01.01",
+      "name": "History",
+      "node_type": "discipline",
+      "parent_id": "10.01",
+      "children": [
+        {
+          "id": "10.01.01.01",
+          "name": "Ancient history",
+          "node_type": "research_area",
+          "parent_id": "10.01.01",
+          "children": []
+        },
+        {
+          "id": "10.01.01.02",
+          "name": "Medieval history",
+          "node_type": "research_area",
+          "parent_id": "10.01.01",
+          "children": []
+        },
+        {
+          "id": "10.01.01.03",
+          "name": "Modern history",
+          "node_type": "research_area",
+          "parent_id": "10.01.01",
+          "children": []
+        },
+        {
+          "id": "10.01.01.04",
+          "name": "Global history",
+          "node_type": "research_area",
+          "parent_id": "10.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.01.02",
+      "name": "Archaeology",
+      "node_type": "discipline",
+      "parent_id": "10.01",
+      "children": [
+        {
+          "id": "10.01.02.01",
+          "name": "Archaeological methods",
+          "node_type": "research_area",
+          "parent_id": "10.01.02",
+          "children": []
+        },
+        {
+          "id": "10.01.02.02",
+          "name": "Material culture",
+          "node_type": "research_area",
+          "parent_id": "10.01.02",
+          "children": []
+        },
+        {
+          "id": "10.01.02.03",
+          "name": "Landscape archaeology",
+          "node_type": "research_area",
+          "parent_id": "10.01.02",
+          "children": []
+        },
+        {
+          "id": "10.01.02.04",
+          "name": "Heritage archaeology",
+          "node_type": "research_area",
+          "parent_id": "10.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.01.03",
+      "name": "Philosophy",
+      "node_type": "discipline",
+      "parent_id": "10.01",
+      "children": [
+        {
+          "id": "10.01.03.01",
+          "name": "Metaphysics",
+          "node_type": "research_area",
+          "parent_id": "10.01.03",
+          "children": []
+        },
+        {
+          "id": "10.01.03.02",
+          "name": "Epistemology",
+          "node_type": "research_area",
+          "parent_id": "10.01.03",
+          "children": []
+        },
+        {
+          "id": "10.01.03.03",
+          "name": "Ethics",
+          "node_type": "research_area",
+          "parent_id": "10.01.03",
+          "children": []
+        },
+        {
+          "id": "10.01.03.04",
+          "name": "Philosophy of science",
+          "node_type": "research_area",
+          "parent_id": "10.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.01.04",
+      "name": "Classics",
+      "node_type": "discipline",
+      "parent_id": "10.01",
+      "children": [
+        {
+          "id": "10.01.04.01",
+          "name": "Classical languages",
+          "node_type": "research_area",
+          "parent_id": "10.01.04",
+          "children": []
+        },
+        {
+          "id": "10.01.04.02",
+          "name": "Ancient literature",
+          "node_type": "research_area",
+          "parent_id": "10.01.04",
+          "children": []
+        },
+        {
+          "id": "10.01.04.03",
+          "name": "Classical history",
+          "node_type": "research_area",
+          "parent_id": "10.01.04",
+          "children": []
+        },
+        {
+          "id": "10.01.04.04",
+          "name": "Classical reception",
+          "node_type": "research_area",
+          "parent_id": "10.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.01.05",
+      "name": "Religious Studies",
+      "node_type": "discipline",
+      "parent_id": "10.01",
+      "children": [
+        {
+          "id": "10.01.05.01",
+          "name": "Comparative religion",
+          "node_type": "research_area",
+          "parent_id": "10.01.05",
+          "children": []
+        },
+        {
+          "id": "10.01.05.02",
+          "name": "History of religions",
+          "node_type": "research_area",
+          "parent_id": "10.01.05",
+          "children": []
+        },
+        {
+          "id": "10.01.05.03",
+          "name": "Religious texts",
+          "node_type": "research_area",
+          "parent_id": "10.01.05",
+          "children": []
+        },
+        {
+          "id": "10.01.05.04",
+          "name": "Religion and society",
+          "node_type": "research_area",
+          "parent_id": "10.01.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "03.02",
+  "name": "Atmosphere & Hydrosphere",
+  "node_type": "theme",
+  "parent_id": "03",
+  "children": [
+    {
+      "id": "03.02.01",
+      "name": "Atmospheric Science",
+      "node_type": "discipline",
+      "parent_id": "03.02",
+      "children": [
+        {
+          "id": "03.02.01.01",
+          "name": "Cloud physics",
+          "node_type": "research_area",
+          "parent_id": "03.02.01",
+          "children": []
+        },
+        {
+          "id": "03.02.01.02",
+          "name": "Atmospheric chemistry",
+          "node_type": "research_area",
+          "parent_id": "03.02.01",
+          "children": []
+        },
+        {
+          "id": "03.02.01.03",
+          "name": "Boundary-layer dynamics",
+          "node_type": "research_area",
+          "parent_id": "03.02.01",
+          "children": []
+        },
+        {
+          "id": "03.02.01.04",
+          "name": "Atmospheric circulation",
+          "node_type": "research_area",
+          "parent_id": "03.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.02.02",
+      "name": "Meteorology",
+      "node_type": "discipline",
+      "parent_id": "03.02",
+      "children": [
+        {
+          "id": "03.02.02.01",
+          "name": "Numerical weather prediction",
+          "node_type": "research_area",
+          "parent_id": "03.02.02",
+          "children": []
+        },
+        {
+          "id": "03.02.02.02",
+          "name": "Severe storms",
+          "node_type": "research_area",
+          "parent_id": "03.02.02",
+          "children": []
+        },
+        {
+          "id": "03.02.02.03",
+          "name": "Forecast verification",
+          "node_type": "research_area",
+          "parent_id": "03.02.02",
+          "children": []
+        },
+        {
+          "id": "03.02.02.04",
+          "name": "Radar meteorology",
+          "node_type": "research_area",
+          "parent_id": "03.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.02.03",
+      "name": "Climate Science",
+      "node_type": "discipline",
+      "parent_id": "03.02",
+      "children": [
+        {
+          "id": "03.02.03.01",
+          "name": "Climate modeling",
+          "node_type": "research_area",
+          "parent_id": "03.02.03",
+          "children": []
+        },
+        {
+          "id": "03.02.03.02",
+          "name": "Climate attribution",
+          "node_type": "research_area",
+          "parent_id": "03.02.03",
+          "children": []
+        },
+        {
+          "id": "03.02.03.03",
+          "name": "Climate variability",
+          "node_type": "research_area",
+          "parent_id": "03.02.03",
+          "children": []
+        },
+        {
+          "id": "03.02.03.04",
+          "name": "Climate feedbacks",
+          "node_type": "research_area",
+          "parent_id": "03.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.02.04",
+      "name": "Oceanography",
+      "node_type": "discipline",
+      "parent_id": "03.02",
+      "children": [
+        {
+          "id": "03.02.04.01",
+          "name": "Physical oceanography",
+          "node_type": "research_area",
+          "parent_id": "03.02.04",
+          "children": []
+        },
+        {
+          "id": "03.02.04.02",
+          "name": "Marine chemistry",
+          "node_type": "research_area",
+          "parent_id": "03.02.04",
+          "children": []
+        },
+        {
+          "id": "03.02.04.03",
+          "name": "Ocean circulation",
+          "node_type": "research_area",
+          "parent_id": "03.02.04",
+          "children": []
+        },
+        {
+          "id": "03.02.04.04",
+          "name": "Ocean biogeochemistry",
+          "node_type": "research_area",
+          "parent_id": "03.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.02.05",
+      "name": "Hydrology",
+      "node_type": "discipline",
+      "parent_id": "03.02",
+      "children": [
+        {
+          "id": "03.02.05.01",
+          "name": "Watershed hydrology",
+          "node_type": "research_area",
+          "parent_id": "03.02.05",
+          "children": []
+        },
+        {
+          "id": "03.02.05.02",
+          "name": "Groundwater",
+          "node_type": "research_area",
+          "parent_id": "03.02.05",
+          "children": []
+        },
+        {
+          "id": "03.02.05.03",
+          "name": "Flood modeling",
+          "node_type": "research_area",
+          "parent_id": "03.02.05",
+          "children": []
+        },
+        {
+          "id": "03.02.05.04",
+          "name": "Water resources",
+          "node_type": "research_area",
+          "parent_id": "03.02.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.02.06",
+      "name": "Cryosphere",
+      "node_type": "discipline",
+      "parent_id": "03.02",
+      "children": [
+        {
+          "id": "03.02.06.01",
+          "name": "Glacier dynamics",
+          "node_type": "research_area",
+          "parent_id": "03.02.06",
+          "children": []
+        },
+        {
+          "id": "03.02.06.02",
+          "name": "Sea ice",
+          "node_type": "research_area",
+          "parent_id": "03.02.06",
+          "children": []
+        },
+        {
+          "id": "03.02.06.03",
+          "name": "Permafrost",
+          "node_type": "research_area",
+          "parent_id": "03.02.06",
+          "children": []
+        },
+        {
+          "id": "03.02.06.04",
+          "name": "Ice-sheet modeling",
+          "node_type": "research_area",
+          "parent_id": "03.02.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

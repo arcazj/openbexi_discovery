@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "09.02",
+  "name": "Society & Population",
+  "node_type": "theme",
+  "parent_id": "09",
+  "children": [
+    {
+      "id": "09.02.01",
+      "name": "Sociology",
+      "node_type": "discipline",
+      "parent_id": "09.02",
+      "children": [
+        {
+          "id": "09.02.01.01",
+          "name": "Social stratification",
+          "node_type": "research_area",
+          "parent_id": "09.02.01",
+          "children": []
+        },
+        {
+          "id": "09.02.01.02",
+          "name": "Institutions",
+          "node_type": "research_area",
+          "parent_id": "09.02.01",
+          "children": []
+        },
+        {
+          "id": "09.02.01.03",
+          "name": "Social networks",
+          "node_type": "research_area",
+          "parent_id": "09.02.01",
+          "children": []
+        },
+        {
+          "id": "09.02.01.04",
+          "name": "Social change",
+          "node_type": "research_area",
+          "parent_id": "09.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.02.02",
+      "name": "Demography",
+      "node_type": "discipline",
+      "parent_id": "09.02",
+      "children": [
+        {
+          "id": "09.02.02.01",
+          "name": "Fertility",
+          "node_type": "research_area",
+          "parent_id": "09.02.02",
+          "children": []
+        },
+        {
+          "id": "09.02.02.02",
+          "name": "Mortality",
+          "node_type": "research_area",
+          "parent_id": "09.02.02",
+          "children": []
+        },
+        {
+          "id": "09.02.02.03",
+          "name": "Migration",
+          "node_type": "research_area",
+          "parent_id": "09.02.02",
+          "children": []
+        },
+        {
+          "id": "09.02.02.04",
+          "name": "Population projections",
+          "node_type": "research_area",
+          "parent_id": "09.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.02.03",
+      "name": "Anthropology",
+      "node_type": "discipline",
+      "parent_id": "09.02",
+      "children": [
+        {
+          "id": "09.02.03.01",
+          "name": "Cultural anthropology",
+          "node_type": "research_area",
+          "parent_id": "09.02.03",
+          "children": []
+        },
+        {
+          "id": "09.02.03.02",
+          "name": "Biological anthropology",
+          "node_type": "research_area",
+          "parent_id": "09.02.03",
+          "children": []
+        },
+        {
+          "id": "09.02.03.03",
+          "name": "Ethnography",
+          "node_type": "research_area",
+          "parent_id": "09.02.03",
+          "children": []
+        },
+        {
+          "id": "09.02.03.04",
+          "name": "Kinship",
+          "node_type": "research_area",
+          "parent_id": "09.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.02.04",
+      "name": "Human Geography",
+      "node_type": "discipline",
+      "parent_id": "09.02",
+      "children": [
+        {
+          "id": "09.02.04.01",
+          "name": "Urban geography",
+          "node_type": "research_area",
+          "parent_id": "09.02.04",
+          "children": []
+        },
+        {
+          "id": "09.02.04.02",
+          "name": "Population geography",
+          "node_type": "research_area",
+          "parent_id": "09.02.04",
+          "children": []
+        },
+        {
+          "id": "09.02.04.03",
+          "name": "Economic geography",
+          "node_type": "research_area",
+          "parent_id": "09.02.04",
+          "children": []
+        },
+        {
+          "id": "09.02.04.04",
+          "name": "Political geography",
+          "node_type": "research_area",
+          "parent_id": "09.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.02.05",
+      "name": "Criminology",
+      "node_type": "discipline",
+      "parent_id": "09.02",
+      "children": [
+        {
+          "id": "09.02.05.01",
+          "name": "Crime patterns",
+          "node_type": "research_area",
+          "parent_id": "09.02.05",
+          "children": []
+        },
+        {
+          "id": "09.02.05.02",
+          "name": "Criminal justice",
+          "node_type": "research_area",
+          "parent_id": "09.02.05",
+          "children": []
+        },
+        {
+          "id": "09.02.05.03",
+          "name": "Victimization",
+          "node_type": "research_area",
+          "parent_id": "09.02.05",
+          "children": []
+        },
+        {
+          "id": "09.02.05.04",
+          "name": "Crime prevention",
+          "node_type": "research_area",
+          "parent_id": "09.02.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

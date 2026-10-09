@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "09",
+  "name": "Social & Behavioral Sciences",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 17,
+    "research_areas": 68
+  },
+  "children": [
+    {
+      "id": "09.01",
+      "name": "Psychology & Behavior",
+      "node_type": "theme",
+      "parent_id": "09",
+      "file": "domains/09.01_psychology_behavior.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "09.02",
+      "name": "Society & Population",
+      "node_type": "theme",
+      "parent_id": "09",
+      "file": "domains/09.02_society_population.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "09.03",
+      "name": "Economics, Politics & Education",
+      "node_type": "theme",
+      "parent_id": "09",
+      "file": "domains/09.03_economics_politics_education.json",
+      "counts": {
+        "disciplines": 7,
+        "research_areas": 28
+      }
+    }
+  ]
+}

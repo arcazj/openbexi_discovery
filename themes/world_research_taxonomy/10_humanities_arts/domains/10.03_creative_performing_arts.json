@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "10.03",
+  "name": "Creative & Performing Arts",
+  "node_type": "theme",
+  "parent_id": "10",
+  "children": [
+    {
+      "id": "10.03.01",
+      "name": "Art History",
+      "node_type": "discipline",
+      "parent_id": "10.03",
+      "children": [
+        {
+          "id": "10.03.01.01",
+          "name": "Visual culture",
+          "node_type": "research_area",
+          "parent_id": "10.03.01",
+          "children": []
+        },
+        {
+          "id": "10.03.01.02",
+          "name": "Art movements",
+          "node_type": "research_area",
+          "parent_id": "10.03.01",
+          "children": []
+        },
+        {
+          "id": "10.03.01.03",
+          "name": "Iconography",
+          "node_type": "research_area",
+          "parent_id": "10.03.01",
+          "children": []
+        },
+        {
+          "id": "10.03.01.04",
+          "name": "Curatorial studies",
+          "node_type": "research_area",
+          "parent_id": "10.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.03.02",
+      "name": "Musicology",
+      "node_type": "discipline",
+      "parent_id": "10.03",
+      "children": [
+        {
+          "id": "10.03.02.01",
+          "name": "Music history",
+          "node_type": "research_area",
+          "parent_id": "10.03.02",
+          "children": []
+        },
+        {
+          "id": "10.03.02.02",
+          "name": "Ethnomusicology",
+          "node_type": "research_area",
+          "parent_id": "10.03.02",
+          "children": []
+        },
+        {
+          "id": "10.03.02.03",
+          "name": "Music theory",
+          "node_type": "research_area",
+          "parent_id": "10.03.02",
+          "children": []
+        },
+        {
+          "id": "10.03.02.04",
+          "name": "Performance studies",
+          "node_type": "research_area",
+          "parent_id": "10.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.03.03",
+      "name": "Theatre & Performance",
+      "node_type": "discipline",
+      "parent_id": "10.03",
+      "children": [
+        {
+          "id": "10.03.03.01",
+          "name": "Dramaturgy",
+          "node_type": "research_area",
+          "parent_id": "10.03.03",
+          "children": []
+        },
+        {
+          "id": "10.03.03.02",
+          "name": "Performance theory",
+          "node_type": "research_area",
+          "parent_id": "10.03.03",
+          "children": []
+        },
+        {
+          "id": "10.03.03.03",
+          "name": "Theatre history",
+          "node_type": "research_area",
+          "parent_id": "10.03.03",
+          "children": []
+        },
+        {
+          "id": "10.03.03.04",
+          "name": "Live arts",
+          "node_type": "research_area",
+          "parent_id": "10.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.03.04",
+      "name": "Film & Media Arts",
+      "node_type": "discipline",
+      "parent_id": "10.03",
+      "children": [
+        {
+          "id": "10.03.04.01",
+          "name": "Film theory",
+          "node_type": "research_area",
+          "parent_id": "10.03.04",
+          "children": []
+        },
+        {
+          "id": "10.03.04.02",
+          "name": "Screen studies",
+          "node_type": "research_area",
+          "parent_id": "10.03.04",
+          "children": []
+        },
+        {
+          "id": "10.03.04.03",
+          "name": "Digital cinema",
+          "node_type": "research_area",
+          "parent_id": "10.03.04",
+          "children": []
+        },
+        {
+          "id": "10.03.04.04",
+          "name": "Media aesthetics",
+          "node_type": "research_area",
+          "parent_id": "10.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.03.05",
+      "name": "Design Research",
+      "node_type": "discipline",
+      "parent_id": "10.03",
+      "children": [
+        {
+          "id": "10.03.05.01",
+          "name": "Interaction design",
+          "node_type": "research_area",
+          "parent_id": "10.03.05",
+          "children": []
+        },
+        {
+          "id": "10.03.05.02",
+          "name": "Graphic design",
+          "node_type": "research_area",
+          "parent_id": "10.03.05",
+          "children": []
+        },
+        {
+          "id": "10.03.05.03",
+          "name": "Service design",
+          "node_type": "research_area",
+          "parent_id": "10.03.05",
+          "children": []
+        },
+        {
+          "id": "10.03.05.04",
+          "name": "Participatory design",
+          "node_type": "research_area",
+          "parent_id": "10.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.03.06",
+      "name": "Architecture Theory",
+      "node_type": "discipline",
+      "parent_id": "10.03",
+      "children": [
+        {
+          "id": "10.03.06.01",
+          "name": "Architectural history",
+          "node_type": "research_area",
+          "parent_id": "10.03.06",
+          "children": []
+        },
+        {
+          "id": "10.03.06.02",
+          "name": "Spatial theory",
+          "node_type": "research_area",
+          "parent_id": "10.03.06",
+          "children": []
+        },
+        {
+          "id": "10.03.06.03",
+          "name": "Architectural criticism",
+          "node_type": "research_area",
+          "parent_id": "10.03.06",
+          "children": []
+        },
+        {
+          "id": "10.03.06.04",
+          "name": "Built heritage",
+          "node_type": "research_area",
+          "parent_id": "10.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

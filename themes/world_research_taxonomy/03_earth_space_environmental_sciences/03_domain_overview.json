@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "03",
+  "name": "Earth, Space & Environmental Sciences",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 18,
+    "research_areas": 72
+  },
+  "children": [
+    {
+      "id": "03.01",
+      "name": "Geosciences",
+      "node_type": "theme",
+      "parent_id": "03",
+      "file": "domains/03.01_geosciences.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "03.02",
+      "name": "Atmosphere & Hydrosphere",
+      "node_type": "theme",
+      "parent_id": "03",
+      "file": "domains/03.02_atmosphere_hydrosphere.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "03.03",
+      "name": "Environment & Space",
+      "node_type": "theme",
+      "parent_id": "03",
+      "file": "domains/03.03_environment_space.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

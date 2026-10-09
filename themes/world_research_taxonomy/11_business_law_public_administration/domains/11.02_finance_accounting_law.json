@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "11.02",
+  "name": "Finance, Accounting & Law",
+  "node_type": "theme",
+  "parent_id": "11",
+  "children": [
+    {
+      "id": "11.02.01",
+      "name": "Corporate Finance",
+      "node_type": "discipline",
+      "parent_id": "11.02",
+      "children": [
+        {
+          "id": "11.02.01.01",
+          "name": "Capital structure",
+          "node_type": "research_area",
+          "parent_id": "11.02.01",
+          "children": []
+        },
+        {
+          "id": "11.02.01.02",
+          "name": "Investment decisions",
+          "node_type": "research_area",
+          "parent_id": "11.02.01",
+          "children": []
+        },
+        {
+          "id": "11.02.01.03",
+          "name": "Financial risk",
+          "node_type": "research_area",
+          "parent_id": "11.02.01",
+          "children": []
+        },
+        {
+          "id": "11.02.01.04",
+          "name": "Corporate valuation",
+          "node_type": "research_area",
+          "parent_id": "11.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.02.02",
+      "name": "Financial Markets",
+      "node_type": "discipline",
+      "parent_id": "11.02",
+      "children": [
+        {
+          "id": "11.02.02.01",
+          "name": "Asset pricing",
+          "node_type": "research_area",
+          "parent_id": "11.02.02",
+          "children": []
+        },
+        {
+          "id": "11.02.02.02",
+          "name": "Market microstructure",
+          "node_type": "research_area",
+          "parent_id": "11.02.02",
+          "children": []
+        },
+        {
+          "id": "11.02.02.03",
+          "name": "Portfolio theory",
+          "node_type": "research_area",
+          "parent_id": "11.02.02",
+          "children": []
+        },
+        {
+          "id": "11.02.02.04",
+          "name": "Financial regulation",
+          "node_type": "research_area",
+          "parent_id": "11.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.02.03",
+      "name": "Accounting",
+      "node_type": "discipline",
+      "parent_id": "11.02",
+      "children": [
+        {
+          "id": "11.02.03.01",
+          "name": "Financial reporting",
+          "node_type": "research_area",
+          "parent_id": "11.02.03",
+          "children": []
+        },
+        {
+          "id": "11.02.03.02",
+          "name": "Auditing",
+          "node_type": "research_area",
+          "parent_id": "11.02.03",
+          "children": []
+        },
+        {
+          "id": "11.02.03.03",
+          "name": "Managerial accounting",
+          "node_type": "research_area",
+          "parent_id": "11.02.03",
+          "children": []
+        },
+        {
+          "id": "11.02.03.04",
+          "name": "Accounting standards",
+          "node_type": "research_area",
+          "parent_id": "11.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.02.04",
+      "name": "Commercial Law",
+      "node_type": "discipline",
+      "parent_id": "11.02",
+      "children": [
+        {
+          "id": "11.02.04.01",
+          "name": "Contracts",
+          "node_type": "research_area",
+          "parent_id": "11.02.04",
+          "children": []
+        },
+        {
+          "id": "11.02.04.02",
+          "name": "Corporate law",
+          "node_type": "research_area",
+          "parent_id": "11.02.04",
+          "children": []
+        },
+        {
+          "id": "11.02.04.03",
+          "name": "Competition law",
+          "node_type": "research_area",
+          "parent_id": "11.02.04",
+          "children": []
+        },
+        {
+          "id": "11.02.04.04",
+          "name": "Commercial disputes",
+          "node_type": "research_area",
+          "parent_id": "11.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.02.05",
+      "name": "Public & International Law",
+      "node_type": "discipline",
+      "parent_id": "11.02",
+      "children": [
+        {
+          "id": "11.02.05.01",
+          "name": "Constitutional law",
+          "node_type": "research_area",
+          "parent_id": "11.02.05",
+          "children": []
+        },
+        {
+          "id": "11.02.05.02",
+          "name": "Administrative law",
+          "node_type": "research_area",
+          "parent_id": "11.02.05",
+          "children": []
+        },
+        {
+          "id": "11.02.05.03",
+          "name": "Human rights law",
+          "node_type": "research_area",
+          "parent_id": "11.02.05",
+          "children": []
+        },
+        {
+          "id": "11.02.05.04",
+          "name": "International law",
+          "node_type": "research_area",
+          "parent_id": "11.02.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.02.06",
+      "name": "Technology & Space Law",
+      "node_type": "discipline",
+      "parent_id": "11.02",
+      "children": [
+        {
+          "id": "11.02.06.01",
+          "name": "Data protection",
+          "node_type": "research_area",
+          "parent_id": "11.02.06",
+          "children": []
+        },
+        {
+          "id": "11.02.06.02",
+          "name": "Intellectual property",
+          "node_type": "research_area",
+          "parent_id": "11.02.06",
+          "children": []
+        },
+        {
+          "id": "11.02.06.03",
+          "name": "AI regulation",
+          "node_type": "research_area",
+          "parent_id": "11.02.06",
+          "children": []
+        },
+        {
+          "id": "11.02.06.04",
+          "name": "Space governance",
+          "node_type": "research_area",
+          "parent_id": "11.02.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

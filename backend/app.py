@@ -14,10 +14,13 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator
+from pydantic import ValidationError
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from . import ai
+from .discovery_api import router as discovery_router, tracked_ai
+from .discovery_store import require_online, data_root
 from .sources import SOURCE_INFO, SourceService, interpret, utc_now
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -25,12 +28,12 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def configuration_path():
     # The installed app keeps credentials separate from bundled files/upgrades.
-    directory = os.getenv("REI_DATA_DIR", "").strip()
+    directory = (os.getenv("DISCOVERY_DATA_DIR") or os.getenv("REI_DATA_DIR", "")).strip()
     return (Path(directory).resolve() if directory else ROOT) / ".env"
 
 
 load_dotenv(configuration_path(), override=False)
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 # The standalone launcher can select any free local port. Keep browser access
 # limited to exact loopback HTTP origins, using one policy for CORS and POSTs.
 LOCAL_PORT_PATTERN = r"(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])"
@@ -89,7 +92,7 @@ async def lifespan(application: FastAPI):
         yield
 
 
-app = FastAPI(title="REI Research Explorer", version=VERSION, lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(title="OpenBEXI Discovery", version=VERSION, lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "testserver"])
 app.add_middleware(CORSMiddleware, allow_origin_regex=LOCAL_ORIGIN_PATTERN, allow_methods=["GET", "POST"],
                    allow_headers=["Content-Type"], allow_credentials=False)
@@ -98,6 +101,13 @@ app.add_middleware(CORSMiddleware, allow_origin_regex=LOCAL_ORIGIN_PATTERN, allo
 @app.middleware("http")
 async def request_limits(request: Request, call_next):
     if request.method == "POST":
+        if request.url.path.startswith("/api/discovery/"):
+            try:
+                local_peer = request.client is not None and ipaddress.ip_address(request.client.host).is_loopback
+            except ValueError:
+                local_peer = False
+            if not local_peer:
+                return JSONResponse({"detail": "Discovery data can only be changed from this computer."}, status_code=403)
         origin = request.headers.get("origin")
         if origin is not None and LOCAL_ORIGIN.fullmatch(origin) is None:
             return JSONResponse({"detail": "Serve index.html over local HTTP with serve_frontend.py, then connect to the Python backend in Help. File URLs and nonlocal web origins cannot use this API."}, status_code=403)
@@ -107,8 +117,16 @@ async def request_limits(request: Request, call_next):
             declared_length = int(request.headers.get("content-length", "0"))
         except ValueError:
             return JSONResponse({"detail": "Invalid request length."}, status_code=400)
-        if declared_length > 120000 or len(await request.body()) > 120000:
+        maximum = 46_000_000 if request.url.path.startswith("/api/discovery/") else 120000
+        if declared_length > maximum:
             return JSONResponse({"detail": "Request too large. Select fewer evidence records."}, status_code=413)
+        chunks, size = [], 0
+        async for chunk in request.stream():
+            size += len(chunk)
+            if size > maximum:
+                return JSONResponse({"detail": "Request too large. Select a smaller file or request."}, status_code=413)
+            chunks.append(chunk)
+        request._body = b"".join(chunks)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
@@ -124,6 +142,15 @@ async def validation_error(request: Request, exc: RequestValidationError):
     return JSONResponse({"detail": "Check the request fields.", "errors": errors}, status_code=422)
 
 
+@app.exception_handler(ValidationError)
+async def schema_error(request: Request, exc: ValidationError):
+    return JSONResponse({"detail": "Content does not match the supported schema.",
+                         "errors": [{"field": ".".join(str(v) for v in e["loc"]), "message": e["msg"]} for e in exc.errors()]}, status_code=422)
+
+
+app.include_router(discovery_router)
+
+
 @app.get("/api/health")
 async def health():
     result = {"version": VERSION, "ai": {"configured": ai.configured(), "model": ai.model_name()}, "sources": SOURCE_INFO}
@@ -134,6 +161,7 @@ async def health():
 
 @app.post("/api/search")
 async def search(request: SearchRequest):
+    require_online()
     try:
         interpretation = interpret(request.query, request.mode)
     except ValueError as exc:
@@ -148,7 +176,7 @@ async def search(request: SearchRequest):
 @app.post("/api/ai")
 async def ai_request(request: ai.AIRequest):
     async with app.state.ai_slots:
-        return await ai.generate(request)
+        return await tracked_ai(ai.generate(request))
 
 
 @app.post("/api/ai/check")
@@ -201,6 +229,21 @@ async def license_file(filename: str):
     path = (directory / filename).resolve()
     if path.parent != directory.resolve() or not filename.endswith(".txt") or not path.is_file():
         raise HTTPException(404, "License text not found.")
+    return FileResponse(path, media_type="text/plain; charset=utf-8")
+
+
+@app.get("/assets/{filename}")
+async def discovery_asset(filename: str):
+    if filename not in {"discovery.js", "discovery.css"}:
+        raise HTTPException(404, "Asset not found.")
+    return FileResponse(ROOT / "assets" / filename)
+
+
+@app.get("/documentation/{filename}")
+async def discovery_document(filename: str):
+    path = ROOT / "documentation" / filename
+    if not filename.endswith(".md") or path.is_symlink() or not path.is_file():
+        raise HTTPException(404, "Document not found.")
     return FileResponse(path, media_type="text/plain; charset=utf-8")
 
 

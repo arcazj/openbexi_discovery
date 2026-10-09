@@ -1,0 +1,297 @@
+{
+  "schema_version": "1.0",
+  "id": "02.01",
+  "name": "Physics",
+  "node_type": "theme",
+  "parent_id": "02",
+  "children": [
+    {
+      "id": "02.01.01",
+      "name": "Classical Mechanics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.01.01",
+          "name": "Rigid-body dynamics",
+          "node_type": "research_area",
+          "parent_id": "02.01.01",
+          "children": []
+        },
+        {
+          "id": "02.01.01.02",
+          "name": "Continuum mechanics",
+          "node_type": "research_area",
+          "parent_id": "02.01.01",
+          "children": []
+        },
+        {
+          "id": "02.01.01.03",
+          "name": "Fluid mechanics",
+          "node_type": "research_area",
+          "parent_id": "02.01.01",
+          "children": []
+        },
+        {
+          "id": "02.01.01.04",
+          "name": "Nonlinear dynamics",
+          "node_type": "research_area",
+          "parent_id": "02.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.02",
+      "name": "Quantum Physics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.02.01",
+          "name": "Quantum foundations",
+          "node_type": "research_area",
+          "parent_id": "02.01.02",
+          "children": []
+        },
+        {
+          "id": "02.01.02.02",
+          "name": "Quantum entanglement",
+          "node_type": "research_area",
+          "parent_id": "02.01.02",
+          "children": []
+        },
+        {
+          "id": "02.01.02.03",
+          "name": "Quantum measurement",
+          "node_type": "research_area",
+          "parent_id": "02.01.02",
+          "children": []
+        },
+        {
+          "id": "02.01.02.04",
+          "name": "Quantum optics",
+          "node_type": "research_area",
+          "parent_id": "02.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.03",
+      "name": "Particle Physics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.03.01",
+          "name": "Standard Model",
+          "node_type": "research_area",
+          "parent_id": "02.01.03",
+          "children": []
+        },
+        {
+          "id": "02.01.03.02",
+          "name": "Neutrino physics",
+          "node_type": "research_area",
+          "parent_id": "02.01.03",
+          "children": []
+        },
+        {
+          "id": "02.01.03.03",
+          "name": "Collider physics",
+          "node_type": "research_area",
+          "parent_id": "02.01.03",
+          "children": []
+        },
+        {
+          "id": "02.01.03.04",
+          "name": "Beyond Standard Model",
+          "node_type": "research_area",
+          "parent_id": "02.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.04",
+      "name": "Nuclear Physics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.04.01",
+          "name": "Nuclear structure",
+          "node_type": "research_area",
+          "parent_id": "02.01.04",
+          "children": []
+        },
+        {
+          "id": "02.01.04.02",
+          "name": "Nuclear reactions",
+          "node_type": "research_area",
+          "parent_id": "02.01.04",
+          "children": []
+        },
+        {
+          "id": "02.01.04.03",
+          "name": "Radioactive decay",
+          "node_type": "research_area",
+          "parent_id": "02.01.04",
+          "children": []
+        },
+        {
+          "id": "02.01.04.04",
+          "name": "Nuclear astrophysics",
+          "node_type": "research_area",
+          "parent_id": "02.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.05",
+      "name": "Condensed Matter",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.05.01",
+          "name": "Superconductivity",
+          "node_type": "research_area",
+          "parent_id": "02.01.05",
+          "children": []
+        },
+        {
+          "id": "02.01.05.02",
+          "name": "Magnetism",
+          "node_type": "research_area",
+          "parent_id": "02.01.05",
+          "children": []
+        },
+        {
+          "id": "02.01.05.03",
+          "name": "Semiconductors",
+          "node_type": "research_area",
+          "parent_id": "02.01.05",
+          "children": []
+        },
+        {
+          "id": "02.01.05.04",
+          "name": "Topological phases",
+          "node_type": "research_area",
+          "parent_id": "02.01.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.06",
+      "name": "Thermodynamics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.06.01",
+          "name": "Statistical mechanics",
+          "node_type": "research_area",
+          "parent_id": "02.01.06",
+          "children": []
+        },
+        {
+          "id": "02.01.06.02",
+          "name": "Non-equilibrium thermodynamics",
+          "node_type": "research_area",
+          "parent_id": "02.01.06",
+          "children": []
+        },
+        {
+          "id": "02.01.06.03",
+          "name": "Phase transitions",
+          "node_type": "research_area",
+          "parent_id": "02.01.06",
+          "children": []
+        },
+        {
+          "id": "02.01.06.04",
+          "name": "Heat transfer",
+          "node_type": "research_area",
+          "parent_id": "02.01.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.07",
+      "name": "Optics & Photonics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.07.01",
+          "name": "Laser physics",
+          "node_type": "research_area",
+          "parent_id": "02.01.07",
+          "children": []
+        },
+        {
+          "id": "02.01.07.02",
+          "name": "Nonlinear optics",
+          "node_type": "research_area",
+          "parent_id": "02.01.07",
+          "children": []
+        },
+        {
+          "id": "02.01.07.03",
+          "name": "Spectroscopy",
+          "node_type": "research_area",
+          "parent_id": "02.01.07",
+          "children": []
+        },
+        {
+          "id": "02.01.07.04",
+          "name": "Integrated photonics",
+          "node_type": "research_area",
+          "parent_id": "02.01.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.01.08",
+      "name": "Plasma Physics",
+      "node_type": "discipline",
+      "parent_id": "02.01",
+      "children": [
+        {
+          "id": "02.01.08.01",
+          "name": "Magnetized plasmas",
+          "node_type": "research_area",
+          "parent_id": "02.01.08",
+          "children": []
+        },
+        {
+          "id": "02.01.08.02",
+          "name": "Fusion plasmas",
+          "node_type": "research_area",
+          "parent_id": "02.01.08",
+          "children": []
+        },
+        {
+          "id": "02.01.08.03",
+          "name": "Space plasmas",
+          "node_type": "research_area",
+          "parent_id": "02.01.08",
+          "children": []
+        },
+        {
+          "id": "02.01.08.04",
+          "name": "Plasma diagnostics",
+          "node_type": "research_area",
+          "parent_id": "02.01.08",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

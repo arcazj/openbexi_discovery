@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "01.03",
+  "name": "Formal & Computational Sciences",
+  "node_type": "theme",
+  "parent_id": "01",
+  "children": [
+    {
+      "id": "01.03.01",
+      "name": "Theoretical Computer Science",
+      "node_type": "discipline",
+      "parent_id": "01.03",
+      "children": [
+        {
+          "id": "01.03.01.01",
+          "name": "Computability",
+          "node_type": "research_area",
+          "parent_id": "01.03.01",
+          "children": []
+        },
+        {
+          "id": "01.03.01.02",
+          "name": "Complexity theory",
+          "node_type": "research_area",
+          "parent_id": "01.03.01",
+          "children": []
+        },
+        {
+          "id": "01.03.01.03",
+          "name": "Automata theory",
+          "node_type": "research_area",
+          "parent_id": "01.03.01",
+          "children": []
+        },
+        {
+          "id": "01.03.01.04",
+          "name": "Algorithm analysis",
+          "node_type": "research_area",
+          "parent_id": "01.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.03.02",
+      "name": "Formal Methods",
+      "node_type": "discipline",
+      "parent_id": "01.03",
+      "children": [
+        {
+          "id": "01.03.02.01",
+          "name": "Model checking",
+          "node_type": "research_area",
+          "parent_id": "01.03.02",
+          "children": []
+        },
+        {
+          "id": "01.03.02.02",
+          "name": "Theorem proving",
+          "node_type": "research_area",
+          "parent_id": "01.03.02",
+          "children": []
+        },
+        {
+          "id": "01.03.02.03",
+          "name": "Program verification",
+          "node_type": "research_area",
+          "parent_id": "01.03.02",
+          "children": []
+        },
+        {
+          "id": "01.03.02.04",
+          "name": "Formal specification",
+          "node_type": "research_area",
+          "parent_id": "01.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.03.03",
+      "name": "Information Theory",
+      "node_type": "discipline",
+      "parent_id": "01.03",
+      "children": [
+        {
+          "id": "01.03.03.01",
+          "name": "Information entropy",
+          "node_type": "research_area",
+          "parent_id": "01.03.03",
+          "children": []
+        },
+        {
+          "id": "01.03.03.02",
+          "name": "Coding theory",
+          "node_type": "research_area",
+          "parent_id": "01.03.03",
+          "children": []
+        },
+        {
+          "id": "01.03.03.03",
+          "name": "Rate distortion",
+          "node_type": "research_area",
+          "parent_id": "01.03.03",
+          "children": []
+        },
+        {
+          "id": "01.03.03.04",
+          "name": "Channel capacity",
+          "node_type": "research_area",
+          "parent_id": "01.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.03.04",
+      "name": "Mathematical Modeling",
+      "node_type": "discipline",
+      "parent_id": "01.03",
+      "children": [
+        {
+          "id": "01.03.04.01",
+          "name": "Agent-based modeling",
+          "node_type": "research_area",
+          "parent_id": "01.03.04",
+          "children": []
+        },
+        {
+          "id": "01.03.04.02",
+          "name": "Multiscale modeling",
+          "node_type": "research_area",
+          "parent_id": "01.03.04",
+          "children": []
+        },
+        {
+          "id": "01.03.04.03",
+          "name": "Uncertainty quantification",
+          "node_type": "research_area",
+          "parent_id": "01.03.04",
+          "children": []
+        },
+        {
+          "id": "01.03.04.04",
+          "name": "Inverse problems",
+          "node_type": "research_area",
+          "parent_id": "01.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.03.05",
+      "name": "Computational Mathematics",
+      "node_type": "discipline",
+      "parent_id": "01.03",
+      "children": [
+        {
+          "id": "01.03.05.01",
+          "name": "Symbolic computation",
+          "node_type": "research_area",
+          "parent_id": "01.03.05",
+          "children": []
+        },
+        {
+          "id": "01.03.05.02",
+          "name": "Scientific computing",
+          "node_type": "research_area",
+          "parent_id": "01.03.05",
+          "children": []
+        },
+        {
+          "id": "01.03.05.03",
+          "name": "High-performance algorithms",
+          "node_type": "research_area",
+          "parent_id": "01.03.05",
+          "children": []
+        },
+        {
+          "id": "01.03.05.04",
+          "name": "Computer algebra",
+          "node_type": "research_area",
+          "parent_id": "01.03.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

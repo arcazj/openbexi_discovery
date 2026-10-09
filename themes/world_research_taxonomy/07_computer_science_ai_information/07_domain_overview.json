@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "07",
+  "name": "Computer Science, AI & Information",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 20,
+    "research_areas": 80
+  },
+  "children": [
+    {
+      "id": "07.01",
+      "name": "Artificial Intelligence",
+      "node_type": "theme",
+      "parent_id": "07",
+      "file": "domains/07.01_artificial_intelligence.json",
+      "counts": {
+        "disciplines": 7,
+        "research_areas": 28
+      }
+    },
+    {
+      "id": "07.02",
+      "name": "Computer Systems",
+      "node_type": "theme",
+      "parent_id": "07",
+      "file": "domains/07.02_computer_systems.json",
+      "counts": {
+        "disciplines": 7,
+        "research_areas": 28
+      }
+    },
+    {
+      "id": "07.03",
+      "name": "Data & Information",
+      "node_type": "theme",
+      "parent_id": "07",
+      "file": "domains/07.03_data_information.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

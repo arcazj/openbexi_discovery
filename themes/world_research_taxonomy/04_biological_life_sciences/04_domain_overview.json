@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "04",
+  "name": "Biological & Life Sciences",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 18,
+    "research_areas": 72
+  },
+  "children": [
+    {
+      "id": "04.01",
+      "name": "Molecular & Cellular Biology",
+      "node_type": "theme",
+      "parent_id": "04",
+      "file": "domains/04.01_molecular_cellular_biology.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "04.02",
+      "name": "Organismal Biology",
+      "node_type": "theme",
+      "parent_id": "04",
+      "file": "domains/04.02_organismal_biology.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "04.03",
+      "name": "Ecology, Evolution & Biotechnology",
+      "node_type": "theme",
+      "parent_id": "04",
+      "file": "domains/04.03_ecology_evolution_biotechnology.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

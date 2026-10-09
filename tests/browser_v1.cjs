@@ -23,7 +23,7 @@ const server=http.createServer((req,res)=>{
   if(name==='/'||name==='/index.html'){
     res.setHeader('Content-Type','text/html; charset=utf-8');
     res.end(req.url.startsWith('/hosted/')?html.replace('<head>','<head><meta name="rei-hosted-demo" content="github-pages">'):html);
-  }else if(['/README.md','/HELP.md','/CHANGELOG.md'].includes(name))res.end(fs.readFileSync(path.join(root,name.slice(1))));
+  }else if(['/assets/discovery.js','/assets/discovery.css'].includes(name)){res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript':'text/css');res.end(fs.readFileSync(path.join(root,name.slice(1))));}else if(['/README.md','/HELP.md','/CHANGELOG.md'].includes(name))res.end(fs.readFileSync(path.join(root,name.slice(1))));
   else{res.statusCode=404;res.end('Not available');}
 });
 let browser, base, passed=0;
@@ -35,7 +35,7 @@ async function scenario(name,options,run){
   await page.route('**/api/**',async route=>{
     const req=route.request(),url=new URL(req.url());calls.api.push(url.pathname);
     const json=async body=>route.fulfill({contentType:'application/json',body:JSON.stringify(body)});
-    if(url.pathname==='/api/health')return json({version:'1.0.1',ai:{configured:options.connected!==false,model:'gpt-6.1-sol'}});
+    if(url.pathname==='/api/health')return json({version:'1.1.0',ai:{configured:options.connected!==false,model:'gpt-6.1-sol'}});
     if(url.pathname==='/api/ai/check')return json({accessible:true,model:'gpt-6.1-sol',message:'Fixture access verified'});
     if(url.pathname==='/api/search'){
       const payload=req.postDataJSON();calls.queries.push(payload.query);
@@ -77,7 +77,7 @@ async function scenario(name,options,run){
   for(const width of [1365,390,320])await scenario('compact layout and sticky controls '+width,{count:8,viewport:{width,height:950}},async({page,calls,search,guided})=>{
     assert.equal(await page.locator('#ai-connection-panel').count(),0);
     assert.equal(await page.locator('#connection-label').textContent(),'AI connected to GPT-6.1 Sol · key verified.');
-    assert.equal(await page.locator('#app-version').textContent(),'V1.0.1');
+    assert.equal(await page.locator('#app-version').textContent(),'V1.1.0');
     const version=await page.locator('#app-version').boundingBox(),settings=await page.locator('#ai-connect-action').boundingBox();
     assert.ok(version.x>=settings.x+settings.width,'Version follows AI settings');
     assert.ok(version.y<settings.y+settings.height&&settings.y<version.y+version.height,'Version shares the AI settings row');
@@ -174,7 +174,7 @@ async function scenario(name,options,run){
     assert.match(await page.locator('#brief-notes').inputValue(),/AI next step/);
     await page.locator('#brief-form button[type=submit]').click();await guided();
     const workspace=await page.evaluate(()=>JSON.parse(localStorage.getItem('rei-research-workspace-v1')));
-    assert.equal(workspace.app_version,'1.0.1');assert.equal(workspace.questions[0].ai_audit.action,'guidance');
+    assert.equal(workspace.app_version,'1.1.0');assert.equal(workspace.questions[0].ai_audit.action,'guidance');
     assert.equal(workspace.questions[0].guidance_audits.length,1);assert.equal(workspace.questions[0].guidance_audits[0].evidence_snapshot.records[0].id,record.id);
     assert.equal(await page.locator('.saved-card[data-ai-assisted="true"]').evaluate(n=>getComputedStyle(n).backgroundImage),aiSurface,'Saved AI-assisted question keeps the soft surface');
     await page.locator('#guidance-query').click();await guided();assert.equal(calls.queries.at(-1),'ovarian reserve outcomes');

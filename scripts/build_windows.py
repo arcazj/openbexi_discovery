@@ -13,7 +13,7 @@ import sys
 
 from scripts.build_pages import DOCUMENTS
 
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -77,7 +77,7 @@ def verify_bundle(bundle):
 
 
 def nsis_compiler():
-    candidates = [shutil.which("makensis"), r"C:\Program Files (x86)\NSIS\makensis.exe", r"C:\Program Files\NSIS\makensis.exe"]
+    candidates = [os.getenv("NSIS_COMPILER"), shutil.which("makensis"), ROOT / "build/tools/nsis-3.11/makensis.exe", r"C:\Program Files (x86)\NSIS\makensis.exe", r"C:\Program Files\NSIS\makensis.exe"]
     for item in candidates:
         if item and Path(item).is_file():
             return Path(item)
@@ -125,6 +125,19 @@ def build():
         args += ["--add-binary", str(path) + os.pathsep + "."]
     for name in document_names:
         args += ["--add-data", str(ROOT / name) + os.pathsep + "."]
+    # Bundle only checked runtime assets, never generated profiles or library data.
+    for folder, suffixes in {"assets": {".js", ".css"}, "templates": {".json"},
+                             "themes": {".json"}, "prompts/runtime": {".json", ".md"},
+                             "schemas": {".json"}, "documentation": {".md"}}.items():
+        directory = ROOT / folder
+        if not directory.is_dir() or directory.is_symlink():
+            raise ValueError("Missing or linked runtime asset directory: " + folder)
+        for path in sorted(directory.rglob("*")):
+            if path.is_symlink() or not path.resolve().is_relative_to(directory.resolve()):
+                raise ValueError("Linked runtime asset rejected.")
+            if path.is_file() and path.suffix in suffixes:
+                args += ["--add-data", str(path) + os.pathsep + str(path.parent.relative_to(ROOT))]
+    args += ["--hidden-import", "sqlite3", "--hidden-import", "_sqlite3"]
     for path in sorted((ROOT / "licenses").glob("*.txt")):
         if path.is_symlink() or path.resolve().parent != ROOT / "licenses":
             raise ValueError("Linked dependency license rejected.")
@@ -152,7 +165,7 @@ def build():
     directories = sorted((p for p in bundle.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True)
     lines += ['RMDir "$INSTDIR\\' + str(p.relative_to(bundle)).replace('$', '$$') + '"' for p in directories]
     uninstall.write_text("\n".join(lines) + "\n", encoding="utf-8-sig")
-    setup = safe_output(ROOT / "dist" / f"REIResearchExplorer-{VERSION}-Windows-x64-Setup.exe")
+    setup = safe_output(ROOT / "dist" / f"OpenBEXIDiscovery-{VERSION}-Windows-x64-Setup.exe")
     setup.parent.mkdir(exist_ok=True)
     subprocess.run([str(compiler), "/DBUNDLE=" + str(bundle), "/DOUTPUT=" + str(setup), "/DICON=" + str(icon),
                     "/DUNINSTALL_FILES=" + str(uninstall), "/DVERSION=" + VERSION, str(ROOT / "installer" / "windows.nsi")], check=True)

@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "03.03",
+  "name": "Environment & Space",
+  "node_type": "theme",
+  "parent_id": "03",
+  "children": [
+    {
+      "id": "03.03.01",
+      "name": "Environmental Science",
+      "node_type": "discipline",
+      "parent_id": "03.03",
+      "children": [
+        {
+          "id": "03.03.01.01",
+          "name": "Pollution pathways",
+          "node_type": "research_area",
+          "parent_id": "03.03.01",
+          "children": []
+        },
+        {
+          "id": "03.03.01.02",
+          "name": "Environmental monitoring",
+          "node_type": "research_area",
+          "parent_id": "03.03.01",
+          "children": []
+        },
+        {
+          "id": "03.03.01.03",
+          "name": "Environmental remediation",
+          "node_type": "research_area",
+          "parent_id": "03.03.01",
+          "children": []
+        },
+        {
+          "id": "03.03.01.04",
+          "name": "Impact assessment",
+          "node_type": "research_area",
+          "parent_id": "03.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.03.02",
+      "name": "Conservation Science",
+      "node_type": "discipline",
+      "parent_id": "03.03",
+      "children": [
+        {
+          "id": "03.03.02.01",
+          "name": "Habitat conservation",
+          "node_type": "research_area",
+          "parent_id": "03.03.02",
+          "children": []
+        },
+        {
+          "id": "03.03.02.02",
+          "name": "Ecological restoration",
+          "node_type": "research_area",
+          "parent_id": "03.03.02",
+          "children": []
+        },
+        {
+          "id": "03.03.02.03",
+          "name": "Species recovery",
+          "node_type": "research_area",
+          "parent_id": "03.03.02",
+          "children": []
+        },
+        {
+          "id": "03.03.02.04",
+          "name": "Landscape connectivity",
+          "node_type": "research_area",
+          "parent_id": "03.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.03.03",
+      "name": "Remote Sensing",
+      "node_type": "discipline",
+      "parent_id": "03.03",
+      "children": [
+        {
+          "id": "03.03.03.01",
+          "name": "Satellite Earth observation",
+          "node_type": "research_area",
+          "parent_id": "03.03.03",
+          "children": []
+        },
+        {
+          "id": "03.03.03.02",
+          "name": "Hyperspectral sensing",
+          "node_type": "research_area",
+          "parent_id": "03.03.03",
+          "children": []
+        },
+        {
+          "id": "03.03.03.03",
+          "name": "Radar remote sensing",
+          "node_type": "research_area",
+          "parent_id": "03.03.03",
+          "children": []
+        },
+        {
+          "id": "03.03.03.04",
+          "name": "Geospatial analytics",
+          "node_type": "research_area",
+          "parent_id": "03.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.03.04",
+      "name": "Planetary Science",
+      "node_type": "discipline",
+      "parent_id": "03.03",
+      "children": [
+        {
+          "id": "03.03.04.01",
+          "name": "Planetary geology",
+          "node_type": "research_area",
+          "parent_id": "03.03.04",
+          "children": []
+        },
+        {
+          "id": "03.03.04.02",
+          "name": "Planetary atmospheres",
+          "node_type": "research_area",
+          "parent_id": "03.03.04",
+          "children": []
+        },
+        {
+          "id": "03.03.04.03",
+          "name": "Impact cratering",
+          "node_type": "research_area",
+          "parent_id": "03.03.04",
+          "children": []
+        },
+        {
+          "id": "03.03.04.04",
+          "name": "Comparative planetology",
+          "node_type": "research_area",
+          "parent_id": "03.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.03.05",
+      "name": "Heliophysics",
+      "node_type": "discipline",
+      "parent_id": "03.03",
+      "children": [
+        {
+          "id": "03.03.05.01",
+          "name": "Solar activity",
+          "node_type": "research_area",
+          "parent_id": "03.03.05",
+          "children": []
+        },
+        {
+          "id": "03.03.05.02",
+          "name": "Space weather",
+          "node_type": "research_area",
+          "parent_id": "03.03.05",
+          "children": []
+        },
+        {
+          "id": "03.03.05.03",
+          "name": "Magnetospheres",
+          "node_type": "research_area",
+          "parent_id": "03.03.05",
+          "children": []
+        },
+        {
+          "id": "03.03.05.04",
+          "name": "Solar wind",
+          "node_type": "research_area",
+          "parent_id": "03.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "03.03.06",
+      "name": "Natural Hazards",
+      "node_type": "discipline",
+      "parent_id": "03.03",
+      "children": [
+        {
+          "id": "03.03.06.01",
+          "name": "Earthquakes",
+          "node_type": "research_area",
+          "parent_id": "03.03.06",
+          "children": []
+        },
+        {
+          "id": "03.03.06.02",
+          "name": "Landslides",
+          "node_type": "research_area",
+          "parent_id": "03.03.06",
+          "children": []
+        },
+        {
+          "id": "03.03.06.03",
+          "name": "Coastal hazards",
+          "node_type": "research_area",
+          "parent_id": "03.03.06",
+          "children": []
+        },
+        {
+          "id": "03.03.06.04",
+          "name": "Risk mapping",
+          "node_type": "research_area",
+          "parent_id": "03.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

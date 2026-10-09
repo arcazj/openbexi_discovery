@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "04.01",
+  "name": "Molecular & Cellular Biology",
+  "node_type": "theme",
+  "parent_id": "04",
+  "children": [
+    {
+      "id": "04.01.01",
+      "name": "Molecular Biology",
+      "node_type": "discipline",
+      "parent_id": "04.01",
+      "children": [
+        {
+          "id": "04.01.01.01",
+          "name": "DNA replication",
+          "node_type": "research_area",
+          "parent_id": "04.01.01",
+          "children": []
+        },
+        {
+          "id": "04.01.01.02",
+          "name": "Transcription",
+          "node_type": "research_area",
+          "parent_id": "04.01.01",
+          "children": []
+        },
+        {
+          "id": "04.01.01.03",
+          "name": "Translation",
+          "node_type": "research_area",
+          "parent_id": "04.01.01",
+          "children": []
+        },
+        {
+          "id": "04.01.01.04",
+          "name": "Gene regulation",
+          "node_type": "research_area",
+          "parent_id": "04.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.01.02",
+      "name": "Genetics",
+      "node_type": "discipline",
+      "parent_id": "04.01",
+      "children": [
+        {
+          "id": "04.01.02.01",
+          "name": "Population genetics",
+          "node_type": "research_area",
+          "parent_id": "04.01.02",
+          "children": []
+        },
+        {
+          "id": "04.01.02.02",
+          "name": "Functional genetics",
+          "node_type": "research_area",
+          "parent_id": "04.01.02",
+          "children": []
+        },
+        {
+          "id": "04.01.02.03",
+          "name": "Genetic variation",
+          "node_type": "research_area",
+          "parent_id": "04.01.02",
+          "children": []
+        },
+        {
+          "id": "04.01.02.04",
+          "name": "Genome evolution",
+          "node_type": "research_area",
+          "parent_id": "04.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.01.03",
+      "name": "Genomics",
+      "node_type": "discipline",
+      "parent_id": "04.01",
+      "children": [
+        {
+          "id": "04.01.03.01",
+          "name": "Genome assembly",
+          "node_type": "research_area",
+          "parent_id": "04.01.03",
+          "children": []
+        },
+        {
+          "id": "04.01.03.02",
+          "name": "Comparative genomics",
+          "node_type": "research_area",
+          "parent_id": "04.01.03",
+          "children": []
+        },
+        {
+          "id": "04.01.03.03",
+          "name": "Metagenomics",
+          "node_type": "research_area",
+          "parent_id": "04.01.03",
+          "children": []
+        },
+        {
+          "id": "04.01.03.04",
+          "name": "Epigenomics",
+          "node_type": "research_area",
+          "parent_id": "04.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.01.04",
+      "name": "Proteomics",
+      "node_type": "discipline",
+      "parent_id": "04.01",
+      "children": [
+        {
+          "id": "04.01.04.01",
+          "name": "Protein identification",
+          "node_type": "research_area",
+          "parent_id": "04.01.04",
+          "children": []
+        },
+        {
+          "id": "04.01.04.02",
+          "name": "Protein interactions",
+          "node_type": "research_area",
+          "parent_id": "04.01.04",
+          "children": []
+        },
+        {
+          "id": "04.01.04.03",
+          "name": "Post-translational modification",
+          "node_type": "research_area",
+          "parent_id": "04.01.04",
+          "children": []
+        },
+        {
+          "id": "04.01.04.04",
+          "name": "Proteome dynamics",
+          "node_type": "research_area",
+          "parent_id": "04.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.01.05",
+      "name": "Cell Biology",
+      "node_type": "discipline",
+      "parent_id": "04.01",
+      "children": [
+        {
+          "id": "04.01.05.01",
+          "name": "Cell cycle",
+          "node_type": "research_area",
+          "parent_id": "04.01.05",
+          "children": []
+        },
+        {
+          "id": "04.01.05.02",
+          "name": "Cell signaling",
+          "node_type": "research_area",
+          "parent_id": "04.01.05",
+          "children": []
+        },
+        {
+          "id": "04.01.05.03",
+          "name": "Organelle biology",
+          "node_type": "research_area",
+          "parent_id": "04.01.05",
+          "children": []
+        },
+        {
+          "id": "04.01.05.04",
+          "name": "Cell differentiation",
+          "node_type": "research_area",
+          "parent_id": "04.01.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.01.06",
+      "name": "Developmental Biology",
+      "node_type": "discipline",
+      "parent_id": "04.01",
+      "children": [
+        {
+          "id": "04.01.06.01",
+          "name": "Embryonic patterning",
+          "node_type": "research_area",
+          "parent_id": "04.01.06",
+          "children": []
+        },
+        {
+          "id": "04.01.06.02",
+          "name": "Morphogenesis",
+          "node_type": "research_area",
+          "parent_id": "04.01.06",
+          "children": []
+        },
+        {
+          "id": "04.01.06.03",
+          "name": "Stem-cell differentiation",
+          "node_type": "research_area",
+          "parent_id": "04.01.06",
+          "children": []
+        },
+        {
+          "id": "04.01.06.04",
+          "name": "Regeneration",
+          "node_type": "research_area",
+          "parent_id": "04.01.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

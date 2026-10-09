@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "11.03",
+  "name": "Governance & Public Administration",
+  "node_type": "theme",
+  "parent_id": "11",
+  "children": [
+    {
+      "id": "11.03.01",
+      "name": "Public Administration",
+      "node_type": "discipline",
+      "parent_id": "11.03",
+      "children": [
+        {
+          "id": "11.03.01.01",
+          "name": "Public service management",
+          "node_type": "research_area",
+          "parent_id": "11.03.01",
+          "children": []
+        },
+        {
+          "id": "11.03.01.02",
+          "name": "Administrative reform",
+          "node_type": "research_area",
+          "parent_id": "11.03.01",
+          "children": []
+        },
+        {
+          "id": "11.03.01.03",
+          "name": "Public-sector performance",
+          "node_type": "research_area",
+          "parent_id": "11.03.01",
+          "children": []
+        },
+        {
+          "id": "11.03.01.04",
+          "name": "Digital government",
+          "node_type": "research_area",
+          "parent_id": "11.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.03.02",
+      "name": "Public Policy",
+      "node_type": "discipline",
+      "parent_id": "11.03",
+      "children": [
+        {
+          "id": "11.03.02.01",
+          "name": "Policy analysis",
+          "node_type": "research_area",
+          "parent_id": "11.03.02",
+          "children": []
+        },
+        {
+          "id": "11.03.02.02",
+          "name": "Policy evaluation",
+          "node_type": "research_area",
+          "parent_id": "11.03.02",
+          "children": []
+        },
+        {
+          "id": "11.03.02.03",
+          "name": "Regulatory impact",
+          "node_type": "research_area",
+          "parent_id": "11.03.02",
+          "children": []
+        },
+        {
+          "id": "11.03.02.04",
+          "name": "Evidence-based policy",
+          "node_type": "research_area",
+          "parent_id": "11.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.03.03",
+      "name": "Security & Defense Studies",
+      "node_type": "discipline",
+      "parent_id": "11.03",
+      "children": [
+        {
+          "id": "11.03.03.01",
+          "name": "Strategic studies",
+          "node_type": "research_area",
+          "parent_id": "11.03.03",
+          "children": []
+        },
+        {
+          "id": "11.03.03.02",
+          "name": "Defense policy",
+          "node_type": "research_area",
+          "parent_id": "11.03.03",
+          "children": []
+        },
+        {
+          "id": "11.03.03.03",
+          "name": "National security",
+          "node_type": "research_area",
+          "parent_id": "11.03.03",
+          "children": []
+        },
+        {
+          "id": "11.03.03.04",
+          "name": "Civil-military relations",
+          "node_type": "research_area",
+          "parent_id": "11.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.03.04",
+      "name": "Risk & Resilience",
+      "node_type": "discipline",
+      "parent_id": "11.03",
+      "children": [
+        {
+          "id": "11.03.04.01",
+          "name": "Enterprise risk",
+          "node_type": "research_area",
+          "parent_id": "11.03.04",
+          "children": []
+        },
+        {
+          "id": "11.03.04.02",
+          "name": "Crisis management",
+          "node_type": "research_area",
+          "parent_id": "11.03.04",
+          "children": []
+        },
+        {
+          "id": "11.03.04.03",
+          "name": "Infrastructure resilience",
+          "node_type": "research_area",
+          "parent_id": "11.03.04",
+          "children": []
+        },
+        {
+          "id": "11.03.04.04",
+          "name": "Business continuity",
+          "node_type": "research_area",
+          "parent_id": "11.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.03.05",
+      "name": "Governance & Institutions",
+      "node_type": "discipline",
+      "parent_id": "11.03",
+      "children": [
+        {
+          "id": "11.03.05.01",
+          "name": "Institutional design",
+          "node_type": "research_area",
+          "parent_id": "11.03.05",
+          "children": []
+        },
+        {
+          "id": "11.03.05.02",
+          "name": "Transparency",
+          "node_type": "research_area",
+          "parent_id": "11.03.05",
+          "children": []
+        },
+        {
+          "id": "11.03.05.03",
+          "name": "Accountability",
+          "node_type": "research_area",
+          "parent_id": "11.03.05",
+          "children": []
+        },
+        {
+          "id": "11.03.05.04",
+          "name": "Public participation",
+          "node_type": "research_area",
+          "parent_id": "11.03.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+{
+  "schema_version": "1.0",
+  "id": "07.02",
+  "name": "Computer Systems",
+  "node_type": "theme",
+  "parent_id": "07",
+  "children": [
+    {
+      "id": "07.02.01",
+      "name": "Operating Systems",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.01.01",
+          "name": "Process scheduling",
+          "node_type": "research_area",
+          "parent_id": "07.02.01",
+          "children": []
+        },
+        {
+          "id": "07.02.01.02",
+          "name": "Memory management",
+          "node_type": "research_area",
+          "parent_id": "07.02.01",
+          "children": []
+        },
+        {
+          "id": "07.02.01.03",
+          "name": "Kernel security",
+          "node_type": "research_area",
+          "parent_id": "07.02.01",
+          "children": []
+        },
+        {
+          "id": "07.02.01.04",
+          "name": "Real-time systems",
+          "node_type": "research_area",
+          "parent_id": "07.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.02.02",
+      "name": "Distributed Systems",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.02.01",
+          "name": "Consensus",
+          "node_type": "research_area",
+          "parent_id": "07.02.02",
+          "children": []
+        },
+        {
+          "id": "07.02.02.02",
+          "name": "Fault tolerance",
+          "node_type": "research_area",
+          "parent_id": "07.02.02",
+          "children": []
+        },
+        {
+          "id": "07.02.02.03",
+          "name": "Distributed storage",
+          "node_type": "research_area",
+          "parent_id": "07.02.02",
+          "children": []
+        },
+        {
+          "id": "07.02.02.04",
+          "name": "Event streaming",
+          "node_type": "research_area",
+          "parent_id": "07.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.02.03",
+      "name": "Cloud & Edge Computing",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.03.01",
+          "name": "Cloud orchestration",
+          "node_type": "research_area",
+          "parent_id": "07.02.03",
+          "children": []
+        },
+        {
+          "id": "07.02.03.02",
+          "name": "Containers",
+          "node_type": "research_area",
+          "parent_id": "07.02.03",
+          "children": []
+        },
+        {
+          "id": "07.02.03.03",
+          "name": "Serverless computing",
+          "node_type": "research_area",
+          "parent_id": "07.02.03",
+          "children": []
+        },
+        {
+          "id": "07.02.03.04",
+          "name": "Edge inference",
+          "node_type": "research_area",
+          "parent_id": "07.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.02.04",
+      "name": "High-Performance Computing",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.04.01",
+          "name": "Parallel algorithms",
+          "node_type": "research_area",
+          "parent_id": "07.02.04",
+          "children": []
+        },
+        {
+          "id": "07.02.04.02",
+          "name": "GPU computing",
+          "node_type": "research_area",
+          "parent_id": "07.02.04",
+          "children": []
+        },
+        {
+          "id": "07.02.04.03",
+          "name": "Scientific workflows",
+          "node_type": "research_area",
+          "parent_id": "07.02.04",
+          "children": []
+        },
+        {
+          "id": "07.02.04.04",
+          "name": "Exascale systems",
+          "node_type": "research_area",
+          "parent_id": "07.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.02.05",
+      "name": "Quantum Computing",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.05.01",
+          "name": "Quantum algorithms",
+          "node_type": "research_area",
+          "parent_id": "07.02.05",
+          "children": []
+        },
+        {
+          "id": "07.02.05.02",
+          "name": "Quantum error correction",
+          "node_type": "research_area",
+          "parent_id": "07.02.05",
+          "children": []
+        },
+        {
+          "id": "07.02.05.03",
+          "name": "Quantum architectures",
+          "node_type": "research_area",
+          "parent_id": "07.02.05",
+          "children": []
+        },
+        {
+          "id": "07.02.05.04",
+          "name": "Quantum software",
+          "node_type": "research_area",
+          "parent_id": "07.02.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.02.06",
+      "name": "Computer Networks",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.06.01",
+          "name": "Routing",
+          "node_type": "research_area",
+          "parent_id": "07.02.06",
+          "children": []
+        },
+        {
+          "id": "07.02.06.02",
+          "name": "Network protocols",
+          "node_type": "research_area",
+          "parent_id": "07.02.06",
+          "children": []
+        },
+        {
+          "id": "07.02.06.03",
+          "name": "Software-defined networking",
+          "node_type": "research_area",
+          "parent_id": "07.02.06",
+          "children": []
+        },
+        {
+          "id": "07.02.06.04",
+          "name": "Network performance",
+          "node_type": "research_area",
+          "parent_id": "07.02.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.02.07",
+      "name": "Cybersecurity",
+      "node_type": "discipline",
+      "parent_id": "07.02",
+      "children": [
+        {
+          "id": "07.02.07.01",
+          "name": "Cryptography",
+          "node_type": "research_area",
+          "parent_id": "07.02.07",
+          "children": []
+        },
+        {
+          "id": "07.02.07.02",
+          "name": "Malware analysis",
+          "node_type": "research_area",
+          "parent_id": "07.02.07",
+          "children": []
+        },
+        {
+          "id": "07.02.07.03",
+          "name": "Secure software",
+          "node_type": "research_area",
+          "parent_id": "07.02.07",
+          "children": []
+        },
+        {
+          "id": "07.02.07.04",
+          "name": "Network defense",
+          "node_type": "research_area",
+          "parent_id": "07.02.07",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

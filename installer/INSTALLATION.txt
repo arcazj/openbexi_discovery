@@ -1,28 +1,22 @@
-REI Research Explorer V1.0.1 — Windows
+OpenBEXI Discovery 1.1 — Windows
 
-Requires Windows 10 or 11, 64-bit, a modern browser, and internet for live data.
-The installer includes Python and dependencies. No administrator access or API key
-is needed to install or browse public evidence.
+Windows 10/11 x64 and a modern browser are required. Python, SQLite, templates,
+themes, and dependencies are included. No administrator access is required.
+Use the Start menu or desktop shortcut. Closing the browser leaves the local
+service running; use the notification-area icon to Quit.
 
-Launch from the Start menu or desktop shortcut. The workspace opens in your default
-browser. In the notification area, use the REI tray icon to reopen the workspace or
-Quit. Closing the browser tab leaves the local app running.
+The default workspace is REI at Advanced. Profile settings opens beside AI
+settings. Documents, datasets, notes, and local quizzes work without AI.
+Connections supports existing or uploaded SQLite files with read-only queries.
+Local library exports and reads ZIP backups. Enable Local-only mode in AI settings
+to stop external requests. AI is optional and uses your own metered OpenAI key.
 
-To enable AI, click Connect AI inside the app, enter your own OpenAI key, and select
-Save key & connect. OpenAI API usage is metered. No key is included in this package.
+Private data: %LOCALAPPDATA%\REIResearchExplorer
+App files: %LOCALAPPDATA%\Programs\REIResearchExplorer
+These legacy locations preserve upgrade compatibility. Updates and uninstall
+keep private data. Export ZIP backups and keep private-directory backups secure.
 
-Private settings: %LOCALAPPDATA%\REIResearchExplorer
-Application files: %LOCALAPPDATA%\Programs\REIResearchExplorer (default)
-Saved briefs remain in your browser; export JSON backups regularly. The app remembers
-its local port. A port conflict may require a new browser origin; import a JSON backup
-if saved briefs are absent at that address.
+This release is unsigned. Download only from the project release and verify the
+published SHA-256. Original-code licensing remains pending owner selection.
 
-Uninstall through Windows Settings > Apps > REI Research Explorer. Uninstall keeps
-private settings and browser research so a later installation can restore them.
-
-This release is unsigned. Windows may show an unknown-publisher/SmartScreen warning.
-Download only from the project GitHub release. Company policies may require IT approval.
-Original-code licensing remains pending owner selection. Consult commercial-use and
-third-party notices before commercial redistribution.
-
-Help: https://github.com/arcazj/openbexi_REI#install-on-windows
+Help: https://github.com/arcazj/openbexi_discovery

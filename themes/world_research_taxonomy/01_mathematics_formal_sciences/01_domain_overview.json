@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "01",
+  "name": "Mathematics & Formal Sciences",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 16,
+    "research_areas": 64
+  },
+  "children": [
+    {
+      "id": "01.01",
+      "name": "Pure Mathematics",
+      "node_type": "theme",
+      "parent_id": "01",
+      "file": "domains/01.01_pure_mathematics.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "01.02",
+      "name": "Applied Mathematics",
+      "node_type": "theme",
+      "parent_id": "01",
+      "file": "domains/01.02_applied_mathematics.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "01.03",
+      "name": "Formal & Computational Sciences",
+      "node_type": "theme",
+      "parent_id": "01",
+      "file": "domains/01.03_formal_computational_sciences.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    }
+  ]
+}

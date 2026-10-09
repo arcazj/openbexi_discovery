@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "02",
+  "name": "Physical Sciences",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 19,
+    "research_areas": 76
+  },
+  "children": [
+    {
+      "id": "02.01",
+      "name": "Physics",
+      "node_type": "theme",
+      "parent_id": "02",
+      "file": "domains/02.01_physics.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 32
+      }
+    },
+    {
+      "id": "02.02",
+      "name": "Chemistry",
+      "node_type": "theme",
+      "parent_id": "02",
+      "file": "domains/02.02_chemistry.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "02.03",
+      "name": "Astronomy & Materials",
+      "node_type": "theme",
+      "parent_id": "02",
+      "file": "domains/02.03_astronomy_materials.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    }
+  ]
+}

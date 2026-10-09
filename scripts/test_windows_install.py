@@ -1,11 +1,13 @@
 """Exercise the actual installer/bundled app in an isolated Windows test directory."""
 
 import argparse
+import base64
 import hashlib
 import json
 import os
 from pathlib import Path
 import subprocess
+import sqlite3
 import tempfile
 import time
 import urllib.error
@@ -34,9 +36,11 @@ def smoke(setup, test_tray=False, previous_setup=None):
     except FileNotFoundError:
         pass
     appdata = Path(os.environ["APPDATA"])
-    menu = appdata / "Microsoft/Windows/Start Menu/Programs/REI Research Explorer"
+    menu = appdata / "Microsoft/Windows/Start Menu/Programs/OpenBEXI Discovery"
     if menu.exists():
         raise RuntimeError("Existing REI shortcuts detected; test in a clean Windows account.")
+    if (menu.parent / "REI Research Explorer").exists():
+        raise RuntimeError("Existing legacy shortcuts detected; test in a clean Windows account.")
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     with tempfile.TemporaryDirectory(prefix="REI Installer QA ") as directory:
         root = Path(directory).resolve()
@@ -50,7 +54,7 @@ def smoke(setup, test_tray=False, previous_setup=None):
         # The target executable must work even when Python is unavailable on PATH.
         environment = dict(os.environ)
         environment["PATH"] = os.environ["SystemRoot"] + r"\System32;" + os.environ["SystemRoot"]
-        for name in ("OPENAI_API_KEY", "OPENAI_MODEL", "REI_DATA_DIR", "REI_DESKTOP_INSTANCE"):
+        for name in ("OPENAI_API_KEY", "OPENAI_MODEL", "REI_DATA_DIR", "REI_DESKTOP_INSTANCE", "DISCOVERY_DATA_DIR", "DISCOVERY_LIBRARY_DIR"):
             environment.pop(name, None)
         def run(arguments, timeout=60):
             return subprocess.run(arguments, env=environment, timeout=timeout, check=True,
@@ -73,6 +77,13 @@ def smoke(setup, test_tray=False, previous_setup=None):
         def get(path):
             settings = json.loads((private / "desktop.json").read_text(encoding="utf-8"))
             return opener.open("http://127.0.0.1:" + str(settings["port"]) + path, timeout=5)
+        def post(path, value, raw=False):
+            settings = json.loads((private / "desktop.json").read_text(encoding="utf-8"))
+            url = "http://127.0.0.1:" + str(settings["port"])
+            request = urllib.request.Request(url + "/api/discovery" + path,
+                data=json.dumps(value).encode(), headers={"Content-Type": "application/json", "Origin": url}, method="POST")
+            with opener.open(request, timeout=15) as response:
+                return response.read() if raw else json.load(response)
         def verify_current_version():
             manifest = json.loads((install / "BUILD-INFO.json").read_text(encoding="utf-8"))
             assert manifest["version"] == VERSION
@@ -86,13 +97,51 @@ def smoke(setup, test_tray=False, previous_setup=None):
                 assert 'id="context-tip" class="side-card tip"' in html
                 assert "#evidence-area{min-width:0;padding:16px" in html
                 assert ".record[data-source]" in html
+            with get("/api/discovery/bootstrap") as response:
+                data = json.load(response)
+                assert next(p for p in data["profiles"] if p["id"] == "rei")["learning_level"] == "advanced"
+            with get("/api/discovery/taxonomy") as response:
+                assert len(json.load(response)["nodes"]) > 1000
+            for path in ("/assets/discovery.js", "/assets/discovery.css", "/documentation/USER_GUIDE.md"):
+                with get(path) as response:
+                    assert response.status == 200
+            with get("/api/discovery/templates/general") as response:
+                profile = json.load(response)
+            profile["name"] = "Installer fixture"
+            saved = post("/profiles/save", {"profile": profile, "create": True})
+            pid = saved["id"]
+            fixture = root / "synthetic.sqlite"
+            db = sqlite3.connect(str(fixture))
+            try:
+                db.execute("CREATE TABLE IF NOT EXISTS evidence (gene TEXT)")
+                db.execute("DELETE FROM evidence")
+                db.execute("INSERT INTO evidence VALUES ('BRCA1')")
+                db.commit()
+            finally:
+                db.close()
+            connection = post("/connections", {"name": "Synthetic data", "path": str(fixture), "sensitive": False})
+            query = {"connection_id": connection["id"], "table": "evidence", "fields": ["gene"], "profile_id": pid}
+            assert post("/connections/query", query)["rows"] == [{"gene": "BRCA1"}]
+            post("/connections/query", dict(query, snapshot=True, consent_local=True))
+            post("/settings", {"local_only": True})
+            note = post("/library", {"profile_id": pid, "kind": "note", "title": "Offline fixture", "content": "No external connection needed."})
+            archive = post("/archives/export", {"profile_id": pid}, raw=True)
+            opened = post("/archives/open", {"file_base64": base64.b64encode(archive).decode()})
+            assert any(a["id"] == note["id"] for a in opened["activities"])
+            assert post("/archives/import", {"id": opened["id"]})["skipped"] >= 2
+            assert post("/budget", {"period": "cumulative", "token_limit": 0, "cost_limit": None})["blocked"]
+            assert (private / "user_profiles" / (pid + ".json")).is_file()
+            assert (private / ".discovery" / "usage.sqlite").is_file()
+            assert (menu / "OpenBEXI Discovery.lnk").is_file()
+            assert not (menu.parent / "REI Research Explorer").exists()
         try:
             install_package(previous_setup or setup)
             wait_for(executable.is_file)
             assert (install / "Uninstall.exe").is_file()
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_name) as key:
                 assert Path(winreg.QueryValueEx(key, "InstallLocation")[0]).resolve() == install
-            assert (menu / "REI Research Explorer.lnk").is_file()
+            initial_menu = menu.parent / "REI Research Explorer" if previous_setup else menu
+            assert (initial_menu / ("REI Research Explorer.lnk" if previous_setup else "OpenBEXI Discovery.lnk")).is_file()
             process = start()
             wait_for(ready)
             if test_tray:
@@ -166,7 +215,7 @@ def smoke(setup, test_tray=False, previous_setup=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--installer", type=Path, default=Path(f"dist/REIResearchExplorer-{VERSION}-Windows-x64-Setup.exe"))
+    parser.add_argument("--installer", type=Path, default=Path(f"dist/OpenBEXIDiscovery-{VERSION}-Windows-x64-Setup.exe"))
     parser.add_argument("--tray", action="store_true", help="Also verify the native tray in an interactive Windows desktop session.")
     parser.add_argument("--previous-installer", type=Path, help="Start with an earlier installer and verify upgrading it to the current package.")
     options = parser.parse_args()

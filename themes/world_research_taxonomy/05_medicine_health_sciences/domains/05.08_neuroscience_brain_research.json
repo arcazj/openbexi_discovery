@@ -1,0 +1,348 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.08",
+  "code": "05.08",
+  "name": "Neuroscience & Brain Research",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Investigation of brain structure, circuits, development, behavior, degeneration, and neural technologies.",
+  "counts": {
+    "disciplines": 8,
+    "research_areas": 31
+  },
+  "children": [
+    {
+      "id": "05.08.01",
+      "code": "05.08.01",
+      "name": "Cellular Neuroscience",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.08.01.01",
+          "code": "05.08.01.01",
+          "name": "Neurons and glia",
+          "node_type": "research_area",
+          "parent_id": "05.08.01",
+          "children": []
+        },
+        {
+          "id": "05.08.01.02",
+          "code": "05.08.01.02",
+          "name": "Synaptic transmission",
+          "node_type": "research_area",
+          "parent_id": "05.08.01",
+          "children": []
+        },
+        {
+          "id": "05.08.01.03",
+          "code": "05.08.01.03",
+          "name": "Neural plasticity",
+          "node_type": "research_area",
+          "parent_id": "05.08.01",
+          "children": []
+        },
+        {
+          "id": "05.08.01.04",
+          "code": "05.08.01.04",
+          "name": "Neuroinflammation",
+          "node_type": "research_area",
+          "parent_id": "05.08.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.02",
+      "code": "05.08.02",
+      "name": "Systems Neuroscience",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.08.02.01",
+          "code": "05.08.02.01",
+          "name": "Sensory systems",
+          "node_type": "research_area",
+          "parent_id": "05.08.02",
+          "children": []
+        },
+        {
+          "id": "05.08.02.02",
+          "code": "05.08.02.02",
+          "name": "Motor circuits",
+          "node_type": "research_area",
+          "parent_id": "05.08.02",
+          "children": []
+        },
+        {
+          "id": "05.08.02.03",
+          "code": "05.08.02.03",
+          "name": "Neural networks",
+          "node_type": "research_area",
+          "parent_id": "05.08.02",
+          "children": []
+        },
+        {
+          "id": "05.08.02.04",
+          "code": "05.08.02.04",
+          "name": "Neural oscillations",
+          "node_type": "research_area",
+          "parent_id": "05.08.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.03",
+      "code": "05.08.03",
+      "name": "Cognitive Neuroscience",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.08.03.01",
+          "code": "05.08.03.01",
+          "name": "Memory",
+          "node_type": "research_area",
+          "parent_id": "05.08.03",
+          "children": []
+        },
+        {
+          "id": "05.08.03.02",
+          "code": "05.08.03.02",
+          "name": "Attention",
+          "node_type": "research_area",
+          "parent_id": "05.08.03",
+          "children": []
+        },
+        {
+          "id": "05.08.03.03",
+          "code": "05.08.03.03",
+          "name": "Learning",
+          "node_type": "research_area",
+          "parent_id": "05.08.03",
+          "children": []
+        },
+        {
+          "id": "05.08.03.04",
+          "code": "05.08.03.04",
+          "name": "Decision-making",
+          "node_type": "research_area",
+          "parent_id": "05.08.03",
+          "children": []
+        },
+        {
+          "id": "05.08.03.05",
+          "code": "05.08.03.05",
+          "name": "Language processing",
+          "node_type": "research_area",
+          "parent_id": "05.08.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.04",
+      "code": "05.08.04",
+      "name": "Neurodegeneration",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.08.04.01",
+          "code": "05.08.04.01",
+          "name": "Alzheimer's disease mechanisms",
+          "node_type": "research_area",
+          "parent_id": "05.08.04",
+          "children": []
+        },
+        {
+          "id": "05.08.04.02",
+          "code": "05.08.04.02",
+          "name": "Parkinson's disease mechanisms",
+          "node_type": "research_area",
+          "parent_id": "05.08.04",
+          "children": []
+        },
+        {
+          "id": "05.08.04.03",
+          "code": "05.08.04.03",
+          "name": "ALS",
+          "node_type": "research_area",
+          "parent_id": "05.08.04",
+          "children": []
+        },
+        {
+          "id": "05.08.04.04",
+          "code": "05.08.04.04",
+          "name": "Protein aggregation",
+          "node_type": "research_area",
+          "parent_id": "05.08.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.05",
+      "code": "05.08.05",
+      "name": "Neuroimmunology",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.08.05.01",
+          "code": "05.08.05.01",
+          "name": "Multiple sclerosis mechanisms",
+          "node_type": "research_area",
+          "parent_id": "05.08.05",
+          "children": []
+        },
+        {
+          "id": "05.08.05.02",
+          "code": "05.08.05.02",
+          "name": "Microglia",
+          "node_type": "research_area",
+          "parent_id": "05.08.05",
+          "children": []
+        },
+        {
+          "id": "05.08.05.03",
+          "code": "05.08.05.03",
+          "name": "Neuroimmune signaling",
+          "node_type": "research_area",
+          "parent_id": "05.08.05",
+          "children": []
+        },
+        {
+          "id": "05.08.05.04",
+          "code": "05.08.05.04",
+          "name": "Blood-brain barrier",
+          "node_type": "research_area",
+          "parent_id": "05.08.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.06",
+      "code": "05.08.06",
+      "name": "Neural Engineering",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.08.06.01",
+          "code": "05.08.06.01",
+          "name": "Brain-computer interfaces",
+          "node_type": "research_area",
+          "parent_id": "05.08.06",
+          "children": []
+        },
+        {
+          "id": "05.08.06.02",
+          "code": "05.08.06.02",
+          "name": "Neural recording",
+          "node_type": "research_area",
+          "parent_id": "05.08.06",
+          "children": []
+        },
+        {
+          "id": "05.08.06.03",
+          "code": "05.08.06.03",
+          "name": "Neuroprosthetics",
+          "node_type": "research_area",
+          "parent_id": "05.08.06",
+          "children": []
+        },
+        {
+          "id": "05.08.06.04",
+          "code": "05.08.06.04",
+          "name": "Closed-loop stimulation",
+          "node_type": "research_area",
+          "parent_id": "05.08.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.07",
+      "code": "05.08.07",
+      "name": "Computational Neuroscience",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.08.07.01",
+          "code": "05.08.07.01",
+          "name": "Neural circuit models",
+          "node_type": "research_area",
+          "parent_id": "05.08.07",
+          "children": []
+        },
+        {
+          "id": "05.08.07.02",
+          "code": "05.08.07.02",
+          "name": "Spiking neural networks",
+          "node_type": "research_area",
+          "parent_id": "05.08.07",
+          "children": []
+        },
+        {
+          "id": "05.08.07.03",
+          "code": "05.08.07.03",
+          "name": "Brain connectivity modeling",
+          "node_type": "research_area",
+          "parent_id": "05.08.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.08.08",
+      "code": "05.08.08",
+      "name": "Neurodevelopment",
+      "node_type": "discipline",
+      "parent_id": "05.08",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.08.08.01",
+          "code": "05.08.08.01",
+          "name": "Brain maturation",
+          "node_type": "research_area",
+          "parent_id": "05.08.08",
+          "children": []
+        },
+        {
+          "id": "05.08.08.02",
+          "code": "05.08.08.02",
+          "name": "Neurodevelopmental disorders",
+          "node_type": "research_area",
+          "parent_id": "05.08.08",
+          "children": []
+        },
+        {
+          "id": "05.08.08.03",
+          "code": "05.08.08.03",
+          "name": "Neural circuit formation",
+          "node_type": "research_area",
+          "parent_id": "05.08.08",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

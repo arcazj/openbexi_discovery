@@ -38,3 +38,6 @@ Full-text publication rights are separate. If adding [PMC Open Access content](h
 ## Application requirements
 
 Expose these notes through **Help → Licences** and source details. Make the [NCBI copyright and disclaimer notice](https://www.ncbi.nlm.nih.gov/home/about/policies/) evident in source details and Help for PubMed and other NCBI integrations. Retain attribution and applicable terms in exports. Verify permissions for caching, AI processing, display, and redistribution for the content actually used. Recheck terms for the final dependency versions and datasets before commercial distribution.
+
+
+See the [Discovery licensing roadmap](documentation/LICENSING_ROADMAP.md) for the proposed Community Edition and commercial boundaries. Existing notices remain in force; no license is selected by that proposal.

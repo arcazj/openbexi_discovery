@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "QuizQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "choices": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 2,
+          "title": "Choices",
+          "type": "array"
+        },
+        "answer": {
+          "maximum": 7,
+          "minimum": 0,
+          "title": "Answer",
+          "type": "integer"
+        },
+        "explanation": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "question",
+        "choices",
+        "answer"
+      ],
+      "title": "QuizQuestion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "questions": {
+      "items": {
+        "$ref": "#/$defs/QuizQuestion"
+      },
+      "maxItems": 50,
+      "minItems": 1,
+      "title": "Questions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "questions"
+  ],
+  "title": "Quiz",
+  "type": "object"
+}

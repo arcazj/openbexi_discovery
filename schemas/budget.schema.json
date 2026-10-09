@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "period": {
+      "default": "monthly",
+      "enum": [
+        "daily",
+        "monthly",
+        "cumulative"
+      ],
+      "title": "Period",
+      "type": "string"
+    },
+    "token_limit": {
+      "anyOf": [
+        {
+          "maximum": 1000000000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Token Limit"
+    },
+    "cost_limit": {
+      "anyOf": [
+        {
+          "maximum": 1000000,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cost Limit"
+    }
+  },
+  "title": "BudgetConfig",
+  "type": "object"
+}

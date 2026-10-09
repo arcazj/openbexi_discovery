@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "04.02",
+  "name": "Organismal Biology",
+  "node_type": "theme",
+  "parent_id": "04",
+  "children": [
+    {
+      "id": "04.02.01",
+      "name": "Botany",
+      "node_type": "discipline",
+      "parent_id": "04.02",
+      "children": [
+        {
+          "id": "04.02.01.01",
+          "name": "Plant anatomy",
+          "node_type": "research_area",
+          "parent_id": "04.02.01",
+          "children": []
+        },
+        {
+          "id": "04.02.01.02",
+          "name": "Plant physiology",
+          "node_type": "research_area",
+          "parent_id": "04.02.01",
+          "children": []
+        },
+        {
+          "id": "04.02.01.03",
+          "name": "Plant taxonomy",
+          "node_type": "research_area",
+          "parent_id": "04.02.01",
+          "children": []
+        },
+        {
+          "id": "04.02.01.04",
+          "name": "Plant reproduction",
+          "node_type": "research_area",
+          "parent_id": "04.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.02.02",
+      "name": "Zoology",
+      "node_type": "discipline",
+      "parent_id": "04.02",
+      "children": [
+        {
+          "id": "04.02.02.01",
+          "name": "Animal physiology",
+          "node_type": "research_area",
+          "parent_id": "04.02.02",
+          "children": []
+        },
+        {
+          "id": "04.02.02.02",
+          "name": "Animal behavior",
+          "node_type": "research_area",
+          "parent_id": "04.02.02",
+          "children": []
+        },
+        {
+          "id": "04.02.02.03",
+          "name": "Animal systematics",
+          "node_type": "research_area",
+          "parent_id": "04.02.02",
+          "children": []
+        },
+        {
+          "id": "04.02.02.04",
+          "name": "Comparative anatomy",
+          "node_type": "research_area",
+          "parent_id": "04.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.02.03",
+      "name": "Microbiology",
+      "node_type": "discipline",
+      "parent_id": "04.02",
+      "children": [
+        {
+          "id": "04.02.03.01",
+          "name": "Bacterial physiology",
+          "node_type": "research_area",
+          "parent_id": "04.02.03",
+          "children": []
+        },
+        {
+          "id": "04.02.03.02",
+          "name": "Microbial ecology",
+          "node_type": "research_area",
+          "parent_id": "04.02.03",
+          "children": []
+        },
+        {
+          "id": "04.02.03.03",
+          "name": "Microbial genetics",
+          "node_type": "research_area",
+          "parent_id": "04.02.03",
+          "children": []
+        },
+        {
+          "id": "04.02.03.04",
+          "name": "Microbial communities",
+          "node_type": "research_area",
+          "parent_id": "04.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.02.04",
+      "name": "Mycology",
+      "node_type": "discipline",
+      "parent_id": "04.02",
+      "children": [
+        {
+          "id": "04.02.04.01",
+          "name": "Fungal taxonomy",
+          "node_type": "research_area",
+          "parent_id": "04.02.04",
+          "children": []
+        },
+        {
+          "id": "04.02.04.02",
+          "name": "Fungal ecology",
+          "node_type": "research_area",
+          "parent_id": "04.02.04",
+          "children": []
+        },
+        {
+          "id": "04.02.04.03",
+          "name": "Mycorrhizae",
+          "node_type": "research_area",
+          "parent_id": "04.02.04",
+          "children": []
+        },
+        {
+          "id": "04.02.04.04",
+          "name": "Fungal evolution",
+          "node_type": "research_area",
+          "parent_id": "04.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.02.05",
+      "name": "Entomology",
+      "node_type": "discipline",
+      "parent_id": "04.02",
+      "children": [
+        {
+          "id": "04.02.05.01",
+          "name": "Insect diversity",
+          "node_type": "research_area",
+          "parent_id": "04.02.05",
+          "children": []
+        },
+        {
+          "id": "04.02.05.02",
+          "name": "Insect behavior",
+          "node_type": "research_area",
+          "parent_id": "04.02.05",
+          "children": []
+        },
+        {
+          "id": "04.02.05.03",
+          "name": "Pollinator ecology",
+          "node_type": "research_area",
+          "parent_id": "04.02.05",
+          "children": []
+        },
+        {
+          "id": "04.02.05.04",
+          "name": "Insect physiology",
+          "node_type": "research_area",
+          "parent_id": "04.02.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.02.06",
+      "name": "Marine Biology",
+      "node_type": "discipline",
+      "parent_id": "04.02",
+      "children": [
+        {
+          "id": "04.02.06.01",
+          "name": "Marine biodiversity",
+          "node_type": "research_area",
+          "parent_id": "04.02.06",
+          "children": []
+        },
+        {
+          "id": "04.02.06.02",
+          "name": "Coral biology",
+          "node_type": "research_area",
+          "parent_id": "04.02.06",
+          "children": []
+        },
+        {
+          "id": "04.02.06.03",
+          "name": "Plankton ecology",
+          "node_type": "research_area",
+          "parent_id": "04.02.06",
+          "children": []
+        },
+        {
+          "id": "04.02.06.04",
+          "name": "Deep-sea life",
+          "node_type": "research_area",
+          "parent_id": "04.02.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

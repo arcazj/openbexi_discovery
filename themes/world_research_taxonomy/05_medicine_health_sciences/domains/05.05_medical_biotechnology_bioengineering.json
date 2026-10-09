@@ -1,0 +1,356 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.05",
+  "code": "05.05",
+  "name": "Medical Biotechnology & Bioengineering",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Engineering of cells, tissues, genes, biomaterials, and biological production systems for medical applications.",
+  "counts": {
+    "disciplines": 8,
+    "research_areas": 32
+  },
+  "children": [
+    {
+      "id": "05.05.01",
+      "code": "05.05.01",
+      "name": "Genetic Engineering",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.01.01",
+          "code": "05.05.01.01",
+          "name": "CRISPR technology",
+          "node_type": "research_area",
+          "parent_id": "05.05.01",
+          "children": []
+        },
+        {
+          "id": "05.05.01.02",
+          "code": "05.05.01.02",
+          "name": "Base editing",
+          "node_type": "research_area",
+          "parent_id": "05.05.01",
+          "children": []
+        },
+        {
+          "id": "05.05.01.03",
+          "code": "05.05.01.03",
+          "name": "Prime editing",
+          "node_type": "research_area",
+          "parent_id": "05.05.01",
+          "children": []
+        },
+        {
+          "id": "05.05.01.04",
+          "code": "05.05.01.04",
+          "name": "Gene regulation engineering",
+          "node_type": "research_area",
+          "parent_id": "05.05.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.02",
+      "code": "05.05.02",
+      "name": "Cellular Engineering",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.02.01",
+          "code": "05.05.02.01",
+          "name": "Engineered immune cells",
+          "node_type": "research_area",
+          "parent_id": "05.05.02",
+          "children": []
+        },
+        {
+          "id": "05.05.02.02",
+          "code": "05.05.02.02",
+          "name": "CAR-T cells",
+          "node_type": "research_area",
+          "parent_id": "05.05.02",
+          "children": []
+        },
+        {
+          "id": "05.05.02.03",
+          "code": "05.05.02.03",
+          "name": "Stem-cell engineering",
+          "node_type": "research_area",
+          "parent_id": "05.05.02",
+          "children": []
+        },
+        {
+          "id": "05.05.02.04",
+          "code": "05.05.02.04",
+          "name": "Cell manufacturing",
+          "node_type": "research_area",
+          "parent_id": "05.05.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.03",
+      "code": "05.05.03",
+      "name": "Regenerative Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.03.01",
+          "code": "05.05.03.01",
+          "name": "Tissue regeneration",
+          "node_type": "research_area",
+          "parent_id": "05.05.03",
+          "children": []
+        },
+        {
+          "id": "05.05.03.02",
+          "code": "05.05.03.02",
+          "name": "Organoids",
+          "node_type": "research_area",
+          "parent_id": "05.05.03",
+          "children": []
+        },
+        {
+          "id": "05.05.03.03",
+          "code": "05.05.03.03",
+          "name": "Cell transplantation",
+          "node_type": "research_area",
+          "parent_id": "05.05.03",
+          "children": []
+        },
+        {
+          "id": "05.05.03.04",
+          "code": "05.05.03.04",
+          "name": "Biological scaffolds",
+          "node_type": "research_area",
+          "parent_id": "05.05.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.04",
+      "code": "05.05.04",
+      "name": "Tissue Engineering",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.04.01",
+          "code": "05.05.04.01",
+          "name": "3D bioprinting",
+          "node_type": "research_area",
+          "parent_id": "05.05.04",
+          "children": []
+        },
+        {
+          "id": "05.05.04.02",
+          "code": "05.05.04.02",
+          "name": "Vascularized tissues",
+          "node_type": "research_area",
+          "parent_id": "05.05.04",
+          "children": []
+        },
+        {
+          "id": "05.05.04.03",
+          "code": "05.05.04.03",
+          "name": "Artificial skin",
+          "node_type": "research_area",
+          "parent_id": "05.05.04",
+          "children": []
+        },
+        {
+          "id": "05.05.04.04",
+          "code": "05.05.04.04",
+          "name": "Cartilage engineering",
+          "node_type": "research_area",
+          "parent_id": "05.05.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.05",
+      "code": "05.05.05",
+      "name": "Synthetic Biology",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.05.01",
+          "code": "05.05.05.01",
+          "name": "Engineered gene circuits",
+          "node_type": "research_area",
+          "parent_id": "05.05.05",
+          "children": []
+        },
+        {
+          "id": "05.05.05.02",
+          "code": "05.05.05.02",
+          "name": "Therapeutic microbes",
+          "node_type": "research_area",
+          "parent_id": "05.05.05",
+          "children": []
+        },
+        {
+          "id": "05.05.05.03",
+          "code": "05.05.05.03",
+          "name": "Programmable cells",
+          "node_type": "research_area",
+          "parent_id": "05.05.05",
+          "children": []
+        },
+        {
+          "id": "05.05.05.04",
+          "code": "05.05.05.04",
+          "name": "Biosynthetic pathways",
+          "node_type": "research_area",
+          "parent_id": "05.05.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.06",
+      "code": "05.05.06",
+      "name": "Biomaterials",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.06.01",
+          "code": "05.05.06.01",
+          "name": "Bioactive polymers",
+          "node_type": "research_area",
+          "parent_id": "05.05.06",
+          "children": []
+        },
+        {
+          "id": "05.05.06.02",
+          "code": "05.05.06.02",
+          "name": "Implant coatings",
+          "node_type": "research_area",
+          "parent_id": "05.05.06",
+          "children": []
+        },
+        {
+          "id": "05.05.06.03",
+          "code": "05.05.06.03",
+          "name": "Hydrogels",
+          "node_type": "research_area",
+          "parent_id": "05.05.06",
+          "children": []
+        },
+        {
+          "id": "05.05.06.04",
+          "code": "05.05.06.04",
+          "name": "Biodegradable materials",
+          "node_type": "research_area",
+          "parent_id": "05.05.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.07",
+      "code": "05.05.07",
+      "name": "Organ Engineering",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.07.01",
+          "code": "05.05.07.01",
+          "name": "Organ-on-chip",
+          "node_type": "research_area",
+          "parent_id": "05.05.07",
+          "children": []
+        },
+        {
+          "id": "05.05.07.02",
+          "code": "05.05.07.02",
+          "name": "Artificial organs",
+          "node_type": "research_area",
+          "parent_id": "05.05.07",
+          "children": []
+        },
+        {
+          "id": "05.05.07.03",
+          "code": "05.05.07.03",
+          "name": "Bioartificial kidneys",
+          "node_type": "research_area",
+          "parent_id": "05.05.07",
+          "children": []
+        },
+        {
+          "id": "05.05.07.04",
+          "code": "05.05.07.04",
+          "name": "Organ preservation",
+          "node_type": "research_area",
+          "parent_id": "05.05.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.05.08",
+      "code": "05.05.08",
+      "name": "Biomedical Bioprocessing",
+      "node_type": "discipline",
+      "parent_id": "05.05",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.05.08.01",
+          "code": "05.05.08.01",
+          "name": "Bioreactor design",
+          "node_type": "research_area",
+          "parent_id": "05.05.08",
+          "children": []
+        },
+        {
+          "id": "05.05.08.02",
+          "code": "05.05.08.02",
+          "name": "GMP cell production",
+          "node_type": "research_area",
+          "parent_id": "05.05.08",
+          "children": []
+        },
+        {
+          "id": "05.05.08.03",
+          "code": "05.05.08.03",
+          "name": "Bioprocess scale-up",
+          "node_type": "research_area",
+          "parent_id": "05.05.08",
+          "children": []
+        },
+        {
+          "id": "05.05.08.04",
+          "code": "05.05.08.04",
+          "name": "Quality control",
+          "node_type": "research_area",
+          "parent_id": "05.05.08",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

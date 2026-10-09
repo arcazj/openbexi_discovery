@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "default": "template",
+          "enum": [
+            "template",
+            "user",
+            "ai",
+            "ai_edited",
+            "unverified"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "default": "rei",
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "document",
+        "dataset",
+        "note",
+        "quiz",
+        "attempt",
+        "search",
+        "ai",
+        "workspace",
+        "connection"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 240,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "content": {
+      "default": "",
+      "maxLength": 250000,
+      "title": "Content",
+      "type": "string"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    },
+    "request": {
+      "default": "",
+      "maxLength": 100000,
+      "title": "Request",
+      "type": "string"
+    },
+    "prompts": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "maxItems": 10,
+      "title": "Prompts",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "sensitive": {
+      "default": false,
+      "title": "Sensitive",
+      "type": "boolean"
+    },
+    "consent_local": {
+      "default": false,
+      "title": "Consent Local",
+      "type": "boolean"
+    },
+    "parent_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Id"
+    },
+    "filename": {
+      "default": "",
+      "maxLength": 200,
+      "title": "Filename",
+      "type": "string"
+    },
+    "file_base64": {
+      "default": "",
+      "maxLength": 16777216,
+      "title": "File Base64",
+      "type": "string"
+    },
+    "status": {
+      "default": "complete",
+      "enum": [
+        "complete",
+        "failed",
+        "canceled"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "title"
+  ],
+  "title": "ActivityInput",
+  "type": "object"
+}

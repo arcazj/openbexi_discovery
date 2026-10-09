@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "06.03",
+  "name": "Energy & Emerging Engineering",
+  "node_type": "theme",
+  "parent_id": "06",
+  "children": [
+    {
+      "id": "06.03.01",
+      "name": "Energy Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.03",
+      "children": [
+        {
+          "id": "06.03.01.01",
+          "name": "Renewable systems",
+          "node_type": "research_area",
+          "parent_id": "06.03.01",
+          "children": []
+        },
+        {
+          "id": "06.03.01.02",
+          "name": "Grid integration",
+          "node_type": "research_area",
+          "parent_id": "06.03.01",
+          "children": []
+        },
+        {
+          "id": "06.03.01.03",
+          "name": "Energy efficiency",
+          "node_type": "research_area",
+          "parent_id": "06.03.01",
+          "children": []
+        },
+        {
+          "id": "06.03.01.04",
+          "name": "Thermal energy",
+          "node_type": "research_area",
+          "parent_id": "06.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.03.02",
+      "name": "Nuclear Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.03",
+      "children": [
+        {
+          "id": "06.03.02.01",
+          "name": "Reactor design",
+          "node_type": "research_area",
+          "parent_id": "06.03.02",
+          "children": []
+        },
+        {
+          "id": "06.03.02.02",
+          "name": "Radiation protection",
+          "node_type": "research_area",
+          "parent_id": "06.03.02",
+          "children": []
+        },
+        {
+          "id": "06.03.02.03",
+          "name": "Nuclear fuel cycle",
+          "node_type": "research_area",
+          "parent_id": "06.03.02",
+          "children": []
+        },
+        {
+          "id": "06.03.02.04",
+          "name": "Reactor safety",
+          "node_type": "research_area",
+          "parent_id": "06.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.03.03",
+      "name": "Materials Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.03",
+      "children": [
+        {
+          "id": "06.03.03.01",
+          "name": "Composite materials",
+          "node_type": "research_area",
+          "parent_id": "06.03.03",
+          "children": []
+        },
+        {
+          "id": "06.03.03.02",
+          "name": "Failure analysis",
+          "node_type": "research_area",
+          "parent_id": "06.03.03",
+          "children": []
+        },
+        {
+          "id": "06.03.03.03",
+          "name": "Surface treatments",
+          "node_type": "research_area",
+          "parent_id": "06.03.03",
+          "children": []
+        },
+        {
+          "id": "06.03.03.04",
+          "name": "Smart materials",
+          "node_type": "research_area",
+          "parent_id": "06.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.03.04",
+      "name": "Biomedical Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.03",
+      "children": [
+        {
+          "id": "06.03.04.01",
+          "name": "Medical instrumentation",
+          "node_type": "research_area",
+          "parent_id": "06.03.04",
+          "children": []
+        },
+        {
+          "id": "06.03.04.02",
+          "name": "Biomechanics",
+          "node_type": "research_area",
+          "parent_id": "06.03.04",
+          "children": []
+        },
+        {
+          "id": "06.03.04.03",
+          "name": "Biomaterials",
+          "node_type": "research_area",
+          "parent_id": "06.03.04",
+          "children": []
+        },
+        {
+          "id": "06.03.04.04",
+          "name": "Rehabilitation devices",
+          "node_type": "research_area",
+          "parent_id": "06.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.03.05",
+      "name": "Environmental Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.03",
+      "children": [
+        {
+          "id": "06.03.05.01",
+          "name": "Water treatment",
+          "node_type": "research_area",
+          "parent_id": "06.03.05",
+          "children": []
+        },
+        {
+          "id": "06.03.05.02",
+          "name": "Waste management",
+          "node_type": "research_area",
+          "parent_id": "06.03.05",
+          "children": []
+        },
+        {
+          "id": "06.03.05.03",
+          "name": "Air pollution control",
+          "node_type": "research_area",
+          "parent_id": "06.03.05",
+          "children": []
+        },
+        {
+          "id": "06.03.05.04",
+          "name": "Environmental process design",
+          "node_type": "research_area",
+          "parent_id": "06.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "06.03.06",
+      "name": "Systems Engineering",
+      "node_type": "discipline",
+      "parent_id": "06.03",
+      "children": [
+        {
+          "id": "06.03.06.01",
+          "name": "Requirements engineering",
+          "node_type": "research_area",
+          "parent_id": "06.03.06",
+          "children": []
+        },
+        {
+          "id": "06.03.06.02",
+          "name": "System integration",
+          "node_type": "research_area",
+          "parent_id": "06.03.06",
+          "children": []
+        },
+        {
+          "id": "06.03.06.03",
+          "name": "Verification and validation",
+          "node_type": "research_area",
+          "parent_id": "06.03.06",
+          "children": []
+        },
+        {
+          "id": "06.03.06.04",
+          "name": "Lifecycle management",
+          "node_type": "research_area",
+          "parent_id": "06.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

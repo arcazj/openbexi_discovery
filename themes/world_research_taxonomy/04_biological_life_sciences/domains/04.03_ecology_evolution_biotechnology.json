@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "04.03",
+  "name": "Ecology, Evolution & Biotechnology",
+  "node_type": "theme",
+  "parent_id": "04",
+  "children": [
+    {
+      "id": "04.03.01",
+      "name": "Ecology",
+      "node_type": "discipline",
+      "parent_id": "04.03",
+      "children": [
+        {
+          "id": "04.03.01.01",
+          "name": "Community ecology",
+          "node_type": "research_area",
+          "parent_id": "04.03.01",
+          "children": []
+        },
+        {
+          "id": "04.03.01.02",
+          "name": "Ecosystem functioning",
+          "node_type": "research_area",
+          "parent_id": "04.03.01",
+          "children": []
+        },
+        {
+          "id": "04.03.01.03",
+          "name": "Population ecology",
+          "node_type": "research_area",
+          "parent_id": "04.03.01",
+          "children": []
+        },
+        {
+          "id": "04.03.01.04",
+          "name": "Landscape ecology",
+          "node_type": "research_area",
+          "parent_id": "04.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.03.02",
+      "name": "Evolutionary Biology",
+      "node_type": "discipline",
+      "parent_id": "04.03",
+      "children": [
+        {
+          "id": "04.03.02.01",
+          "name": "Speciation",
+          "node_type": "research_area",
+          "parent_id": "04.03.02",
+          "children": []
+        },
+        {
+          "id": "04.03.02.02",
+          "name": "Natural selection",
+          "node_type": "research_area",
+          "parent_id": "04.03.02",
+          "children": []
+        },
+        {
+          "id": "04.03.02.03",
+          "name": "Phylogenetics",
+          "node_type": "research_area",
+          "parent_id": "04.03.02",
+          "children": []
+        },
+        {
+          "id": "04.03.02.04",
+          "name": "Evolutionary developmental biology",
+          "node_type": "research_area",
+          "parent_id": "04.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.03.03",
+      "name": "Conservation Biology",
+      "node_type": "discipline",
+      "parent_id": "04.03",
+      "children": [
+        {
+          "id": "04.03.03.01",
+          "name": "Extinction risk",
+          "node_type": "research_area",
+          "parent_id": "04.03.03",
+          "children": []
+        },
+        {
+          "id": "04.03.03.02",
+          "name": "Conservation genetics",
+          "node_type": "research_area",
+          "parent_id": "04.03.03",
+          "children": []
+        },
+        {
+          "id": "04.03.03.03",
+          "name": "Species monitoring",
+          "node_type": "research_area",
+          "parent_id": "04.03.03",
+          "children": []
+        },
+        {
+          "id": "04.03.03.04",
+          "name": "Restoration ecology",
+          "node_type": "research_area",
+          "parent_id": "04.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.03.04",
+      "name": "Bioinformatics",
+      "node_type": "discipline",
+      "parent_id": "04.03",
+      "children": [
+        {
+          "id": "04.03.04.01",
+          "name": "Sequence analysis",
+          "node_type": "research_area",
+          "parent_id": "04.03.04",
+          "children": []
+        },
+        {
+          "id": "04.03.04.02",
+          "name": "Biological databases",
+          "node_type": "research_area",
+          "parent_id": "04.03.04",
+          "children": []
+        },
+        {
+          "id": "04.03.04.03",
+          "name": "Molecular networks",
+          "node_type": "research_area",
+          "parent_id": "04.03.04",
+          "children": []
+        },
+        {
+          "id": "04.03.04.04",
+          "name": "Computational phylogenetics",
+          "node_type": "research_area",
+          "parent_id": "04.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.03.05",
+      "name": "Synthetic Biology",
+      "node_type": "discipline",
+      "parent_id": "04.03",
+      "children": [
+        {
+          "id": "04.03.05.01",
+          "name": "Genetic circuits",
+          "node_type": "research_area",
+          "parent_id": "04.03.05",
+          "children": []
+        },
+        {
+          "id": "04.03.05.02",
+          "name": "Engineered microbes",
+          "node_type": "research_area",
+          "parent_id": "04.03.05",
+          "children": []
+        },
+        {
+          "id": "04.03.05.03",
+          "name": "Biosynthetic pathways",
+          "node_type": "research_area",
+          "parent_id": "04.03.05",
+          "children": []
+        },
+        {
+          "id": "04.03.05.04",
+          "name": "Biological design",
+          "node_type": "research_area",
+          "parent_id": "04.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "04.03.06",
+      "name": "Biophysics",
+      "node_type": "discipline",
+      "parent_id": "04.03",
+      "children": [
+        {
+          "id": "04.03.06.01",
+          "name": "Molecular motors",
+          "node_type": "research_area",
+          "parent_id": "04.03.06",
+          "children": []
+        },
+        {
+          "id": "04.03.06.02",
+          "name": "Membrane dynamics",
+          "node_type": "research_area",
+          "parent_id": "04.03.06",
+          "children": []
+        },
+        {
+          "id": "04.03.06.03",
+          "name": "Biological mechanics",
+          "node_type": "research_area",
+          "parent_id": "04.03.06",
+          "children": []
+        },
+        {
+          "id": "04.03.06.04",
+          "name": "Single-molecule methods",
+          "node_type": "research_area",
+          "parent_id": "04.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

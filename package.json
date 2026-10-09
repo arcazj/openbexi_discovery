@@ -1,8 +1,14 @@
 {
-  "name": "rei-research-explorer-checks",
-  "version": "1.0.1",
+  "name": "openbexi-discovery-checks",
+  "version": "1.1.0",
   "private": true,
   "description": "Optional browser checks; the standalone application has no frontend build step.",
-  "scripts": {"test": "node tests/check_frontend.cjs", "test:ui": "node tests/browser_v1.cjs"},
-  "devDependencies": {"playwright": "1.60.0"}
+  "scripts": {
+    "test": "node tests/check_frontend.cjs",
+    "test:ui": "node tests/browser_v1.cjs",
+    "test:discovery": "node tests/browser_discovery.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.60.0"
+  }
 }

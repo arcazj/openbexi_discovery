@@ -1,0 +1,261 @@
+{
+  "schema_version": "1.0",
+  "id": "09.03",
+  "name": "Economics, Politics & Education",
+  "node_type": "theme",
+  "parent_id": "09",
+  "children": [
+    {
+      "id": "09.03.01",
+      "name": "Microeconomics",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.01.01",
+          "name": "Consumer choice",
+          "node_type": "research_area",
+          "parent_id": "09.03.01",
+          "children": []
+        },
+        {
+          "id": "09.03.01.02",
+          "name": "Market design",
+          "node_type": "research_area",
+          "parent_id": "09.03.01",
+          "children": []
+        },
+        {
+          "id": "09.03.01.03",
+          "name": "Game theory",
+          "node_type": "research_area",
+          "parent_id": "09.03.01",
+          "children": []
+        },
+        {
+          "id": "09.03.01.04",
+          "name": "Industrial organization",
+          "node_type": "research_area",
+          "parent_id": "09.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.03.02",
+      "name": "Macroeconomics",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.02.01",
+          "name": "Growth",
+          "node_type": "research_area",
+          "parent_id": "09.03.02",
+          "children": []
+        },
+        {
+          "id": "09.03.02.02",
+          "name": "Inflation",
+          "node_type": "research_area",
+          "parent_id": "09.03.02",
+          "children": []
+        },
+        {
+          "id": "09.03.02.03",
+          "name": "Employment",
+          "node_type": "research_area",
+          "parent_id": "09.03.02",
+          "children": []
+        },
+        {
+          "id": "09.03.02.04",
+          "name": "Monetary policy",
+          "node_type": "research_area",
+          "parent_id": "09.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.03.03",
+      "name": "Development Economics",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.03.01",
+          "name": "Poverty",
+          "node_type": "research_area",
+          "parent_id": "09.03.03",
+          "children": []
+        },
+        {
+          "id": "09.03.03.02",
+          "name": "Inequality",
+          "node_type": "research_area",
+          "parent_id": "09.03.03",
+          "children": []
+        },
+        {
+          "id": "09.03.03.03",
+          "name": "Economic development",
+          "node_type": "research_area",
+          "parent_id": "09.03.03",
+          "children": []
+        },
+        {
+          "id": "09.03.03.04",
+          "name": "Institutional economics",
+          "node_type": "research_area",
+          "parent_id": "09.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.03.04",
+      "name": "Political Science",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.04.01",
+          "name": "Political institutions",
+          "node_type": "research_area",
+          "parent_id": "09.03.04",
+          "children": []
+        },
+        {
+          "id": "09.03.04.02",
+          "name": "Elections",
+          "node_type": "research_area",
+          "parent_id": "09.03.04",
+          "children": []
+        },
+        {
+          "id": "09.03.04.03",
+          "name": "Comparative politics",
+          "node_type": "research_area",
+          "parent_id": "09.03.04",
+          "children": []
+        },
+        {
+          "id": "09.03.04.04",
+          "name": "Political behavior",
+          "node_type": "research_area",
+          "parent_id": "09.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.03.05",
+      "name": "International Relations",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.05.01",
+          "name": "Diplomacy",
+          "node_type": "research_area",
+          "parent_id": "09.03.05",
+          "children": []
+        },
+        {
+          "id": "09.03.05.02",
+          "name": "Security studies",
+          "node_type": "research_area",
+          "parent_id": "09.03.05",
+          "children": []
+        },
+        {
+          "id": "09.03.05.03",
+          "name": "International organizations",
+          "node_type": "research_area",
+          "parent_id": "09.03.05",
+          "children": []
+        },
+        {
+          "id": "09.03.05.04",
+          "name": "Conflict studies",
+          "node_type": "research_area",
+          "parent_id": "09.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.03.06",
+      "name": "Education Research",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.06.01",
+          "name": "Learning sciences",
+          "node_type": "research_area",
+          "parent_id": "09.03.06",
+          "children": []
+        },
+        {
+          "id": "09.03.06.02",
+          "name": "Curriculum",
+          "node_type": "research_area",
+          "parent_id": "09.03.06",
+          "children": []
+        },
+        {
+          "id": "09.03.06.03",
+          "name": "Assessment",
+          "node_type": "research_area",
+          "parent_id": "09.03.06",
+          "children": []
+        },
+        {
+          "id": "09.03.06.04",
+          "name": "Educational inequality",
+          "node_type": "research_area",
+          "parent_id": "09.03.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.03.07",
+      "name": "Communication Studies",
+      "node_type": "discipline",
+      "parent_id": "09.03",
+      "children": [
+        {
+          "id": "09.03.07.01",
+          "name": "Media effects",
+          "node_type": "research_area",
+          "parent_id": "09.03.07",
+          "children": []
+        },
+        {
+          "id": "09.03.07.02",
+          "name": "Political communication",
+          "node_type": "research_area",
+          "parent_id": "09.03.07",
+          "children": []
+        },
+        {
+          "id": "09.03.07.03",
+          "name": "Digital communication",
+          "node_type": "research_area",
+          "parent_id": "09.03.07",
+          "children": []
+        },
+        {
+          "id": "09.03.07.04",
+          "name": "Interpersonal communication",
+          "node_type": "research_area",
+          "parent_id": "09.03.07",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

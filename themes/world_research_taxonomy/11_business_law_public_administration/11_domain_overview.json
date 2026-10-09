@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "11",
+  "name": "Business, Law & Public Administration",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 17,
+    "research_areas": 68
+  },
+  "children": [
+    {
+      "id": "11.01",
+      "name": "Business & Management",
+      "node_type": "theme",
+      "parent_id": "11",
+      "file": "domains/11.01_business_management.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "11.02",
+      "name": "Finance, Accounting & Law",
+      "node_type": "theme",
+      "parent_id": "11",
+      "file": "domains/11.02_finance_accounting_law.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "11.03",
+      "name": "Governance & Public Administration",
+      "node_type": "theme",
+      "parent_id": "11",
+      "file": "domains/11.03_governance_public_administration.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    }
+  ]
+}

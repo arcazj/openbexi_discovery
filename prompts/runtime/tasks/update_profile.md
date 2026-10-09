@@ -1,0 +1,1 @@
+Update wording only where the user's request requires it. Return the complete UI text object with unchanged values preserved, a theme title, and a short explanation. Do not modify the selected themes or level.

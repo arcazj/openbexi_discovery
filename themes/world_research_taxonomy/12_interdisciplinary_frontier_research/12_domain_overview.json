@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "12",
+  "name": "Interdisciplinary & Frontier Research",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 16,
+    "research_areas": 64
+  },
+  "children": [
+    {
+      "id": "12.01",
+      "name": "Advanced Technologies",
+      "node_type": "theme",
+      "parent_id": "12",
+      "file": "domains/12.01_advanced_technologies.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "12.02",
+      "name": "Planetary & Sustainability Frontiers",
+      "node_type": "theme",
+      "parent_id": "12",
+      "file": "domains/12.02_planetary_sustainability_frontiers.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "12.03",
+      "name": "Convergence & Society",
+      "node_type": "theme",
+      "parent_id": "12",
+      "file": "domains/12.03_convergence_society.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

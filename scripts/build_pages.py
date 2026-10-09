@@ -16,6 +16,7 @@ DOCUMENTS = (
 )
 OPTIONAL_DOCUMENTS = ("LICENSE",)
 HOSTED_MARKER = '<meta name="rei-hosted-demo" content="github-pages">'
+PUBLIC_FOLDERS = {"licenses": {".txt"}, "assets": {".js", ".css"}, "documentation": {".md"}}
 
 
 def _public_file(root, path):
@@ -42,17 +43,17 @@ def _clear_generated_site(root, target):
 
     allowed = set(DOCUMENTS + OPTIONAL_DOCUMENTS + ("index.html", ".nojekyll"))
     files = []
-    license_directory = None
+    directories = []
     for child in target.iterdir():
         if child.is_symlink() or child.resolve().parent != target:
             raise ValueError("Refusing to clean linked build output.")
-        if child.name == "licenses" and child.is_dir():
-            license_directory = child
+        if child.name in PUBLIC_FOLDERS and child.is_dir():
+            directories.append(child)
             for license_file in child.iterdir():
                 if (
                     license_file.is_symlink()
                     or not license_file.is_file()
-                    or license_file.suffix != ".txt"
+                    or license_file.suffix not in PUBLIC_FOLDERS[child.name]
                     or license_file.resolve().parent != child
                 ):
                     raise ValueError("Refusing to clean unexpected license output.")
@@ -65,8 +66,8 @@ def _clear_generated_site(root, target):
     # All paths are checked before any removal. No recursive deletion is used.
     for path in files:
         path.unlink()
-    if license_directory is not None:
-        license_directory.rmdir()
+    for directory in directories:
+        directory.rmdir()
     target.rmdir()
 
 
@@ -99,6 +100,15 @@ def build_site(checkout):
     (target / "licenses").mkdir()
     for license_file in public_licenses:
         shutil.copyfile(license_file, target / "licenses" / license_file.name)
+    for name in ("assets", "documentation"):
+        directory = root / name
+        if directory.is_symlink():
+            raise ValueError("Linked public assets rejected.")
+        if directory.is_dir():
+            (target / name).mkdir()
+            for path in directory.iterdir():
+                if path.suffix in PUBLIC_FOLDERS[name]:
+                    shutil.copyfile(_public_file(root, path), target / name / path.name)
     return target
 
 

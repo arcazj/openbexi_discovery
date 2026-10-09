@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "date": "2026-10-09",
+  "id": "WORLD",
+  "name": "World Research Taxonomy",
+  "node_type": "root",
+  "classification_note": "Custom taxonomy, not official OECD codes.",
+  "counts": {
+    "branches": 12,
+    "themes": 47,
+    "disciplines": 327,
+    "research_areas": 1344
+  },
+  "children": [
+    {
+      "id": "01",
+      "name": "Mathematics & Formal Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "01_mathematics_formal_sciences/01_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 16,
+        "research_areas": 64
+      }
+    },
+    {
+      "id": "02",
+      "name": "Physical Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "02_physical_sciences/02_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 19,
+        "research_areas": 76
+      }
+    },
+    {
+      "id": "03",
+      "name": "Earth, Space & Environmental Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "03_earth_space_environmental_sciences/03_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 18,
+        "research_areas": 72
+      }
+    },
+    {
+      "id": "04",
+      "name": "Biological & Life Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "04_biological_life_sciences/04_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 18,
+        "research_areas": 72
+      }
+    },
+    {
+      "id": "05",
+      "name": "Medicine & Health Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "05_medicine_health_sciences/05_domain_overview.json",
+      "counts": {
+        "themes": 14,
+        "disciplines": 133,
+        "research_areas": 568
+      }
+    },
+    {
+      "id": "06",
+      "name": "Engineering & Technology",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "06_engineering_technology/06_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 20,
+        "research_areas": 80
+      }
+    },
+    {
+      "id": "07",
+      "name": "Computer Science, AI & Information",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "07_computer_science_ai_information/07_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 20,
+        "research_areas": 80
+      }
+    },
+    {
+      "id": "08",
+      "name": "Agricultural & Food Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "08_agricultural_food_sciences/08_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 17,
+        "research_areas": 68
+      }
+    },
+    {
+      "id": "09",
+      "name": "Social & Behavioral Sciences",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "09_social_behavioral_sciences/09_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 17,
+        "research_areas": 68
+      }
+    },
+    {
+      "id": "10",
+      "name": "Humanities & Arts",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "10_humanities_arts/10_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 16,
+        "research_areas": 64
+      }
+    },
+    {
+      "id": "11",
+      "name": "Business, Law & Public Administration",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "11_business_law_public_administration/11_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 17,
+        "research_areas": 68
+      }
+    },
+    {
+      "id": "12",
+      "name": "Interdisciplinary & Frontier Research",
+      "node_type": "branch",
+      "parent_id": "WORLD",
+      "file": "12_interdisciplinary_frontier_research/12_domain_overview.json",
+      "counts": {
+        "themes": 3,
+        "disciplines": 16,
+        "research_areas": 64
+      }
+    }
+  ]
+}

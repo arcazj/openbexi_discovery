@@ -1,0 +1,906 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05",
+  "code": "05",
+  "name": "Medicine & Health Sciences",
+  "node_type": "domain_overview",
+  "parent_id": null,
+  "description": "Master overview of 14 medicine and health-sciences research themes. Each theme links to its own detailed JSON tree.",
+  "classification_note": "Custom hierarchical research taxonomy based on common biomedical disciplinary conventions; IDs 05.xx are project identifiers, not official OECD/NIH codes.",
+  "hierarchy_levels": [
+    "domain",
+    "theme",
+    "discipline",
+    "research_area"
+  ],
+  "counts": {
+    "themes": 14,
+    "disciplines": 133,
+    "research_areas": 568
+  },
+  "data_loading": {
+    "mode": "lazy",
+    "relative_to": "this_file",
+    "path_field": "children[].file",
+    "description": "Resolve children[].file relative to this JSON file to load the full tree for the selected theme."
+  },
+  "children": [
+    {
+      "id": "05.01",
+      "code": "05.01",
+      "name": "Basic Medical Sciences",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Foundational structure, function, and mechanisms of health and disease at the molecular, cellular, and organismal levels.",
+      "file": "domains/05.01_basic_medical_sciences.json",
+      "counts": {
+        "disciplines": 9,
+        "research_areas": 49
+      },
+      "disciplines": [
+        {
+          "id": "05.01.01",
+          "name": "Anatomy & Morphology",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.01.02",
+          "name": "Human Physiology",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.01.03",
+          "name": "Molecular Medicine",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.01.04",
+          "name": "Medical Genetics",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.01.05",
+          "name": "Immunology",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.01.06",
+          "name": "Pathology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.01.07",
+          "name": "Biochemistry & Biophysics",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.01.08",
+          "name": "Medical Microbiology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.01.09",
+          "name": "Toxicology",
+          "research_area_count": 5
+        }
+      ]
+    },
+    {
+      "id": "05.02",
+      "code": "05.02",
+      "name": "Clinical Medicine & Specialties",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Clinical investigation of diseases, diagnosis, patient care, and specialty-specific interventions across the lifespan.",
+      "file": "domains/05.02_clinical_medicine_specialties.json",
+      "counts": {
+        "disciplines": 24,
+        "research_areas": 124
+      },
+      "disciplines": [
+        {
+          "id": "05.02.01",
+          "name": "Cardiology & Vascular Medicine",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.02.02",
+          "name": "Neurology",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.02.03",
+          "name": "Oncology",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.02.04",
+          "name": "Pulmonology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.05",
+          "name": "Endocrinology & Metabolism",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.02.06",
+          "name": "Gastroenterology & Hepatology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.07",
+          "name": "Nephrology & Urology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.08",
+          "name": "Rheumatology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.09",
+          "name": "Dermatology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.10",
+          "name": "Ophthalmology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.11",
+          "name": "Otolaryngology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.12",
+          "name": "Orthopedics",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.13",
+          "name": "Hematology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.14",
+          "name": "Infectious Disease Medicine",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.15",
+          "name": "Psychiatry",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.02.16",
+          "name": "Obstetrics & Gynecology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.17",
+          "name": "Pediatrics & Neonatology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.18",
+          "name": "Geriatric Medicine",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.19",
+          "name": "Surgery",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.20",
+          "name": "Emergency & Critical Care",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.21",
+          "name": "Anesthesiology & Pain Medicine",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.22",
+          "name": "Rehabilitation & Physical Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.02.23",
+          "name": "Dentistry & Oral Medicine",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.02.24",
+          "name": "Diagnostic Medicine",
+          "research_area_count": 5
+        }
+      ]
+    },
+    {
+      "id": "05.03",
+      "code": "05.03",
+      "name": "Public Health & Population Health",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Research on population health, prevention, epidemiology, health systems, and the social and environmental determinants of outcomes.",
+      "file": "domains/05.03_public_health_population_health.json",
+      "counts": {
+        "disciplines": 9,
+        "research_areas": 41
+      },
+      "disciplines": [
+        {
+          "id": "05.03.01",
+          "name": "Epidemiology",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.03.02",
+          "name": "Preventive Medicine",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.03.03",
+          "name": "Global Health",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.03.04",
+          "name": "Environmental Health",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.03.05",
+          "name": "Occupational Health",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.03.06",
+          "name": "Health Policy & Economics",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.03.07",
+          "name": "Health Services Research",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.03.08",
+          "name": "Population Health & Equity",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.03.09",
+          "name": "Disaster & Emergency Preparedness",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.04",
+      "code": "05.04",
+      "name": "Pharmaceutical & Therapeutic Sciences",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Scientific development, assessment, delivery, monitoring, and governance of drugs, vaccines, and therapeutic agents.",
+      "file": "domains/05.04_pharmaceutical_therapeutic_sciences.json",
+      "counts": {
+        "disciplines": 11,
+        "research_areas": 46
+      },
+      "disciplines": [
+        {
+          "id": "05.04.01",
+          "name": "Drug Discovery",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.04.02",
+          "name": "Pharmacology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.04.03",
+          "name": "Medicinal Chemistry",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.04.04",
+          "name": "Biopharmaceuticals",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.04.05",
+          "name": "Gene & RNA Therapies",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.04.06",
+          "name": "Vaccine Science",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.04.07",
+          "name": "Drug Delivery",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.04.08",
+          "name": "Clinical Pharmacology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.04.09",
+          "name": "Clinical Trials",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.04.10",
+          "name": "Pharmacovigilance",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.04.11",
+          "name": "Regulatory Science",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.05",
+      "code": "05.05",
+      "name": "Medical Biotechnology & Bioengineering",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Engineering of cells, tissues, genes, biomaterials, and biological production systems for medical applications.",
+      "file": "domains/05.05_medical_biotechnology_bioengineering.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 32
+      },
+      "disciplines": [
+        {
+          "id": "05.05.01",
+          "name": "Genetic Engineering",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.02",
+          "name": "Cellular Engineering",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.03",
+          "name": "Regenerative Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.04",
+          "name": "Tissue Engineering",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.05",
+          "name": "Synthetic Biology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.06",
+          "name": "Biomaterials",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.07",
+          "name": "Organ Engineering",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.05.08",
+          "name": "Biomedical Bioprocessing",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.06",
+      "code": "05.06",
+      "name": "Medical Devices, Imaging & Diagnostics",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Devices and techniques for sensing, imaging, diagnosis, intervention, rehabilitation, and medical safety.",
+      "file": "domains/05.06_medical_devices_imaging_diagnostics.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 35
+      },
+      "disciplines": [
+        {
+          "id": "05.06.01",
+          "name": "Medical Imaging",
+          "research_area_count": 6
+        },
+        {
+          "id": "05.06.02",
+          "name": "Diagnostic Technologies",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.06.03",
+          "name": "Implantable Devices",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.06.04",
+          "name": "Prosthetics & Orthotics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.06.05",
+          "name": "Medical Robotics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.06.06",
+          "name": "Wearable Health Technology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.06.07",
+          "name": "Therapeutic Devices",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.06.08",
+          "name": "Device Safety & Standards",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.07",
+      "code": "05.07",
+      "name": "Digital Health, AI & Medical Informatics",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Data, computational models, artificial intelligence, and connected technologies supporting health research and care.",
+      "file": "domains/05.07_digital_health_ai_medical_informatics.json",
+      "counts": {
+        "disciplines": 10,
+        "research_areas": 40
+      },
+      "disciplines": [
+        {
+          "id": "05.07.01",
+          "name": "Biomedical Informatics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.02",
+          "name": "AI for Diagnostics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.03",
+          "name": "Predictive Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.04",
+          "name": "Computational Biology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.05",
+          "name": "Telemedicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.06",
+          "name": "Digital Therapeutics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.07",
+          "name": "Medical Digital Twins",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.08",
+          "name": "Privacy & Cybersecurity",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.09",
+          "name": "Clinical NLP",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.07.10",
+          "name": "Medical Data Science",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.08",
+      "code": "05.08",
+      "name": "Neuroscience & Brain Research",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Investigation of brain structure, circuits, development, behavior, degeneration, and neural technologies.",
+      "file": "domains/05.08_neuroscience_brain_research.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 31
+      },
+      "disciplines": [
+        {
+          "id": "05.08.01",
+          "name": "Cellular Neuroscience",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.08.02",
+          "name": "Systems Neuroscience",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.08.03",
+          "name": "Cognitive Neuroscience",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.08.04",
+          "name": "Neurodegeneration",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.08.05",
+          "name": "Neuroimmunology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.08.06",
+          "name": "Neural Engineering",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.08.07",
+          "name": "Computational Neuroscience",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.08.08",
+          "name": "Neurodevelopment",
+          "research_area_count": 3
+        }
+      ]
+    },
+    {
+      "id": "05.09",
+      "code": "05.09",
+      "name": "Aging, Longevity & Geriatric Research",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Mechanisms and consequences of biological aging, longevity research, functional independence, and later-life care.",
+      "file": "domains/05.09_aging_longevity_geriatric_research.json",
+      "counts": {
+        "disciplines": 7,
+        "research_areas": 29
+      },
+      "disciplines": [
+        {
+          "id": "05.09.01",
+          "name": "Biology of Aging",
+          "research_area_count": 5
+        },
+        {
+          "id": "05.09.02",
+          "name": "Healthy Aging",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.09.03",
+          "name": "Geroscience",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.09.04",
+          "name": "Muscle & Bone Aging",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.09.05",
+          "name": "Brain Aging",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.09.06",
+          "name": "Longevity Interventions",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.09.07",
+          "name": "Geriatric Care Systems",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.10",
+      "code": "05.10",
+      "name": "Nutrition, Metabolism & Lifestyle Medicine",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Effects of diet, metabolism, activity, sleep, and behavior on health, prevention, and disease management.",
+      "file": "domains/05.10_nutrition_metabolism_lifestyle_medicine.json",
+      "counts": {
+        "disciplines": 7,
+        "research_areas": 28
+      },
+      "disciplines": [
+        {
+          "id": "05.10.01",
+          "name": "Human Nutrition",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.10.02",
+          "name": "Metabolism",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.10.03",
+          "name": "Clinical Nutrition",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.10.04",
+          "name": "Exercise Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.10.05",
+          "name": "Sleep Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.10.06",
+          "name": "Behavioral Health",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.10.07",
+          "name": "Microbiome & Nutrition",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.11",
+      "code": "05.11",
+      "name": "Reproductive, Maternal & Developmental Health",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Reproduction, pregnancy, fetal and neonatal health, child development, and adolescent health.",
+      "file": "domains/05.11_reproductive_maternal_developmental_health.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      },
+      "disciplines": [
+        {
+          "id": "05.11.01",
+          "name": "Reproductive Biology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.11.02",
+          "name": "Assisted Reproduction",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.11.03",
+          "name": "Maternal Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.11.04",
+          "name": "Fetal & Neonatal Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.11.05",
+          "name": "Child Development",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.11.06",
+          "name": "Adolescent Health",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.12",
+      "code": "05.12",
+      "name": "Mental Health & Behavioral Medicine",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Mechanisms, diagnosis, prevention, treatment, and care systems for mental and behavioral health conditions.",
+      "file": "domains/05.12_mental_health_behavioral_medicine.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 27
+      },
+      "disciplines": [
+        {
+          "id": "05.12.01",
+          "name": "Affective Disorders",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.12.02",
+          "name": "Anxiety & Trauma",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.12.03",
+          "name": "Psychotic Disorders",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.12.04",
+          "name": "Substance Use Disorders",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.12.05",
+          "name": "Neurodevelopmental Psychiatry",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.12.06",
+          "name": "Psychotherapy Research",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.12.07",
+          "name": "Psychiatric Neuroscience",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.12.08",
+          "name": "Community Mental Health",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.13",
+      "code": "05.13",
+      "name": "Translational Medicine & Research Methods",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Methods that connect discovery science to clinical evidence, effective practice, and reproducible research.",
+      "file": "domains/05.13_translational_medicine_research_methods.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 30
+      },
+      "disciplines": [
+        {
+          "id": "05.13.01",
+          "name": "Preclinical Research",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.13.02",
+          "name": "Translational Research",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.13.03",
+          "name": "Clinical Trial Methodology",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.13.04",
+          "name": "Evidence Synthesis",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.13.05",
+          "name": "Biostatistics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.13.06",
+          "name": "Implementation Science",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.13.07",
+          "name": "Research Ethics",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.13.08",
+          "name": "Reproducibility & Open Science",
+          "research_area_count": 4
+        }
+      ]
+    },
+    {
+      "id": "05.14",
+      "code": "05.14",
+      "name": "Emerging & Frontier Medical Research",
+      "node_type": "theme",
+      "parent_id": "05",
+      "description": "Emerging research platforms and high-potential approaches crossing the boundaries of established biomedical fields.",
+      "file": "domains/05.14_emerging_frontier_medical_research.json",
+      "counts": {
+        "disciplines": 10,
+        "research_areas": 32
+      },
+      "disciplines": [
+        {
+          "id": "05.14.01",
+          "name": "Precision Medicine",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.02",
+          "name": "Single-Cell Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.14.03",
+          "name": "AI-Driven Biomedical Discovery",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.04",
+          "name": "Advanced Genome Engineering",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.05",
+          "name": "Next-Generation Immunotherapy",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.06",
+          "name": "Human Organ Models",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.07",
+          "name": "Nanomedicine",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.08",
+          "name": "Space Medicine",
+          "research_area_count": 4
+        },
+        {
+          "id": "05.14.09",
+          "name": "Planetary Health",
+          "research_area_count": 3
+        },
+        {
+          "id": "05.14.10",
+          "name": "Advanced Neurotechnology",
+          "research_area_count": 3
+        }
+      ]
+    }
+  ]
+}

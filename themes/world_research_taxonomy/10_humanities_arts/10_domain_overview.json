@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "10",
+  "name": "Humanities & Arts",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 16,
+    "research_areas": 64
+  },
+  "children": [
+    {
+      "id": "10.01",
+      "name": "Historical & Philosophical Studies",
+      "node_type": "theme",
+      "parent_id": "10",
+      "file": "domains/10.01_historical_philosophical_studies.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "10.02",
+      "name": "Languages, Literature & Culture",
+      "node_type": "theme",
+      "parent_id": "10",
+      "file": "domains/10.02_languages_literature_culture.json",
+      "counts": {
+        "disciplines": 5,
+        "research_areas": 20
+      }
+    },
+    {
+      "id": "10.03",
+      "name": "Creative & Performing Arts",
+      "node_type": "theme",
+      "parent_id": "10",
+      "file": "domains/10.03_creative_performing_arts.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

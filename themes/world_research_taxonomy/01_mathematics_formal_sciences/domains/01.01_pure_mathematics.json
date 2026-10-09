@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "01.01",
+  "name": "Pure Mathematics",
+  "node_type": "theme",
+  "parent_id": "01",
+  "children": [
+    {
+      "id": "01.01.01",
+      "name": "Algebra",
+      "node_type": "discipline",
+      "parent_id": "01.01",
+      "children": [
+        {
+          "id": "01.01.01.01",
+          "name": "Group theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.01",
+          "children": []
+        },
+        {
+          "id": "01.01.01.02",
+          "name": "Ring theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.01",
+          "children": []
+        },
+        {
+          "id": "01.01.01.03",
+          "name": "Representation theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.01",
+          "children": []
+        },
+        {
+          "id": "01.01.01.04",
+          "name": "Commutative algebra",
+          "node_type": "research_area",
+          "parent_id": "01.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.01.02",
+      "name": "Geometry",
+      "node_type": "discipline",
+      "parent_id": "01.01",
+      "children": [
+        {
+          "id": "01.01.02.01",
+          "name": "Differential geometry",
+          "node_type": "research_area",
+          "parent_id": "01.01.02",
+          "children": []
+        },
+        {
+          "id": "01.01.02.02",
+          "name": "Algebraic geometry",
+          "node_type": "research_area",
+          "parent_id": "01.01.02",
+          "children": []
+        },
+        {
+          "id": "01.01.02.03",
+          "name": "Discrete geometry",
+          "node_type": "research_area",
+          "parent_id": "01.01.02",
+          "children": []
+        },
+        {
+          "id": "01.01.02.04",
+          "name": "Symplectic geometry",
+          "node_type": "research_area",
+          "parent_id": "01.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.01.03",
+      "name": "Topology",
+      "node_type": "discipline",
+      "parent_id": "01.01",
+      "children": [
+        {
+          "id": "01.01.03.01",
+          "name": "Algebraic topology",
+          "node_type": "research_area",
+          "parent_id": "01.01.03",
+          "children": []
+        },
+        {
+          "id": "01.01.03.02",
+          "name": "Geometric topology",
+          "node_type": "research_area",
+          "parent_id": "01.01.03",
+          "children": []
+        },
+        {
+          "id": "01.01.03.03",
+          "name": "Topological invariants",
+          "node_type": "research_area",
+          "parent_id": "01.01.03",
+          "children": []
+        },
+        {
+          "id": "01.01.03.04",
+          "name": "Knot theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.01.04",
+      "name": "Number Theory",
+      "node_type": "discipline",
+      "parent_id": "01.01",
+      "children": [
+        {
+          "id": "01.01.04.01",
+          "name": "Prime numbers",
+          "node_type": "research_area",
+          "parent_id": "01.01.04",
+          "children": []
+        },
+        {
+          "id": "01.01.04.02",
+          "name": "Diophantine equations",
+          "node_type": "research_area",
+          "parent_id": "01.01.04",
+          "children": []
+        },
+        {
+          "id": "01.01.04.03",
+          "name": "Analytic number theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.04",
+          "children": []
+        },
+        {
+          "id": "01.01.04.04",
+          "name": "Arithmetic geometry",
+          "node_type": "research_area",
+          "parent_id": "01.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "01.01.05",
+      "name": "Logic & Foundations",
+      "node_type": "discipline",
+      "parent_id": "01.01",
+      "children": [
+        {
+          "id": "01.01.05.01",
+          "name": "Set theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.05",
+          "children": []
+        },
+        {
+          "id": "01.01.05.02",
+          "name": "Model theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.05",
+          "children": []
+        },
+        {
+          "id": "01.01.05.03",
+          "name": "Proof theory",
+          "node_type": "research_area",
+          "parent_id": "01.01.05",
+          "children": []
+        },
+        {
+          "id": "01.01.05.04",
+          "name": "Foundations of mathematics",
+          "node_type": "research_area",
+          "parent_id": "01.01.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

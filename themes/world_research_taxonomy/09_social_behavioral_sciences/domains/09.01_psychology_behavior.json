@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "09.01",
+  "name": "Psychology & Behavior",
+  "node_type": "theme",
+  "parent_id": "09",
+  "children": [
+    {
+      "id": "09.01.01",
+      "name": "Cognitive Psychology",
+      "node_type": "discipline",
+      "parent_id": "09.01",
+      "children": [
+        {
+          "id": "09.01.01.01",
+          "name": "Attention",
+          "node_type": "research_area",
+          "parent_id": "09.01.01",
+          "children": []
+        },
+        {
+          "id": "09.01.01.02",
+          "name": "Memory",
+          "node_type": "research_area",
+          "parent_id": "09.01.01",
+          "children": []
+        },
+        {
+          "id": "09.01.01.03",
+          "name": "Perception",
+          "node_type": "research_area",
+          "parent_id": "09.01.01",
+          "children": []
+        },
+        {
+          "id": "09.01.01.04",
+          "name": "Reasoning",
+          "node_type": "research_area",
+          "parent_id": "09.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.01.02",
+      "name": "Developmental Psychology",
+      "node_type": "discipline",
+      "parent_id": "09.01",
+      "children": [
+        {
+          "id": "09.01.02.01",
+          "name": "Child development",
+          "node_type": "research_area",
+          "parent_id": "09.01.02",
+          "children": []
+        },
+        {
+          "id": "09.01.02.02",
+          "name": "Adolescent development",
+          "node_type": "research_area",
+          "parent_id": "09.01.02",
+          "children": []
+        },
+        {
+          "id": "09.01.02.03",
+          "name": "Adult development",
+          "node_type": "research_area",
+          "parent_id": "09.01.02",
+          "children": []
+        },
+        {
+          "id": "09.01.02.04",
+          "name": "Aging psychology",
+          "node_type": "research_area",
+          "parent_id": "09.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.01.03",
+      "name": "Social Psychology",
+      "node_type": "discipline",
+      "parent_id": "09.01",
+      "children": [
+        {
+          "id": "09.01.03.01",
+          "name": "Social cognition",
+          "node_type": "research_area",
+          "parent_id": "09.01.03",
+          "children": []
+        },
+        {
+          "id": "09.01.03.02",
+          "name": "Group behavior",
+          "node_type": "research_area",
+          "parent_id": "09.01.03",
+          "children": []
+        },
+        {
+          "id": "09.01.03.03",
+          "name": "Attitudes",
+          "node_type": "research_area",
+          "parent_id": "09.01.03",
+          "children": []
+        },
+        {
+          "id": "09.01.03.04",
+          "name": "Interpersonal influence",
+          "node_type": "research_area",
+          "parent_id": "09.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.01.04",
+      "name": "Behavioral Science",
+      "node_type": "discipline",
+      "parent_id": "09.01",
+      "children": [
+        {
+          "id": "09.01.04.01",
+          "name": "Decision-making",
+          "node_type": "research_area",
+          "parent_id": "09.01.04",
+          "children": []
+        },
+        {
+          "id": "09.01.04.02",
+          "name": "Habit formation",
+          "node_type": "research_area",
+          "parent_id": "09.01.04",
+          "children": []
+        },
+        {
+          "id": "09.01.04.03",
+          "name": "Behavior change",
+          "node_type": "research_area",
+          "parent_id": "09.01.04",
+          "children": []
+        },
+        {
+          "id": "09.01.04.04",
+          "name": "Judgment under uncertainty",
+          "node_type": "research_area",
+          "parent_id": "09.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "09.01.05",
+      "name": "Psychometrics",
+      "node_type": "discipline",
+      "parent_id": "09.01",
+      "children": [
+        {
+          "id": "09.01.05.01",
+          "name": "Measurement theory",
+          "node_type": "research_area",
+          "parent_id": "09.01.05",
+          "children": []
+        },
+        {
+          "id": "09.01.05.02",
+          "name": "Scale validation",
+          "node_type": "research_area",
+          "parent_id": "09.01.05",
+          "children": []
+        },
+        {
+          "id": "09.01.05.03",
+          "name": "Latent variable modeling",
+          "node_type": "research_area",
+          "parent_id": "09.01.05",
+          "children": []
+        },
+        {
+          "id": "09.01.05.04",
+          "name": "Test fairness",
+          "node_type": "research_area",
+          "parent_id": "09.01.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

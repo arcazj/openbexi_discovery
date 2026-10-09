@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "08.03",
+  "name": "Food & Agricultural Systems",
+  "node_type": "theme",
+  "parent_id": "08",
+  "children": [
+    {
+      "id": "08.03.01",
+      "name": "Food Chemistry",
+      "node_type": "discipline",
+      "parent_id": "08.03",
+      "children": [
+        {
+          "id": "08.03.01.01",
+          "name": "Food composition",
+          "node_type": "research_area",
+          "parent_id": "08.03.01",
+          "children": []
+        },
+        {
+          "id": "08.03.01.02",
+          "name": "Flavor chemistry",
+          "node_type": "research_area",
+          "parent_id": "08.03.01",
+          "children": []
+        },
+        {
+          "id": "08.03.01.03",
+          "name": "Food contaminants",
+          "node_type": "research_area",
+          "parent_id": "08.03.01",
+          "children": []
+        },
+        {
+          "id": "08.03.01.04",
+          "name": "Nutrient stability",
+          "node_type": "research_area",
+          "parent_id": "08.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.03.02",
+      "name": "Food Microbiology",
+      "node_type": "discipline",
+      "parent_id": "08.03",
+      "children": [
+        {
+          "id": "08.03.02.01",
+          "name": "Foodborne pathogens",
+          "node_type": "research_area",
+          "parent_id": "08.03.02",
+          "children": []
+        },
+        {
+          "id": "08.03.02.02",
+          "name": "Fermentation microbiology",
+          "node_type": "research_area",
+          "parent_id": "08.03.02",
+          "children": []
+        },
+        {
+          "id": "08.03.02.03",
+          "name": "Food spoilage",
+          "node_type": "research_area",
+          "parent_id": "08.03.02",
+          "children": []
+        },
+        {
+          "id": "08.03.02.04",
+          "name": "Microbial food safety",
+          "node_type": "research_area",
+          "parent_id": "08.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.03.03",
+      "name": "Food Processing",
+      "node_type": "discipline",
+      "parent_id": "08.03",
+      "children": [
+        {
+          "id": "08.03.03.01",
+          "name": "Thermal processing",
+          "node_type": "research_area",
+          "parent_id": "08.03.03",
+          "children": []
+        },
+        {
+          "id": "08.03.03.02",
+          "name": "Nonthermal preservation",
+          "node_type": "research_area",
+          "parent_id": "08.03.03",
+          "children": []
+        },
+        {
+          "id": "08.03.03.03",
+          "name": "Food packaging",
+          "node_type": "research_area",
+          "parent_id": "08.03.03",
+          "children": []
+        },
+        {
+          "id": "08.03.03.04",
+          "name": "Process optimization",
+          "node_type": "research_area",
+          "parent_id": "08.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.03.04",
+      "name": "Food Nutrition",
+      "node_type": "discipline",
+      "parent_id": "08.03",
+      "children": [
+        {
+          "id": "08.03.04.01",
+          "name": "Food bioavailability",
+          "node_type": "research_area",
+          "parent_id": "08.03.04",
+          "children": []
+        },
+        {
+          "id": "08.03.04.02",
+          "name": "Dietary patterns",
+          "node_type": "research_area",
+          "parent_id": "08.03.04",
+          "children": []
+        },
+        {
+          "id": "08.03.04.03",
+          "name": "Functional foods",
+          "node_type": "research_area",
+          "parent_id": "08.03.04",
+          "children": []
+        },
+        {
+          "id": "08.03.04.04",
+          "name": "Food formulation",
+          "node_type": "research_area",
+          "parent_id": "08.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.03.05",
+      "name": "Food Security",
+      "node_type": "discipline",
+      "parent_id": "08.03",
+      "children": [
+        {
+          "id": "08.03.05.01",
+          "name": "Food systems resilience",
+          "node_type": "research_area",
+          "parent_id": "08.03.05",
+          "children": []
+        },
+        {
+          "id": "08.03.05.02",
+          "name": "Supply stability",
+          "node_type": "research_area",
+          "parent_id": "08.03.05",
+          "children": []
+        },
+        {
+          "id": "08.03.05.03",
+          "name": "Food access",
+          "node_type": "research_area",
+          "parent_id": "08.03.05",
+          "children": []
+        },
+        {
+          "id": "08.03.05.04",
+          "name": "Sustainable diets",
+          "node_type": "research_area",
+          "parent_id": "08.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.03.06",
+      "name": "Agroecology",
+      "node_type": "discipline",
+      "parent_id": "08.03",
+      "children": [
+        {
+          "id": "08.03.06.01",
+          "name": "Biodiversity on farms",
+          "node_type": "research_area",
+          "parent_id": "08.03.06",
+          "children": []
+        },
+        {
+          "id": "08.03.06.02",
+          "name": "Regenerative practices",
+          "node_type": "research_area",
+          "parent_id": "08.03.06",
+          "children": []
+        },
+        {
+          "id": "08.03.06.03",
+          "name": "Agroecosystem services",
+          "node_type": "research_area",
+          "parent_id": "08.03.06",
+          "children": []
+        },
+        {
+          "id": "08.03.06.04",
+          "name": "Low-input farming",
+          "node_type": "research_area",
+          "parent_id": "08.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

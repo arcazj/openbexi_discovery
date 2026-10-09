@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "11.01",
+  "name": "Business & Management",
+  "node_type": "theme",
+  "parent_id": "11",
+  "children": [
+    {
+      "id": "11.01.01",
+      "name": "Strategic Management",
+      "node_type": "discipline",
+      "parent_id": "11.01",
+      "children": [
+        {
+          "id": "11.01.01.01",
+          "name": "Competitive strategy",
+          "node_type": "research_area",
+          "parent_id": "11.01.01",
+          "children": []
+        },
+        {
+          "id": "11.01.01.02",
+          "name": "Corporate strategy",
+          "node_type": "research_area",
+          "parent_id": "11.01.01",
+          "children": []
+        },
+        {
+          "id": "11.01.01.03",
+          "name": "Business models",
+          "node_type": "research_area",
+          "parent_id": "11.01.01",
+          "children": []
+        },
+        {
+          "id": "11.01.01.04",
+          "name": "Strategic innovation",
+          "node_type": "research_area",
+          "parent_id": "11.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.01.02",
+      "name": "Organizational Studies",
+      "node_type": "discipline",
+      "parent_id": "11.01",
+      "children": [
+        {
+          "id": "11.01.02.01",
+          "name": "Organizational behavior",
+          "node_type": "research_area",
+          "parent_id": "11.01.02",
+          "children": []
+        },
+        {
+          "id": "11.01.02.02",
+          "name": "Leadership",
+          "node_type": "research_area",
+          "parent_id": "11.01.02",
+          "children": []
+        },
+        {
+          "id": "11.01.02.03",
+          "name": "Organizational change",
+          "node_type": "research_area",
+          "parent_id": "11.01.02",
+          "children": []
+        },
+        {
+          "id": "11.01.02.04",
+          "name": "Workplace culture",
+          "node_type": "research_area",
+          "parent_id": "11.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.01.03",
+      "name": "Marketing",
+      "node_type": "discipline",
+      "parent_id": "11.01",
+      "children": [
+        {
+          "id": "11.01.03.01",
+          "name": "Consumer behavior",
+          "node_type": "research_area",
+          "parent_id": "11.01.03",
+          "children": []
+        },
+        {
+          "id": "11.01.03.02",
+          "name": "Brand management",
+          "node_type": "research_area",
+          "parent_id": "11.01.03",
+          "children": []
+        },
+        {
+          "id": "11.01.03.03",
+          "name": "Digital marketing",
+          "node_type": "research_area",
+          "parent_id": "11.01.03",
+          "children": []
+        },
+        {
+          "id": "11.01.03.04",
+          "name": "Market analytics",
+          "node_type": "research_area",
+          "parent_id": "11.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.01.04",
+      "name": "Entrepreneurship",
+      "node_type": "discipline",
+      "parent_id": "11.01",
+      "children": [
+        {
+          "id": "11.01.04.01",
+          "name": "Startup formation",
+          "node_type": "research_area",
+          "parent_id": "11.01.04",
+          "children": []
+        },
+        {
+          "id": "11.01.04.02",
+          "name": "Venture growth",
+          "node_type": "research_area",
+          "parent_id": "11.01.04",
+          "children": []
+        },
+        {
+          "id": "11.01.04.03",
+          "name": "Entrepreneurial ecosystems",
+          "node_type": "research_area",
+          "parent_id": "11.01.04",
+          "children": []
+        },
+        {
+          "id": "11.01.04.04",
+          "name": "Business incubation",
+          "node_type": "research_area",
+          "parent_id": "11.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.01.05",
+      "name": "Operations Management",
+      "node_type": "discipline",
+      "parent_id": "11.01",
+      "children": [
+        {
+          "id": "11.01.05.01",
+          "name": "Service operations",
+          "node_type": "research_area",
+          "parent_id": "11.01.05",
+          "children": []
+        },
+        {
+          "id": "11.01.05.02",
+          "name": "Supply chain strategy",
+          "node_type": "research_area",
+          "parent_id": "11.01.05",
+          "children": []
+        },
+        {
+          "id": "11.01.05.03",
+          "name": "Process improvement",
+          "node_type": "research_area",
+          "parent_id": "11.01.05",
+          "children": []
+        },
+        {
+          "id": "11.01.05.04",
+          "name": "Quality management",
+          "node_type": "research_area",
+          "parent_id": "11.01.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "11.01.06",
+      "name": "Innovation Management",
+      "node_type": "discipline",
+      "parent_id": "11.01",
+      "children": [
+        {
+          "id": "11.01.06.01",
+          "name": "Technology commercialization",
+          "node_type": "research_area",
+          "parent_id": "11.01.06",
+          "children": []
+        },
+        {
+          "id": "11.01.06.02",
+          "name": "R&D management",
+          "node_type": "research_area",
+          "parent_id": "11.01.06",
+          "children": []
+        },
+        {
+          "id": "11.01.06.03",
+          "name": "Open innovation",
+          "node_type": "research_area",
+          "parent_id": "11.01.06",
+          "children": []
+        },
+        {
+          "id": "11.01.06.04",
+          "name": "Innovation ecosystems",
+          "node_type": "research_area",
+          "parent_id": "11.01.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

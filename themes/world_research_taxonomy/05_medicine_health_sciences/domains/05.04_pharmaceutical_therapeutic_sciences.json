@@ -1,0 +1,498 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.04",
+  "code": "05.04",
+  "name": "Pharmaceutical & Therapeutic Sciences",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Scientific development, assessment, delivery, monitoring, and governance of drugs, vaccines, and therapeutic agents.",
+  "counts": {
+    "disciplines": 11,
+    "research_areas": 46
+  },
+  "children": [
+    {
+      "id": "05.04.01",
+      "code": "05.04.01",
+      "name": "Drug Discovery",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.01.01",
+          "code": "05.04.01.01",
+          "name": "Target identification",
+          "node_type": "research_area",
+          "parent_id": "05.04.01",
+          "children": []
+        },
+        {
+          "id": "05.04.01.02",
+          "code": "05.04.01.02",
+          "name": "High-throughput screening",
+          "node_type": "research_area",
+          "parent_id": "05.04.01",
+          "children": []
+        },
+        {
+          "id": "05.04.01.03",
+          "code": "05.04.01.03",
+          "name": "Structure-based drug design",
+          "node_type": "research_area",
+          "parent_id": "05.04.01",
+          "children": []
+        },
+        {
+          "id": "05.04.01.04",
+          "code": "05.04.01.04",
+          "name": "AI-assisted drug discovery",
+          "node_type": "research_area",
+          "parent_id": "05.04.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.02",
+      "code": "05.04.02",
+      "name": "Pharmacology",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.02.01",
+          "code": "05.04.02.01",
+          "name": "Pharmacodynamics",
+          "node_type": "research_area",
+          "parent_id": "05.04.02",
+          "children": []
+        },
+        {
+          "id": "05.04.02.02",
+          "code": "05.04.02.02",
+          "name": "Pharmacokinetics",
+          "node_type": "research_area",
+          "parent_id": "05.04.02",
+          "children": []
+        },
+        {
+          "id": "05.04.02.03",
+          "code": "05.04.02.03",
+          "name": "Receptor pharmacology",
+          "node_type": "research_area",
+          "parent_id": "05.04.02",
+          "children": []
+        },
+        {
+          "id": "05.04.02.04",
+          "code": "05.04.02.04",
+          "name": "Systems pharmacology",
+          "node_type": "research_area",
+          "parent_id": "05.04.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.03",
+      "code": "05.04.03",
+      "name": "Medicinal Chemistry",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.03.01",
+          "code": "05.04.03.01",
+          "name": "Small-molecule optimization",
+          "node_type": "research_area",
+          "parent_id": "05.04.03",
+          "children": []
+        },
+        {
+          "id": "05.04.03.02",
+          "code": "05.04.03.02",
+          "name": "Structure-activity relationships",
+          "node_type": "research_area",
+          "parent_id": "05.04.03",
+          "children": []
+        },
+        {
+          "id": "05.04.03.03",
+          "code": "05.04.03.03",
+          "name": "Peptide therapeutics",
+          "node_type": "research_area",
+          "parent_id": "05.04.03",
+          "children": []
+        },
+        {
+          "id": "05.04.03.04",
+          "code": "05.04.03.04",
+          "name": "Chemical synthesis",
+          "node_type": "research_area",
+          "parent_id": "05.04.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.04",
+      "code": "05.04.04",
+      "name": "Biopharmaceuticals",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.04.01",
+          "code": "05.04.04.01",
+          "name": "Monoclonal antibodies",
+          "node_type": "research_area",
+          "parent_id": "05.04.04",
+          "children": []
+        },
+        {
+          "id": "05.04.04.02",
+          "code": "05.04.04.02",
+          "name": "Recombinant proteins",
+          "node_type": "research_area",
+          "parent_id": "05.04.04",
+          "children": []
+        },
+        {
+          "id": "05.04.04.03",
+          "code": "05.04.04.03",
+          "name": "Therapeutic enzymes",
+          "node_type": "research_area",
+          "parent_id": "05.04.04",
+          "children": []
+        },
+        {
+          "id": "05.04.04.04",
+          "code": "05.04.04.04",
+          "name": "Antibody-drug conjugates",
+          "node_type": "research_area",
+          "parent_id": "05.04.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.05",
+      "code": "05.04.05",
+      "name": "Gene & RNA Therapies",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.04.05.01",
+          "code": "05.04.05.01",
+          "name": "Gene replacement",
+          "node_type": "research_area",
+          "parent_id": "05.04.05",
+          "children": []
+        },
+        {
+          "id": "05.04.05.02",
+          "code": "05.04.05.02",
+          "name": "Genome editing",
+          "node_type": "research_area",
+          "parent_id": "05.04.05",
+          "children": []
+        },
+        {
+          "id": "05.04.05.03",
+          "code": "05.04.05.03",
+          "name": "RNA interference",
+          "node_type": "research_area",
+          "parent_id": "05.04.05",
+          "children": []
+        },
+        {
+          "id": "05.04.05.04",
+          "code": "05.04.05.04",
+          "name": "Antisense oligonucleotides",
+          "node_type": "research_area",
+          "parent_id": "05.04.05",
+          "children": []
+        },
+        {
+          "id": "05.04.05.05",
+          "code": "05.04.05.05",
+          "name": "mRNA therapeutics",
+          "node_type": "research_area",
+          "parent_id": "05.04.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.06",
+      "code": "05.04.06",
+      "name": "Vaccine Science",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.06.01",
+          "code": "05.04.06.01",
+          "name": "Vaccine immunology",
+          "node_type": "research_area",
+          "parent_id": "05.04.06",
+          "children": []
+        },
+        {
+          "id": "05.04.06.02",
+          "code": "05.04.06.02",
+          "name": "Antigen design",
+          "node_type": "research_area",
+          "parent_id": "05.04.06",
+          "children": []
+        },
+        {
+          "id": "05.04.06.03",
+          "code": "05.04.06.03",
+          "name": "Vaccine delivery",
+          "node_type": "research_area",
+          "parent_id": "05.04.06",
+          "children": []
+        },
+        {
+          "id": "05.04.06.04",
+          "code": "05.04.06.04",
+          "name": "Clinical vaccine evaluation",
+          "node_type": "research_area",
+          "parent_id": "05.04.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.07",
+      "code": "05.04.07",
+      "name": "Drug Delivery",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.04.07.01",
+          "code": "05.04.07.01",
+          "name": "Nanocarriers",
+          "node_type": "research_area",
+          "parent_id": "05.04.07",
+          "children": []
+        },
+        {
+          "id": "05.04.07.02",
+          "code": "05.04.07.02",
+          "name": "Controlled release",
+          "node_type": "research_area",
+          "parent_id": "05.04.07",
+          "children": []
+        },
+        {
+          "id": "05.04.07.03",
+          "code": "05.04.07.03",
+          "name": "Targeted delivery",
+          "node_type": "research_area",
+          "parent_id": "05.04.07",
+          "children": []
+        },
+        {
+          "id": "05.04.07.04",
+          "code": "05.04.07.04",
+          "name": "Transdermal systems",
+          "node_type": "research_area",
+          "parent_id": "05.04.07",
+          "children": []
+        },
+        {
+          "id": "05.04.07.05",
+          "code": "05.04.07.05",
+          "name": "Blood-brain barrier delivery",
+          "node_type": "research_area",
+          "parent_id": "05.04.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.08",
+      "code": "05.04.08",
+      "name": "Clinical Pharmacology",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.08.01",
+          "code": "05.04.08.01",
+          "name": "Drug interactions",
+          "node_type": "research_area",
+          "parent_id": "05.04.08",
+          "children": []
+        },
+        {
+          "id": "05.04.08.02",
+          "code": "05.04.08.02",
+          "name": "Dose optimization",
+          "node_type": "research_area",
+          "parent_id": "05.04.08",
+          "children": []
+        },
+        {
+          "id": "05.04.08.03",
+          "code": "05.04.08.03",
+          "name": "Therapeutic monitoring",
+          "node_type": "research_area",
+          "parent_id": "05.04.08",
+          "children": []
+        },
+        {
+          "id": "05.04.08.04",
+          "code": "05.04.08.04",
+          "name": "Pharmacogenomics",
+          "node_type": "research_area",
+          "parent_id": "05.04.08",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.09",
+      "code": "05.04.09",
+      "name": "Clinical Trials",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.04.09.01",
+          "code": "05.04.09.01",
+          "name": "Phase I-IV trials",
+          "node_type": "research_area",
+          "parent_id": "05.04.09",
+          "children": []
+        },
+        {
+          "id": "05.04.09.02",
+          "code": "05.04.09.02",
+          "name": "Randomized trials",
+          "node_type": "research_area",
+          "parent_id": "05.04.09",
+          "children": []
+        },
+        {
+          "id": "05.04.09.03",
+          "code": "05.04.09.03",
+          "name": "Adaptive trials",
+          "node_type": "research_area",
+          "parent_id": "05.04.09",
+          "children": []
+        },
+        {
+          "id": "05.04.09.04",
+          "code": "05.04.09.04",
+          "name": "Trial endpoints",
+          "node_type": "research_area",
+          "parent_id": "05.04.09",
+          "children": []
+        },
+        {
+          "id": "05.04.09.05",
+          "code": "05.04.09.05",
+          "name": "Trial safety monitoring",
+          "node_type": "research_area",
+          "parent_id": "05.04.09",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.10",
+      "code": "05.04.10",
+      "name": "Pharmacovigilance",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 3,
+      "children": [
+        {
+          "id": "05.04.10.01",
+          "code": "05.04.10.01",
+          "name": "Adverse-event detection",
+          "node_type": "research_area",
+          "parent_id": "05.04.10",
+          "children": []
+        },
+        {
+          "id": "05.04.10.02",
+          "code": "05.04.10.02",
+          "name": "Postmarketing surveillance",
+          "node_type": "research_area",
+          "parent_id": "05.04.10",
+          "children": []
+        },
+        {
+          "id": "05.04.10.03",
+          "code": "05.04.10.03",
+          "name": "Real-world drug safety",
+          "node_type": "research_area",
+          "parent_id": "05.04.10",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.04.11",
+      "code": "05.04.11",
+      "name": "Regulatory Science",
+      "node_type": "discipline",
+      "parent_id": "05.04",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.04.11.01",
+          "code": "05.04.11.01",
+          "name": "Benefit-risk evaluation",
+          "node_type": "research_area",
+          "parent_id": "05.04.11",
+          "children": []
+        },
+        {
+          "id": "05.04.11.02",
+          "code": "05.04.11.02",
+          "name": "Manufacturing quality",
+          "node_type": "research_area",
+          "parent_id": "05.04.11",
+          "children": []
+        },
+        {
+          "id": "05.04.11.03",
+          "code": "05.04.11.03",
+          "name": "Regulatory evidence",
+          "node_type": "research_area",
+          "parent_id": "05.04.11",
+          "children": []
+        },
+        {
+          "id": "05.04.11.04",
+          "code": "05.04.11.04",
+          "name": "Medical product standards",
+          "node_type": "research_area",
+          "parent_id": "05.04.11",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

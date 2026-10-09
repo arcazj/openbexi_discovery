@@ -1,5 +1,8 @@
 # REI Research Explorer Help
 
+
+For Discovery 1.1 profiles, themes, offline archives, SQLite connections, and AI budgets, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile.
+
 ## Quick start
 
 Search a topic such as **ovarian aging** or **PCOS**, a human gene such as **BRCA1**, or a chromosome region such as `17:43044295-43170245`. Check the interpreted search type and change it if necessary. Open a finding to inspect its source, then start a research brief with the references you want to keep.

@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "07.03",
+  "name": "Data & Information",
+  "node_type": "theme",
+  "parent_id": "07",
+  "children": [
+    {
+      "id": "07.03.01",
+      "name": "Data Science",
+      "node_type": "discipline",
+      "parent_id": "07.03",
+      "children": [
+        {
+          "id": "07.03.01.01",
+          "name": "Statistical learning",
+          "node_type": "research_area",
+          "parent_id": "07.03.01",
+          "children": []
+        },
+        {
+          "id": "07.03.01.02",
+          "name": "Data mining",
+          "node_type": "research_area",
+          "parent_id": "07.03.01",
+          "children": []
+        },
+        {
+          "id": "07.03.01.03",
+          "name": "Data engineering",
+          "node_type": "research_area",
+          "parent_id": "07.03.01",
+          "children": []
+        },
+        {
+          "id": "07.03.01.04",
+          "name": "Predictive analytics",
+          "node_type": "research_area",
+          "parent_id": "07.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.03.02",
+      "name": "Databases",
+      "node_type": "discipline",
+      "parent_id": "07.03",
+      "children": [
+        {
+          "id": "07.03.02.01",
+          "name": "Relational databases",
+          "node_type": "research_area",
+          "parent_id": "07.03.02",
+          "children": []
+        },
+        {
+          "id": "07.03.02.02",
+          "name": "Graph databases",
+          "node_type": "research_area",
+          "parent_id": "07.03.02",
+          "children": []
+        },
+        {
+          "id": "07.03.02.03",
+          "name": "Query optimization",
+          "node_type": "research_area",
+          "parent_id": "07.03.02",
+          "children": []
+        },
+        {
+          "id": "07.03.02.04",
+          "name": "Distributed databases",
+          "node_type": "research_area",
+          "parent_id": "07.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.03.03",
+      "name": "Information Retrieval",
+      "node_type": "discipline",
+      "parent_id": "07.03",
+      "children": [
+        {
+          "id": "07.03.03.01",
+          "name": "Search ranking",
+          "node_type": "research_area",
+          "parent_id": "07.03.03",
+          "children": []
+        },
+        {
+          "id": "07.03.03.02",
+          "name": "Recommendation",
+          "node_type": "research_area",
+          "parent_id": "07.03.03",
+          "children": []
+        },
+        {
+          "id": "07.03.03.03",
+          "name": "Semantic search",
+          "node_type": "research_area",
+          "parent_id": "07.03.03",
+          "children": []
+        },
+        {
+          "id": "07.03.03.04",
+          "name": "Retrieval evaluation",
+          "node_type": "research_area",
+          "parent_id": "07.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.03.04",
+      "name": "Human-Computer Interaction",
+      "node_type": "discipline",
+      "parent_id": "07.03",
+      "children": [
+        {
+          "id": "07.03.04.01",
+          "name": "Usability",
+          "node_type": "research_area",
+          "parent_id": "07.03.04",
+          "children": []
+        },
+        {
+          "id": "07.03.04.02",
+          "name": "Accessibility",
+          "node_type": "research_area",
+          "parent_id": "07.03.04",
+          "children": []
+        },
+        {
+          "id": "07.03.04.03",
+          "name": "Interactive visualization",
+          "node_type": "research_area",
+          "parent_id": "07.03.04",
+          "children": []
+        },
+        {
+          "id": "07.03.04.04",
+          "name": "User experience research",
+          "node_type": "research_area",
+          "parent_id": "07.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.03.05",
+      "name": "Information Science",
+      "node_type": "discipline",
+      "parent_id": "07.03",
+      "children": [
+        {
+          "id": "07.03.05.01",
+          "name": "Knowledge organization",
+          "node_type": "research_area",
+          "parent_id": "07.03.05",
+          "children": []
+        },
+        {
+          "id": "07.03.05.02",
+          "name": "Digital libraries",
+          "node_type": "research_area",
+          "parent_id": "07.03.05",
+          "children": []
+        },
+        {
+          "id": "07.03.05.03",
+          "name": "Metadata standards",
+          "node_type": "research_area",
+          "parent_id": "07.03.05",
+          "children": []
+        },
+        {
+          "id": "07.03.05.04",
+          "name": "Information behavior",
+          "node_type": "research_area",
+          "parent_id": "07.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "07.03.06",
+      "name": "Knowledge Representation",
+      "node_type": "discipline",
+      "parent_id": "07.03",
+      "children": [
+        {
+          "id": "07.03.06.01",
+          "name": "Ontologies",
+          "node_type": "research_area",
+          "parent_id": "07.03.06",
+          "children": []
+        },
+        {
+          "id": "07.03.06.02",
+          "name": "Knowledge graphs",
+          "node_type": "research_area",
+          "parent_id": "07.03.06",
+          "children": []
+        },
+        {
+          "id": "07.03.06.03",
+          "name": "Semantic reasoning",
+          "node_type": "research_area",
+          "parent_id": "07.03.06",
+          "children": []
+        },
+        {
+          "id": "07.03.06.04",
+          "name": "Entity resolution",
+          "node_type": "research_area",
+          "parent_id": "07.03.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

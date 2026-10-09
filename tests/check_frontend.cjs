@@ -10,4 +10,5 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi))
   new vm.Script(match[2], {filename: `index.html:inline-script-${++count}`});
 }
 if (!count) throw new Error('No inline application script was found.');
+new vm.Script(fs.readFileSync(path.join(__dirname, '..', 'assets', 'discovery.js'), 'utf8'), {filename: 'assets/discovery.js'});
 console.log(`Frontend syntax verified: ${count} inline script(s).`);

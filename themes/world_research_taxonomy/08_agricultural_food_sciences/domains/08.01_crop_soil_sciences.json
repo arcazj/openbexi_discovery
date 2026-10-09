@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "08.01",
+  "name": "Crop & Soil Sciences",
+  "node_type": "theme",
+  "parent_id": "08",
+  "children": [
+    {
+      "id": "08.01.01",
+      "name": "Agronomy",
+      "node_type": "discipline",
+      "parent_id": "08.01",
+      "children": [
+        {
+          "id": "08.01.01.01",
+          "name": "Crop production",
+          "node_type": "research_area",
+          "parent_id": "08.01.01",
+          "children": []
+        },
+        {
+          "id": "08.01.01.02",
+          "name": "Cropping systems",
+          "node_type": "research_area",
+          "parent_id": "08.01.01",
+          "children": []
+        },
+        {
+          "id": "08.01.01.03",
+          "name": "Yield optimization",
+          "node_type": "research_area",
+          "parent_id": "08.01.01",
+          "children": []
+        },
+        {
+          "id": "08.01.01.04",
+          "name": "Climate-resilient crops",
+          "node_type": "research_area",
+          "parent_id": "08.01.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.01.02",
+      "name": "Plant Breeding",
+      "node_type": "discipline",
+      "parent_id": "08.01",
+      "children": [
+        {
+          "id": "08.01.02.01",
+          "name": "Quantitative genetics",
+          "node_type": "research_area",
+          "parent_id": "08.01.02",
+          "children": []
+        },
+        {
+          "id": "08.01.02.02",
+          "name": "Genomic selection",
+          "node_type": "research_area",
+          "parent_id": "08.01.02",
+          "children": []
+        },
+        {
+          "id": "08.01.02.03",
+          "name": "Hybrid breeding",
+          "node_type": "research_area",
+          "parent_id": "08.01.02",
+          "children": []
+        },
+        {
+          "id": "08.01.02.04",
+          "name": "Trait improvement",
+          "node_type": "research_area",
+          "parent_id": "08.01.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.01.03",
+      "name": "Soil Science",
+      "node_type": "discipline",
+      "parent_id": "08.01",
+      "children": [
+        {
+          "id": "08.01.03.01",
+          "name": "Soil chemistry",
+          "node_type": "research_area",
+          "parent_id": "08.01.03",
+          "children": []
+        },
+        {
+          "id": "08.01.03.02",
+          "name": "Soil biology",
+          "node_type": "research_area",
+          "parent_id": "08.01.03",
+          "children": []
+        },
+        {
+          "id": "08.01.03.03",
+          "name": "Soil fertility",
+          "node_type": "research_area",
+          "parent_id": "08.01.03",
+          "children": []
+        },
+        {
+          "id": "08.01.03.04",
+          "name": "Soil conservation",
+          "node_type": "research_area",
+          "parent_id": "08.01.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.01.04",
+      "name": "Plant Protection",
+      "node_type": "discipline",
+      "parent_id": "08.01",
+      "children": [
+        {
+          "id": "08.01.04.01",
+          "name": "Plant pathology",
+          "node_type": "research_area",
+          "parent_id": "08.01.04",
+          "children": []
+        },
+        {
+          "id": "08.01.04.02",
+          "name": "Pest management",
+          "node_type": "research_area",
+          "parent_id": "08.01.04",
+          "children": []
+        },
+        {
+          "id": "08.01.04.03",
+          "name": "Weed science",
+          "node_type": "research_area",
+          "parent_id": "08.01.04",
+          "children": []
+        },
+        {
+          "id": "08.01.04.04",
+          "name": "Biological control",
+          "node_type": "research_area",
+          "parent_id": "08.01.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.01.05",
+      "name": "Precision Agriculture",
+      "node_type": "discipline",
+      "parent_id": "08.01",
+      "children": [
+        {
+          "id": "08.01.05.01",
+          "name": "Remote crop sensing",
+          "node_type": "research_area",
+          "parent_id": "08.01.05",
+          "children": []
+        },
+        {
+          "id": "08.01.05.02",
+          "name": "Variable-rate management",
+          "node_type": "research_area",
+          "parent_id": "08.01.05",
+          "children": []
+        },
+        {
+          "id": "08.01.05.03",
+          "name": "Farm robotics",
+          "node_type": "research_area",
+          "parent_id": "08.01.05",
+          "children": []
+        },
+        {
+          "id": "08.01.05.04",
+          "name": "Decision support",
+          "node_type": "research_area",
+          "parent_id": "08.01.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "08.01.06",
+      "name": "Horticulture",
+      "node_type": "discipline",
+      "parent_id": "08.01",
+      "children": [
+        {
+          "id": "08.01.06.01",
+          "name": "Fruit production",
+          "node_type": "research_area",
+          "parent_id": "08.01.06",
+          "children": []
+        },
+        {
+          "id": "08.01.06.02",
+          "name": "Vegetable science",
+          "node_type": "research_area",
+          "parent_id": "08.01.06",
+          "children": []
+        },
+        {
+          "id": "08.01.06.03",
+          "name": "Ornamental plants",
+          "node_type": "research_area",
+          "parent_id": "08.01.06",
+          "children": []
+        },
+        {
+          "id": "08.01.06.04",
+          "name": "Protected cultivation",
+          "node_type": "research_area",
+          "parent_id": "08.01.06",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

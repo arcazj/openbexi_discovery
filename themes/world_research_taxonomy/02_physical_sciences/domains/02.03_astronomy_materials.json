@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "02.03",
+  "name": "Astronomy & Materials",
+  "node_type": "theme",
+  "parent_id": "02",
+  "children": [
+    {
+      "id": "02.03.01",
+      "name": "Astronomy",
+      "node_type": "discipline",
+      "parent_id": "02.03",
+      "children": [
+        {
+          "id": "02.03.01.01",
+          "name": "Stellar evolution",
+          "node_type": "research_area",
+          "parent_id": "02.03.01",
+          "children": []
+        },
+        {
+          "id": "02.03.01.02",
+          "name": "Exoplanets",
+          "node_type": "research_area",
+          "parent_id": "02.03.01",
+          "children": []
+        },
+        {
+          "id": "02.03.01.03",
+          "name": "Galactic astronomy",
+          "node_type": "research_area",
+          "parent_id": "02.03.01",
+          "children": []
+        },
+        {
+          "id": "02.03.01.04",
+          "name": "Observational surveys",
+          "node_type": "research_area",
+          "parent_id": "02.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.03.02",
+      "name": "Astrophysics",
+      "node_type": "discipline",
+      "parent_id": "02.03",
+      "children": [
+        {
+          "id": "02.03.02.01",
+          "name": "Black holes",
+          "node_type": "research_area",
+          "parent_id": "02.03.02",
+          "children": []
+        },
+        {
+          "id": "02.03.02.02",
+          "name": "Accretion physics",
+          "node_type": "research_area",
+          "parent_id": "02.03.02",
+          "children": []
+        },
+        {
+          "id": "02.03.02.03",
+          "name": "High-energy astrophysics",
+          "node_type": "research_area",
+          "parent_id": "02.03.02",
+          "children": []
+        },
+        {
+          "id": "02.03.02.04",
+          "name": "Interstellar medium",
+          "node_type": "research_area",
+          "parent_id": "02.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.03.03",
+      "name": "Cosmology",
+      "node_type": "discipline",
+      "parent_id": "02.03",
+      "children": [
+        {
+          "id": "02.03.03.01",
+          "name": "Early universe",
+          "node_type": "research_area",
+          "parent_id": "02.03.03",
+          "children": []
+        },
+        {
+          "id": "02.03.03.02",
+          "name": "Cosmic microwave background",
+          "node_type": "research_area",
+          "parent_id": "02.03.03",
+          "children": []
+        },
+        {
+          "id": "02.03.03.03",
+          "name": "Dark matter",
+          "node_type": "research_area",
+          "parent_id": "02.03.03",
+          "children": []
+        },
+        {
+          "id": "02.03.03.04",
+          "name": "Dark energy",
+          "node_type": "research_area",
+          "parent_id": "02.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.03.04",
+      "name": "Materials Science",
+      "node_type": "discipline",
+      "parent_id": "02.03",
+      "children": [
+        {
+          "id": "02.03.04.01",
+          "name": "Nanomaterials",
+          "node_type": "research_area",
+          "parent_id": "02.03.04",
+          "children": []
+        },
+        {
+          "id": "02.03.04.02",
+          "name": "Polymers",
+          "node_type": "research_area",
+          "parent_id": "02.03.04",
+          "children": []
+        },
+        {
+          "id": "02.03.04.03",
+          "name": "Metamaterials",
+          "node_type": "research_area",
+          "parent_id": "02.03.04",
+          "children": []
+        },
+        {
+          "id": "02.03.04.04",
+          "name": "Advanced ceramics",
+          "node_type": "research_area",
+          "parent_id": "02.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "02.03.05",
+      "name": "Surface & Interface Science",
+      "node_type": "discipline",
+      "parent_id": "02.03",
+      "children": [
+        {
+          "id": "02.03.05.01",
+          "name": "Thin films",
+          "node_type": "research_area",
+          "parent_id": "02.03.05",
+          "children": []
+        },
+        {
+          "id": "02.03.05.02",
+          "name": "Surface characterization",
+          "node_type": "research_area",
+          "parent_id": "02.03.05",
+          "children": []
+        },
+        {
+          "id": "02.03.05.03",
+          "name": "Tribology",
+          "node_type": "research_area",
+          "parent_id": "02.03.05",
+          "children": []
+        },
+        {
+          "id": "02.03.05.04",
+          "name": "Interface engineering",
+          "node_type": "research_area",
+          "parent_id": "02.03.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

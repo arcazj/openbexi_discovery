@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "06",
+  "name": "Engineering & Technology",
+  "node_type": "domain_overview",
+  "parent_id": "WORLD",
+  "counts": {
+    "themes": 3,
+    "disciplines": 20,
+    "research_areas": 80
+  },
+  "children": [
+    {
+      "id": "06.01",
+      "name": "Mechanical, Civil & Industrial",
+      "node_type": "theme",
+      "parent_id": "06",
+      "file": "domains/06.01_mechanical_civil_industrial.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    },
+    {
+      "id": "06.02",
+      "name": "Electrical, Aerospace & Computing",
+      "node_type": "theme",
+      "parent_id": "06",
+      "file": "domains/06.02_electrical_aerospace_computing.json",
+      "counts": {
+        "disciplines": 8,
+        "research_areas": 32
+      }
+    },
+    {
+      "id": "06.03",
+      "name": "Energy & Emerging Engineering",
+      "node_type": "theme",
+      "parent_id": "06",
+      "file": "domains/06.03_energy_emerging_engineering.json",
+      "counts": {
+        "disciplines": 6,
+        "research_areas": 24
+      }
+    }
+  ]
+}

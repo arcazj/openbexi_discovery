@@ -1,24 +1,30 @@
-# REI Research Explorer · V1.0.1
+﻿# OpenBEXI Discovery · 1.1
 
-A compact workspace for an REI fellow developing a research project: explore evidence, shape questions, and prepare briefs for mentor review.
+**Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.**
 
-**[Open the live demo →](https://arcazj.github.io/openbexi_REI/)**
+A local learning and research workspace. Start with the familiar **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and AI guidance.
 
-[Download V1.0.1](https://github.com/arcazj/openbexi_REI/releases/tag/v1.0.1) · [Release notes](CHANGELOG.md)
-
-The demo needs no installation or key. Search PubMed/Ensembl, try the labeled example workspace, and save/export manual briefs. AI and GWAS Catalog require the local Python version.
+[Download release 1.1](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.0) · [Release notes](CHANGELOG.md) · [User guide](documentation/USER_GUIDE.md)
 
 ## Install on Windows
 
-**[Download the Windows installer](https://github.com/arcazj/openbexi_REI/releases/download/v1.0.1/REIResearchExplorer-1.0.1-Windows-x64-Setup.exe)** for Windows 10/11, 64-bit. Run Setup, then launch **REI Research Explorer** from the Start menu or desktop. Python and dependencies are included; administrator access is not required. The app opens in your default browser. Use its tray menu to reopen or quit it. Enter your own API key through **Connect AI** when needed.
+[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.0/OpenBEXIDiscovery-1.1.0-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
 
-Private settings survive updates/uninstall. This installer is unsigned; Windows may show an unknown-publisher warning. See [Windows installation help](WINDOWS_INSTALLATION.md) for troubleshooting, private-data locations, and build instructions.
+The app opens in your browser. Use the tray menu to reopen or quit. Private data survives upgrades and uninstall. [Installation help](WINDOWS_INSTALLATION.md)
 
-## Run locally
+## What you can do
 
-Requirements: Python 3.9+, a modern browser, and internet for live sources. The HTML has no build step.
+- **Research:** search evidence, inspect sources, save questions, and compare briefs.
+- **Personalize:** create profiles, choose research themes and one of seven levels, and preview UI wording.
+- **Work locally:** collect documents, browse datasets, write notes, take quizzes, and open or export ZIP libraries without AI.
+- **Connect data:** browse a local SQLite database read-only and explicitly save selected rows for offline use.
+- **Control AI:** supply your own API key, review usage and estimated cost, and set token or dollar limits. AI pauses when a limit blocks requests.
 
-From the project folder in PowerShell:
+Green identifies source/user content whose upstream AI origin may be unknown. Orange identifies app-generated AI content, with its model recorded. Red signals errors or blocked AI usage.
+
+## Run from source
+
+Python 3.9+; no frontend build step. In PowerShell:
 
 ```powershell
 py -3 -m venv .venv
@@ -26,36 +32,16 @@ py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
 
-Open **http://127.0.0.1:8000**. On macOS/Linux, use `python3 -m venv .venv` and `.venv/bin/python` for installation/startup.
+Open **http://127.0.0.1:8000**. On macOS/Linux, use `python3` and `.venv/bin/python`. Run one server worker. Internet is needed for live evidence and AI; **Local-only mode** uses saved content without external requests.
 
-Browser-only alternative: `py -3 serve_frontend.py`. Open the printed HTTP URL, normally **http://127.0.0.1:8765**. The launcher selects another port if needed; `--port 0` requests an available port. This standalone page automatically connects to a running backend on port 8000. Set another address in **Help → AI & connection**. Double-clicking `index.html` does not enable local AI.
+The [browser demo](https://arcazj.github.io/openbexi_discovery/) supports basic evidence browsing and manual briefs. Profiles, SQLite, archives, and AI require the local app.
 
-## Research workflow
+## Learn more
 
-1. Select sources above search. Try **ovarian aging**, **PCOS**, **BRCA1**, or a GRCh38 region.
-2. Inspect findings, original sources, and search coverage.
-3. Use **Suggest research directions**, or **More actions → Draft a research question**.
-4. Review feasibility with your mentor. Save a brief; export JSON for backup or Markdown for review.
+- [Profiles, tabs, quizzes, and local library](documentation/USER_GUIDE.md)
+- [AI usage, budgets, and data privacy](documentation/AI_AND_DATA.md)
+- [Architecture, schemas, extensions, and tests](documentation/DEVELOPMENT.md)
+- [Community Edition and commercial roadmap](documentation/LICENSING_ROADMAP.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-Saved work stays in this browser. Exports preserve search and AI provenance. Illustrative examples are excluded from scientific evidence and AI input. Three.js views remain deferred until a useful spatial task and suitable data are available.
-
-## Connect AI
-
-Click **Connect AI**, then **Save key & connect**. The backend saves the key in ignored `.env` and verifies model access without restarting. The compact status shows the verified model; **AI settings** is on the right.
-
-Alternatively, copy `.env.example` to `.env`, configure the following, and restart:
-
-```dotenv
-OPENAI_API_KEY=your_api_key_here
-OPENAI_MODEL=gpt-6.1-sol
-```
-
-After a completed live search, AI supplies one next step and one tip from retrieved evidence, constraints, and up to three saved questions. **Why this suggestion?** shows supporting sources. Apply a refined query, review/save a proposed question, or add a next step to a brief. Guidance is reused for the same context; **Refresh suggestions** requests new text. Turn automatic guidance off in **AI settings** for manual refresh.
-
-API usage is metered and needs model access and generation quota. Keys stay on the backend; keep them out of HTML, browser storage, exports, and Git. `.env.example` is public. AI failures show labeled fallback guidance and preserve saved work.
-
-## Help, licences, and checks
-
-Searchable **Help** includes all documentation. See [Help](HELP.md), [implementation prompt](REI_RESEARCH_EXPLORER_PROMPT.md), [commercial terms](COMMERCIAL_LICENSING.md), and [third-party notices](THIRD_PARTY_NOTICES.md). Original-code licensing remains pending owner selection.
-
-Run `python -m unittest discover -s tests -v` with the virtual environment. Optional browser checks: `npm ci`, `npx playwright install chromium`, then `npm run test:ui`. These development tools are not needed to run the HTML. CI checks Python 3.9/3.12 and desktop/mobile behavior. For failures, inspect coverage or AI settings. Back up research before clearing browser storage.
+3D engines, full adaptive tutoring, knowledge graphs, autonomous agents, and account-provider integrations are planned extensions. Licensing remains pending owner review. The [legacy REI repository](https://github.com/arcazj/openbexi_REI) is retained as a backup.

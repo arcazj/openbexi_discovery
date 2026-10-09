@@ -3,6 +3,7 @@
 import json
 import os
 import unittest
+import tempfile
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -129,6 +130,13 @@ class CitationValidationTests(unittest.TestCase):
 
 
 class ResponsesContractTests(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory(prefix="discovery-ai-test-")
+        self.addCleanup(directory.cleanup)
+        environment = patch.dict(os.environ, {"DISCOVERY_DATA_DIR": directory.name, "DISCOVERY_LIBRARY_DIR": ""})
+        environment.start()
+        self.addCleanup(environment.stop)
+
     async def test_guidance_uses_its_structured_schema_and_exact_model_without_storage(self):
         parsed = guidance()
         client = SimpleNamespace(responses=SimpleNamespace(parse=AsyncMock(return_value=SimpleNamespace(output_parsed=parsed))))

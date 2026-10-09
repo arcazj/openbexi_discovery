@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "12.02",
+  "name": "Planetary & Sustainability Frontiers",
+  "node_type": "theme",
+  "parent_id": "12",
+  "children": [
+    {
+      "id": "12.02.01",
+      "name": "Climate Solutions",
+      "node_type": "discipline",
+      "parent_id": "12.02",
+      "children": [
+        {
+          "id": "12.02.01.01",
+          "name": "Carbon removal",
+          "node_type": "research_area",
+          "parent_id": "12.02.01",
+          "children": []
+        },
+        {
+          "id": "12.02.01.02",
+          "name": "Climate adaptation",
+          "node_type": "research_area",
+          "parent_id": "12.02.01",
+          "children": []
+        },
+        {
+          "id": "12.02.01.03",
+          "name": "Decarbonization pathways",
+          "node_type": "research_area",
+          "parent_id": "12.02.01",
+          "children": []
+        },
+        {
+          "id": "12.02.01.04",
+          "name": "Climate intervention assessment",
+          "node_type": "research_area",
+          "parent_id": "12.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.02.02",
+      "name": "Circular Economy",
+      "node_type": "discipline",
+      "parent_id": "12.02",
+      "children": [
+        {
+          "id": "12.02.02.01",
+          "name": "Resource recovery",
+          "node_type": "research_area",
+          "parent_id": "12.02.02",
+          "children": []
+        },
+        {
+          "id": "12.02.02.02",
+          "name": "Product circularity",
+          "node_type": "research_area",
+          "parent_id": "12.02.02",
+          "children": []
+        },
+        {
+          "id": "12.02.02.03",
+          "name": "Industrial symbiosis",
+          "node_type": "research_area",
+          "parent_id": "12.02.02",
+          "children": []
+        },
+        {
+          "id": "12.02.02.04",
+          "name": "Sustainable materials",
+          "node_type": "research_area",
+          "parent_id": "12.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.02.03",
+      "name": "Planetary Health",
+      "node_type": "discipline",
+      "parent_id": "12.02",
+      "children": [
+        {
+          "id": "12.02.03.01",
+          "name": "Ecosystem health",
+          "node_type": "research_area",
+          "parent_id": "12.02.03",
+          "children": []
+        },
+        {
+          "id": "12.02.03.02",
+          "name": "Climate-health interactions",
+          "node_type": "research_area",
+          "parent_id": "12.02.03",
+          "children": []
+        },
+        {
+          "id": "12.02.03.03",
+          "name": "Environmental disease burdens",
+          "node_type": "research_area",
+          "parent_id": "12.02.03",
+          "children": []
+        },
+        {
+          "id": "12.02.03.04",
+          "name": "One Health",
+          "node_type": "research_area",
+          "parent_id": "12.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.02.04",
+      "name": "Space Exploration",
+      "node_type": "discipline",
+      "parent_id": "12.02",
+      "children": [
+        {
+          "id": "12.02.04.01",
+          "name": "Human spaceflight",
+          "node_type": "research_area",
+          "parent_id": "12.02.04",
+          "children": []
+        },
+        {
+          "id": "12.02.04.02",
+          "name": "Space habitats",
+          "node_type": "research_area",
+          "parent_id": "12.02.04",
+          "children": []
+        },
+        {
+          "id": "12.02.04.03",
+          "name": "In-situ resource utilization",
+          "node_type": "research_area",
+          "parent_id": "12.02.04",
+          "children": []
+        },
+        {
+          "id": "12.02.04.04",
+          "name": "Interplanetary missions",
+          "node_type": "research_area",
+          "parent_id": "12.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "12.02.05",
+      "name": "Astrobiology",
+      "node_type": "discipline",
+      "parent_id": "12.02",
+      "children": [
+        {
+          "id": "12.02.05.01",
+          "name": "Origins of life",
+          "node_type": "research_area",
+          "parent_id": "12.02.05",
+          "children": []
+        },
+        {
+          "id": "12.02.05.02",
+          "name": "Biosignatures",
+          "node_type": "research_area",
+          "parent_id": "12.02.05",
+          "children": []
+        },
+        {
+          "id": "12.02.05.03",
+          "name": "Planetary habitability",
+          "node_type": "research_area",
+          "parent_id": "12.02.05",
+          "children": []
+        },
+        {
+          "id": "12.02.05.04",
+          "name": "Extremophiles",
+          "node_type": "research_area",
+          "parent_id": "12.02.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

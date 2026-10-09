@@ -1,0 +1,9 @@
+{
+  "version": "2026-10-09",
+  "verified_at": "2026-10-09",
+  "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+  "currency": "USD",
+  "unit": "per million tokens, standard text requests below 272K input tokens",
+  "models": {"gpt-6.1-sol": {"input": 2.0, "cached": 0.1, "write": 2.5, "output": 10.0}},
+  "note": "Local estimates only; unknown models block cost-limited requests. No paid tools or nonstandard service tiers are enabled. Update rates against the provider before changing models."
+}

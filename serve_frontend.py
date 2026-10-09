@@ -34,6 +34,13 @@ class FrontendHandler(BaseHTTPRequestHandler):
             file_path = ROOT / route[1:]
         elif route.startswith("/api/docs/") and route[10:] in DOCUMENTS:
             file_path = ROOT / route[10:]
+        elif route in {"/assets/discovery.js", "/assets/discovery.css"}:
+            file_path = ROOT / route[1:]
+            media_type = "text/javascript; charset=utf-8" if route.endswith(".js") else "text/css; charset=utf-8"
+        elif route.startswith("/documentation/"):
+            candidate = (ROOT / route[1:]).resolve()
+            if candidate.parent == (ROOT / "documentation").resolve() and candidate.suffix == ".md":
+                file_path = candidate
         elif route.startswith("/licenses/"):
             name = route[10:]
             license_root = (ROOT / "licenses").resolve()

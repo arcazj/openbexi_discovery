@@ -16,7 +16,7 @@ import urllib.request
 import uuid
 import webbrowser
 
-APP_NAME = "REI Research Explorer"
+APP_NAME = "OpenBEXI Discovery"
 DEFAULT_PORT = 18080
 
 
@@ -274,6 +274,7 @@ def main(argv=None):
         if not quit_event:
             raise RuntimeError("Could not create the app exit control.")
         os.environ["REI_DATA_DIR"] = str(directory)
+        os.environ["DISCOVERY_DATA_DIR"] = str(directory)
         os.environ["REI_DESKTOP_INSTANCE"] = str(uuid.uuid4())
         import uvicorn
         from backend.app import app

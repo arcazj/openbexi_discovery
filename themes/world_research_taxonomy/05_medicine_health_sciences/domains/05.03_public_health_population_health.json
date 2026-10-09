@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_id": "05",
+  "taxonomy_name": "Medicine & Health Sciences",
+  "taxonomy_classification": "Custom expanded research taxonomy; not an official OECD or NIH coding scheme",
+  "taxonomy_edition": "1.0",
+  "date": "2026-10-09",
+  "id": "05.03",
+  "code": "05.03",
+  "name": "Public Health & Population Health",
+  "node_type": "theme",
+  "parent_id": "05",
+  "description": "Research on population health, prevention, epidemiology, health systems, and the social and environmental determinants of outcomes.",
+  "counts": {
+    "disciplines": 9,
+    "research_areas": 41
+  },
+  "children": [
+    {
+      "id": "05.03.01",
+      "code": "05.03.01",
+      "name": "Epidemiology",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.03.01.01",
+          "code": "05.03.01.01",
+          "name": "Infectious disease epidemiology",
+          "node_type": "research_area",
+          "parent_id": "05.03.01",
+          "children": []
+        },
+        {
+          "id": "05.03.01.02",
+          "code": "05.03.01.02",
+          "name": "Chronic disease epidemiology",
+          "node_type": "research_area",
+          "parent_id": "05.03.01",
+          "children": []
+        },
+        {
+          "id": "05.03.01.03",
+          "code": "05.03.01.03",
+          "name": "Molecular epidemiology",
+          "node_type": "research_area",
+          "parent_id": "05.03.01",
+          "children": []
+        },
+        {
+          "id": "05.03.01.04",
+          "code": "05.03.01.04",
+          "name": "Field epidemiology",
+          "node_type": "research_area",
+          "parent_id": "05.03.01",
+          "children": []
+        },
+        {
+          "id": "05.03.01.05",
+          "code": "05.03.01.05",
+          "name": "Mathematical epidemiology",
+          "node_type": "research_area",
+          "parent_id": "05.03.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.02",
+      "code": "05.03.02",
+      "name": "Preventive Medicine",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.03.02.01",
+          "code": "05.03.02.01",
+          "name": "Screening",
+          "node_type": "research_area",
+          "parent_id": "05.03.02",
+          "children": []
+        },
+        {
+          "id": "05.03.02.02",
+          "code": "05.03.02.02",
+          "name": "Immunization programs",
+          "node_type": "research_area",
+          "parent_id": "05.03.02",
+          "children": []
+        },
+        {
+          "id": "05.03.02.03",
+          "code": "05.03.02.03",
+          "name": "Lifestyle interventions",
+          "node_type": "research_area",
+          "parent_id": "05.03.02",
+          "children": []
+        },
+        {
+          "id": "05.03.02.04",
+          "code": "05.03.02.04",
+          "name": "Preventive cardiology",
+          "node_type": "research_area",
+          "parent_id": "05.03.02",
+          "children": []
+        },
+        {
+          "id": "05.03.02.05",
+          "code": "05.03.02.05",
+          "name": "Cancer prevention",
+          "node_type": "research_area",
+          "parent_id": "05.03.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.03",
+      "code": "05.03.03",
+      "name": "Global Health",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.03.03.01",
+          "code": "05.03.03.01",
+          "name": "Health systems in low-resource settings",
+          "node_type": "research_area",
+          "parent_id": "05.03.03",
+          "children": []
+        },
+        {
+          "id": "05.03.03.02",
+          "code": "05.03.03.02",
+          "name": "Maternal and child health",
+          "node_type": "research_area",
+          "parent_id": "05.03.03",
+          "children": []
+        },
+        {
+          "id": "05.03.03.03",
+          "code": "05.03.03.03",
+          "name": "Tropical medicine",
+          "node_type": "research_area",
+          "parent_id": "05.03.03",
+          "children": []
+        },
+        {
+          "id": "05.03.03.04",
+          "code": "05.03.03.04",
+          "name": "International disease surveillance",
+          "node_type": "research_area",
+          "parent_id": "05.03.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.04",
+      "code": "05.03.04",
+      "name": "Environmental Health",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.03.04.01",
+          "code": "05.03.04.01",
+          "name": "Air pollution",
+          "node_type": "research_area",
+          "parent_id": "05.03.04",
+          "children": []
+        },
+        {
+          "id": "05.03.04.02",
+          "code": "05.03.04.02",
+          "name": "Water contamination",
+          "node_type": "research_area",
+          "parent_id": "05.03.04",
+          "children": []
+        },
+        {
+          "id": "05.03.04.03",
+          "code": "05.03.04.03",
+          "name": "Environmental exposure assessment",
+          "node_type": "research_area",
+          "parent_id": "05.03.04",
+          "children": []
+        },
+        {
+          "id": "05.03.04.04",
+          "code": "05.03.04.04",
+          "name": "Climate-related health risks",
+          "node_type": "research_area",
+          "parent_id": "05.03.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.05",
+      "code": "05.03.05",
+      "name": "Occupational Health",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.03.05.01",
+          "code": "05.03.05.01",
+          "name": "Industrial exposure",
+          "node_type": "research_area",
+          "parent_id": "05.03.05",
+          "children": []
+        },
+        {
+          "id": "05.03.05.02",
+          "code": "05.03.05.02",
+          "name": "Workplace ergonomics",
+          "node_type": "research_area",
+          "parent_id": "05.03.05",
+          "children": []
+        },
+        {
+          "id": "05.03.05.03",
+          "code": "05.03.05.03",
+          "name": "Occupational injury",
+          "node_type": "research_area",
+          "parent_id": "05.03.05",
+          "children": []
+        },
+        {
+          "id": "05.03.05.04",
+          "code": "05.03.05.04",
+          "name": "Work-related respiratory disease",
+          "node_type": "research_area",
+          "parent_id": "05.03.05",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.06",
+      "code": "05.03.06",
+      "name": "Health Policy & Economics",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.03.06.01",
+          "code": "05.03.06.01",
+          "name": "Health financing",
+          "node_type": "research_area",
+          "parent_id": "05.03.06",
+          "children": []
+        },
+        {
+          "id": "05.03.06.02",
+          "code": "05.03.06.02",
+          "name": "Insurance systems",
+          "node_type": "research_area",
+          "parent_id": "05.03.06",
+          "children": []
+        },
+        {
+          "id": "05.03.06.03",
+          "code": "05.03.06.03",
+          "name": "Health technology assessment",
+          "node_type": "research_area",
+          "parent_id": "05.03.06",
+          "children": []
+        },
+        {
+          "id": "05.03.06.04",
+          "code": "05.03.06.04",
+          "name": "Comparative effectiveness",
+          "node_type": "research_area",
+          "parent_id": "05.03.06",
+          "children": []
+        },
+        {
+          "id": "05.03.06.05",
+          "code": "05.03.06.05",
+          "name": "Resource allocation",
+          "node_type": "research_area",
+          "parent_id": "05.03.06",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.07",
+      "code": "05.03.07",
+      "name": "Health Services Research",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.03.07.01",
+          "code": "05.03.07.01",
+          "name": "Quality of care",
+          "node_type": "research_area",
+          "parent_id": "05.03.07",
+          "children": []
+        },
+        {
+          "id": "05.03.07.02",
+          "code": "05.03.07.02",
+          "name": "Patient safety",
+          "node_type": "research_area",
+          "parent_id": "05.03.07",
+          "children": []
+        },
+        {
+          "id": "05.03.07.03",
+          "code": "05.03.07.03",
+          "name": "Care delivery models",
+          "node_type": "research_area",
+          "parent_id": "05.03.07",
+          "children": []
+        },
+        {
+          "id": "05.03.07.04",
+          "code": "05.03.07.04",
+          "name": "Access to care",
+          "node_type": "research_area",
+          "parent_id": "05.03.07",
+          "children": []
+        },
+        {
+          "id": "05.03.07.05",
+          "code": "05.03.07.05",
+          "name": "Hospital outcomes",
+          "node_type": "research_area",
+          "parent_id": "05.03.07",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.08",
+      "code": "05.03.08",
+      "name": "Population Health & Equity",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 5,
+      "children": [
+        {
+          "id": "05.03.08.01",
+          "code": "05.03.08.01",
+          "name": "Social determinants of health",
+          "node_type": "research_area",
+          "parent_id": "05.03.08",
+          "children": []
+        },
+        {
+          "id": "05.03.08.02",
+          "code": "05.03.08.02",
+          "name": "Rural health",
+          "node_type": "research_area",
+          "parent_id": "05.03.08",
+          "children": []
+        },
+        {
+          "id": "05.03.08.03",
+          "code": "05.03.08.03",
+          "name": "Urban health",
+          "node_type": "research_area",
+          "parent_id": "05.03.08",
+          "children": []
+        },
+        {
+          "id": "05.03.08.04",
+          "code": "05.03.08.04",
+          "name": "Health disparities",
+          "node_type": "research_area",
+          "parent_id": "05.03.08",
+          "children": []
+        },
+        {
+          "id": "05.03.08.05",
+          "code": "05.03.08.05",
+          "name": "Community health",
+          "node_type": "research_area",
+          "parent_id": "05.03.08",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "05.03.09",
+      "code": "05.03.09",
+      "name": "Disaster & Emergency Preparedness",
+      "node_type": "discipline",
+      "parent_id": "05.03",
+      "research_area_count": 4,
+      "children": [
+        {
+          "id": "05.03.09.01",
+          "code": "05.03.09.01",
+          "name": "Pandemic preparedness",
+          "node_type": "research_area",
+          "parent_id": "05.03.09",
+          "children": []
+        },
+        {
+          "id": "05.03.09.02",
+          "code": "05.03.09.02",
+          "name": "Disaster medicine",
+          "node_type": "research_area",
+          "parent_id": "05.03.09",
+          "children": []
+        },
+        {
+          "id": "05.03.09.03",
+          "code": "05.03.09.03",
+          "name": "Mass-casualty response",
+          "node_type": "research_area",
+          "parent_id": "05.03.09",
+          "children": []
+        },
+        {
+          "id": "05.03.09.04",
+          "code": "05.03.09.04",
+          "name": "Biological threat response",
+          "node_type": "research_area",
+          "parent_id": "05.03.09",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

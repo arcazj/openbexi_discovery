@@ -11,6 +11,9 @@ from openai import (AsyncOpenAI, APIConnectionError, APIStatusError, APITimeoutE
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from .sources import utc_now
+from . import budget
+from .profiles import get_profile
+from .prompting import compose
 
 PROMPT_VERSION = "rei-evidence-1.1"
 DEFAULT_MODEL = "gpt-6.1-sol"
@@ -81,6 +84,10 @@ class AIRequest(BaseModel):
     constraints: ResearchConstraints = Field(default_factory=ResearchConstraints)
     questions: List[Dict[str, Any]] = Field(default_factory=list, max_length=8)
     coverage: List[Dict[str, Any]] = Field(default_factory=list, max_length=3)
+    profile_id: str = Field(default="rei", pattern=r"^[a-zA-Z0-9_-]{1,80}$")
+    profile_revision: Optional[int] = None
+    sensitive: bool = False
+    consent_ai: bool = False
 
     @model_validator(mode="after")
     def bounded_request(self):
@@ -207,31 +214,55 @@ def ai_error(exc: Exception) -> HTTPException:
 
 
 async def generate(request: AIRequest) -> Dict[str, Any]:
+    budget.check_available()
+    profile = get_profile(request.profile_id)
+    if request.profile_revision is not None and profile["revision"] != request.profile_revision:
+        raise HTTPException(409, "The profile changed before generation. Retry from its current revision.")
+    if request.sensitive and not request.consent_ai:
+        raise HTTPException(403, "Review and authorize this sensitive request before sending it to AI.")
     if not configured():
         raise HTTPException(503, "AI is not configured. Open AI connection settings and enter your OPENAI_API_KEY. Browsing and saved research remain available.")
     model = model_name()
+    instructions = SYSTEM_PROMPT if profile["id"] == "rei" else SYSTEM_PROMPT.replace(
+        "You help an REI fellow evaluate evidence and develop feasible fellowship research questions.",
+        "Help the user evaluate supplied evidence at the learning level and goal in their active profile.")
+    messages, prompt_version = compose(request.action, request.query, profile, request.model_dump(), instructions)
+    max_output = 3500 if request.action == "guidance" else 5000
+    reservation = budget.reserve(profile["id"], model, messages, max_output)
+    response = None
     # store=False disables stored response state. The API still has separate service data policies.
     try:
         async with AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=75.0, max_retries=0) as client:
             response = await client.responses.parse(
-                model=model, input=[{"role": "system", "content": SYSTEM_PROMPT},
-                                    {"role": "user", "content": json.dumps(request.model_dump(), ensure_ascii=False)}],
+                model=model, input=messages,
                 text_format=GuidanceResult if request.action == "guidance" else AIResult,
-                max_output_tokens=3500 if request.action == "guidance" else 5000, store=False)
+                max_output_tokens=max_output, store=False)
+        budget.finish(reservation, getattr(response, "usage", None))
         if response.output_parsed is None:
             raise ValueError("The model did not return a complete structured response.")
         result = (validate_guidance_result(response.output_parsed, request.records)
                   if request.action == "guidance" else validate_ai_result(response.output_parsed, request.records))
-        result.update(model=model, prompt_version=PROMPT_VERSION, generated_at=utc_now(),
+        result.update(model=model, prompt_version=prompt_version, generated_at=utc_now(),
                       evidence_snapshot=request.model_dump(), coverage=request.coverage)
+        result.update(profile_id=profile["id"], profile_revision=profile["revision"])
+        from .library import save_activity
+        archived = save_activity({"profile_id": profile["id"], "kind": "ai", "title": "AI " + request.action,
+                                  "request": "[sensitive request omitted]" if request.sensitive else request.query,
+                                  "prompts": [] if request.sensitive else messages,
+                                  "payload": {"omitted": "Sensitive input/output excluded"} if request.sensitive else result,
+                                  "provenance": {"origin": "ai", "model": model, "generated_at": result["generated_at"]}})
+        result["activity_id"] = archived["id"]
         return result
     except HTTPException:
         raise
     except Exception as exc:
         raise ai_error(exc) from None
+    finally:
+        budget.finish(reservation, getattr(response, "usage", None) if response else None)
 
 
 async def check_connection() -> Dict[str, Any]:
+    budget.check_available()
     if not configured():
         raise HTTPException(503, "Open AI connection settings and enter your OPENAI_API_KEY to enable AI.")
     model = model_name()

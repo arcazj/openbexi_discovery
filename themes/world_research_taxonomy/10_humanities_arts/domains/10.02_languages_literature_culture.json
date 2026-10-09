@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "id": "10.02",
+  "name": "Languages, Literature & Culture",
+  "node_type": "theme",
+  "parent_id": "10",
+  "children": [
+    {
+      "id": "10.02.01",
+      "name": "Linguistics",
+      "node_type": "discipline",
+      "parent_id": "10.02",
+      "children": [
+        {
+          "id": "10.02.01.01",
+          "name": "Phonetics",
+          "node_type": "research_area",
+          "parent_id": "10.02.01",
+          "children": []
+        },
+        {
+          "id": "10.02.01.02",
+          "name": "Syntax",
+          "node_type": "research_area",
+          "parent_id": "10.02.01",
+          "children": []
+        },
+        {
+          "id": "10.02.01.03",
+          "name": "Semantics",
+          "node_type": "research_area",
+          "parent_id": "10.02.01",
+          "children": []
+        },
+        {
+          "id": "10.02.01.04",
+          "name": "Sociolinguistics",
+          "node_type": "research_area",
+          "parent_id": "10.02.01",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.02.02",
+      "name": "Literary Studies",
+      "node_type": "discipline",
+      "parent_id": "10.02",
+      "children": [
+        {
+          "id": "10.02.02.01",
+          "name": "Literary theory",
+          "node_type": "research_area",
+          "parent_id": "10.02.02",
+          "children": []
+        },
+        {
+          "id": "10.02.02.02",
+          "name": "Comparative literature",
+          "node_type": "research_area",
+          "parent_id": "10.02.02",
+          "children": []
+        },
+        {
+          "id": "10.02.02.03",
+          "name": "Genre studies",
+          "node_type": "research_area",
+          "parent_id": "10.02.02",
+          "children": []
+        },
+        {
+          "id": "10.02.02.04",
+          "name": "Textual criticism",
+          "node_type": "research_area",
+          "parent_id": "10.02.02",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.02.03",
+      "name": "Cultural Studies",
+      "node_type": "discipline",
+      "parent_id": "10.02",
+      "children": [
+        {
+          "id": "10.02.03.01",
+          "name": "Cultural identity",
+          "node_type": "research_area",
+          "parent_id": "10.02.03",
+          "children": []
+        },
+        {
+          "id": "10.02.03.02",
+          "name": "Popular culture",
+          "node_type": "research_area",
+          "parent_id": "10.02.03",
+          "children": []
+        },
+        {
+          "id": "10.02.03.03",
+          "name": "Cultural memory",
+          "node_type": "research_area",
+          "parent_id": "10.02.03",
+          "children": []
+        },
+        {
+          "id": "10.02.03.04",
+          "name": "Globalization",
+          "node_type": "research_area",
+          "parent_id": "10.02.03",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.02.04",
+      "name": "Translation Studies",
+      "node_type": "discipline",
+      "parent_id": "10.02",
+      "children": [
+        {
+          "id": "10.02.04.01",
+          "name": "Translation theory",
+          "node_type": "research_area",
+          "parent_id": "10.02.04",
+          "children": []
+        },
+        {
+          "id": "10.02.04.02",
+          "name": "Machine-assisted translation",
+          "node_type": "research_area",
+          "parent_id": "10.02.04",
+          "children": []
+        },
+        {
+          "id": "10.02.04.03",
+          "name": "Interpreting",
+          "node_type": "research_area",
+          "parent_id": "10.02.04",
+          "children": []
+        },
+        {
+          "id": "10.02.04.04",
+          "name": "Cross-cultural communication",
+          "node_type": "research_area",
+          "parent_id": "10.02.04",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "10.02.05",
+      "name": "Heritage Studies",
+      "node_type": "discipline",
+      "parent_id": "10.02",
+      "children": [
+        {
+          "id": "10.02.05.01",
+          "name": "Museum studies",
+          "node_type": "research_area",
+          "parent_id": "10.02.05",
+          "children": []
+        },
+        {
+          "id": "10.02.05.02",
+          "name": "Conservation",
+          "node_type": "research_area",
+          "parent_id": "10.02.05",
+          "children": []
+        },
+        {
+          "id": "10.02.05.03",
+          "name": "Intangible heritage",
+          "node_type": "research_area",
+          "parent_id": "10.02.05",
+          "children": []
+        },
+        {
+          "id": "10.02.05.04",
+          "name": "Digital heritage",
+          "node_type": "research_area",
+          "parent_id": "10.02.05",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
