@@ -1,5 +1,15 @@
 """Run: python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000."""
 
+# IntelliJ's Run action executes this file directly, including from backend/.
+# Delegate before relative imports so Run and Debug load the same application.
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from run_discovery import main
+    main()
+    raise SystemExit(0)
+
 import asyncio
 import ipaddress
 import os

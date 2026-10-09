@@ -1,4 +1,8 @@
 /* Discovery extends the established REI surfaces with shared provenance tokens. */
+.ai-controls #ai-connect-action,.ai-controls #profile-settings{min-height:44px;min-width:48px;padding:10px 14px;font-size:14px;line-height:1.25;border:1px solid #b7cabe;border-radius:8px;background:#f3f7f1}
+#profile-settings{font-size:20px}
+.ai-controls #profile-settings{font-size:24px}
+@media(max-width:650px){.ai-controls{justify-content:flex-start}.ai-controls #connection-button{flex-basis:100%;max-width:100%;min-height:44px}}
 .d-drawer input[type="checkbox"],.d-drawer input[type="radio"]{flex:none;width:16px!important;height:16px;min-width:16px}
 :root{--source-surface:#eef5ee;--source-ink:#315e48;--source-border:#bed3c1;--ai-surface:#f5eee5;--ai-border:#d8c5ac;--ai-ink:#665341}
 .record[data-source="pubmed"] h3 button{color:var(--source-ink)}

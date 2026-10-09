@@ -12,6 +12,18 @@
 - `backend/discovery_api.py`: local Discovery routes.
 - `templates/`: defaults and pricing; `schemas/`: generated schema references.
 
+## IntelliJ IDEA
+
+1. Install `requirements.lock.txt` into the project's `.venv` and enable Python support in IntelliJ.
+2. Select the shared **OpenBEXI Discovery** run configuration. It uses `.venv/Scripts/python.exe` on Windows; select `.venv/bin/python` on macOS/Linux.
+3. Run or Debug, then open the clickable `http://127.0.0.1:8000` URL in the Run console. If the port is busy, use the alternative URL printed there.
+
+The single Python process serves the UI and all backend features. Breakpoints work in backend modules. No AI key is required for profile settings, themes, local libraries, SQLite, or quizzes; AI generation uses the configured key and budget.
+
+Right-clicking `backend/app.py` and choosing Run also works, including with `backend/` as the working directory. The existing `serve_frontend` configuration now starts the full app on port 8765, preserving that browser origin. Stop an already-running instance and rerun it after updating. `py serve_frontend.py --browser-only` explicitly selects the limited static demo.
+
+Opening `index.html` in IntelliJ's built-in web server does not start Python. Start the full run configuration first, or open the Run console URL. Settings can reconnect after a delayed backend startup without reloading the page.
+
 ## Contracts
 
 Run one server worker. JSON writes use atomic replacement; profile/workspace saves require matching revisions. Bundled defaults never overwrite edited profiles. Previous revisions support undo. Fields include schema version, ID/revision, themes, level, UI copy, tabs/panels/tools, and per-block provenance. Stable level values: `beginner`, `intermediate`, `advanced`, `expert`, `researcher`, `frontier`, `beyond_frontier`.

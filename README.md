@@ -34,6 +34,8 @@ py -3 -m venv .venv
 
 Open **http://127.0.0.1:8000**. On macOS/Linux, use `python3` and `.venv/bin/python`. Run one server worker. Internet is needed for live evidence and AI; **Local-only mode** uses saved content without external requests.
 
+**IntelliJ IDEA:** select **OpenBEXI Discovery** in Run configurations, using the project's `.venv` interpreter. Run or Debug, then open the HTTP URL printed in the Run console. Running `backend/app.py` or `serve_frontend.py` also starts the full app. [IDE setup](documentation/DEVELOPMENT.md#intellij-idea)
+
 The [browser demo](https://arcazj.github.io/openbexi_discovery/) supports basic evidence browsing and manual briefs. Profiles, SQLite, archives, and AI require the local app.
 
 ## Learn more

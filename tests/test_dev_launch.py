@@ -1,0 +1,53 @@
+"""IDE entry points must start the real API even from a non-root working directory."""
+import json
+import os
+from pathlib import Path
+import queue
+import re
+import subprocess
+import sys
+import tempfile
+import threading
+import unittest
+import urllib.request
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+class DevelopmentLaunchTests(unittest.TestCase):
+    def test_ide_entry_points_serve_full_discovery_without_ai(self):
+        for script in ("run_discovery.py", "serve_frontend.py", "backend/app.py"):
+            with self.subTest(script=script), tempfile.TemporaryDirectory() as directory:
+                environment = dict(os.environ, OPENAI_API_KEY="", DISCOVERY_DATA_DIR=directory, DISCOVERY_LIBRARY_DIR="", PYTHONUNBUFFERED="1")
+                process = subprocess.Popen([sys.executable, str(ROOT / script), "--port", "0"], cwd=ROOT / "backend",
+                    env=environment, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
+                lines = queue.Queue()
+                def collect():
+                    for line in process.stdout:
+                        lines.put(line)
+                reader = threading.Thread(target=collect, daemon=True)
+                reader.start()
+                try:
+                    output = []
+                    while True:
+                        line = lines.get(timeout=30)
+                        output.append(line)
+                        if "Uvicorn running" in line or "Application startup complete" in line:
+                            break
+                    address = re.search(r"http://127\.0\.0\.1:\d+", "".join(output)).group()
+                    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+                    with opener.open(address + "/api/discovery/bootstrap", timeout=10) as response:
+                        result = json.load(response)
+                    self.assertEqual(result['settings']['active_profile'], 'rei')
+                    self.assertEqual(result['profiles'][0]['learning_level'], 'advanced')
+                    with opener.open(address + "/assets/discovery.js", timeout=5) as response:
+                        self.assertEqual(response.status, 200)
+                finally:
+                    process.terminate()
+                    process.wait(timeout=15)
+                    reader.join(timeout=3)
+                    process.stdout.close()
+
+
+if __name__ == "__main__":
+    unittest.main()

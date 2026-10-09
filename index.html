@@ -202,7 +202,7 @@ function connectionCandidates(){
   if(location.protocol==='file:')return [];
   if(state.prefs.backend)return [state.prefs.backend.replace(/\/+$/,'')];
   const candidates=[''];
-  if(location.protocol==='http:'&&['127.0.0.1','localhost'].includes(location.hostname)&&location.origin!=='http://127.0.0.1:8000')candidates.push('http://127.0.0.1:8000');
+  if(location.protocol==='http:'&&['127.0.0.1','localhost'].includes(location.hostname))for(const port of [8000,8765]){const base='http://127.0.0.1:'+port;if(location.origin!==base)candidates.push(base);}
   return candidates;
 }
 async function checkHealth(){
@@ -220,6 +220,7 @@ async function checkHealth(){
   }
   if(check!==state.connectionCheck)return;
   state.health=health;state.connectedBackend=connectedBackend;
+  if(health)window.dispatchEvent(new Event('discovery-backend-ready'));
   setAIStatus(!health?'offline':health.ai.configured?'pending':'key-needed');
   renderAISetup();
   if(state.helpTopic==='settings'&&$('help-dialog').open)renderHelp('settings');

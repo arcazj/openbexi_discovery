@@ -46,7 +46,7 @@ OPENAI_MODEL=gpt-6.1-sol
 
 Keys are stored only on the server. Never embed a key in HTML source, browser storage, exported research, or Git. UI key entry is available only through a local HTTP backend. OpenAI API usage is metered and requires model access and sufficient quota; the connection check verifies key and model access without generating text.
 
-AI also works from the standalone HTML served by `py -3 serve_frontend.py`. Keep the backend running on port 8000; the page connects and checks access automatically. A custom backend URL in **Help → AI & connection** overrides automatic detection. `.env.example` is a public template.
+`py -3 serve_frontend.py` starts the full application on port 8765. In IntelliJ, run **OpenBEXI Discovery**, `backend/app.py`, or `serve_frontend.py` and open the URL printed in Run. Use `--browser-only` only for the static demo; that mode needs a separate backend on port 8000 for full features. A custom backend URL in **Help → AI & connection** overrides automatic detection. `.env.example` is a public template.
 
 Use **Explain**, question generation, or comparison when evidence is available. Suggestions should cite supplied records and identify uncertainty. A suggested gap or novel question is provisional. Exports preserve the evidence identifiers, model, and prompt version for review. Canceling a browser request may not stop a provider request that has already started.
 

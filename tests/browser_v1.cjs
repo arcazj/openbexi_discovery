@@ -122,7 +122,7 @@ async function scenario(name,options,run){
     assert.equal(await page.locator('#make-question').isVisible(),false);
     await page.locator('#research-more summary').click();assert.equal(await page.locator('#make-question').isVisible(),true);
     await page.keyboard.press('Escape');
-    await page.evaluate(()=>window.scrollTo(0,400));
+    await page.evaluate(()=>window.scrollTo(0,window.scrollY+document.querySelector('#source-strip').getBoundingClientRect().top+60));
     const dock=await page.evaluate(()=>({source:document.querySelector('#source-strip').getBoundingClientRect(),actions:document.querySelector('#result-actions').getBoundingClientRect()}));
     assert.ok(dock.source.top>=0&&dock.source.top<=13);assert.ok(dock.actions.top>=dock.source.bottom);
     await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(root,'test-results','v1-'+width+'.png'),fullPage:true});

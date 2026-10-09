@@ -1,4 +1,4 @@
-"""Serve the standalone frontend and explicit documentation without exposing .env."""
+"""Start Discovery; --browser-only serves the restricted static demo instead."""
 
 import argparse
 import errno
@@ -86,9 +86,14 @@ def main():
                         help="Preferred port (default: 8765); 0 lets Windows/the OS choose.")
     parser.add_argument("--strict-port", action="store_true",
                         help="Fail if the requested port is unavailable instead of trying alternatives.")
+    parser.add_argument("--browser-only", action="store_true", help="Serve only static HTML; profiles and the library require a separate backend.")
     args = parser.parse_args()
     if not 0 <= args.port <= 65535:
         parser.error("port must be between 0 and 65535")
+    if not args.browser_only:
+        from run_discovery import run
+        run(args.port, allow_fallback=not args.strict_port)
+        return
     try:
         server = create_server(args.port, allow_fallback=not args.strict_port)
     except OSError:
