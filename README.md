@@ -4,7 +4,7 @@
 
 A local learning and research workspace. Start with the familiar **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and AI guidance.
 
-[Download release 1.1](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.0) · [Release notes](CHANGELOG.md) · [User guide](documentation/USER_GUIDE.md)
+[Live demo](https://arcazj.github.io/openbexi_discovery/) · [Download release 1.1](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.0) · [Release notes](CHANGELOG.md) · [User guide](documentation/USER_GUIDE.md)
 
 ## Install on Windows
 

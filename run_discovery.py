@@ -3,6 +3,7 @@ import argparse
 import errno
 import os
 import socket
+import sys
 from pathlib import Path
 
 
@@ -31,7 +32,17 @@ def run(port=8000, allow_fallback=True):
         import uvicorn
         from backend.app import app
     except ModuleNotFoundError as exc:
-        raise SystemExit("Missing dependency: " + str(exc.name) + ". Select the project's .venv Python interpreter in IntelliJ, or install requirements.lock.txt with that interpreter.") from None
+        root = Path(__file__).resolve().parent
+        interpreter = root / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+        install_command = ('& ' if os.name == "nt" else '') + '"' + str(interpreter) + '" -m pip install -r "' + str(root / "requirements.lock.txt") + '"'
+        raise SystemExit(
+            "Missing dependency: " + str(exc.name) + "\n"
+            "Current interpreter: " + sys.executable + "\n"
+            "In IntelliJ, edit THIS Run/Debug configuration and select the project interpreter:\n"
+            + str(interpreter) + "\n"
+            "Then stop the current session and run it again. The module interpreter does not override an existing configuration's explicit interpreter.\n"
+            "If the project environment needs packages, run: " + install_command
+        ) from None
     try:
         listener = create_listener(port, allow_fallback)
     except OSError:

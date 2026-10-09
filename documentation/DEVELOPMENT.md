@@ -24,6 +24,8 @@ Right-clicking `backend/app.py` and choosing Run also works, including with `bac
 
 Opening `index.html` in IntelliJ's built-in web server does not start Python. Start the full run configuration first, or open the Run console URL. Settings can reconnect after a delayed backend startup without reloading the page.
 
+If Run/Debug reports **Missing dependency: uvicorn**, check the interpreter in that specific run configuration, including an existing `serve_frontend` configuration. An explicit system Python selection overrides the module interpreter. Set it to the project's `.venv/Scripts/python.exe` (Windows) or `.venv/bin/python` (macOS/Linux), then stop and restart the session. Install dependencies with that exact interpreter using `-m pip install -r requirements.lock.txt`; installing them into another Python environment will not fix the selected one.
+
 ## Contracts
 
 Run one server worker. JSON writes use atomic replacement; profile/workspace saves require matching revisions. Bundled defaults never overwrite edited profiles. Previous revisions support undo. Fields include schema version, ID/revision, themes, level, UI copy, tabs/panels/tools, and per-block provenance. Stable level values: `beginner`, `intermediate`, `advanced`, `expert`, `researcher`, `frontier`, `beyond_frontier`.
