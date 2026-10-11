@@ -2,7 +2,7 @@
 
 ## Install and launch
 
-1. Download **[OpenBEXIDiscovery-1.1.0-Windows-x64-Setup.exe](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.0/OpenBEXIDiscovery-1.1.0-Windows-x64-Setup.exe)** from the project release.
+1. Download **[OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe)** from the project release.
 2. Run Setup. It installs for the current Windows account, adds Start menu shortcuts, and offers a desktop shortcut.
 3. Launch **OpenBEXI Discovery**. It opens your default browser and runs the local Python service in the background.
 4. Browse evidence immediately. To enable AI, click **Connect AI**, enter your own OpenAI key, and choose **Save key & connect**.
@@ -23,7 +23,7 @@ Use **Local library → Export entire library** for portable ZIP backups. ZIPs c
 
 Rerun Setup to update. Uninstall through **Windows Settings → Apps → OpenBEXI Discovery**, or the Start menu Uninstall shortcut. Updates and uninstall preserve private settings and browser research. The uninstaller deletes only packaged files, retaining additional user files in the installation folder.
 
-Confirm **V1.1.0** beside AI settings after updating. SQLite works immediately: connect a local file or upload a copy from Connections. No database server, Python, or Node.js installation is needed.
+Confirm **V1.1.1** beside AI settings after updating. SQLite works immediately: connect a local file or upload a copy from Connections. No database server, Python, or Node.js installation is needed.
 
 ## Troubleshooting
 
@@ -44,6 +44,6 @@ py -3.12 -m venv .build-venv
 .\.build-venv\Scripts\python.exe -m scripts.test_windows_install
 ```
 
-Output: `dist/OpenBEXIDiscovery-1.1.0-Windows-x64-Setup.exe` and `dist/SHA256SUMS-Windows.txt`. The GitHub Windows installer workflow performs the same build and installation checks on Windows Server 2022. The smoke test uses isolated temporary folders and refuses to replace an existing registered installation.
+Output: `dist/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe` and `dist/SHA256SUMS-Windows.txt`. The GitHub Windows installer workflow performs the same build and installation checks on Windows Server 2022. The smoke test uses isolated temporary folders and refuses to replace an existing registered installation.
 
 The installer build records its source commit, Python, PyInstaller, and NSIS versions in `BUILD-INFO.json`. Packaging uses an explicit public-asset list and checks for private paths/keys. Python, PyInstaller, NSIS, and dependency license texts are included. Original-code licensing remains pending owner selection; review [commercial notes](COMMERCIAL_LICENSING.md) and [third-party notices](THIRD_PARTY_NOTICES.md) before redistribution.

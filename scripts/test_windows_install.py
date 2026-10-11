@@ -140,8 +140,12 @@ def smoke(setup, test_tray=False, previous_setup=None):
             assert (install / "Uninstall.exe").is_file()
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_name) as key:
                 assert Path(winreg.QueryValueEx(key, "InstallLocation")[0]).resolve() == install
-            initial_menu = menu.parent / "REI Research Explorer" if previous_setup else menu
-            assert (initial_menu / ("REI Research Explorer.lnk" if previous_setup else "OpenBEXI Discovery.lnk")).is_file()
+            initial_menu = menu
+            initial_shortcut = "OpenBEXI Discovery.lnk"
+            if previous_setup and not (initial_menu / initial_shortcut).is_file():
+                initial_menu = menu.parent / "REI Research Explorer"
+                initial_shortcut = "REI Research Explorer.lnk"
+            assert (initial_menu / initial_shortcut).is_file()
             process = start()
             wait_for(ready)
             if test_tray:

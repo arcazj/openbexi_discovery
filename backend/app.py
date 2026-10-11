@@ -43,7 +43,7 @@ def configuration_path():
 
 
 load_dotenv(configuration_path(), override=False)
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 # The standalone launcher can select any free local port. Keep browser access
 # limited to exact loopback HTTP origins, using one policy for CORS and POSTs.
 LOCAL_PORT_PATTERN = r"(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])"

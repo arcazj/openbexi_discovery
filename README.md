@@ -1,14 +1,14 @@
-﻿# OpenBEXI Discovery · 1.1
+﻿# OpenBEXI Discovery · 1.1.1
 
 **Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.**
 
 A local learning and research workspace. Start with the familiar **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and AI guidance.
 
-[Live demo](https://arcazj.github.io/openbexi_discovery/) · [Download release 1.1](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.0) · [Release notes](CHANGELOG.md) · [User guide](documentation/USER_GUIDE.md)
+[Live demo](https://arcazj.github.io/openbexi_discovery/) · [Download release 1.1.1](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) · [Release notes](CHANGELOG.md) · [User guide](documentation/USER_GUIDE.md)
 
 ## Install on Windows
 
-[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.0/OpenBEXIDiscovery-1.1.0-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
+[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
 
 The app opens in your browser. Use the tray menu to reopen or quit. Private data survives upgrades and uninstall. [Installation help](WINDOWS_INSTALLATION.md)
 
@@ -46,4 +46,4 @@ The [browser demo](https://arcazj.github.io/openbexi_discovery/) supports basic 
 - [Community Edition and commercial roadmap](documentation/LICENSING_ROADMAP.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-3D engines, full adaptive tutoring, knowledge graphs, autonomous agents, and account-provider integrations are planned extensions. Licensing remains pending owner review. The [legacy REI repository](https://github.com/arcazj/openbexi_REI) is retained as a backup.
+3D engines, full adaptive tutoring, knowledge graphs, autonomous agents, and account-provider integrations are planned extensions. Licensing remains pending owner review.

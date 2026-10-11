@@ -1,4 +1,4 @@
-# Development and release 1.1
+# Development and release 1.1.1
 
 ## Code map
 
@@ -57,7 +57,7 @@ Discovery browser checks start an isolated backend and make no paid AI calls. Us
 
 The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, and Python SQLite support. User profiles, libraries, private settings, keys, and Git files are excluded. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
 
-Publish to `arcazj/openbexi_discovery`; retain `arcazj/openbexi_REI` as the legacy backup.
+Publish releases from `master` in `arcazj/openbexi_discovery`.
 
 
 Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Profile settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.

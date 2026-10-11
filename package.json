@@ -1,6 +1,6 @@
 {
   "name": "openbexi-discovery-checks",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Optional browser checks; the standalone application has no frontend build step.",
   "scripts": {

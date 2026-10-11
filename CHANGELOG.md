@@ -1,6 +1,15 @@
 # Releases
 
 
+## 1.1.1 — Compact layout and profile settings
+
+- Makes the active profile button open the same Profile settings panel as the settings gear.
+- Reduces the heading and source bar height, keeping full profile details available on hover.
+- Uses golden-ratio desktop columns, consistent spacing, and softer panel backgrounds, with responsive mobile layouts.
+- Corrects the IntelliJ module and interpreter configuration.
+- Consolidates repository links and Windows upgrade checks in OpenBEXI Discovery.
+- Preserves existing profile schemas, saved work, and installed application data locations.
+
 ## 1.1.0 — OpenBEXI Discovery
 
 - Preserves the REI evidence workflow at Advanced as the default profile.
@@ -8,7 +17,7 @@
 - Adds documents, datasets, notes, locally graded quizzes, read-only SQLite connections, and offline ZIP export/read/import.
 - Adds versioned AI prompts, reviewed profile drafts, persistent token/cost budgets, and source/AI provenance colors.
 - Bundles Python, SQLite, themes, prompts, schemas, and guides in the Windows installer; preserves legacy private data locations.
-- Publishes as `openbexi_discovery`, preserving `openbexi_REI` as the legacy repository.
+- Publishes as `openbexi_discovery` with the original REI Git history.
 
 Optional tutors, 3D simulations, research agents, and account-provider connectors remain planned. Live public evidence sources remain PubMed, Ensembl, and GWAS Catalog. No paid AI requests are used in automated verification.
 

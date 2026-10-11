@@ -1,6 +1,6 @@
 # OpenBEXI Discovery: build a profile-driven learning and research UI
 
-Evolve `openbexi_REI` into **OpenBEXI Discovery**, with the Git repository named `openbexi_discovery` and this mission:
+Evolve the original REI application into **OpenBEXI Discovery**, with the Git repository named `openbexi_discovery` and this mission:
 
 > Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.
 
@@ -24,7 +24,7 @@ Use shared schemas and a capability registry to keep the frontend, Python backen
 
 ## 1. Preserve the existing experience as an REI profile
 
-Capture the existing `openbexi_REI` experience in a bundled **REI** template that initializes the active profile at `user_profiles/rei.json`. Preserve its reproductive endocrinology and infertility focus, UI wording, source integrations, search behavior, research constraints, saved briefs, evidence inspection, comparisons, import/export, and AI-assisted workflows.
+Capture the existing REI experience in a bundled **REI** template that initializes the active profile at `user_profiles/rei.json`. Preserve its reproductive endocrinology and infertility focus, UI wording, source integrations, search behavior, research constraints, saved briefs, evidence inspection, comparisons, import/export, and AI-assisted workflows.
 
 Preserve the familiar REI page layout, styling, panel order, and initial wording while moving configuration into JSON. Add the Discovery branding, settings icon, theme summary, workspace tabs, Local library access, and the provenance-color corrections specified below as deliberate enhancements. Put profile setup and the level selector in right-side panels. Loading REI at Advanced must not automatically rewrite legacy text or rearrange its panels. Explicit profile edits may change its supported presentation settings; the underlying REI workflows remain available.
 
@@ -36,7 +36,7 @@ Apply all enhancements in this specification to the default REI profile: profile
 
 ## 2. Rename the Git project and product
 
-Publish release 1.1 on `master` in the GitHub repository `openbexi_discovery`, preserving the existing Git history. Keep the original `openbexi_REI` repository as the legacy backup. Point the local `origin` remote at Discovery and retain the old destination as a `legacy` remote; do not overwrite or delete the legacy repository.
+Publish release 1.1 on `master` in the GitHub repository `openbexi_discovery`, preserving the existing Git history. Use `openbexi_discovery` as the sole repository and `origin` remote.
 
 Use **OpenBEXI Discovery** as the product name. Review and update active project references, repository links, documentation, build and package metadata, launchers, and CI or publishing configuration affected by the rename. Keep REI as the specialized profile name. Preserve compatibility with existing user data and configuration paths, or provide an explicit migration where paths must change.
 
