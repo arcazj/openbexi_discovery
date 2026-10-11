@@ -78,9 +78,11 @@ async function scenario(name,options,run){
     assert.equal(await page.locator('#ai-connection-panel').count(),0);
     assert.equal(await page.locator('#connection-label').textContent(),'AI connected to GPT-6.1 Sol · key verified.');
     assert.equal(await page.locator('#app-version').textContent(),'V1.1.1');
-    const version=await page.locator('#app-version').boundingBox(),settings=await page.locator('#ai-connect-action').boundingBox();
-    assert.ok(version.x>=settings.x+settings.width,'Version follows AI settings');
-    assert.ok(version.y<settings.y+settings.height&&settings.y<version.y+version.height,'Version shares the AI settings row');
+    const help=await page.locator('#nav-help').boundingBox(),settings=await page.locator('#ai-connect-action').boundingBox();
+    assert.ok(help.x>=settings.x+settings.width,'Help follows AI settings');
+    assert.equal(help.y,settings.y,'Help shares the AI settings row');
+    assert.equal(await page.locator('.site-header #app-version,.site-header #nav-search,.site-header #nav-saved,.site-header #nav-library').count(),0);
+    assert.equal(await page.locator('.brand>span').last().isVisible(),true,'Brand name stays visible');
     const tip=await page.locator('#context-tip').evaluate(n=>({radius:getComputedStyle(n).borderRadius,border:getComputedStyle(n).borderTopWidth}));
     assert.equal(tip.radius,await page.locator('#guidance-card').evaluate(n=>getComputedStyle(n).borderRadius));
     assert.equal(tip.border,'1px');
@@ -134,6 +136,22 @@ async function scenario(name,options,run){
       assert.equal(await page.locator('#ai-output .ai-box').evaluate(n=>getComputedStyle(n).backgroundImage),aiSurface);
       assert.equal(await page.locator('#ai-output .candidate').evaluate(n=>getComputedStyle(n).backgroundImage),aiSurface);
     }
+  });
+  await scenario('saved research remains accessible through hosted settings',{hosted:true,connected:false},async({page})=>{
+    assert.equal(await page.locator('.intro h1').textContent(),'Your fellowship research workspace');
+    assert.equal(await page.locator('.intro p').textContent(),'Explore topics, genes, or genomic regions to find evidence and shape your next question.');
+    await page.locator('#profile-settings').click();await page.locator('#profile-dialog[open]').waitFor();
+    assert.equal(await page.locator('#profile-dialog h2').textContent(),'Settings');
+    assert.equal(await page.locator('#nav-library').isDisabled(),true,'Hosted library requires the local app');
+    await page.getByRole('button',{name:'Open saved research',exact:true}).click();
+    await page.locator('#saved-page').waitFor({state:'visible'});
+    await page.locator('#saved-new').click();await page.locator('#brief-title').fill('Saved navigation check');await page.locator('#brief-question').fill('Can I reopen this brief from Settings?');
+    await page.locator('#brief-form button[type=submit]').click();
+    await page.locator('.brand').click();await page.locator('#search-page').waitFor({state:'visible'});
+    await page.locator('#profile-settings').click();await page.getByRole('button',{name:'Open saved research',exact:true}).click();
+    assert.ok((await page.locator('#saved-list').innerText()).includes('Saved navigation check'));
+    await page.reload();await page.locator('#search-page').waitFor({state:'visible'});assert.equal(await page.locator('#saved-page').isVisible(),false,'Search is the default after reload');
+    await page.getByRole('button',{name:'Help',exact:true}).click();await page.locator('#help-dialog[open]').waitFor();
   });
   await scenario('source palettes stay consistent from selection to evidence',{mixed:true},async({page,search,guided})=>{
     await search('ovarian aging');await guided();

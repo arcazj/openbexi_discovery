@@ -4,7 +4,7 @@
 
 ## Start with REI
 
-REI at Advanced is the default. Evidence search and saved research retain the original workflow. Both **REI · Advanced** beside Sources and the gear beside **AI settings** open the same **Profile settings** panel. Choose **Edit** or **Use profile** for an existing profile, or **Create profile** to select themes for a new one. **Local library** shows activities across profiles.
+REI at Advanced is the default. Evidence search and saved research retain the original workflow. Both **REI · Advanced** beside Sources and the gear beside **AI settings** open the same **Settings** panel. Open **Saved research** there to review, compare, or export briefs; **Back to research** or the OpenBEXI Discovery name returns to search. Search is the default view on launch. Choose **Edit** or **Use profile** for an existing profile, or **Create profile** to select themes for a new one. **Settings > Local library** shows activities across profiles. The right side of the header contains AI status, **AI settings**, the Settings gear, and **Help (?)**.
 
 The compact profile button shows the active name and level; hover for its full theme and goal. Desktop evidence and guidance panels use a roughly 62/38 split, and stack on smaller screens. The public demo supports evidence browsing and manual briefs; profiles, local libraries, SQLite, and AI require the local application.
 
@@ -52,4 +52,4 @@ Limits: 8 MB per uploaded file; ZIPs up to 32 MB compressed, 64 MB expanded, and
 Legacy browser briefs migrate into REI when the backend first reads them. Browser storage is retained as backup. A different URL/port has different browser storage: export/import legacy briefs if changing addresses. Saved research still offers JSON and Markdown export.
 
 
-Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Profile settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.
+Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.

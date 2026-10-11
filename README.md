@@ -6,7 +6,7 @@ A local learning and research workspace. Start with the familiar **REI profile a
 
 [Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Release v1.1.1 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) · [Release notes](CHANGELOG.md#111--compact-layout-and-profile-settings) · [User guide](documentation/USER_GUIDE.md)
 
-The live demo displays **V1.1.1** beside AI settings. This release adds a compact header, golden-ratio desktop columns, and a **REI · Advanced** button that opens the same Profile settings as the gear in the local app.
+The workspace uses a compact header and golden-ratio desktop columns. The header keeps AI status, **AI settings**, the **Settings** gear, and **Help (?)** on the right. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in the footer.
 
 ## Downloads · v1.1.1
 

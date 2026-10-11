@@ -1,7 +1,7 @@
 # OpenBEXI Discovery 1.1.1 Help
 
 
-For Discovery 1.1.1 profiles, themes, offline archives, SQLite connections, and AI budgets, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. Both **REI · Advanced** beside Sources and the settings gear open **Profile settings** in the local app.
+For Discovery 1.1.1 profiles, themes, offline archives, SQLite connections, and AI budgets, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. Both **REI · Advanced** beside Sources and the settings gear open **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps AI status, **AI settings**, the Settings gear, and **Help (?)** on the right.
 
 [Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1)
 
@@ -27,7 +27,7 @@ Open source links to check findings. Study design, population, sample size, and 
 
 Record a question, population, exposure/intervention, outcome, study design, required data, notes, and feasibility uncertainties. Optionally record your deadline, available datasets, and mentor expertise. Review access, sample size, methods, and time with your mentor; the application cannot establish these from publications alone.
 
-Saved research stays in this browser on this device. Export JSON for backup and transfer. Import merges new brief IDs, preserves existing briefs, and restores supplied research constraints. Import only trusted workspace files. Export Markdown for mentor review, including references and search provenance. Clearing browser storage removes local saved work, so keep a backup.
+Open **Settings > Saved research** to review your briefs. Choose **Back to research** or the OpenBEXI Discovery name to return to search. Saved research stays in this browser on this device. Export JSON for backup and transfer. Import merges new brief IDs, preserves existing briefs, and restores supplied research constraints. Import only trusted workspace files. Export Markdown for mentor review, including references and search provenance. Clearing browser storage removes local saved work, so keep a backup.
 
 ## AI assistance
 
