@@ -8,6 +8,7 @@
 - Uses golden-ratio desktop columns, consistent spacing, and softer panel backgrounds, with responsive mobile layouts.
 - Corrects the IntelliJ module and interpreter configuration.
 - Consolidates repository links and Windows upgrade checks in OpenBEXI Discovery.
+- Provides source ZIP and tar.gz downloads, standalone release notes, and checksums, with updated guides and a versioned live-demo link.
 - Preserves existing profile schemas, saved work, and installed application data locations.
 
 ## 1.1.0 — OpenBEXI Discovery

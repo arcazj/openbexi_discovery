@@ -1,7 +1,9 @@
-# REI Research Explorer Help
+# OpenBEXI Discovery 1.1.1 Help
 
 
-For Discovery 1.1 profiles, themes, offline archives, SQLite connections, and AI budgets, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile.
+For Discovery 1.1.1 profiles, themes, offline archives, SQLite connections, and AI budgets, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. Both **REI · Advanced** beside Sources and the settings gear open **Profile settings** in the local app.
+
+[Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1)
 
 ## Quick start
 

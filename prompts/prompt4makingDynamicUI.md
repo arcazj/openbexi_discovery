@@ -36,7 +36,7 @@ Apply all enhancements in this specification to the default REI profile: profile
 
 ## 2. Rename the Git project and product
 
-Publish release 1.1 on `master` in the GitHub repository `openbexi_discovery`, preserving the existing Git history. Use `openbexi_discovery` as the sole repository and `origin` remote.
+Publish release 1.1.1 on `master` in the GitHub repository `openbexi_discovery`, preserving the existing Git history. Use `openbexi_discovery` as the sole repository and `origin` remote.
 
 Use **OpenBEXI Discovery** as the product name. Review and update active project references, repository links, documentation, build and package metadata, launchers, and CI or publishing configuration affected by the rename. Keep REI as the specialized profile name. Preserve compatibility with existing user data and configuration paths, or provide an explicit migration where paths must change.
 
@@ -93,7 +93,7 @@ Treat profile guidance as the starting content. After searches, generate context
 
 ## 5. Add a visible theme selector
 
-Immediately after the **Sources / Select evidence** label in the source strip, add a clickable theme summary showing the active theme title, a one-sentence page goal, and a clear change-theme affordance. Keep it distinct from evidence-source selection.
+Immediately after the **Sources / Select evidence** label in the source strip, add a clickable theme summary showing the active profile name and level, with its theme and goal available on hover. Keep it distinct from evidence-source selection.
 
 For the default REI profile, use:
 
@@ -101,7 +101,7 @@ For the default REI profile, use:
 - **Goal:** Explore reproductive health evidence, connect genetic and clinical insights, and develop answerable research questions.
 - **Experience level:** Advanced (`learning_level: "advanced"`).
 
-Clicking this area opens a theme-selection panel on the right.
+Clicking this area opens the same Profile settings panel as the settings gear. Theme selection is available after choosing Create profile or Edit.
 
 Keep the summary compact and responsive so it does not obscure source controls. Distinguish **Switch profile**, which restores an existing configuration, from **Create profile from themes**, which opens the creation flow.
 
@@ -414,7 +414,7 @@ Implement in reviewable stages, keeping the application usable throughout:
 
 Deliver the implementation, bundled REI and general templates, versioned schemas, runtime prompt library, migrations, focused automated checks, and setup/backup/extension documentation. State which connector and optional capabilities are implemented. Do not count an empty tab, simulated connection, or placeholder integration as a completed feature.
 
-Keep release 1.1 fully deliverable through the Windows installer. Bundle the Python runtime, SQLite support, frontend assets, profile templates, taxonomy, runtime prompts, schemas, and documentation. End users must not need Python, Node.js, or a separately installed database server for the local SQLite workflows. Preserve private data across upgrades and uninstall, and smoke-test the installed application, including profile creation, SQLite access, offline library use, and ZIP round trips.
+Keep release 1.1.1 fully deliverable through the Windows installer. Bundle the Python runtime, SQLite support, frontend assets, profile templates, taxonomy, runtime prompts, schemas, and documentation. End users must not need Python, Node.js, or a separately installed database server for the local SQLite workflows. Preserve private data across upgrades and uninstall, and smoke-test the installed application, including profile creation, SQLite access, offline library use, and ZIP round trips.
 
 ## 17. Acceptance criteria
 

@@ -15,7 +15,7 @@
 ## IntelliJ IDEA
 
 1. Install `requirements.lock.txt` into the project's `.venv` and enable Python support in IntelliJ.
-2. Select the shared **OpenBEXI Discovery** run configuration. It uses `.venv/Scripts/python.exe` on Windows; select `.venv/bin/python` on macOS/Linux.
+2. Set the `openbexi_discovery` module interpreter to `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux. Select the shared **OpenBEXI Discovery** run configuration, which inherits that module interpreter.
 3. Run or Debug, then open the clickable `http://127.0.0.1:8000` URL in the Run console. If the port is busy, use the alternative URL printed there.
 
 The single Python process serves the UI and all backend features. Breakpoints work in backend modules. No AI key is required for profile settings, themes, local libraries, SQLite, or quizzes; AI generation uses the configured key and budget.
@@ -40,7 +40,7 @@ SQLite uses URI read-only mode, `query_only`, untrusted schema, real tables, nam
 
 ## Extend
 
-Add categories through the linked taxonomy. Change UI schemas and rendering together. Register tools as available only when implemented/tested. Add runtime tasks with a template manifest entry, structured output schema, and the same data-use and budget gates. Provider/account connectors need their own authorization workflow; none are claimed beyond SQLite in 1.1.
+Add categories through the linked taxonomy. Change UI schemas and rendering together. Register tools as available only when implemented/tested. Add runtime tasks with a template manifest entry, structured output schema, and the same data-use and budget gates. Provider/account connectors need their own authorization workflow; none are claimed beyond SQLite in 1.1.1.
 
 ## Verify
 
@@ -57,7 +57,9 @@ Discovery browser checks start an isolated backend and make no paid AI calls. Us
 
 The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, and Python SQLite support. User profiles, libraries, private settings, keys, and Git files are excluded. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
 
-Publish releases from `master` in `arcazj/openbexi_discovery`.
+Publish releases from `master` in `arcazj/openbexi_discovery`. The current tag is **v1.1.1**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) and the [V1.1.1 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
+
+Release assets include the Windows installer, named source ZIP and tar.gz archives, downloadable release notes, and SHA-256 checksums. GitHub also provides automatic source archives for the tag. Keep the tag, documentation, and the installer's `BUILD-INFO.json` source commit aligned. The Windows workflow verifies installation and upgrading from the published v1.1.1 package; it does not depend on a retired release or repository.
 
 
 Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Profile settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.

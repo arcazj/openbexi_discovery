@@ -1,11 +1,15 @@
-# Windows installation
+# Windows installation · 1.1.1
+
+[Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [All downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1)
+
+Choose the `.exe` asset for installation. The release's ZIP and tar.gz files contain source code; follow [Run from source](README.md#run-from-source) to use them. `SHA256SUMS-Windows.txt` verifies the installer, and `SHA256SUMS.txt` covers all named release downloads.
 
 ## Install and launch
 
 1. Download **[OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe)** from the project release.
 2. Run Setup. It installs for the current Windows account, adds Start menu shortcuts, and offers a desktop shortcut.
 3. Launch **OpenBEXI Discovery**. It opens your default browser and runs the local Python service in the background.
-4. Browse evidence immediately. To enable AI, click **Connect AI**, enter your own OpenAI key, and choose **Save key & connect**.
+4. Browse evidence immediately. To enable AI, open **AI settings → API key & connection**, enter your own OpenAI key, and choose **Save key & connect**.
 
 Supported package: **Windows 10/11, x64**, with a modern browser. Python, SQLite, templates, taxonomy, prompts, and dependencies are bundled; neither Python installation nor administrator access is required. Installation works offline after download; public sources and OpenAI require internet. Native ARM64 and 32-bit packages are not supplied or tested.
 

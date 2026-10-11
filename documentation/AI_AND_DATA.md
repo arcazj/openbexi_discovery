@@ -22,6 +22,6 @@ Green means source/user content or unknown upstream AI origin, not verified huma
 
 Viewing data does not authorize AI transmission or export. Mark sensitive uploads and authorize local retention. Snapshots are excluded from ZIPs unless explicitly selected. Keys/credential-like values are omitted from routine history. Sensitive prompts require marking and authorization; their request/response bodies are excluded from routine history.
 
-Connected rows have no automatic AI analysis path in 1.1. Keep patient identifiers out of general prompts and constraints. Explicit source/field choices are controls; arbitrary sensitive text cannot always be detected automatically. Profiles organize work; they are not separate authenticated accounts.
+Connected rows have no automatic AI analysis path in 1.1.1. Keep patient identifiers out of general prompts and constraints. Explicit source/field choices are controls; arbitrary sensitive text cannot always be detected automatically. Profiles organize work; they are not separate authenticated accounts.
 
 The app binds to loopback, checks browser origins, and restricts Discovery mutations to the local peer. A multi-user network deployment needs separate authentication/authorization. Storage and ZIPs are not encrypted by the application.

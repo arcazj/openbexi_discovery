@@ -4,7 +4,21 @@
 
 A local learning and research workspace. Start with the familiar **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and AI guidance.
 
-[Live demo](https://arcazj.github.io/openbexi_discovery/) · [Download release 1.1.1](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) · [Release notes](CHANGELOG.md) · [User guide](documentation/USER_GUIDE.md)
+[Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Release v1.1.1 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) · [Release notes](CHANGELOG.md#111--compact-layout-and-profile-settings) · [User guide](documentation/USER_GUIDE.md)
+
+The live demo displays **V1.1.1** beside AI settings. This release adds a compact header, golden-ratio desktop columns, and a **REI · Advanced** button that opens the same Profile settings as the gear in the local app.
+
+## Downloads · v1.1.1
+
+| Download | Contents |
+| --- | --- |
+| [Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe) | Windows 10/11 x64 app with Python and SQLite included. |
+| [Source ZIP](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.1.1.zip) | Tagged source code and documentation. |
+| [Source tar.gz](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.1.1.tar.gz) | The same tagged source for Unix-style tools. |
+| [Release notes](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/RELEASE-NOTES-v1.1.1.md) | Downloadable changes, compatibility, and validation notes. |
+| [SHA-256 checksums](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/SHA256SUMS.txt) | Checksums for the installer and named release assets. |
+
+The release also includes named source archives with checksums. Source archives require the setup below; they do not include the Windows runtime.
 
 ## Install on Windows
 
