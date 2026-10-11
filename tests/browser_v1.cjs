@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
 const {chromium} = require('playwright');
+const {assertCaptions, assertCaptionFits} = require('./caption_helpers.cjs');
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const record = {id:'pubmed:123456',source:'pubmed',type:'publication',title:'Fixture ovarian research',
@@ -23,19 +24,19 @@ const server=http.createServer((req,res)=>{
   if(name==='/'||name==='/index.html'){
     res.setHeader('Content-Type','text/html; charset=utf-8');
     res.end(req.url.startsWith('/hosted/')?html.replace('<head>','<head><meta name="rei-hosted-demo" content="github-pages">'):html);
-  }else if(['/assets/discovery.js','/assets/discovery.css'].includes(name)){res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript':'text/css');res.end(fs.readFileSync(path.join(root,name.slice(1))));}else if(['/README.md','/HELP.md','/CHANGELOG.md'].includes(name))res.end(fs.readFileSync(path.join(root,name.slice(1))));
+  }else if(['/assets/discovery.js','/assets/discovery.css','/assets/data.js','/assets/captions.js','/assets/customize.js','/assets/profile_ai.js','/assets/ai_progress.js'].includes(name)){res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript':'text/css');res.end(fs.readFileSync(path.join(root,name.slice(1))));}else if(['/README.md','/HELP.md','/CHANGELOG.md'].includes(name))res.end(fs.readFileSync(path.join(root,name.slice(1))));
   else{res.statusCode=404;res.end('Not available');}
 });
 let browser, base, passed=0;
 const pageErrors=[];
 async function scenario(name,options,run){
-  const context=await browser.newContext({viewport:options.viewport||{width:1365,height:950},reducedMotion:'reduce'});
+  const context=await browser.newContext({viewport:options.viewport||{width:1365,height:950},reducedMotion:'reduce',hasTouch:!!options.touch});
   const page=await context.newPage();page.on('pageerror',e=>pageErrors.push(name+': '+e.message));
   const calls={guidance:[],api:[],queries:[],actions:[]};
   await page.route('**/api/**',async route=>{
     const req=route.request(),url=new URL(req.url());calls.api.push(url.pathname);
     const json=async body=>route.fulfill({contentType:'application/json',body:JSON.stringify(body)});
-    if(url.pathname==='/api/health')return json({version:'1.1.1',ai:{configured:options.connected!==false,model:'gpt-6.1-sol'}});
+    if(url.pathname==='/api/health')return json({version:'1.2.0',ai:{configured:options.connected!==false,model:'gpt-6.1-sol'}});
     if(url.pathname==='/api/ai/check')return json({accessible:true,model:'gpt-6.1-sol',message:'Fixture access verified'});
     if(url.pathname==='/api/search'){
       const payload=req.postDataJSON();calls.queries.push(payload.query);
@@ -53,6 +54,7 @@ async function scenario(name,options,run){
       calls.actions.push(payload.action);
       if(payload.action!=='guidance')return json({text:'Fixture explanation [pubmed:123456].',citations:[record],candidate_questions:[candidate],model:'gpt-6.1-sol'});
       calls.guidance.push(payload);
+      if(options.quota&&calls.guidance.length===1)return route.fulfill({status:429,contentType:'application/json',body:JSON.stringify({detail:{code:'insufficient_quota',message:'AI tokens are unavailable: your OpenAI API credits or quota are exhausted. Check your API billing or add credits, then retry.'}})});
       if(options.delay)await new Promise(resolve=>setTimeout(resolve,options.delay(payload,calls.guidance.length)));
       if(options.fail&&calls.guidance.length===1)return route.fulfill({status:502,contentType:'application/json',body:JSON.stringify({detail:'AI temporarily unavailable. Retry suggestions.'})});
       if(options.malformed)return json({text:'Unsupported guidance'});
@@ -74,14 +76,49 @@ async function scenario(name,options,run){
 (async()=>{
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));base='http://127.0.0.1:'+server.address().port;
   browser=await chromium.launch({headless:true});fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
+  await scenario('help captions with mouse and keyboard',{},async({page,search,guided})=>{
+    await assertCaptions(page,'initial search');
+    await page.locator('.interpret-organism').hover();await page.locator('#control-caption').waitFor({state:'visible'});
+    assert.match(await page.locator('#control-caption').textContent(),/human genome.*Literature results may include other organisms/);
+    await assertCaptionFits(page);await page.keyboard.press('Escape');
+    await page.locator('#mode').selectOption('region');assert.match(await page.locator('#search-mode-caption').innerText(),/Genomic region.*GRCh38/);
+    await page.locator('#mode').selectOption('auto');
+    await page.locator('#query').focus();await page.keyboard.press('Tab');
+    assert.equal(await page.locator('#search-button').evaluate(n=>n===document.activeElement),true);
+    assert.match(await page.locator('#control-caption').innerText(),/Retrieve evidence/);
+    await page.keyboard.press('Escape');assert.equal(await page.locator('#control-caption').isVisible(),false);
+    await page.locator('#connection-button').click();await assertCaptions(page,'AI connection dialog');
+    await page.locator('#ai-save-key').hover();await page.locator('#control-caption').waitFor({state:'visible'});
+    assert.equal(await page.locator('#control-caption').evaluate(n=>n.closest('dialog')?.id),'ai-setup-dialog');
+    await assertCaptionFits(page);await page.keyboard.press('Escape');assert.equal(await page.locator('#ai-setup-dialog').isVisible(),true,'Escape dismisses help before closing its dialog');
+    await page.locator('[data-close="ai-setup-dialog"]').click();
+    await search('ovarian aging');await guided();await assertCaptions(page,'search results and AI guidance');
+    await page.getByRole('button',{name:'Inspect evidence',exact:true}).first().click();await assertCaptions(page,'source details');
+    await page.locator('[data-close="detail-dialog"]').click();await page.locator('#new-question').click();await assertCaptions(page,'brief editor');
+    await page.locator('[data-close="brief-dialog"]').first().click();await page.locator('#nav-help').click();await assertCaptions(page,'help topics');
+  });
+  await scenario('touch captions without activating buttons',{touch:true,viewport:{width:320,height:900}},async({page,calls})=>{
+    await page.locator('#query').fill('ovarian aging');
+    const target=await page.locator('#search-button').boundingBox(),cdp=await page.context().newCDPSession(page);
+    await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:target.x+target.width/2,y:target.y+target.height/2}]});
+    await page.locator('#control-caption').waitFor({state:'visible'});await assertCaptionFits(page);
+    await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    assert.equal(calls.queries.length,0,'Press and hold explains the button without searching');
+    await page.locator('#control-caption').waitFor({state:'visible'});
+    await page.screenshot({path:path.join(root,'test-results/control-captions-mobile-320.png')});
+    await page.locator('#search-button').tap();await page.waitForFunction(()=>state.search?.query==='ovarian aging');
+    assert.equal(calls.queries.length,1,'An ordinary tap still performs the action once');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+    await cdp.detach();
+  });
   for(const width of [1365,390,320])await scenario('compact layout and sticky controls '+width,{count:8,viewport:{width,height:950}},async({page,calls,search,guided})=>{
     assert.equal(await page.locator('#ai-connection-panel').count(),0);
     assert.equal(await page.locator('#connection-label').textContent(),'AI connected to GPT-6.1 Sol · key verified.');
-    assert.equal(await page.locator('#app-version').textContent(),'V1.1.1');
+    assert.equal(await page.locator('#app-version').textContent(),'V1.2.0');
     assert.equal(await page.locator('#results-heading').isVisible(),false,'No extra heading above the initial evidence card');
-    const help=await page.locator('#nav-help').boundingBox(),settings=await page.locator('#ai-connect-action').boundingBox();
-    assert.ok(help.x>=settings.x+settings.width,'Help follows AI settings');
-    assert.equal(help.y,settings.y,'Help shares the AI settings row');
+    const help=await page.locator('#nav-help').boundingBox(),settings=await page.locator('#connection-button').boundingBox();
+    assert.ok(help.x>=settings.x+settings.width,'Help follows AI connection');
+    assert.equal(help.y,settings.y,'Help shares the AI connection row');
     assert.equal(await page.locator('.site-header #nav-search,.site-header #nav-saved,.site-header #nav-library').count(),0);
     assert.equal(await page.locator('.brand>span').nth(1).isVisible(),true,'Brand name stays visible');
     const tip=await page.locator('#context-tip').evaluate(n=>({radius:getComputedStyle(n).borderRadius,border:getComputedStyle(n).borderTopWidth}));
@@ -132,7 +169,7 @@ async function scenario(name,options,run){
     await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(root,'test-results','v1-'+width+'.png'),fullPage:true});
     if(width<650){assert.equal(await page.locator('#connection-short-label').isVisible(),true);await page.locator('#connection-button').click();assert.match(await page.locator('#ai-setup-note').textContent(),/gpt-6.1-sol.*key verified/);}
     if(width===1365){
-      await page.locator('#suggest-questions').click();await page.waitForFunction(()=>!document.querySelector('#ai-output').hidden);
+      await page.locator('#suggest-questions').click();await page.waitForFunction(()=>!state.aiController&&document.querySelector('#ai-output .candidate'));
       assert.ok(calls.actions.includes('questions'),'Directions still invokes AI');
       assert.equal(calls.queries.length,1,'Directions does not submit the search form');
       assert.equal(await page.locator('#ai-output .ai-box').evaluate(n=>getComputedStyle(n).backgroundImage),aiSurface);
@@ -194,13 +231,13 @@ async function scenario(name,options,run){
     assert.match(await page.locator('#brief-notes').inputValue(),/AI next step/);
     await page.locator('#brief-form button[type=submit]').click();await guided();
     const workspace=await page.evaluate(()=>JSON.parse(localStorage.getItem('rei-research-workspace-v1')));
-    assert.equal(workspace.app_version,'1.1.1');assert.equal(workspace.questions[0].ai_audit.action,'guidance');
+    assert.equal(workspace.app_version,'1.2.0');assert.equal(workspace.questions[0].ai_audit.action,'guidance');
     assert.equal(workspace.questions[0].guidance_audits.length,1);assert.equal(workspace.questions[0].guidance_audits[0].evidence_snapshot.records[0].id,record.id);
     assert.equal(await page.locator('.saved-card[data-ai-assisted="true"]').evaluate(n=>getComputedStyle(n).backgroundImage),aiSurface,'Saved AI-assisted question keeps the soft surface');
     await page.locator('#guidance-query').click();await guided();assert.equal(calls.queries.at(-1),'ovarian reserve outcomes');
   });
   await scenario('automatic guidance off and explicit refresh',{},async({page,calls,search,guided})=>{
-    await page.locator('#ai-connect-action').click();await page.locator('#automatic-guidance').uncheck();await page.locator('[data-close="help-dialog"]').click();
+    await page.locator('#connection-button').click();await page.locator('#ai-guidance-preferences').click();await page.locator('#automatic-guidance').uncheck();await page.locator('[data-close="help-dialog"]').click();
     await search('ovarian aging');assert.equal(calls.guidance.length,0);assert.match(await page.locator('#guidance-phase').textContent(),/manual guidance/);
     await page.locator('#guidance-refresh').click();await guided();assert.equal(calls.guidance.length,1);
   });
@@ -209,6 +246,20 @@ async function scenario(name,options,run){
     assert.equal(await page.locator('.record').count(),1);assert.equal(await page.locator('#guidance-actions').isVisible(),false);
     await page.locator('#research-more summary').click();await page.locator('#make-question').click();assert.equal(await page.locator('#brief-dialog').isVisible(),true);
     await page.getByRole('button',{name:'Close research brief',exact:true}).click();await page.locator('#guidance-refresh').click();await guided();assert.equal(calls.guidance.length,2);
+  });
+  await scenario('quota exhaustion stays visible until generation succeeds',{quota:true},async({page,calls,search,guided})=>{
+    await search('ovarian aging');await page.locator('#ai-availability-notice').waitFor({state:'visible'});
+    assert.match(await page.locator('#ai-availability-notice').textContent(),/credits or quota are exhausted/);
+    assert.equal(await page.locator('#connection-label').textContent(),'AI tokens unavailable');
+    await page.locator('#connection-button').click();assert.equal(await page.locator('#ai-setup-dialog [data-ai-availability]').isVisible(),true);
+    await page.locator('#ai-retry-connection').click();await page.waitForFunction(()=>state.aiStatus?.phase==='ready');
+    assert.equal(await page.locator('#ai-setup-dialog [data-ai-availability]').isVisible(),true,'Model access does not prove that quota was replenished');
+    await page.getByRole('button',{name:'Close AI setup',exact:true}).click();
+    await search('PCOS');assert.equal(calls.guidance.length,1,'Exhausted quota prevents automatic retries');
+    await page.locator('#guidance-refresh').click();await guided();
+    assert.equal(await page.locator('#ai-availability-notice').isVisible(),false);
+    assert.match(await page.locator('#connection-label').textContent(),/^AI connected/);
+    assert.equal(await page.locator('#connection-button').evaluate(node=>node.classList.contains('d-budget-blocked')),false);
   });
   await scenario('malformed guidance uses labeled fallback',{malformed:true},async({page,search})=>{
     await search('ovarian aging');await page.waitForFunction(()=>document.querySelector('#guidance-phase').textContent.includes('retry'));
@@ -230,7 +281,7 @@ async function scenario(name,options,run){
     await search('ovarian aging');assert.equal(calls.guidance.length,0);assert.match(await page.locator('#guidance-phase').textContent(),/no evidence/);
   });
   await scenario('hosted demo has fallback and no backend/key requests',{hosted:true},async({page,calls})=>{
-    assert.equal(calls.api.length,0);await page.locator('#ai-connect-action').click();
+    assert.equal(calls.api.length,0);await page.locator('#connection-button').click();
     assert.equal(await page.locator('#ai-setup-form').isVisible(),false);await page.locator('#ai-connection-help').click();
     assert.match(await page.locator('#help-content').textContent(),/private local backend/);
     await page.locator('[data-close="help-dialog"]').click();await page.locator('#demo-button').click();assert.equal(calls.api.length,0);

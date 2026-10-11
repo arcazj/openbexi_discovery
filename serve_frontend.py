@@ -13,6 +13,7 @@ FALLBACK_PORTS = range(DEFAULT_PORT, DEFAULT_PORT + 11)
 DOCUMENTS = {
     "README.md", "CHANGELOG.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md",
     "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md",
+    "RELEASE-NOTES-v1.2.0.md",
 }
 
 
@@ -34,7 +35,8 @@ class FrontendHandler(BaseHTTPRequestHandler):
             file_path = ROOT / route[1:]
         elif route.startswith("/api/docs/") and route[10:] in DOCUMENTS:
             file_path = ROOT / route[10:]
-        elif route in {"/assets/discovery.js", "/assets/discovery.css"}:
+        elif route in {"/assets/discovery.js", "/assets/discovery.css", "/assets/data.js", "/assets/customize.js",
+                       "/assets/captions.js", "/assets/profile_ai.js", "/assets/ai_progress.js"}:
             file_path = ROOT / route[1:]
             media_type = "text/javascript; charset=utf-8" if route.endswith(".js") else "text/css; charset=utf-8"
         elif route.startswith("/documentation/"):

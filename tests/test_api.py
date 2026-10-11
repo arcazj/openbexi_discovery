@@ -8,6 +8,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 from fastapi.testclient import TestClient
+from dotenv import dotenv_values
 
 from backend.app import app
 
@@ -28,6 +29,54 @@ class APIBoundaryTests(unittest.TestCase):
     def test_health_is_available_without_openai_credentials(self):
         response = self.client.get("/api/health")
         self.assertEqual(response.status_code, 200)
+
+    def test_ai_defaults_are_astra_xhigh(self):
+        with patch.dict(os.environ, {"OPENAI_MODEL": "", "OPENAI_REASONING_EFFORT": ""}):
+            ai = self.client.get("/api/health").json()["ai"]
+        self.assertEqual(ai["model"], "gpt-6-astra")
+        self.assertEqual(ai["reasoning_effort"], "xhigh")
+
+    def test_model_and_reasoning_persist_without_reentering_a_saved_key(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / ".env"
+            path.write_text("OPENAI_API_KEY='sk-existing-private-fixture'\nNCBI_EMAIL=research@example.com\n", encoding="utf-8")
+            with patch.object(application_module, "ROOT", Path(directory)), patch.dict(os.environ, {"OPENAI_API_KEY": "sk-existing-private-fixture"}):
+                for model, effort in [("gpt-6-astra", "xhigh"), ("gpt-6.1-sol", "low")]:
+                    response = self.client.post("/api/ai/configure", json={"model": model, "reasoning_effort": effort})
+                    self.assertEqual(response.status_code, 200, response.text)
+                    self.assertNotIn("sk-existing-private-fixture", response.text)
+                    saved = dotenv_values(path)
+                    self.assertEqual(saved["OPENAI_API_KEY"], "sk-existing-private-fixture")
+                    self.assertEqual(saved["NCBI_EMAIL"], "research@example.com")
+                    self.assertEqual(saved["OPENAI_MODEL"], model)
+                    self.assertEqual(saved["OPENAI_REASONING_EFFORT"], effort)
+                    with patch.dict(os.environ, saved):
+                        current = self.client.get("/api/health").json()["ai"]
+                    self.assertEqual(current["model"], model)
+                    self.assertEqual(current["reasoning_effort"], effort)
+
+    def test_invalid_ai_preferences_cannot_partially_change_configuration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / ".env"
+            original = "OPENAI_MODEL=gpt-6-astra\nOPENAI_REASONING_EFFORT=xhigh\n"
+            path.write_text(original, encoding="utf-8")
+            with patch.object(application_module, "ROOT", Path(directory)):
+                for payload in ({"model": "nonexistent-model"}, {"model": "gpt-6.1-sol", "reasoning_effort": "ultra"}, {}):
+                    response = self.client.post("/api/ai/configure", json=payload)
+                    self.assertEqual(response.status_code, 422, response.text)
+                    self.assertEqual(path.read_text(encoding="utf-8"), original)
+                original_writer = application_module.set_key
+                def fail_second_write(filename, setting, value, **kwargs):
+                    if setting == "OPENAI_REASONING_EFFORT":
+                        raise OSError("Synthetic write failure")
+                    return original_writer(filename, setting, value, **kwargs)
+                with patch("backend.app.set_key", side_effect=fail_second_write), patch.dict(os.environ, {"OPENAI_MODEL": "gpt-6-astra", "OPENAI_REASONING_EFFORT": "xhigh"}):
+                    response = self.client.post("/api/ai/configure", json={"model": "gpt-6.1-sol", "reasoning_effort": "low"})
+                    self.assertEqual(response.status_code, 500)
+                    self.assertEqual(path.read_text(encoding="utf-8"), original)
+                    self.assertEqual(os.environ["OPENAI_MODEL"], "gpt-6-astra")
+                    self.assertEqual(os.environ["OPENAI_REASONING_EFFORT"], "xhigh")
+                self.assertEqual(list(Path(directory).glob(".env-*")), [])
 
     def test_standalone_local_origins_support_health_preflight_and_ai_check(self):
         origins = [

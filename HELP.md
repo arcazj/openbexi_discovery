@@ -1,11 +1,11 @@
-# OpenBEXI Discovery 1.1.1 Help
+# OpenBEXI Discovery 1.2.0 Help
 
 
-For Discovery 1.1.1 profiles, themes, offline archives, SQLite connections, and AI budgets, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. Both **REI · Advanced** beside Sources and the settings gear open **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps AI status, **AI settings**, the Settings gear, and **Help (?)** on the right.
+For Discovery 1.2.0 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. Both **REI · Advanced** beside Sources and the settings gear open **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
 
-[Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1)
+[Live demo · V1.2.0](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.0)
 
-The refreshed v1.1.1 UI keeps the workspace heading and smaller description inline, wrapping with the window width. The initial evidence card has no extra heading above it; search progress and result headings appear when needed. The live demo and v1.1.1 downloads include these UI updates.
+Version 1.2 adds reviewed AI profile updates with rollback, eight-question quizzes with score history, API connections, dataset privacy review, and progress bars for every AI task. The bundled REI/Advanced template includes the reviewed embryology research focus; existing profiles are preserved on upgrade.
 
 ## Quick start
 
@@ -33,11 +33,17 @@ Open **Settings > Saved research** to review your briefs. Choose **Back to resea
 
 ## AI assistance
 
+**Settings > Update profile with AI** lets you request changes, review a preview, apply selected fields, and roll back. Related searches can offer the same action in Tip; searching never changes your profile automatically. Repeating an already-applied request can report no changes.
+
+**Quizzes > Start a quiz** generates eight questions for your level. Grade locally, review scores and explanations in Quiz history, or remove saved attempts. Every AI task shows a labeled activity bar, elapsed time, and a polite wait message. Use Cancel where available to stop waiting.
+
+For connected data, open **Connections → Connect to an API** or use **Recommend APIs with AI**. Public APIs need no password; authenticated services support tokens, API keys, or username/password. After retrieving records, review their privacy rules before enabling questions and statistics. **Datasets → Import file → Review privacy** follows the same process for CSV/JSON. Repeated patient names receive consistent labels, credentials are removed, and AI analyzes only an approved working copy. See [API connections and dataset privacy](documentation/USER_GUIDE.md#api-connections).
+
 On Windows 10/11 x64, the [self-contained installer](WINDOWS_INSTALLATION.md) supplies the local backend and opens the browser automatically. Use its tray menu to reopen/quit the app. Private keys live in `%LOCALAPPDATA%\REIResearchExplorer\.env`; installation updates preserve that folder.
 
-AI is optional and runs through the Python backend. The compact header shows verified access, missing credentials, and errors. Click **Connect AI**, then **Save key & connect**. The password field clears after submission; the local backend saves the key in ignored `.env` and checks model access without sending research evidence. No restart is needed. **AI settings** opens connection settings on the right; tap the short mobile status for full model details.
+AI is optional and runs through the Python backend. Click **Connect AI**, choose **Model** and **Reasoning** (default **GPT-6 Astra / xHigh**), enter your key, then select **Save & connect**. The password field clears after submission; the local backend saves the key and choices in ignored `.env` and checks model access without sending research evidence. No restart is needed. The same status button reopens the dialog, where you can change choices without entering the saved key again. **By profile and model** shows local usage; an **AI tokens unavailable** notice appears when the provider reports exhausted credits or quota.
 
-After each completed live search, **Make the next step useful** and **Tip** use AI to offer one short next step and one contextual tip. The request contains up to 20 retrieved records, source coverage, research constraints, and up to three saved questions. Guidance is cached for the session until that context changes; it is not generated on every keystroke. **Refresh suggestions** requests another response; turn automatic guidance off in **AI settings** to use manual refresh only.
+After each completed live search, **Make the next step useful** and **Tip** use AI to offer one short next step and one contextual tip. The request contains up to 20 retrieved records, source coverage, research constraints, and up to three saved questions. Guidance is cached for the session until that context changes; it is not generated on every keystroke. **Refresh suggestions** requests another response; open **Guidance preferences** in the AI connection dialog to turn automatic guidance off and use manual refresh only.
 
 Open **Why this suggestion?** to review supporting source records and the model/date. **Use refined query** searches the proposed terms. **Save proposed question** opens a brief for review. **Add next step to a brief** lets you choose a saved brief and review the added note before saving. Saved AI material retains its evidence and provenance. Failed, canceled, empty, example, and browser-only states show labeled fallback guidance; browsing and saved work remain available.
 
@@ -45,7 +51,8 @@ Alternatively, configure `.env` using `.env.example` and restart the backend:
 
 ```dotenv
 OPENAI_API_KEY=your_api_key_here
-OPENAI_MODEL=gpt-6.1-sol
+OPENAI_MODEL=gpt-6-astra
+OPENAI_REASONING_EFFORT=xhigh
 ```
 
 Keys are stored only on the server. Never embed a key in HTML source, browser storage, exported research, or Git. UI key entry is available only through a local HTTP backend. OpenAI API usage is metered and requires model access and sufficient quota; the connection check verifies key and model access without generating text.

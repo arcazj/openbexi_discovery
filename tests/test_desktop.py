@@ -58,7 +58,7 @@ class BundlePrivacyTests(unittest.TestCase):
             key = "sk-fixture-never-a-real-key"
             (root / ".env").write_text("OPENAI_API_KEY=" + key, encoding="utf-8")
             with patch.object(build_windows, "ROOT", root):
-                for filename in (".env", ".env.backup", "private.iml"):
+                for filename in (".env", ".env.backup", "private.iml", "user_profiles", "discovery_library", ".discovery"):
                     item = bundle / filename
                     item.write_text("private", encoding="utf-8")
                     with self.assertRaises(ValueError):

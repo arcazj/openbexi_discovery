@@ -13,7 +13,7 @@ import sys
 
 from scripts.build_pages import DOCUMENTS
 
-VERSION = "1.1.1"
+VERSION = "1.2.0"
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -64,7 +64,7 @@ def verify_bundle(bundle):
     for path in bundle.rglob("*"):
         if path.is_symlink() or not path.resolve().is_relative_to(bundle):
             raise ValueError("Linked or external bundle content is not allowed.")
-        if path.name in {".env", ".git", ".idea", "node_modules", ".venv"} or path.suffix == ".iml" or path.name.startswith(".env."):
+        if path.name in {".env", ".git", ".idea", "node_modules", ".venv", "user_profiles", "discovery_library", ".discovery"} or path.suffix == ".iml" or path.name.startswith(".env."):
             private_paths.append(path.relative_to(bundle).as_posix())
     if private_paths:
         raise ValueError("The bundle contains private paths.")

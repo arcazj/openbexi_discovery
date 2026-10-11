@@ -43,6 +43,22 @@ class Quiz(Strict):
     questions: List[QuizQuestion] = Field(min_length=1, max_length=50)
 
 
+class GeneratedQuizQuestion(QuizQuestion):
+    choices: List[str] = Field(min_length=4, max_length=4)
+    answer: int = Field(ge=0, le=3)
+
+    @model_validator(mode="after")
+    def distinct_choices(self):
+        choices = [choice.strip().casefold() for choice in self.choices]
+        if not all(choices) or len(set(choices)) != len(choices):
+            raise ValueError("Provide four distinct, nonempty choices.")
+        return self
+
+
+class GeneratedQuiz(Quiz):
+    questions: List[GeneratedQuizQuestion] = Field(min_length=8, max_length=8)
+
+
 class ActivityInput(Strict):
     profile_id: str = "rei"
     kind: Literal["document", "dataset", "note", "quiz", "attempt", "search", "ai", "workspace", "connection"]
@@ -159,6 +175,8 @@ def delete_activity(aid):
         if root not in folder.parents or folder.name != identifier(aid) or path.parent.is_symlink():
             raise HTTPException(403, "Invalid activity storage path.")
         shutil.rmtree(folder)
+        from .private_store import delete
+        delete('dataset', aid)
     return {"deleted": aid}
 
 
@@ -211,13 +229,46 @@ def dataset_rows(aid, offset=0, query=""):
 
 def submit_quiz(aid, answers, profile_id=None):
     item = get_activity(aid)
+    if item["kind"] != "quiz":
+        raise HTTPException(422, "Choose a saved quiz.")
+    if profile_id and profile_id != item["profile_id"]:
+        raise HTTPException(422, "Save the attempt in the quiz's original profile.")
     quiz = Quiz.model_validate(item["payload"])
-    if len(answers) != len(quiz.questions) or any(type(a) is not int for a in answers):
+    if len(answers) != len(quiz.questions) or any(type(a) is not int or a < 0 or a >= len(q.choices) for a, q in zip(answers, quiz.questions)):
         raise HTTPException(422, "Answer every question.")
     score = sum(a == q.answer for a, q in zip(answers, quiz.questions))
     return save_activity({"profile_id": profile_id or item["profile_id"], "kind": "attempt", "title": "Quiz attempt: " + quiz.title,
-                          "payload": {"quiz_id": aid, "answers": answers, "score": score, "total": len(answers)},
+                          "payload": {"quiz_id": aid, "quiz_title": quiz.title, "quiz_level": item["learning_level"],
+                                      "quiz_provenance": item["provenance"],
+                                      "questions": quiz.model_dump()["questions"], "answers": answers,
+                                      "score": score, "total": len(answers)},
                           "sensitive": item["sensitive"], "consent_local": item["sensitive"]})
+
+
+def quiz_history(profile_id):
+    identifier(profile_id)
+    attempts = []
+    for path in activity_paths():
+        item = read_json(path)
+        if item["kind"] == "attempt" and item["profile_id"] == profile_id:
+            payload = item["payload"]
+            attempts.append({"id": item["id"], "title": payload.get("quiz_title", item["title"]),
+                             "created_at": item["created_at"], "learning_level": payload.get("quiz_level", item["learning_level"]),
+                             "score": payload["score"], "total": payload["total"]})
+    return sorted(attempts, key=lambda item: item["created_at"], reverse=True)
+
+
+def delete_quiz_history(profile_id, attempt_id=None):
+    with LOCK:
+        attempts = quiz_history(profile_id)
+        if attempt_id is not None:
+            identifier(attempt_id)
+            attempts = [item for item in attempts if item["id"] == attempt_id]
+            if not attempts:
+                raise HTTPException(404, "Quiz attempt not found in this profile.")
+        for item in attempts:
+            delete_activity(item["id"])
+    return {"deleted": len(attempts)}
 
 
 def export_zip(profile="", activity="", include_sensitive=False):

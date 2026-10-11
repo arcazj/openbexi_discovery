@@ -3,33 +3,146 @@
   "id": "rei",
   "name": "REI",
   "description": "The original reproductive endocrinology and infertility research workspace, with Discovery enhancements.",
-  "goal": "Explore reproductive health evidence, connect genetic and clinical insights, and develop answerable research questions.",
-  "theme_title": "REI — Reproductive Endocrinology & Infertility",
-  "themes": ["05.11.01.03", "05.02.16.04"],
+  "goal": "Explore reproductive health evidence, connect genetic and clinical insights, and develop answerable research questions. Focus on embryology in assisted reproduction and infertility: link all available time-lapse embryo videos from fertilization to transfer with de-identified patient, treatment-cycle, and longitudinal Excel records; compare developmental patterns across cycles and investigate associations with treatment outcomes. Require verified local-only handling, privacy review before analysis, and researcher-reviewed AI findings with uncertainty and traceable support. Distinguish observed associations from established causes, interpretations, and untested hypotheses.",
+  "theme_title": "REI — Embryology, Assisted Reproduction & Infertility",
+  "themes": [
+    "05.11.01.03",
+    "05.02.16.04",
+    "05.11.01.02",
+    "05.11.02"
+  ],
   "learning_level": "advanced",
-  "tabs": ["evidence", "documents", "datasets", "connections", "quizzes", "notes"],
+  "tabs": [
+    "evidence",
+    "documents",
+    "datasets",
+    "connections",
+    "quizzes",
+    "notes"
+  ],
   "default_tab": "evidence",
-  "panels": ["guidance", "constraints", "tip"],
-  "sources": ["pubmed", "ensembl", "gwas"],
-  "tools": ["papers", "quizzes"],
+  "panels": [
+    "guidance",
+    "constraints",
+    "tip"
+  ],
+  "sources": [
+    "pubmed",
+    "ensembl",
+    "gwas"
+  ],
+  "tools": [
+    "papers",
+    "quizzes"
+  ],
   "ui": {
-    "eyebrow": "Your fellowship research workspace",
+    "eyebrow": "Embryology research workspace",
     "heading": "",
-    "introduction": "Explore topics, genes, or genomic regions to find evidence and shape your next question.",
-    "sources_title": "Sources", "sources_caption": "Select evidence",
+    "introduction": "Study embryo development from fertilization to transfer and compare outcome associations across treatment cycles. Local-only handling and privacy review are prerequisites.",
+    "sources_title": "Sources",
+    "sources_caption": "External evidence searches; public, non-identifying queries only.",
     "search_label": "Research topic, gene, or chromosome region",
-    "search_placeholder": "Try ovarian aging, PCOS, or BRCA1",
-    "examples": ["ovarian aging", "PCOS", "BRCA1"],
+    "search_placeholder": "Try embryo division timing, IVF outcomes, or PCOS",
+    "examples": [
+      "ovarian aging",
+      "PCOS",
+      "BRCA1"
+    ],
     "welcome_heading": "",
-    "welcome_title": "A broad interest is a good starting point.",
-    "welcome_text": "Search a reproductive topic to review the literature, or a gene to explore its genomic context. Save a question when a direction begins to take shape.",
-    "guidance_heading": "Make the next step useful",
-    "guidance_text": "Search a topic or gene to find evidence for a question your fellowship can investigate.",
+    "welcome_title": "Verify local privacy controls first.",
+    "welcome_text": "Built-in PubMed, Ensembl, and GWAS searches use external services. Never submit patient information, videos, or private research data. Do not run these searches for fully offline work. This profile does not enable or verify local video or Excel processing.",
+    "guidance_heading": "Local research requirements",
+    "guidance_text": "Require verified local-only import, storage, processing, and AI before using research data. Before analysis, review videos, filenames, metadata, Excel workbooks, and clinical free text for names, birth dates, contact details, addresses, medical record numbers, and other identifiers; flag ambiguous content for manual review. Link patients, cycles, embryos, and observations with consistent de-identified IDs. If a re-identification key exists, label the dataset pseudonymized and keep the key separately with restricted local access.",
     "constraints_heading": "My research constraints (optional)",
-    "deadline_label": "Fellowship deadline", "deadline_hint": "e.g. Abstract due June 2027",
-    "data_label": "Available data", "data_hint": "e.g. Clinic registry, AMH and IVF outcomes",
-    "mentor_label": "Mentor expertise", "mentor_hint": "e.g. Reproductive epidemiology",
+    "deadline_label": "Research deadline",
+    "deadline_hint": "e.g. Abstract due June 2027",
+    "data_label": "Available data",
+    "data_hint": "e.g. Time-lapse videos and Excel records; describe availability, not patient details",
+    "mentor_label": "Mentor expertise",
+    "mentor_hint": "e.g. Reproductive epidemiology",
     "tip_heading": "Tip",
-    "tip_text": "A focused population, measurable exposure, and primary outcome make a research question easier to review with your mentor."
+    "tip_text": "Account for age, treatment differences, missing data, and embryos nested within cycles and patients. Keep observations, interpretations, and untested hypotheses distinct; report uncertainty and do not treat associations as established causes. Require researcher review and traceable links to supporting video frames or clinical records."
+  },
+  "provenance": {
+    "goal": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "theme_title": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "themes": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "eyebrow": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "heading": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "introduction": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "sources_caption": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "search_placeholder": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "welcome_heading": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "welcome_title": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "welcome_text": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "guidance_heading": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "guidance_text": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "deadline_label": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "data_hint": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    },
+    "tip_text": {
+      "origin": "ai",
+      "model": "gpt-6-astra",
+      "generated_at": "2026-10-11T19:44:31.245309+00:00"
+    }
   }
 }

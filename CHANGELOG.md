@@ -1,5 +1,20 @@
 # Releases
 
+## 1.2.0 — Reviewed profiles, quizzes, and private working copies
+
+- Adds explicit AI profile updates with a text request, selectable preview, related-search shortcut, saved revisions, and rollback. Repeated or equivalent requests can report no changes; exact applicable repeats reuse the prior result locally.
+- Shows a labeled progress bar, elapsed time, and polite wait message for every AI request, including quiz generation, concurrent tasks, connection checks, and work inside dialogs.
+- Generates eight-question quizzes for the active profile and level, grades locally, and retains reviewable scores and history with individual or bulk removal.
+- Consolidates AI setup into Connect AI with model and reasoning choices, defaulting to GPT-6 Astra / xHigh. Keeps By profile and model usage, removes the Usage & budget editor, and explains exhausted quota or previously saved limits.
+- Adds profile-based API recommendations and public/authenticated HTTPS JSON connections before SQLite, with reviewed data retrieval, local statistics, and questions about approved working copies.
+- Adds dataset privacy review with stable identifier labels, forced credential removal, configurable masking/removal, and separately encrypted mappings and optional originals. AI receives only reviewed statistics and a bounded working-copy sample.
+- Adds theme/source catalogue management, removal and undo, plus mouse, keyboard, and touch help captions for controls.
+- Restores the orange/green provenance legend and keeps standard backgrounds on the workspace introduction, source bar, profile badge, and search controls.
+- Bundles the reviewed REI/Advanced embryology and assisted-reproduction profile, retaining generated-content attribution. Existing saved profiles and private data survive upgrades.
+- Updates documentation, dependency notices, Windows packaging, source archives, and release checks. The Windows installer includes Python, SQLite, encryption dependencies, and all new UI assets.
+
+Profile wording does not implement video/Excel processing or local AI. Data/profile/archive schemas remain compatible at `1.1`; application version is `1.2.0`.
+
 
 ## 1.1.1 — Compact layout and profile settings
 

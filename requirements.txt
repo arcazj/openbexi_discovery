@@ -6,3 +6,4 @@ openai==2.48.0
 python-dotenv==1.2.1
 pydantic==2.13.5
 defusedxml==0.7.1
+cryptography==50.0.2

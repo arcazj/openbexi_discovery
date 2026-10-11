@@ -2,6 +2,7 @@
 
 import errno
 import http.client
+import re
 import socket
 import tempfile
 import threading
@@ -23,6 +24,11 @@ class BrowserOnlyServerTests(unittest.TestCase):
     def setUpClass(cls):
         cls.directory = tempfile.TemporaryDirectory()
         root = Path(cls.directory.name)
+        cls.assets = re.findall(r'(?:src|href)="(assets/[^"]+)"', (serve_frontend.ROOT / "index.html").read_text(encoding="utf-8"))
+        (root / "assets").mkdir()
+        for asset in cls.assets:
+            (root / asset).write_text("/* public frontend asset */", encoding="utf-8")
+        (root / "assets" / "private.js").write_text("private server implementation", encoding="utf-8")
         (root / "index.html").write_text("<html>research workspace</html>", encoding="utf-8")
         for document in serve_frontend.DOCUMENTS:
             (root / document).write_text("public documentation", encoding="utf-8")
@@ -64,9 +70,21 @@ class BrowserOnlyServerTests(unittest.TestCase):
                 self.assertEqual(dict(headers)["X-Content-Type-Options"], "nosniff")
                 self.assertNotIn(b"secret-static-test", body)
 
+    def test_all_scripts_and_styles_referenced_by_the_workspace_are_reachable(self):
+        self.assertIn("assets/ai_progress.js", self.assets)
+        for asset in self.assets:
+            with self.subTest(asset=asset):
+                status, headers, body = self.request("/" + asset)
+                self.assertEqual(status, 200)
+                self.assertTrue(body)
+                media_type = "text/javascript" if asset.endswith(".js") else "text/css"
+                self.assertTrue(dict(headers)["Content-Type"].startswith(media_type))
+                self.assertEqual(dict(headers)["X-Content-Type-Options"], "nosniff")
+
     def test_secret_and_server_paths_are_denied_including_encoded_traversal(self):
         paths = [
             "/.env", "/backend/app.py", "/../.env", "/%2e%2e/.env",
+            "/assets/private.js",
             "/api/docs/../.env", "/api/docs/%2e%2e%2f.env",
             "/licenses/../.env", "/licenses/%2e%2e%2f.env",
             "/licenses/../backend/app.py", "/licenses/nested/dependency.txt",

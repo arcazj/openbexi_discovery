@@ -14,23 +14,24 @@ import asyncio
 import ipaddress
 import os
 import re
+import tempfile
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 import httpx
 from dotenv import load_dotenv, set_key
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
-from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator, model_validator
 from pydantic import ValidationError
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from . import ai
 from .discovery_api import router as discovery_router, tracked_ai
-from .discovery_store import require_online, data_root
+from .discovery_store import require_online, data_root, LOCK
 from .sources import SOURCE_INFO, SourceService, interpret, utc_now
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -43,13 +44,13 @@ def configuration_path():
 
 
 load_dotenv(configuration_path(), override=False)
-VERSION = "1.1.1"
+VERSION = "1.2.0"
 # The standalone launcher can select any free local port. Keep browser access
 # limited to exact loopback HTTP origins, using one policy for CORS and POSTs.
 LOCAL_PORT_PATTERN = r"(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])"
 LOCAL_ORIGIN_PATTERN = rf"http://(?:localhost|127\.0\.0\.1)(?::{LOCAL_PORT_PATTERN})?"
 LOCAL_ORIGIN = re.compile(LOCAL_ORIGIN_PATTERN)
-DOC_FILES = {"README.md", "CHANGELOG.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md", "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md", "LICENSE"}
+DOC_FILES = {"README.md", "CHANGELOG.md", "RELEASE-NOTES-v1.2.0.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md", "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md", "LICENSE"}
 
 
 class SearchRequest(BaseModel):
@@ -76,7 +77,9 @@ class SearchRequest(BaseModel):
 
 class AIConfigureRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    api_key: SecretStr = Field(min_length=20, max_length=512)
+    api_key: Optional[SecretStr] = Field(default=None, min_length=20, max_length=512)
+    model: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    reasoning_effort: Optional[Literal["low", "medium", "high", "xhigh", "max"]] = None
 
     @field_validator("api_key", mode="before")
     @classmethod
@@ -85,10 +88,23 @@ class AIConfigureRequest(BaseModel):
 
     @field_validator("api_key")
     @classmethod
-    def valid_key(cls, value: SecretStr) -> SecretStr:
-        if re.fullmatch(r"sk-[A-Za-z0-9_-]+", value.get_secret_value()) is None:
+    def valid_key(cls, value: Optional[SecretStr]) -> Optional[SecretStr]:
+        if value is not None and re.fullmatch(r"sk-[A-Za-z0-9_-]+", value.get_secret_value()) is None:
             raise ValueError("Enter a complete OpenAI secret key beginning with sk-.")
         return value
+
+    @field_validator("model")
+    @classmethod
+    def supported_model(cls, value):
+        if value is not None and value not in ai.MODELS and value != ai.model_name():
+            raise ValueError("Choose one of the supported AI models.")
+        return value
+
+    @model_validator(mode="after")
+    def has_change(self):
+        if self.api_key is None and self.model is None and self.reasoning_effort is None:
+            raise ValueError("Choose a model, reasoning level, or API key to save.")
+        return self
 
 
 @asynccontextmanager
@@ -105,7 +121,7 @@ async def lifespan(application: FastAPI):
 app = FastAPI(title="OpenBEXI Discovery", version=VERSION, lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "testserver"])
 app.add_middleware(CORSMiddleware, allow_origin_regex=LOCAL_ORIGIN_PATTERN, allow_methods=["GET", "POST"],
-                   allow_headers=["Content-Type"], allow_credentials=False)
+                   allow_headers=["Content-Type"], expose_headers=["X-Discovery-AI-Reused"], allow_credentials=False)
 
 
 @app.middleware("http")
@@ -163,7 +179,8 @@ app.include_router(discovery_router)
 
 @app.get("/api/health")
 async def health():
-    result = {"version": VERSION, "ai": {"configured": ai.configured(), "model": ai.model_name()}, "sources": SOURCE_INFO}
+    result = {"version": VERSION, "ai": {"configured": ai.configured(), "model": ai.model_name(),
+              "reasoning_effort": ai.reasoning_effort()}, "sources": SOURCE_INFO}
     if os.getenv("REI_DESKTOP_INSTANCE"):
         result["desktop"] = {"managed": True, "instance_id": os.environ["REI_DESKTOP_INSTANCE"]}
     return result
@@ -204,17 +221,38 @@ async def ai_configure(configuration: AIConfigureRequest, request: Request):
     except ValueError:
         local_client = False
     if not local_client:
-        raise HTTPException(403, "API keys can only be configured from this computer.")
-    key = configuration.api_key.get_secret_value()
-    try:
-        set_key(str(configuration_path()), "OPENAI_API_KEY", key, quote_mode="always")
-    except Exception:
-        raise HTTPException(500, "Could not save the API key. Check that the private settings folder and .env are writable, then try again.") from None
-    # Refresh this process only after the file has been written successfully.
-    # The key never appears in a response or goes into browser storage.
-    os.environ["OPENAI_API_KEY"] = key
-    return {"configured": True, "model": ai.model_name(), "accessible": False,
-            "message": "API key saved on this computer. Check AI access to verify the connection."}
+        raise HTTPException(403, "AI settings can only be configured from this computer.")
+    updates = {}
+    if configuration.api_key is not None:
+        updates["OPENAI_API_KEY"] = configuration.api_key.get_secret_value()
+    if configuration.model is not None:
+        updates["OPENAI_MODEL"] = configuration.model
+    if configuration.reasoning_effort is not None:
+        updates["OPENAI_REASONING_EFFORT"] = configuration.reasoning_effort
+    # Save the complete change atomically before updating the running process.
+    # Omitted keys remain private and unchanged when only preferences are saved.
+    with LOCK:
+        temporary = None
+        try:
+            path = configuration_path()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            fd, name = tempfile.mkstemp(prefix=".env-", dir=path.parent)
+            os.close(fd)
+            temporary = Path(name)
+            if path.exists():
+                temporary.write_bytes(path.read_bytes())
+            for setting, value in updates.items():
+                if not set_key(str(temporary), setting, value, quote_mode="always")[0]:
+                    raise OSError("Settings write failed")
+            temporary.replace(path)
+        except Exception:
+            raise HTTPException(500, "Could not save AI settings. Check that the private settings folder and .env are writable, then try again.") from None
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
+        os.environ.update(updates)
+    return {"configured": ai.configured(), "model": ai.model_name(), "reasoning_effort": ai.reasoning_effort(),
+            "accessible": False, "message": "AI settings saved on this computer. Check AI access to verify the connection."}
 
 
 @app.get("/")
@@ -244,7 +282,7 @@ async def license_file(filename: str):
 
 @app.get("/assets/{filename}")
 async def discovery_asset(filename: str):
-    if filename not in {"discovery.js", "discovery.css"}:
+    if filename not in {"discovery.js", "discovery.css", "data.js", "captions.js", "customize.js", "profile_ai.js", "ai_progress.js"}:
         raise HTTPException(404, "Asset not found.")
     return FileResponse(ROOT / "assets" / filename)
 

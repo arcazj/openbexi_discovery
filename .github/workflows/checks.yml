@@ -40,3 +40,6 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:ui
       - run: npm run test:discovery
+      - run: npm run test:data
+      - run: npm run test:customization
+      - run: npm run test:profiles

@@ -47,7 +47,9 @@ def schema(db):
     return {row[0]: [x[1] for x in db.execute('PRAGMA table_info("' + row[0].replace('"', '""') + '")').fetchall()][:100] for row in tables}
 
 
-def connect(name, path="", file_base64="", sensitive=True):
+def connect(name, path="", file_base64="", sensitive=True, profile_id='rei'):
+    from .profiles import get_profile
+    get_profile(profile_id)
     if not name.strip() or len(name) > 100:
         raise HTTPException(422, "Give the connection a short name.")
     cid = uuid.uuid4().hex
@@ -66,7 +68,7 @@ def connect(name, path="", file_base64="", sensitive=True):
         raise HTTPException(422, "Database schema could not be read.") from None
     finally:
         db.close()
-    value = {"id": cid, "name": name.strip(), "type": "sqlite", "path": str(Path(path).resolve()),
+    value = {"id": cid, "name": name.strip(), "type": "sqlite", "path": str(Path(path).resolve()), "profile_id":profile_id,
              "sensitive": bool(sensitive), "tables": tables, "created_at": stamp(), "read_only": True,
              "storage": "uploaded copy" if file_base64 else "local file"}
     with LOCK:

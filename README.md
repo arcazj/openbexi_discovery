@@ -1,42 +1,46 @@
-﻿# OpenBEXI Discovery · 1.1.1
+﻿# OpenBEXI Discovery · 1.2.0
 
 **Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.**
 
-A local learning and research workspace. Start with the familiar **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and AI guidance.
+A local learning and research workspace. Start with the **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and AI guidance. Version 1.2 includes the reviewed REI embryology and assisted-reproduction profile as its default template; upgrades preserve your saved profile.
 
-[Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Release v1.1.1 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) · [Release notes](CHANGELOG.md#111--compact-layout-and-profile-settings) · [User guide](documentation/USER_GUIDE.md)
+[Live demo · V1.2.0](https://arcazj.github.io/openbexi_discovery/) · [Release v1.2.0 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.0) · [Release notes](RELEASE-NOTES-v1.2.0.md) · [User guide](documentation/USER_GUIDE.md)
 
-The workspace uses a compact header and golden-ratio desktop columns. The header keeps AI status, **AI settings**, the **Settings** gear, and **Help (?)** on the right. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in small text after the brand.
+The workspace uses a compact header and golden-ratio desktop columns. The header keeps one AI connection/status button, the **Settings** gear, and **Help (?)** on the right. **Connect AI** offers model and reasoning choices, defaulting to GPT-6 Astra / xHigh. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in small text after the brand.
 
-The refreshed v1.1.1 UI keeps the workspace heading and smaller description inline, wrapping with the window width. The initial evidence card has no extra heading above it; search progress and result headings appear when needed. The live demo and v1.1.1 downloads include these UI updates.
+Version 1.2 adds reviewed AI profile updates with rollback, eight-question quizzes with scores and history, API connections, dataset privacy review, help captions, and visible progress for every AI task. Each progress bar names the task and shows elapsed time, including inside dialogs and when multiple requests are running.
 
-## Downloads · v1.1.1
+## Downloads · v1.2.0
 
 | Download | Contents |
 | --- | --- |
-| [Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe) | Windows 10/11 x64 app with Python and SQLite included. |
-| [Source ZIP](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.1.1.zip) | Tagged source code and documentation. |
-| [Source tar.gz](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.1.1.tar.gz) | The same tagged source for Unix-style tools. |
-| [Release notes](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/RELEASE-NOTES-v1.1.1.md) | Downloadable changes, compatibility, and validation notes. |
-| [SHA-256 checksums](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/SHA256SUMS.txt) | Checksums for the installer and named release assets. |
+| [Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.0/OpenBEXIDiscovery-1.2.0-Windows-x64-Setup.exe) | Windows 10/11 x64 app with Python and SQLite included. |
+| [Source ZIP](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.2.0.zip) | Tagged source code and documentation. |
+| [Source tar.gz](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.2.0.tar.gz) | The same tagged source for Unix-style tools. |
+| [Release notes](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.0/RELEASE-NOTES-v1.2.0.md) | Downloadable changes, compatibility, and validation notes. |
+| [SHA-256 checksums](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.0/SHA256SUMS.txt) | Checksums for the installer and named release assets. |
 
 The release also includes named source archives with checksums. Source archives require the setup below; they do not include the Windows runtime.
 
 ## Install on Windows
 
-[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
+[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.0/OpenBEXIDiscovery-1.2.0-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
 
 The app opens in your browser. Use the tray menu to reopen or quit. Private data survives upgrades and uninstall. [Installation help](WINDOWS_INSTALLATION.md)
 
 ## What you can do
 
 - **Research:** search evidence, inspect sources, save questions, and compare briefs.
-- **Personalize:** create profiles, choose research themes and one of seven levels, and preview UI wording.
-- **Work locally:** collect documents, browse datasets, write notes, take quizzes, and open or export ZIP libraries without AI.
-- **Connect data:** browse a local SQLite database read-only and explicitly save selected rows for offline use.
-- **Control AI:** supply your own API key, review usage and estimated cost, and set token or dollar limits. AI pauses when a limit blocks requests.
+- **Personalize:** create profiles, choose research themes and one of seven levels, or request an AI update in Settings. Preview and select changes, then apply or roll back. The Tip card offers profile updates from related recent searches.
+- **Learn and practice:** generate an eight-question quiz for your profile and level, save scores, review answers, and remove attempts from history. Retake saved quizzes offline.
+- **Work locally:** collect documents, browse datasets, write notes, author quizzes, and open or export ZIP libraries without AI.
+- **Connect data:** connect public or authenticated HTTPS JSON APIs, ask AI to recommend sources for your profile, or browse SQLite read-only.
+- **Review before analysis:** import datasets, replace identifiers with consistent labels, and approve a separate working copy for local statistics and AI questions. Original data and private mappings stay outside AI requests and library exports.
+- **Control AI:** supply your own API key, choose model/reasoning, and review **By profile and model** usage. Quota notices explain unavailable credits; previously saved local limits remain enforced and can be removed explicitly.
 
 Green identifies source/user content whose upstream AI origin may be unknown. Orange identifies app-generated AI content, with its model recorded. Red signals errors or blocked AI usage.
+
+The workspace introduction, source bar, profile badge, and search controls keep their standard backgrounds. AI answers, tips, and previews retain orange highlighting. The REI profile records research goals; it does not add video or Excel processing, local AI, or automatically enforce local-only mode. See [the REI profile guide](documentation/USER_GUIDE.md#start-with-rei).
 
 ## Run from source
 
@@ -57,7 +61,7 @@ The [browser demo](https://arcazj.github.io/openbexi_discovery/) supports basic 
 ## Learn more
 
 - [Profiles, tabs, quizzes, and local library](documentation/USER_GUIDE.md)
-- [AI usage, budgets, and data privacy](documentation/AI_AND_DATA.md)
+- [AI connection, usage, quizzes, and data privacy](documentation/AI_AND_DATA.md)
 - [Architecture, schemas, extensions, and tests](documentation/DEVELOPMENT.md)
 - [Community Edition and commercial roadmap](documentation/LICENSING_ROADMAP.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)

@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sqlite3
 import tempfile
@@ -104,9 +105,17 @@ def smoke(setup, test_tray=False, previous_setup=None):
             with get("/api/discovery/bootstrap") as response:
                 data = json.load(response)
                 assert next(p for p in data["profiles"] if p["id"] == "rei")["learning_level"] == "advanced"
+            with get("/api/discovery/templates/rei") as response:
+                rei_template = json.load(response)
+                assert rei_template["learning_level"] == "advanced"
+                assert "Embryology" in rei_template["theme_title"]
+                assert rei_template["provenance"]["goal"]["model"] == "gpt-6-astra"
+                assert rei_template["connection_ids"] == []
             with get("/api/discovery/taxonomy") as response:
                 assert len(json.load(response)["nodes"]) > 1000
-            for path in ("/assets/discovery.js", "/assets/discovery.css", "/documentation/USER_GUIDE.md"):
+            scripts = re.findall(r'src="(assets/[^"]+)"', html)
+            assert "assets/ai_progress.js" in scripts
+            for path in ["/" + script for script in scripts] + ["/assets/discovery.css", "/documentation/USER_GUIDE.md", "/api/docs/RELEASE-NOTES-v1.2.0.md"]:
                 with get(path) as response:
                     assert response.status == 200
             with get("/api/discovery/templates/general") as response:
@@ -127,6 +136,17 @@ def smoke(setup, test_tray=False, previous_setup=None):
             query = {"connection_id": connection["id"], "table": "evidence", "fields": ["gene"], "profile_id": pid}
             assert post("/connections/query", query)["rows"] == [{"gene": "BRCA1"}]
             post("/connections/query", dict(query, snapshot=True, consent_local=True))
+            rows = [{"patient_name": "Alice Fixture", "outcome": 1}, {"patient_name": "Alice Fixture", "outcome": 2}]
+            staged = post("/datasets/import", {"profile_id": pid, "filename": "synthetic.json",
+                          "file_base64": base64.b64encode(json.dumps(rows).encode()).decode()})
+            review = "/dataset-reviews/" + staged["stage_id"]
+            preview = post(review + "/preview", {"rules": staged["rules"]})
+            assert [row["patient_name"] for row in preview["rows"]] == ["Patient 1", "Patient 1"]
+            working = post(review + "/save", {"preview_id": preview["preview_id"], "reviewed": True, "retain_original": True})
+            assert "Alice Fixture" not in json.dumps(working)
+            # Reopening retained originals exercises the bundled Windows encryption path.
+            reopened = post("/datasets/" + working["id"] + "/review", {})
+            assert reopened["stage_id"]
             post("/settings", {"local_only": True})
             note = post("/library", {"profile_id": pid, "kind": "note", "title": "Offline fixture", "content": "No external connection needed."})
             archive = post("/archives/export", {"profile_id": pid}, raw=True)
@@ -158,6 +178,9 @@ def smoke(setup, test_tray=False, previous_setup=None):
             if previous_setup is None:
                 verify_current_version()
             initial = json.loads((private / "desktop.json").read_text(encoding="utf-8"))
+            with get("/api/discovery/bootstrap") as response:
+                assert json.load(response)["profiles"]
+            saved_rei = json.loads((private / "user_profiles" / "rei.json").read_text(encoding="utf-8"))
             with get("/") as response:
                 assert b"Make the next step useful" in response.read()
             with get("/api/health") as response:
@@ -193,6 +216,7 @@ def smoke(setup, test_tray=False, previous_setup=None):
             assert user_file.read_text(encoding="utf-8") == "Keep this user file."
             process = start()
             wait_for(ready)
+            assert json.loads((private / "user_profiles" / "rei.json").read_text(encoding="utf-8")) == saved_rei
             verify_current_version()
             with get("/api/health") as response:
                 text = response.read().decode()

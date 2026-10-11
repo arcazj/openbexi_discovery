@@ -67,13 +67,44 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(settings()['active_profile'], 'rei')
         self.assertEqual(self.client.post('/api/discovery/profiles/action', json={'id': 'rei', 'revision': 1, 'action': 'delete'}).status_code, 422)
 
-    def test_profile_rejects_theme_mutations_unknown_tools_and_paths(self):
+    def test_profile_rejects_unknown_themes_tools_and_paths(self):
         rei = profiles.get_profile('rei')
-        for field, value in [('themes', ['07.01']), ('tools', ['research_agents']), ('id', '../escape')]:
+        for field, value in [('themes', ['not-a-theme']), ('themes', ['WORLD']), ('tools', ['research_agents']),
+                             ('id', '../escape'), ('hidden_source_ids', ['unknown']),
+                             ('hidden_source_ids', ['api:../escape']), ('hidden_source_ids', ['pubmed', 'pubmed'])]:
             changed = {**rei, field: value}
             response = self.client.post('/api/discovery/profiles/save', json={'profile': changed, 'base_revision': 1})
             self.assertIn(response.status_code, (409, 422), response.text)
         self.assertEqual(profiles.get_profile('rei')['revision'], 1)
+
+    def test_theme_and_source_changes_preserve_history_and_undo_in_place(self):
+        original = profiles.get_profile('rei')
+        other = profiles.save_profile(profiles.template('general'), create=True)
+        note = self.note()
+        workspace = {'workspace': {'questions': [{'id': 'q1', 'title': 'Keep this research'}]},
+                     'prefs': {'sources': ['pubmed', 'gwas']}, 'query': 'ovarian aging'}
+        self.post('/workspace', {'profile_id': 'rei', 'revision': 0, 'data': workspace})
+        changed = self.post('/profiles/save', {'profile': {**original, 'themes': ['02.01'],
+                            'hidden_source_ids': ['gwas', 'api:fixture', 'sqlite:fixture']}, 'base_revision': 1})
+        self.assertEqual(changed['id'], 'rei')
+        self.assertEqual(changed['revision'], 2)
+        self.assertEqual(profiles.get_profile('rei')['themes'], ['02.01'])
+        self.assertEqual(profiles.get_profile(other['id']), other)
+        self.assertEqual(profiles.workspace('rei')['data'], workspace)
+        self.assertEqual(library.get_activity(note['id'])['profile_snapshot']['themes'], original['themes'])
+        self.assertEqual(self.client.post('/api/discovery/profiles/action', json={
+            'id': 'rei', 'revision': 1, 'action': 'undo'}).status_code, 409)
+        restored = self.post('/profiles/action', {'id': 'rei', 'revision': 2, 'action': 'undo'})
+        self.assertEqual(restored['themes'], original['themes'])
+        self.assertEqual(restored['hidden_source_ids'], [])
+        empty = self.post('/profiles/save', {'profile': {**restored, 'themes': [], 'hidden_source_ids': ['pubmed']},
+                                           'base_revision': restored['revision']})
+        self.assertEqual(empty['themes'], [])
+        reset = self.post('/profiles/action', {'id': 'rei', 'revision': empty['revision'], 'action': 'reset'})
+        self.assertEqual(reset['themes'], original['themes'])
+        self.assertEqual(reset['hidden_source_ids'], [])
+        self.assertEqual(profiles.workspace('rei')['data'], workspace)
+        self.assertEqual(library.get_activity(note['id']), note)
 
     def test_workspace_revision_and_profile_reset_preserve_research(self):
         data = {'workspace': {'questions': [{'id': 'q1', 'title': 'Keep me'}], 'constraints': {'mentor': 'Available'}}}
@@ -135,6 +166,104 @@ class DiscoveryTests(unittest.TestCase):
         revision=library.save_activity({'profile_id':'rei','kind':'quiz','title':'Edited','payload':quiz['payload'],'parent_id':quiz['id']})
         self.assertEqual(revision['provenance']['origin'],'ai_edited')
         self.assertEqual(revision['provenance']['model'],'fixture-model')
+
+    def quiz(self, profile_id='rei'):
+        return library.save_activity({'profile_id':profile_id, 'kind':'quiz', 'title':'Eight evidence questions',
+            'payload':{'title':'Eight evidence questions', 'questions':[
+                {'question':f'Question {i + 1}', 'choices':['A','B','C','D'], 'answer':i % 4,
+                 'explanation':f'Explanation {i + 1}'} for i in range(8)]},
+            'provenance':{'origin':'ai', 'model':'gpt-6-astra', 'generated_at':'2026-10-11'}})
+
+    def test_quiz_requires_every_answer_and_scores_exactly_once_per_question(self):
+        quiz = self.quiz()
+        correct = [i % 4 for i in range(8)]
+        for answers in [[], correct[:7], correct + [0], [-1] + correct[1:], [4] + correct[1:],
+                        [None] + correct[1:], [True] + correct[1:], ['0'] + correct[1:]]:
+            with self.subTest(answers=answers):
+                response = self.client.post('/api/discovery/quiz/attempt', json={'activity_id':quiz['id'], 'answers':answers})
+                self.assertEqual(response.status_code, 422, response.text)
+        self.assertEqual(library.quiz_history('rei'), [])
+        attempt = self.post('/quiz/attempt', {'activity_id':quiz['id'], 'answers':[1] + correct[1:]})
+        self.assertEqual((attempt['payload']['score'], attempt['payload']['total']), (7, 8))
+        self.assertEqual(attempt['payload']['questions'], quiz['payload']['questions'])
+        self.assertEqual(attempt['payload']['quiz_provenance'], quiz['provenance'])
+        self.assertEqual(attempt['payload']['quiz_level'], 'advanced')
+        self.assertEqual(len(self.client.get('/api/discovery/quiz/history?profile_id=rei').json()['attempts']), 1)
+
+    def test_quiz_history_is_durable_and_deletion_stays_in_selected_profile(self):
+        other = profiles.save_profile(profiles.template('general'), create=True)
+        first_quiz, other_quiz = self.quiz(), self.quiz(other['id'])
+        first = library.submit_quiz(first_quiz['id'], [0] * 8)
+        second = library.submit_quiz(first_quiz['id'], [i % 4 for i in range(8)])
+        other_attempt = library.submit_quiz(other_quiz['id'], [0] * 8)
+        note = self.note()
+        mismatch = self.client.post('/api/discovery/quiz/attempt', json={
+            'activity_id':first_quiz['id'], 'profile_id':other['id'], 'answers':[0] * 8})
+        self.assertEqual(mismatch.status_code, 422)
+        mismatch_delete = self.client.post('/api/discovery/quiz/history/delete', json={
+            'profile_id':'rei', 'attempt_id':other_attempt['id']})
+        self.assertEqual(mismatch_delete.status_code, 404)
+        self.assertEqual(self.post('/quiz/history/delete', {'profile_id':'rei', 'attempt_id':first['id']}), {'deleted':1})
+        self.assertEqual([x['id'] for x in library.quiz_history('rei')], [second['id']])
+        self.assertEqual(library.get_activity(first_quiz['id'])['kind'], 'quiz')
+        library.delete_activity(first_quiz['id'])
+        # A fresh client reads the saved review even after the original quiz is deleted.
+        with TestClient(app, client=('127.0.0.1', 50002)) as reopened:
+            review = reopened.get('/api/discovery/library/' + second['id']).json()
+            self.assertEqual(len(review['payload']['questions']), 8)
+            self.assertEqual(review['payload']['score'], 8)
+            self.assertEqual(len(reopened.get('/api/discovery/quiz/history?profile_id=rei').json()['attempts']), 1)
+        self.assertEqual(self.post('/quiz/history/delete', {'profile_id':'rei'}), {'deleted':1})
+        self.assertEqual(library.quiz_history('rei'), [])
+        self.assertEqual(library.get_activity(note['id'])['kind'], 'note')
+        self.assertEqual(library.get_activity(other_quiz['id'])['kind'], 'quiz')
+        self.assertEqual([x['id'] for x in library.quiz_history(other['id'])], [other_attempt['id']])
+
+    def test_generated_quiz_has_eight_questions_and_uses_saved_learning_level(self):
+        draft = library.GeneratedQuiz.model_validate(self.quiz()['payload'])
+        response = SimpleNamespace(output_parsed=draft, usage={'input_tokens':100, 'output_tokens':200})
+        client = SimpleNamespace(responses=SimpleNamespace(parse=AsyncMock(return_value=response)))
+        context = MagicMock()
+        context.__aenter__ = AsyncMock(return_value=client)
+        context.__aexit__ = AsyncMock(return_value=False)
+        for level in ['beginner', 'expert']:
+            with self.subTest(level=level):
+                profile = profiles.template('general')
+                profile['learning_level'] = level
+                profile['goal'] = 'Learn to evaluate scientific evidence.'
+                profile = profiles.save_profile(profile, create=True)
+                with patch.dict(os.environ, {'OPENAI_API_KEY':'sk-test-fixture', 'OPENAI_MODEL':'gpt-6-astra', 'OPENAI_REASONING_EFFORT':'xhigh'}), patch('backend.ai.AsyncOpenAI', return_value=context):
+                    result = self.post('/ai/draft', {'task':'create_quiz', 'profile':profile, 'instruction':'Start a quiz.'})
+                arguments = client.responses.parse.await_args.kwargs
+                self.assertIs(arguments['text_format'], library.GeneratedQuiz)
+                self.assertEqual(arguments['reasoning'], {'effort':'xhigh'})
+                self.assertIn('exactly 8', arguments['input'][0]['content'])
+                reference = json.loads(arguments['input'][1]['content'].split('\n', 1)[1])
+                self.assertEqual(reference['profile']['learning_level'], level)
+                self.assertEqual(reference['profile']['goal'], profile['goal'])
+                self.assertEqual(len(result['questions']), 8)
+                self.assertEqual(result['provenance']['model'], 'gpt-6-astra')
+                self.assertEqual(profiles.get_profile(profile['id']), profile)
+        self.assertEqual(budget.status()['total_tokens'], 600)
+
+    def test_generated_quiz_rejects_wrong_length_and_invalid_choices(self):
+        original = self.quiz()['payload']
+        for questions in [original['questions'][:7], original['questions'] + original['questions'][:1],
+                          [{**q, 'choices':['A','B','C','a']} for q in original['questions']],
+                          [{**q, 'choices':['A','B','C',' ']} for q in original['questions']]]:
+            with self.subTest(questions=questions):
+                # Revalidation also protects callers if a provider/parser returns malformed output.
+                response = SimpleNamespace(output_parsed=library.Quiz.model_validate({**original, 'questions':questions}),
+                                           usage={'input_tokens':10, 'output_tokens':10})
+                client = SimpleNamespace(responses=SimpleNamespace(parse=AsyncMock(return_value=response)))
+                context = MagicMock()
+                context.__aenter__ = AsyncMock(return_value=client)
+                context.__aexit__ = AsyncMock(return_value=False)
+                with patch.dict(os.environ, {'OPENAI_API_KEY':'sk-test-fixture'}), patch('backend.ai.AsyncOpenAI', return_value=context):
+                    result = self.client.post('/api/discovery/ai/draft', json={
+                        'task':'create_quiz', 'profile':profiles.get_profile('rei'), 'instruction':'Start a quiz.'})
+                self.assertEqual(result.status_code, 502, result.text)
+        self.assertEqual(library.list_activities(kind='attempt'), [])
 
     def test_sqlite_read_only_filtered_bounded_and_explicit_snapshot(self):
         path=Path(self.temp.name)/'research.sqlite'
@@ -204,7 +333,7 @@ class DiscoveryTests(unittest.TestCase):
         context = MagicMock()
         context.__aenter__ = AsyncMock(return_value=client)
         context.__aexit__ = AsyncMock(return_value=False)
-        with patch.dict(os.environ, {'OPENAI_API_KEY':'sk-test-fixture'}), patch('backend.ai.AsyncOpenAI', return_value=context):
+        with patch.dict(os.environ, {'OPENAI_API_KEY':'sk-test-fixture', 'OPENAI_REASONING_EFFORT':'low'}), patch('backend.ai.AsyncOpenAI', return_value=context):
             result = self.post('/ai/draft', {'task':'update_profile', 'profile':original, 'instruction':'Update the heading.'})
         self.assertEqual(result['changes'], {'heading':'Reviewed research workspace'})
         self.assertEqual(profiles.get_profile('rei'), original)
@@ -213,6 +342,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(library.get_activity(result['activity_id'])['request'], 'Update the heading.')
         arguments = client.responses.parse.await_args.kwargs
         self.assertFalse(arguments['store'])
+        self.assertEqual(arguments['reasoning'], {'effort':'low'})
+        self.assertEqual(result['reasoning_effort'], 'low')
         self.assertEqual(arguments['input'][-1]['content'], 'Update the heading.')
         profiles.profile_action('rei','reset',1)
         with patch('backend.ai.AsyncOpenAI') as constructor, patch.dict(os.environ, {'OPENAI_API_KEY':'sk-test-fixture'}):

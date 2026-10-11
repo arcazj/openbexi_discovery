@@ -1,15 +1,22 @@
-OpenBEXI Discovery 1.1 — Windows
+OpenBEXI Discovery 1.2.0 — Windows
 
 Windows 10/11 x64 and a modern browser are required. Python, SQLite, templates,
 themes, and dependencies are included. No administrator access is required.
 Use the Start menu or desktop shortcut. Closing the browser leaves the local
 service running; use the notification-area icon to Quit.
 
-The default workspace is REI at Advanced. Profile settings opens beside AI
-settings. Documents, datasets, notes, and local quizzes work without AI.
-Connections supports existing or uploaded SQLite files with read-only queries.
-Local library exports and reads ZIP backups. Enable Local-only mode in AI settings
-to stop external requests. AI is optional and uses your own metered OpenAI key.
+The default workspace is REI at Advanced, with the reviewed embryology and
+assisted-reproduction profile. Settings opens from the gear or profile button.
+Documents, datasets, notes, and saved quizzes work without AI. Connections supports
+read-only SQLite and public/authenticated HTTPS JSON APIs. Review dataset privacy
+and create a separate working copy before analysis. Local library exports ZIPs.
+
+Connect AI offers model and reasoning choices, defaulting to GPT-6 Astra / xHigh.
+Your own metered OpenAI key is required; no key is included in this installer.
+All AI tasks show progress bars. AI profile changes require preview and approval,
+with rollback available. Start a quiz creates eight questions with scored history.
+Enable Local-only mode in the AI connection dialog to stop external requests.
+Profile wording alone does not enable that setting or local AI/video/Excel tools.
 
 Private data: %LOCALAPPDATA%\REIResearchExplorer
 App files: %LOCALAPPDATA%\Programs\REIResearchExplorer

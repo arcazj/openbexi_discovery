@@ -10,8 +10,10 @@ OpenAI's hosted API and public data providers have separate service and data-reu
 | annotated-types | 0.7.0 | See license text | [LICENSE](licenses/annotated-types-license.txt) |
 | anyio | 4.12.1 | MIT | [LICENSE](licenses/anyio-license.txt) |
 | certifi | 2026.7.22 | MPL-2.0 | [LICENSE](licenses/certifi-license.txt) |
+| cffi | 2.0.0 | MIT | [LICENSE](licenses/cffi-license.txt) |
 | click | 8.1.8 | See license text | [LICENSE.txt](licenses/click-license.txt.txt) |
 | colorama | 0.4.6 | See license text | [LICENSE.txt](licenses/colorama-license.txt.txt) |
+| cryptography | 50.0.2 | Apache-2.0 OR BSD-3-Clause | [LICENSE](licenses/cryptography-license.txt), [Apache](licenses/cryptography-license.apache.txt), [BSD](licenses/cryptography-license.bsd.txt) |
 | defusedxml | 0.7.1 | PSFL | [LICENSE](licenses/defusedxml-license.txt) |
 | distro | 1.9.0 | Apache License, Version 2.0 | [LICENSE](licenses/distro-license.txt) |
 | exceptiongroup | 1.3.1 | See license text | [LICENSE](licenses/exceptiongroup-license.txt) |
@@ -24,6 +26,7 @@ OpenAI's hosted API and public data providers have separate service and data-reu
 | openai | 2.48.0 | Apache-2.0 | [LICENSE](licenses/openai-license.txt) |
 | pydantic | 2.13.5 | MIT | [LICENSE](licenses/pydantic-license.txt) |
 | pydantic_core | 2.46.5 | MIT | [LICENSE](licenses/pydantic-core-license.txt) |
+| pycparser | 2.23 | BSD-3-Clause | [LICENSE](licenses/pycparser-license.txt) |
 | python-dotenv | 1.2.1 | BSD-3-Clause | [LICENSE](licenses/python-dotenv-license.txt) |
 | sniffio | 1.3.1 | MIT OR Apache-2.0 | [LICENSE](licenses/sniffio-license.txt), [LICENSE.APACHE2](licenses/sniffio-license.apache2.txt), [LICENSE.MIT](licenses/sniffio-license.mit.txt) |
 | starlette | 0.49.3 | BSD-3-Clause | [LICENSE.md](licenses/starlette-license.md.txt) |

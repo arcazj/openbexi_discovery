@@ -1,12 +1,16 @@
-# Development and release 1.1.1
+# Development and release 1.2.0
 
 ## Code map
 
 - `index.html`: original evidence, guidance, and saved-brief workflows.
 - `assets/discovery.js` and `.css`: Discovery UI; no CDN or Node runtime requirement.
+- `assets/ai_progress.js`: shared AI activity tracking through `fetchBounded`, including concurrent requests, dialogs, cancellation, and timeouts.
+- `assets/profile_ai.js`, `customize.js`, `captions.js`, `data.js`: reviewed profile updates, theme/source management, accessible captions, API and dataset UI.
 - `backend/profiles.py`: schemas, taxonomy, revisions, workspace persistence.
+- `backend/profile_adaptation.py`: bounded profile proposals, related searches, and reuse of already-applied requests.
 - `backend/library.py`: activities/files, quizzes, safe ZIP processing.
 - `backend/connections.py`: read-only SQLite; no free-form SQL endpoint.
+- `backend/api_connections.py`, `datasets.py`, `private_store.py`: HTTPS JSON connectors, reviewed working copies, and private credential/mapping storage.
 - `backend/budget.py`: durable SQLite usage/reservations.
 - `backend/prompting.py`, `prompts/runtime/`: versioned task instructions.
 - `backend/discovery_api.py`: local Discovery routes.
@@ -40,7 +44,7 @@ SQLite uses URI read-only mode, `query_only`, untrusted schema, real tables, nam
 
 ## Extend
 
-Add categories through the linked taxonomy. Change UI schemas and rendering together. Register tools as available only when implemented/tested. Add runtime tasks with a template manifest entry, structured output schema, and the same data-use and budget gates. Provider/account connectors need their own authorization workflow; none are claimed beyond SQLite in 1.1.1.
+Add categories through the linked taxonomy. Change UI schemas and rendering together. Register tools as available only when implemented/tested. Add runtime tasks with a template manifest entry, structured output schema, and the same data-use and budget gates. Route frontend AI calls through `fetchBounded` and register new endpoint/task labels in `assets/ai_progress.js`. Version 1.2 supports read-only SQLite and HTTPS JSON GET APIs with public or token/key/basic authentication; OAuth and provider account integrations remain future work.
 
 ## Verify
 
@@ -51,15 +55,20 @@ npx playwright install chromium
 npm test
 npm run test:ui
 npm run test:discovery
+npm run test:data
+npm run test:customization
+npm run test:profiles
 ```
 
 Discovery browser checks start an isolated backend and make no paid AI calls. Use synthetic fixtures for sensitive-data tests. See [Windows packaging](../WINDOWS_INSTALLATION.md) for installer/build checks.
 
-The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, and Python SQLite support. User profiles, libraries, private settings, keys, and Git files are excluded. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
+The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, Python SQLite support, and encryption dependencies. The reviewed REI configuration is versioned in `templates/rei.json`, retaining content provenance but excluding local revision timestamps and connection IDs. User profile storage, libraries, private settings, keys, and Git files are excluded. Data/profile/archive schemas remain `1.1`; the application release is `1.2.0`. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
 
-Publish releases from `master` in `arcazj/openbexi_discovery`. The current tag is **v1.1.1**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) and the [V1.1.1 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
+Publish releases from `master` in `arcazj/openbexi_discovery`. The current tag is **v1.2.0**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.0) and the [V1.2.0 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
 
 Release assets include the Windows installer, named source ZIP and tar.gz archives, downloadable release notes, and SHA-256 checksums. GitHub also provides automatic source archives for the tag. Keep the tag, documentation, and the installer's `BUILD-INFO.json` source commit aligned. The Windows workflow verifies installation and upgrading from the published v1.1.1 package; it does not depend on a retired release or repository.
+
+Before publishing, run the backend and browser suites, inspect the staged file list for private paths, and scan staged/source/package contents for configured keys without printing secret values. Commit the release, let the Windows workflow build and verify that exact commit, then attach its verified installer and checksums to the matching tag. Never add `.env`, `user_profiles/`, `.discovery/`, or `discovery_library/` to Git or release archives.
 
 
 Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Profile settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.

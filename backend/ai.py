@@ -16,7 +16,11 @@ from .profiles import get_profile
 from .prompting import compose
 
 PROMPT_VERSION = "rei-evidence-1.1"
-DEFAULT_MODEL = "gpt-6.1-sol"
+DEFAULT_MODEL = "gpt-6-astra"
+DEFAULT_REASONING_EFFORT = "xhigh"
+MODELS = ("gpt-6.1-sol", "gpt-6-astra", "gpt-6-sol", "gpt-6-luna",
+          "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna")
+REASONING_EFFORTS = ("low", "medium", "high", "xhigh", "max")
 
 
 def configured() -> bool:
@@ -26,6 +30,18 @@ def configured() -> bool:
 
 def model_name() -> str:
     return os.getenv("OPENAI_MODEL", DEFAULT_MODEL).strip() or DEFAULT_MODEL
+
+
+def reasoning_effort() -> str:
+    value = os.getenv("OPENAI_REASONING_EFFORT", DEFAULT_REASONING_EFFORT).strip().lower() or DEFAULT_REASONING_EFFORT
+    if value not in REASONING_EFFORTS:
+        raise HTTPException(422, "Choose a supported reasoning level in Connect AI: Low, Medium, High, xHigh, or Max.")
+    return value
+
+
+def output_token_limit(effort: str) -> int:
+    # Responses counts reasoning and visible output against the same limit.
+    return {"low": 8000, "medium": 12000, "high": 16000, "xhigh": 25000, "max": 32000}[effort]
 
 
 class EvidenceRecord(BaseModel):
@@ -203,7 +219,11 @@ def ai_error(exc: Exception) -> HTTPException:
     if isinstance(exc, NotFoundError):
         return HTTPException(404, "The configured OpenAI model is unavailable to this API account. Check OPENAI_MODEL; another model will not be substituted.")
     if isinstance(exc, RateLimitError):
-        return HTTPException(429, "OpenAI reported a usage or rate limit. Check API billing and retry later.")
+        if exc.code in {"insufficient_quota", "billing_hard_limit_reached"} or exc.type == "insufficient_quota":
+            return HTTPException(429, {"code": "insufficient_quota", "message":
+                "AI tokens are unavailable: your OpenAI API credits or quota are exhausted. "
+                "Check your API billing or add credits, then retry. Your saved work remains available."})
+        return HTTPException(429, "OpenAI's temporary rate limit was reached. Wait a moment and retry.")
     if isinstance(exc, (APIConnectionError, APITimeoutError)):
         return HTTPException(503, "Cannot reach OpenAI. Check the server's internet connection and retry.")
     if isinstance(exc, BadRequestError):
@@ -222,19 +242,19 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
         raise HTTPException(403, "Review and authorize this sensitive request before sending it to AI.")
     if not configured():
         raise HTTPException(503, "AI is not configured. Open AI connection settings and enter your OPENAI_API_KEY. Browsing and saved research remain available.")
-    model = model_name()
+    model, effort = model_name(), reasoning_effort()
     instructions = SYSTEM_PROMPT if profile["id"] == "rei" else SYSTEM_PROMPT.replace(
         "You help an REI fellow evaluate evidence and develop feasible fellowship research questions.",
         "Help the user evaluate supplied evidence at the learning level and goal in their active profile.")
     messages, prompt_version = compose(request.action, request.query, profile, request.model_dump(), instructions)
-    max_output = 3500 if request.action == "guidance" else 5000
+    max_output = output_token_limit(effort)
     reservation = budget.reserve(profile["id"], model, messages, max_output)
     response = None
     # store=False disables stored response state. The API still has separate service data policies.
     try:
-        async with AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=75.0, max_retries=0) as client:
+        async with AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=240.0, max_retries=0) as client:
             response = await client.responses.parse(
-                model=model, input=messages,
+                model=model, reasoning={"effort": effort}, input=messages,
                 text_format=GuidanceResult if request.action == "guidance" else AIResult,
                 max_output_tokens=max_output, store=False)
         budget.finish(reservation, getattr(response, "usage", None))
@@ -242,7 +262,7 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
             raise ValueError("The model did not return a complete structured response.")
         result = (validate_guidance_result(response.output_parsed, request.records)
                   if request.action == "guidance" else validate_ai_result(response.output_parsed, request.records))
-        result.update(model=model, prompt_version=prompt_version, generated_at=utc_now(),
+        result.update(model=model, reasoning_effort=effort, prompt_version=prompt_version, generated_at=utc_now(),
                       evidence_snapshot=request.model_dump(), coverage=request.coverage)
         result.update(profile_id=profile["id"], profile_revision=profile["revision"])
         from .library import save_activity
@@ -261,6 +281,37 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
         budget.finish(reservation, getattr(response, "usage", None) if response else None)
 
 
+async def structured_task(task, profile, request, context, output_type):
+    """Metered structured generation with caller-supplied, reviewed context only."""
+    budget.check_available()
+    if not configured():
+        raise HTTPException(503, "Connect AI before requesting recommendations or analysis.")
+    model, effort = model_name(), reasoning_effort()
+    try:
+        messages, version = compose(task, request, profile, context)
+    except ValueError:
+        raise HTTPException(422, 'The reviewed context is too large for one AI request. Create a working copy with fewer columns or shorter text.') from None
+    maximum = output_token_limit(effort)
+    reservation = budget.reserve(profile['id'], model, messages, maximum)
+    response = None
+    try:
+        async with AsyncOpenAI(api_key=os.environ['OPENAI_API_KEY'], base_url='https://api.openai.com/v1', timeout=240, max_retries=0) as client:
+            response = await client.responses.parse(model=model, reasoning={'effort':effort}, input=messages,
+                text_format=output_type, max_output_tokens=maximum, store=False)
+        if response.output_parsed is None:
+            raise ValueError('Incomplete response')
+        result = output_type.model_validate(response.output_parsed.model_dump()).model_dump()
+        result.update(provenance={'origin':'ai', 'model':model, 'generated_at':utc_now()},
+                      reasoning_effort=effort, prompt_version=version)
+        return result
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise ai_error(exc) from None
+    finally:
+        budget.finish(reservation, getattr(response, 'usage', None) if response else None)
+
+
 async def check_connection() -> Dict[str, Any]:
     budget.check_available()
     if not configured():
@@ -269,7 +320,7 @@ async def check_connection() -> Dict[str, Any]:
     try:
         async with AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=15.0, max_retries=0) as client:
             await client.models.retrieve(model)
-        return {"configured": True, "model": model, "accessible": True,
+        return {"configured": True, "model": model, "reasoning_effort": reasoning_effort(), "accessible": True,
                 "message": "The API account can see this model. Actual generation also depends on account permissions and quota.", "checked_at": utc_now()}
     except Exception as exc:
         raise ai_error(exc) from None

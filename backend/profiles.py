@@ -74,6 +74,7 @@ class Profile(Strict):
     default_tab: str = "evidence"
     panels: List[Literal["guidance", "constraints", "tip"]] = Field(default_factory=lambda: PANELS.copy(), max_length=3)
     sources: List[Literal["pubmed", "ensembl", "gwas"]] = Field(default_factory=lambda: ["pubmed", "ensembl", "gwas"], max_length=3)
+    hidden_source_ids: List[str] = Field(default_factory=list, max_length=200)
     tools: List[str] = Field(default_factory=lambda: ["papers", "quizzes"], max_length=7)
     connection_ids: List[str] = Field(default_factory=list, max_length=20)
     ui: Copy
@@ -83,17 +84,24 @@ class Profile(Strict):
 
     @model_validator(mode="after")
     def supported(self):
-        for items in (self.tabs, self.panels, self.sources, self.themes, self.tools, self.connection_ids):
+        for items in (self.tabs, self.panels, self.sources, self.hidden_source_ids, self.themes, self.tools, self.connection_ids):
             if len(items) != len(set(items)):
                 raise ValueError("Duplicate selections are not allowed.")
         if self.default_tab not in self.tabs:
             raise ValueError("The initial tab must be visible.")
         if any(TOOLS.get(t) != "available" for t in self.tools):
             raise ValueError("Choose implemented tools only.")
-        if any(k not in Copy.model_fields and k != "theme_title" for k in self.provenance):
+        if any(k not in Copy.model_fields and k not in {"goal", "theme_title", "themes", "learning_level", "tabs", "default_tab", "panels"} for k in self.provenance):
             raise ValueError("Unknown content provenance field.")
         for value in self.connection_ids:
             identifier(value)
+        for value in self.hidden_source_ids:
+            if value in {"pubmed", "ensembl", "gwas"}:
+                continue
+            kind, separator, cid = value.partition(":")
+            if not separator or kind not in {"api", "sqlite"}:
+                raise ValueError("Choose an evidence source, API, or SQLite connection.")
+            identifier(cid)
         return self
 
 
@@ -158,23 +166,22 @@ def list_profiles():
     return [get_profile(p.stem) for p in sorted((data_root() / "user_profiles").glob("*.json"))]
 
 
-def save_profile(value, base_revision=None, create=False):
+def save_profile(value, base_revision=None, create=False, preserve_provenance=False):
     with LOCK:
         value = validate_profile(value)
         old = None if create else get_profile(value["id"])
         if old:
             if base_revision != old["revision"]:
                 raise HTTPException(409, "This profile changed. Reload it before saving.")
-            if set(old["themes"]) != set(value["themes"]):
-                raise HTTPException(409, "Changed themes require a new profile.")
             write_json(data_root() / ".discovery" / "profile_versions" / old["id"] / (str(old["revision"]) + ".json"), old)
         value.update(id=old["id"] if old else uuid.uuid4().hex,
                      revision=old["revision"] + 1 if old else 1,
                      created_at=old["created_at"] if old else stamp(), updated_at=stamp())
-        if old:
-            for key in Copy.model_fields:
+        if old and not preserve_provenance:
+            for key in (*Copy.model_fields, "goal", "theme_title", "themes", "learning_level", "tabs", "default_tab", "panels"):
                 prior = old["provenance"].get(key, {})
-                if (value["ui"][key] != old["ui"][key] and prior.get("origin") in {"ai", "ai_edited"}
+                changed = value["ui"][key] != old["ui"][key] if key in Copy.model_fields else value[key] != old[key]
+                if (changed and prior.get("origin") in {"ai", "ai_edited"}
                         and value["provenance"].get(key, {}).get("generated_at") == prior.get("generated_at")):
                     value["provenance"][key] = {**prior, "origin": "ai_edited"}
         value = validate_profile(value)
@@ -206,8 +213,8 @@ def profile_action(pid, action, revision):
                 raise HTTPException(404, "No earlier revision is available.")
         else:
             raise HTTPException(422, "Unknown profile action.")
-        result.update(id=pid, themes=old["themes"])
-        return save_profile(result, revision)
+        result.update(id=pid)
+        return save_profile(result, revision, preserve_provenance=True)
 
 
 def workspace(pid):

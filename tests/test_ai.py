@@ -4,10 +4,12 @@ import json
 import os
 import unittest
 import tempfile
+import httpx
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from fastapi import HTTPException
+from openai import RateLimitError
 from pydantic import ValidationError
 
 from backend import ai
@@ -146,10 +148,12 @@ class ResponsesContractTests(unittest.IsolatedAsyncioTestCase):
         payload = ai.AIRequest(action="guidance", query="ovarian aging", records=[evidence()],
                                constraints=ai.ResearchConstraints(data="Clinic registry"),
                                questions=[{"question": "Saved fellowship question"}])
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "sk-fixture", "OPENAI_MODEL": "gpt-6.1-sol"}), patch.object(ai, "AsyncOpenAI", return_value=context):
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "sk-fixture", "OPENAI_MODEL": "gpt-6.1-sol", "OPENAI_REASONING_EFFORT": "high"}), patch.object(ai, "AsyncOpenAI", return_value=context):
             result = await ai.generate(payload)
         arguments = client.responses.parse.await_args.kwargs
         self.assertEqual(arguments["model"], "gpt-6.1-sol")
+        self.assertEqual(arguments["reasoning"], {"effort": "high"})
+        self.assertEqual(result["reasoning_effort"], "high")
         self.assertIs(arguments["text_format"], ai.GuidanceResult)
         self.assertFalse(arguments["store"])
         self.assertEqual(result["evidence_snapshot"]["constraints"]["data"], "Clinic registry")
@@ -170,15 +174,18 @@ class ResponsesContractTests(unittest.IsolatedAsyncioTestCase):
         context.__aenter__ = AsyncMock(return_value=client)
         context.__aexit__ = AsyncMock(return_value=False)
         key = "sk-test-server-only"
-        with patch.dict(os.environ, {"OPENAI_API_KEY": key, "OPENAI_MODEL": "configured-model"}), patch.object(ai, "AsyncOpenAI", return_value=context) as constructor:
+        with patch.dict(os.environ, {"OPENAI_API_KEY": key, "OPENAI_MODEL": "gpt-6-astra", "OPENAI_REASONING_EFFORT": "xhigh"}), patch.object(ai, "AsyncOpenAI", return_value=context) as constructor:
             result = await ai.generate(request())
         self.assertEqual(constructor.call_args.kwargs["api_key"], key)
         self.assertEqual(constructor.call_args.kwargs["base_url"], "https://api.openai.com/v1")
         arguments = client.responses.parse.await_args.kwargs
-        self.assertEqual(arguments["model"], "configured-model")
+        self.assertEqual(arguments["model"], "gpt-6-astra")
+        self.assertEqual(arguments["reasoning"], {"effort": "xhigh"})
+        self.assertGreaterEqual(arguments["max_output_tokens"], 25000)
         self.assertFalse(arguments["store"])
         self.assertIs(arguments["text_format"], ai.AIResult)
-        self.assertEqual(result["model"], "configured-model")
+        self.assertEqual(result["model"], "gpt-6-astra")
+        self.assertEqual(result["reasoning_effort"], "xhigh")
         self.assertEqual(result["evidence_snapshot"]["records"][0]["id"], "pubmed:123456")
         self.assertIn("prompt_version", result)
         self.assertNotIn(key, json.dumps(result))
@@ -193,6 +200,20 @@ class ResponsesContractTests(unittest.IsolatedAsyncioTestCase):
                 await ai.generate(request())
         self.assertEqual(error.exception.status_code, 502)
         self.assertEqual(client.responses.parse.await_count, 1)
+
+    async def test_exhausted_quota_is_distinct_from_a_temporary_rate_limit(self):
+        response = httpx.Response(429, request=httpx.Request("POST", "https://api.openai.com/v1/responses"))
+        for code in ("insufficient_quota", "billing_hard_limit_reached", "rate_limit_exceeded"):
+            with self.subTest(code=code):
+                error = ai.ai_error(RateLimitError("private provider details", response=response, body={"code": code}))
+                self.assertEqual(error.status_code, 429)
+                self.assertNotIn("private provider details", str(error.detail))
+                if code == "rate_limit_exceeded":
+                    self.assertIsInstance(error.detail, str)
+                    self.assertIn("temporary rate limit", error.detail)
+                else:
+                    self.assertEqual(error.detail["code"], "insufficient_quota")
+                    self.assertIn("credits or quota are exhausted", error.detail["message"])
 
 
 if __name__ == "__main__":

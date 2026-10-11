@@ -4,11 +4,11 @@ This is a proposal, not a license grant. Existing notices remain pending review.
 
 | Offering | Proposed scope | Licensing direction |
 | --- | --- | --- |
-| Community Edition | Taxonomy, explorer, community tools, API interfaces, local REI and 1.1.1 core features | Consider AGPLv3 or another suitable license after rights/dependency review |
+| Community Edition | Taxonomy, explorer, community tools, API interfaces, local REI and 1.2.0 core features | Consider AGPLv3 or another suitable license after rights/dependency review |
 | Commercial services | Managed AI agents, advanced tutoring, institutional administration, private deployments | Reviewed SaaS terms or commercial software license |
 | Enterprise services | Monthly subscriptions, institutional contracts, professional services | Agreements appropriate to deployment/support |
 
-Release 1.1.1 adds no paywall or subscription billing. Labels/directories alone do not establish license compatibility. API interfaces do not grant access to private data or third-party content rights.
+Release 1.2.0 adds no paywall or subscription billing. Labels/directories alone do not establish license compatibility. API interfaces do not grant access to private data or third-party content rights.
 
 Before commercialization:
 

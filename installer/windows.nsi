@@ -11,7 +11,7 @@ Unicode True
   !error "Installer output path is required."
 !endif
 !ifndef VERSION
-  !define VERSION "1.1.1"
+  !define VERSION "1.2.0"
 !endif
 
 Name "OpenBEXI Discovery"
