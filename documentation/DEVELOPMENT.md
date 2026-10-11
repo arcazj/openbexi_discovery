@@ -55,6 +55,7 @@ npx playwright install chromium
 npm test
 npm run test:ui
 npm run test:discovery
+npm run test:upgrade
 npm run test:data
 npm run test:customization
 npm run test:profiles

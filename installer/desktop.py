@@ -12,6 +12,7 @@ import socket
 import sys
 import threading
 import time
+from urllib.parse import urlencode
 import urllib.request
 import uuid
 import webbrowser
@@ -70,6 +71,12 @@ def write_settings(directory, port, instance_id):
     temporary.replace(target)
 
 
+def browser_url(port, instance_id):
+    # A new server instance bypasses HTML cached by older installations, while
+    # keeping the origin (and saved browser data) the same across upgrades.
+    return "http://127.0.0.1:" + str(port) + "/?" + urlencode({"launch": instance_id})
+
+
 def existing_url(directory, timeout=20):
     end = time.monotonic() + timeout
     # Local traffic must not go through an enterprise HTTP proxy.
@@ -81,7 +88,7 @@ def existing_url(directory, timeout=20):
             with opener.open(url + "/api/health", timeout=1) as response:
                 health = json.load(response)
             if health.get("desktop", {}).get("instance_id") == settings["instance_id"] and settings["instance_id"]:
-                return url
+                return browser_url(settings["port"], settings["instance_id"])
         except (OSError, ValueError, AttributeError):
             pass
         time.sleep(0.1)
@@ -291,7 +298,7 @@ def main(argv=None):
         if not server.started:
             raise RuntimeError("The local app could not start. Restart the app and try again.")
         write_settings(directory, port, os.environ["REI_DESKTOP_INSTANCE"])
-        url = "http://127.0.0.1:" + str(port)
+        url = browser_url(port, os.environ["REI_DESKTOP_INSTANCE"])
         if options.headless:
             while worker.is_alive() and kernel.WaitForSingleObject(quit_event, 250) != 0:
                 pass

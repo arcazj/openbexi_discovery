@@ -1,5 +1,6 @@
 """Build a self-contained x64 Windows app and an NSIS installer with public assets only."""
 
+import argparse
 import hashlib
 import importlib.metadata
 import json
@@ -12,6 +13,7 @@ import subprocess
 import sys
 
 from scripts.build_pages import DOCUMENTS
+from scripts.sign_windows import WindowsSigner
 
 VERSION = "1.2.0"
 ROOT = Path(__file__).resolve().parent.parent
@@ -84,11 +86,14 @@ def nsis_compiler():
     raise RuntimeError("NSIS is required on the build PC only.")
 
 
-def build():
+def build(require_signing=False):
     if os.name != "nt" or struct.calcsize("P") != 8:
         raise RuntimeError("Build on 64-bit Windows with Python 3.12.")
     if sys.version_info[:2] != (3, 12):
         raise RuntimeError("Use Python 3.12 for the supported Windows build.")
+    signer = WindowsSigner.from_environment(required=require_signing)
+    if not signer:
+        print("Building an unsigned installer. Browser download warnings may appear; use --require-signing for signed releases.")
     compiler = nsis_compiler()
     output = safe_output(ROOT / "build" / "windows")
     for name in ("assets", "work", "spec", "dist"):
@@ -150,6 +155,8 @@ def build():
     subprocess.run(args, cwd=ROOT, check=True)
     bundle = safe_output(output / "dist" / "REIResearchExplorer")
     verify_bundle(bundle)
+    if signer:
+        signer.sign(bundle / "REIResearchExplorer.exe")
     try:
         commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     except (OSError, subprocess.CalledProcessError):
@@ -157,7 +164,7 @@ def build():
     manifest = {"version": VERSION, "source_commit": commit, "python": sys.version.split()[0],
                 "architecture": "x64", "pyinstaller": importlib.metadata.version("pyinstaller"),
                 "nsis": subprocess.check_output([str(compiler), "/VERSION"], text=True).strip(),
-                "private_files_included": False}
+                "private_files_included": False, "signed": signer is not None}
     (bundle / "BUILD-INFO.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     # The uninstaller removes only known packaged files; it never recursively deletes a user's folder.
     uninstall = assets / "uninstall-files.nsh"
@@ -167,8 +174,14 @@ def build():
     uninstall.write_text("\n".join(lines) + "\n", encoding="utf-8-sig")
     setup = safe_output(ROOT / "dist" / f"OpenBEXIDiscovery-{VERSION}-Windows-x64-Setup.exe")
     setup.parent.mkdir(exist_ok=True)
-    subprocess.run([str(compiler), "/DBUNDLE=" + str(bundle), "/DOUTPUT=" + str(setup), "/DICON=" + str(icon),
-                    "/DUNINSTALL_FILES=" + str(uninstall), "/DVERSION=" + VERSION, str(ROOT / "installer" / "windows.nsi")], check=True)
+    installer_args = [str(compiler), "/DBUNDLE=" + str(bundle), "/DOUTPUT=" + str(setup), "/DICON=" + str(icon),
+                      "/DUNINSTALL_FILES=" + str(uninstall), "/DVERSION=" + VERSION]
+    if signer:
+        installer_args += ["/DSIGN_PYTHON=" + sys.executable, "/DSIGN_SCRIPT=" + str(ROOT / "scripts" / "sign_windows.py")]
+    subprocess.run([*installer_args, str(ROOT / "installer" / "windows.nsi")], cwd=ROOT, check=True)
+    if signer:
+        signer.sign(setup)
+    # Signing changes the file bytes, so checksums must be generated last.
     checksum = hashlib.sha256(setup.read_bytes()).hexdigest()
     (setup.parent / "SHA256SUMS-Windows.txt").write_text(checksum + "  " + setup.name + "\n", encoding="ascii")
     print("Windows installer built: " + setup.name)
@@ -176,4 +189,6 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--require-signing", action="store_true", help="Fail unless app, uninstaller, and Setup can be signed and verified.")
+    build(require_signing=parser.parse_args().require_signing)

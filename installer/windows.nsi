@@ -13,6 +13,10 @@ Unicode True
 !ifndef VERSION
   !define VERSION "1.2.0"
 !endif
+!ifdef SIGN_PYTHON
+  ; Sign the uninstaller before it is embedded; any failure aborts the build.
+  !uninstfinalize '"${SIGN_PYTHON}" "${SIGN_SCRIPT}" "%1"' = 0
+!endif
 
 Name "OpenBEXI Discovery"
 OutFile "${OUTPUT}"

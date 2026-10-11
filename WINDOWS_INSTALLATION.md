@@ -35,11 +35,14 @@ Confirm **V1.2.0** after the OpenBEXI Discovery name after updating. SQLite work
 
 - **Windows warning:** this build is unsigned. Download only from the GitHub release; compare its SHA-256 with `SHA256SUMS-Windows.txt`. Windows may show an unknown-publisher/SmartScreen prompt. Managed PCs can require IT approval; do not disable security software.
 - **Browser did not open:** use the tray icon's Open command, or relaunch from the Start menu. The app listens only on `127.0.0.1`.
+- **Download asks to Keep / Keep anyway:** the browser is checking download reputation before Setup runs. The original v1.2.0 installer is unsigned. Publisher signing can reduce these prompts as reputation builds; changing the Setup screens cannot remove them. See [Microsoft's explanation](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/smartscreen-reputation).
 - **Update cannot close the app:** choose Quit from the tray, then retry Setup.
 - **AI unavailable:** use the AI connection/status button to check your key, model access, reasoning choice, and connection. A quota notice explains exhausted credits. Browsing/manual briefs remain available.
 - **Briefs missing:** select the original REI profile. For a first legacy migration, use the original browser and port, or import the old Saved research JSON backup.
 
 ## Build and verify
+
+Installers built from the current source automatically bypass browser files cached by older installations. Launching from Setup, a shortcut, or the tray fetches the current page, scripts, and styles while retaining saved browser data. This fix is pending the next published installer; with the original v1.2.0 download, use **Ctrl+F5** if the browser still shows the old interface.
 
 Build on Windows x64 with Python 3.12 and [NSIS](https://nsis.sourceforge.io/Download). From the current source checkout:
 
@@ -53,3 +56,18 @@ py -3.12 -m venv .build-venv
 Output: `dist/OpenBEXIDiscovery-1.2.0-Windows-x64-Setup.exe` and `dist/SHA256SUMS-Windows.txt`. The GitHub Windows installer workflow performs the same build and installation checks on Windows Server 2022. The smoke test uses isolated temporary folders and refuses to replace an existing registered installation.
 
 The installer build records its source commit, Python, PyInstaller, and NSIS versions in `BUILD-INFO.json`. Packaging uses an explicit public-asset list and checks for private paths/keys. Python, PyInstaller, NSIS, and dependency license texts are included. Original-code licensing remains pending owner selection; review [commercial notes](COMMERCIAL_LICENSING.md) and [third-party notices](THIRD_PARTY_NOTICES.md) before redistribution.
+
+### Publisher signing
+
+Signing support is prepared; no signing identity is configured or signed release published yet. Use a publicly trusted code-signing certificate in the build account's Windows **Personal / My** store, or a **Public Trust** profile in [Microsoft Artifact Signing](https://learn.microsoft.com/en-us/azure/artifact-signing/quickstart). Identity verification and signing-service/certificate fees are handled with the provider. Self-signed certificates do not resolve public download warnings.
+
+For an existing certificate, install Windows SDK SignTool and set its certificate thumbprint (not a private key or password):
+
+```powershell
+$env:OPENBEXI_SIGN_CERT_SHA1 = 'YOUR_40_HEX_CHARACTER_CERTIFICATE_THUMBPRINT'
+.\.build-venv\Scripts\python.exe -m scripts.build_windows --require-signing
+```
+
+For Microsoft Artifact Signing, complete the provider's [client tools, metadata, and authentication setup](https://learn.microsoft.com/en-us/azure/artifact-signing/how-to-signing-integrations). Instead of a thumbprint, set `OPENBEXI_SIGN_DLIB` to the x64 signing DLL and `OPENBEXI_SIGN_METADATA` to its account/profile JSON file, then use the same build command. Keep local metadata under the ignored `build/` directory and credentials in the provider's credential mechanism. `OPENBEXI_SIGNTOOL` can select an explicit SDK executable; `OPENBEXI_SIGN_TIMESTAMP_URL` can select an RFC 3161 timestamp service.
+
+The build signs the app, embedded uninstaller, and final Setup executable, checks their signatures and timestamps, then writes the final installer checksum. Any signing failure stops the build. Installation checks also verify all three binaries when `BUILD-INFO.json` records `signed: true`. After configuring the signing tools and identity on the CI runner, set repository variable `OPENBEXI_REQUIRE_SIGNING=true` to prevent unsigned release builds; the current hosted workflow still needs that provider-specific setup. Signing does not guarantee immediate SmartScreen reputation. Microsoft Store distribution through a Store-signed MSIX package is another option for avoiding these download prompts.

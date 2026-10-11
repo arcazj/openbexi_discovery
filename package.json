@@ -9,7 +9,8 @@
     "test:discovery": "node tests/browser_discovery.cjs",
     "test:data": "node tests/browser_data.cjs",
     "test:customization": "node tests/browser_customization.cjs",
-    "test:profiles": "node tests/browser_profile_updates.cjs"
+    "test:profiles": "node tests/browser_profile_updates.cjs",
+    "test:upgrade": "node tests/browser_cache_upgrade.cjs"
   },
   "devDependencies": {
     "playwright": "1.60.0"

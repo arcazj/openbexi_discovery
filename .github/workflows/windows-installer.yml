@@ -7,6 +7,7 @@ on:
     paths:
       - 'installer/**'
       - 'scripts/build_windows.py'
+      - 'scripts/sign_windows.py'
       - 'scripts/test_windows_install.py'
       - 'backend/**'
       - 'assets/**'
@@ -40,7 +41,17 @@ jobs:
             installer/requirements-build.txt
       - run: python -m pip install -r requirements.lock.txt -r installer/requirements-build.txt
       - run: python -m unittest discover -s tests -v
-      - run: python -m scripts.build_windows
+      - name: Build Windows installer
+        shell: pwsh
+        env:
+          REQUIRE_SIGNING: ${{ vars.OPENBEXI_REQUIRE_SIGNING }}
+        run: |
+          if ($env:REQUIRE_SIGNING -eq 'true') {
+            python -m scripts.build_windows --require-signing
+          } else {
+            python -m scripts.build_windows
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: python -m scripts.test_windows_install
       - name: Verify upgrade from the published V1.1.1 installer
         shell: pwsh

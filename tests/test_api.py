@@ -2,10 +2,12 @@
 
 import os
 import importlib
+import re
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
+from urllib.parse import urlsplit
 
 from fastapi.testclient import TestClient
 from dotenv import dotenv_values
@@ -29,6 +31,38 @@ class APIBoundaryTests(unittest.TestCase):
     def test_health_is_available_without_openai_credentials(self):
         response = self.client.get("/api/health")
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["cache-control"], "no-store")
+
+    def test_upgraded_frontend_bypasses_cached_scripts_and_styles(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "assets").mkdir()
+            script = root / "assets/discovery.js"
+            script.write_text("window.release = 'old';", encoding="utf-8")
+            (root / "assets/discovery.css").write_text("body { color: red; }", encoding="utf-8")
+            (root / "index.html").write_text(
+                '<link rel="stylesheet" href="assets/discovery.css">'
+                '<script src="assets/discovery.js"></script><a href="README.md">Help</a>', encoding="utf-8")
+            with patch.object(application_module, "ROOT", root):
+                first = self.client.get("/?launch=first-installation")
+                self.assertEqual(first.status_code, 200)
+                self.assertEqual(first.headers["cache-control"], "no-store")
+                self.assertIn('href="README.md"', first.text)
+                urls = re.findall(r'(?:src|href)="(assets/[^"]+)"', first.text)
+                self.assertEqual(len(urls), 2)
+                for url in urls:
+                    self.assertRegex(urlsplit(url).query, r"^v=[a-f0-9]{16}$")
+                    response = self.client.get("/" + url)
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(response.headers["cache-control"], "no-store")
+                original_stat = script.stat()
+                script.write_text("window.release = 'new';", encoding="utf-8")
+                os.utime(script, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
+                updated = self.client.get("/index.html?launch=upgraded-installation")
+                new_urls = re.findall(r'(?:src|href)="(assets/[^"]+)"', updated.text)
+                self.assertEqual(urls[0], new_urls[0], "Unchanged stylesheet keeps its fingerprint")
+                self.assertNotEqual(urls[1], new_urls[1], "Changed content refreshes even at the same version, size, and mtime")
+                self.assertIn("'new'", self.client.get("/" + new_urls[1]).text)
 
     def test_ai_defaults_are_astra_xhigh(self):
         with patch.dict(os.environ, {"OPENAI_MODEL": "", "OPENAI_REASONING_EFFORT": ""}):

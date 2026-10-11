@@ -11,6 +11,7 @@ if __name__ == "__main__":
     raise SystemExit(0)
 
 import asyncio
+import hashlib
 import ipaddress
 import os
 import re
@@ -23,7 +24,7 @@ import httpx
 from dotenv import load_dotenv, set_key
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator, model_validator
 from pydantic import ValidationError
 from starlette.middleware.cors import CORSMiddleware
@@ -156,8 +157,9 @@ async def request_limits(request: Request, call_next):
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
-    if request.url.path.startswith("/api"):
-        response.headers["Cache-Control"] = "no-store"
+    # The local app can be upgraded at the same browser origin. Never reuse an
+    # older UI or its scripts/styles without contacting the installed server.
+    response.headers["Cache-Control"] = "no-store"
     return response
 
 
@@ -261,7 +263,16 @@ async def frontend():
     path = ROOT / "index.html"
     if not path.is_file():
         raise HTTPException(404, "Frontend is not installed.")
-    return FileResponse(path, media_type="text/html")
+    html = path.read_text(encoding="utf-8")
+    # Old installations allowed browsers to cache unversioned assets. A new
+    # URL bypasses those entries even on the first launch after upgrading.
+    # Hash content so rebuilding the same app version also refreshes assets.
+    def asset_url(match):
+        asset = match.group(2)
+        digest = hashlib.sha256((ROOT / asset).read_bytes()).hexdigest()[:16]
+        return match.group(1) + asset + "?v=" + digest + match.group(3)
+    html = re.sub(r'((?:src|href)=")(assets/[a-z_]+\.(?:js|css))(")', asset_url, html)
+    return HTMLResponse(html)
 
 
 @app.get("/api/docs/{filename}")

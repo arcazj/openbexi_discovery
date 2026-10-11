@@ -2,6 +2,8 @@
 
 ## 1.2.0 — Reviewed profiles, quizzes, and private working copies
 
+- Installer maintenance in source (updated download pending): refreshes the browser UI automatically after upgrades using a fresh launch URL, content fingerprints for scripts/styles, and cache headers. Browser research, cookies, and saved profiles are preserved.
+- Prepares publisher signing for the app, uninstaller, and Setup, including timestamp verification and checksums after signing. A trusted certificate or Microsoft Artifact Signing identity must be configured before publishing signed installers; new downloads may still show reputation warnings.
 - Adds explicit AI profile updates with a text request, selectable preview, related-search shortcut, saved revisions, and rollback. Repeated or equivalent requests can report no changes; exact applicable repeats reuse the prior result locally.
 - Shows a labeled progress bar, elapsed time, and polite wait message for every AI request, including quiz generation, concurrent tasks, connection checks, and work inside dialogs.
 - Generates eight-question quizzes for the active profile and level, grades locally, and retains reviewable scores and history with individual or bulk removal.

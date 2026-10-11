@@ -23,7 +23,10 @@ App files: %LOCALAPPDATA%\Programs\REIResearchExplorer
 These legacy locations preserve upgrade compatibility. Updates and uninstall
 keep private data. Export ZIP backups and keep private-directory backups secure.
 
-This release is unsigned. Download only from the project release and verify the
-published SHA-256. Original-code licensing remains pending owner selection.
+Download only from the project release and verify the published SHA-256.
+The original v1.2.0 download is unsigned. For signed builds, Windows file
+properties list the verified publisher under Digital Signatures. New downloads
+may still trigger reputation warnings. Original-code licensing remains pending
+owner selection.
 
 Help: https://github.com/arcazj/openbexi_discovery

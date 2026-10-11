@@ -13,8 +13,11 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
+from urllib.parse import urlsplit
 
 from scripts.build_windows import VERSION
+from installer.desktop import browser_url
+from scripts.sign_windows import verify_signature
 
 
 def wait_for(callback, timeout=30):
@@ -88,11 +91,15 @@ def smoke(setup, test_tray=False, previous_setup=None):
         def verify_current_version():
             manifest = json.loads((install / "BUILD-INFO.json").read_text(encoding="utf-8"))
             assert manifest["version"] == VERSION
+            if manifest.get("signed"):
+                for binary in (setup, executable, install / "Uninstall.exe"):
+                    verify_signature(binary)
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_name) as key:
                 assert winreg.QueryValueEx(key, "DisplayVersion")[0] == VERSION
             with get("/api/health") as response:
                 assert json.load(response)["version"] == VERSION
             with get("/") as response:
+                assert response.headers["Cache-Control"] == "no-store"
                 html = response.read().decode("utf-8")
                 assert 'id="app-version"' in html and ">V" + VERSION + "</span>" in html
                 assert 'id="context-tip" class="side-card tip"' in html
@@ -114,10 +121,16 @@ def smoke(setup, test_tray=False, previous_setup=None):
             with get("/api/discovery/taxonomy") as response:
                 assert len(json.load(response)["nodes"]) > 1000
             scripts = re.findall(r'src="(assets/[^"]+)"', html)
-            assert "assets/ai_progress.js" in scripts
-            for path in ["/" + script for script in scripts] + ["/assets/discovery.css", "/documentation/USER_GUIDE.md", "/api/docs/RELEASE-NOTES-v1.2.0.md"]:
+            assert "assets/ai_progress.js" in [urlsplit(script).path for script in scripts]
+            assets = re.findall(r'(?:src|href)="(assets/[^"]+)"', html)
+            assert assets and all(re.fullmatch(r"v=[a-f0-9]{16}", urlsplit(asset).query) for asset in assets)
+            settings = json.loads((private / "desktop.json").read_text(encoding="utf-8"))
+            with opener.open(browser_url(settings["port"], settings["instance_id"]), timeout=5) as response:
+                assert response.read().decode("utf-8") == html
+            for path in ["/" + asset for asset in assets] + ["/documentation/USER_GUIDE.md", "/api/docs/RELEASE-NOTES-v1.2.0.md"]:
                 with get(path) as response:
                     assert response.status == 200
+                    assert response.headers["Cache-Control"] == "no-store"
             with get("/api/discovery/templates/general") as response:
                 profile = json.load(response)
             profile["name"] = "Installer fixture"
