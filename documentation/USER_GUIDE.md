@@ -2,6 +2,8 @@
 
 [Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1)
 
+The refreshed v1.1.1 UI keeps the workspace heading and smaller description inline, wrapping with the window width. The initial evidence card has no extra heading above it; search progress and result headings appear when needed. The live demo and v1.1.1 downloads include these UI updates.
+
 ## Start with REI
 
 REI at Advanced is the default. Evidence search and saved research retain the original workflow. Both **REI · Advanced** beside Sources and the gear beside **AI settings** open the same **Settings** panel. Open **Saved research** there to review, compare, or export briefs; **Back to research** or the OpenBEXI Discovery name returns to search. Search is the default view on launch. Choose **Edit** or **Use profile** for an existing profile, or **Create profile** to select themes for a new one. **Settings > Local library** shows activities across profiles. The right side of the header contains AI status, **AI settings**, the Settings gear, and **Help (?)**.
@@ -53,3 +55,7 @@ Legacy browser briefs migrate into REI when the backend first reads them. Browse
 
 
 Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.
+
+### Profile wording and preview
+
+In **Settings > Profiles > Edit > Edit page wording**, **Workspace heading** is the main introduction title. **Description lead-in (optional)** and **Workspace description** follow it in small inline text and wrap with the window. Preview uses the same layout and provenance styling as the workspace. **Evidence welcome title** and **Evidence welcome text** customize the initial card; there is no extra heading above it. Existing custom wording is retained, and the original REI introduction adopts the updated default when loaded or edited. Saving records the reviewed wording in the profile; switching profiles and reopening the app restore it. The small version label after the brand is shared by every profile.

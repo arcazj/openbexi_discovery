@@ -78,11 +78,12 @@ async function scenario(name,options,run){
     assert.equal(await page.locator('#ai-connection-panel').count(),0);
     assert.equal(await page.locator('#connection-label').textContent(),'AI connected to GPT-6.1 Sol · key verified.');
     assert.equal(await page.locator('#app-version').textContent(),'V1.1.1');
+    assert.equal(await page.locator('#results-heading').isVisible(),false,'No extra heading above the initial evidence card');
     const help=await page.locator('#nav-help').boundingBox(),settings=await page.locator('#ai-connect-action').boundingBox();
     assert.ok(help.x>=settings.x+settings.width,'Help follows AI settings');
     assert.equal(help.y,settings.y,'Help shares the AI settings row');
-    assert.equal(await page.locator('.site-header #app-version,.site-header #nav-search,.site-header #nav-saved,.site-header #nav-library').count(),0);
-    assert.equal(await page.locator('.brand>span').last().isVisible(),true,'Brand name stays visible');
+    assert.equal(await page.locator('.site-header #nav-search,.site-header #nav-saved,.site-header #nav-library').count(),0);
+    assert.equal(await page.locator('.brand>span').nth(1).isVisible(),true,'Brand name stays visible');
     const tip=await page.locator('#context-tip').evaluate(n=>({radius:getComputedStyle(n).borderRadius,border:getComputedStyle(n).borderTopWidth}));
     assert.equal(tip.radius,await page.locator('#guidance-card').evaluate(n=>getComputedStyle(n).borderRadius));
     assert.equal(tip.border,'1px');
@@ -100,6 +101,7 @@ async function scenario(name,options,run){
     const position=await page.evaluate(()=>({source:document.querySelector('#source-strip').getBoundingClientRect().bottom,search:document.querySelector('.search-surface').getBoundingClientRect().top}));
     assert.ok(position.source<=position.search,'Sources above search');
     await search('ovarian aging');await guided();
+    assert.equal(await page.locator('#results-heading').isVisible(),true,'Completed search keeps its result heading');
     assert.equal(await page.locator('#source-list-label').isVisible(),true,'Sources heading stays visible on mobile');
     const aiSurface=await page.locator('#guidance-card').evaluate(n=>getComputedStyle(n).backgroundImage);
     assert.equal(await page.locator('#context-tip').evaluate(n=>getComputedStyle(n).backgroundImage),aiSurface,'AI tip and next step share the soft surface');

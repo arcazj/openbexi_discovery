@@ -41,6 +41,7 @@
 .site-header .brand{height:var(--header-control);gap:var(--space-sm)}
 .site-header .brand-mark{width:34px;height:34px;flex:none}
 .site-header .brand span:last-child{display:inline}
+.site-header .brand .brand-version{font-size:10px;font-weight:400;letter-spacing:0;color:var(--muted);margin-left:-3px;align-self:center}
 .site-header .ai-controls{display:flex;align-items:center;justify-content:flex-end;gap:var(--space-sm);flex-wrap:nowrap;min-width:0;margin:0}
 .site-header .ai-controls>button{
   display:inline-flex;align-items:center;justify-content:center;
@@ -64,6 +65,8 @@
 .intro{margin-bottom:var(--space-md)}
 .intro h1,.intro p{display:inline;font-size:21px;line-height:1.4;letter-spacing:-.35px;margin:0}
 .intro p{font-size:12px;letter-spacing:normal}
+.d-preview .intro h1{font-size:21px}
+.d-preview .intro p{font-size:12px}
 .intro .eyebrow{margin-bottom:var(--space-xs)}
 .d-legend{margin-top:var(--space-sm);gap:var(--space-xs) var(--space-sm)}
 .source-strip{padding:var(--space-sm) var(--space-md);gap:var(--space-sm);margin-bottom:var(--space-sm);border-top-width:2px;background:linear-gradient(145deg,#f8fafc,#e5edf2);box-shadow:var(--panel-shadow)}

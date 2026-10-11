@@ -9,7 +9,7 @@
     "sources_title": "Sources", "sources_caption": "Select evidence",
     "search_label": "Learning or research topic", "search_placeholder": "What would you like to understand?",
     "examples": ["learning and memory", "public health", "scientific methods"],
-    "welcome_heading": "Start with your curiosity", "welcome_title": "Choose a question worth exploring.",
+    "welcome_heading": "", "welcome_title": "Choose a question worth exploring.",
     "welcome_text": "Explore a topic, collect documents, practice with quizzes, and connect evidence to your own ideas. Live source coverage currently focuses on biomedical literature and genomics; use local documents and datasets for other subjects.",
     "guidance_heading": "Make the next step useful", "guidance_text": "Describe your goal, review a source, and write down what you still want to understand.",
     "constraints_heading": "My learning and research constraints (optional)",

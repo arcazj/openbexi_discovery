@@ -6,7 +6,9 @@ A local learning and research workspace. Start with the familiar **REI profile a
 
 [Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Release v1.1.1 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1) · [Release notes](CHANGELOG.md#111--compact-layout-and-profile-settings) · [User guide](documentation/USER_GUIDE.md)
 
-The workspace uses a compact header and golden-ratio desktop columns. The header keeps AI status, **AI settings**, the **Settings** gear, and **Help (?)** on the right. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in the footer.
+The workspace uses a compact header and golden-ratio desktop columns. The header keeps AI status, **AI settings**, the **Settings** gear, and **Help (?)** on the right. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in small text after the brand.
+
+The refreshed v1.1.1 UI keeps the workspace heading and smaller description inline, wrapping with the window width. The initial evidence card has no extra heading above it; search progress and result headings appear when needed. The live demo and v1.1.1 downloads include these UI updates.
 
 ## Downloads · v1.1.1
 

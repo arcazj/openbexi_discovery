@@ -5,6 +5,8 @@ For Discovery 1.1.1 profiles, themes, offline archives, SQLite connections, and 
 
 [Live demo · V1.1.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.1.1)
 
+The refreshed v1.1.1 UI keeps the workspace heading and smaller description inline, wrapping with the window width. The initial evidence card has no extra heading above it; search progress and result headings appear when needed. The live demo and v1.1.1 downloads include these UI updates.
+
 ## Quick start
 
 Search a topic such as **ovarian aging** or **PCOS**, a human gene such as **BRCA1**, or a chromosome region such as `17:43044295-43170245`. Check the interpreted search type and change it if necessary. Open a finding to inspect its source, then start a research brief with the references you want to keep.

@@ -66,8 +66,8 @@ async function useProfile(profile){cancelAI();cancelGuidance();D.suppressSave=tr
  }finally{D.suppressSave=false;}queueWorkspace();}
 function applyProfile(){const p=D.profile,u=p.ui;renderIntroduction(p);const nodes={sources_caption:document.querySelector('.source-caption'),welcome_title:$('welcome').querySelector('h2'),welcome_text:$('welcome').querySelector('p'),guidance_heading:$('guidance-card').querySelector('h3'),tip_heading:$('context-tip').querySelector('strong')};for(const [key,node]of Object.entries(nodes)){node.textContent=u[key];decorate(node,p.provenance[key]);}
   $('source-list-label').firstChild.textContent=u.sources_title;decorate($('source-list-label'),p.provenance.sources_title);decorate($('query'),p.provenance.search_placeholder);decorate(document.querySelector('label[for="query"]'),p.provenance.search_label);$('query').placeholder=u.search_placeholder;document.querySelector('label[for="query"]').textContent=u.search_label;
-  if(!state.search)$('results-heading').textContent=u.welcome_heading;
-  $('constraints').querySelector('summary').textContent=u.constraints_heading;decorate($('constraints').querySelector('summary'),p.provenance.constraints_heading);decorate($('results-heading'),p.provenance.welcome_heading);
+  if(!state.search)$('results-heading').parentElement.hidden=true;
+  $('constraints').querySelector('summary').textContent=u.constraints_heading;decorate($('constraints').querySelector('summary'),p.provenance.constraints_heading);
   for(const [field,key]of [['deadline','deadline'],['data','data'],['mentor','mentor']]){const input=$('constraint-'+field);input.parentNode.firstChild.textContent=u[key+'_label'];input.placeholder=u[key+'_hint'];decorate(input,p.provenance[key+'_hint']);decorate(input.parentNode,p.provenance[key+'_label']);}
   const examples=document.querySelector('.examples');decorate(examples,p.provenance.examples);const label=examples.querySelector('span')?.cloneNode(true)||dnode('span',{text:'Explore:'});examples.replaceChildren(label,...u.examples.map(q=>dbutton(q,()=>{$('query').value=q;return runSearch();},'quiet')));$('welcome').querySelector('button[data-example]').textContent='Explore '+(u.examples[0]||'a topic');$('welcome').querySelector('button[data-example]').dataset.example=u.examples[0]||'research';
   const side=document.querySelector('aside.side');const map={guidance:$('guidance-card'),constraints:$('constraints').closest('.side-card'),tip:$('context-tip')};for(const name of p.panels){map[name].hidden=false;side.append(map[name]);}for(const name of Object.keys(map))if(!p.panels.includes(name))map[name].hidden=true;
@@ -76,22 +76,23 @@ function renderTabs(){const bar=$('d-tabs');bar.replaceChildren(...D.profile.tab
 function selectTab(tab){D.tab=D.profile?.tabs.includes(tab)?tab:'evidence';$('d-evidence').hidden=D.tab!=='evidence';$('d-content').hidden=D.tab==='evidence';renderTabs();if(D.tab!=='evidence'){if(!D.tabBodies)D.tabBodies={};for(const node of $('d-content').children)node.hidden=true;if(D.tabBodies[D.tab])D.tabBodies[D.tab].hidden=false;else{const box=dnode('section',{'aria-label':D.tab});D.tabBodies[D.tab]=box;$('d-content').append(box);if(D.tab==='connections')renderConnections(box).catch(e=>toast(e.message));else renderMaterials(box,D.tab).catch(e=>toast(e.message));}}}
 function resetTabBodies(){D.tabBodies={};$('d-content').replaceChildren();}
 
-function renderIntroduction(profile){
-  const u=profile.ui,heading=document.querySelector('.intro h1'),description=document.querySelector('.intro p');
-  const originalREI=u.eyebrow==='Your fellowship research workspace'&&u.heading==='Find evidence. Shape a question.'&&u.introduction==='Explore a topic, gene, or genomic region. Keep the evidence and the next question together.';
-  if(originalREI){
-    heading.textContent='Your fellowship research workspace';
-    description.textContent='Explore topics, genes, or genomic regions to find evidence and shape your next question.';
-    decorate(heading,profile.provenance.eyebrow);
-    decorate(description,[profile.provenance.heading,profile.provenance.introduction].find(p=>['ai','ai_edited'].includes(p?.origin))||profile.provenance.introduction);
-  }else{
-    heading.textContent=u.eyebrow;decorate(heading,profile.provenance.eyebrow);
-    description.replaceChildren(...['heading','introduction'].map((key,index)=>{
-      const span=dnode('span',{text:u[key]+(index===0?' ':'')});
-      decorate(span,profile.provenance[key]);return span;
-    }));
-    delete description.dataset.provenance;description.removeAttribute('title');
+function alignProfileWording(profile){
+  const u=profile.ui;
+  if(u.eyebrow==='Your fellowship research workspace'&&u.heading==='Find evidence. Shape a question.'&&u.introduction==='Explore a topic, gene, or genomic region. Keep the evidence and the next question together.'){
+    u.heading='';u.introduction='Explore topics, genes, or genomic regions to find evidence and shape your next question.';
+    profile.provenance.introduction=[profile.provenance.heading,profile.provenance.introduction].find(p=>['ai','ai_edited'].includes(p?.origin))||profile.provenance.introduction;
   }
+}
+function renderIntroduction(profile,root=document.querySelector('.intro')){
+  alignProfileWording(profile);
+  const heading=root.querySelector('h1'),description=root.querySelector('p');
+  heading.textContent=profile.ui.eyebrow;decorate(heading,profile.provenance.eyebrow);
+  const keys=['heading','introduction'].filter(key=>profile.ui[key].trim());
+  description.replaceChildren(...keys.map((key,index)=>{
+    const span=dnode('span',{text:(index?' ':'')+profile.ui[key]});
+    decorate(span,profile.provenance[key]);return span;
+  }));
+  delete description.dataset.provenance;description.removeAttribute('title');
 }
 
 async function profileSettings(){
@@ -115,7 +116,7 @@ body.append(dnode('p',{text:'REI is the default. Switch workspaces or create a p
 }
 async function reloadProfiles(){const data=await dapi('/bootstrap');D.profiles=data.profiles;D.settings=data.settings;D.budget=data.budget;}
 
-async function editProfile(profile,create){const {body,dialog}=drawer(create?'Create learning profile':'Edit '+profile.name,'profile-dialog');D.draft=profile;D.dirty=false;body.oninput=()=>D.dirty=true;const status=dnode('div',{class:'d-status',role:'status'});const name=dfield('Profile name',profile.name),goal=dfield('Learning or research goal',profile.goal,'textarea');body.append(name.wrapper,goal.wrapper);
+async function editProfile(profile,create){alignProfileWording(profile);const {body,dialog}=drawer(create?'Create learning profile':'Edit '+profile.name,'profile-dialog');D.draft=profile;D.dirty=false;body.oninput=()=>D.dirty=true;const status=dnode('div',{class:'d-status',role:'status'});const name=dfield('Profile name',profile.name),goal=dfield('Learning or research goal',profile.goal,'textarea');body.append(name.wrapper,goal.wrapper);
   if(!D.taxonomy)D.taxonomy=(await dapi('/taxonomy')).nodes;
   const themeTitle=dfield('Theme summary',profile.theme_title);body.append(themeTitle.wrapper);
   const themeSection=dnode('details',{open:create?'':null},[dnode('summary',{text:'Themes · '+profile.themes.length+' selected'})]);const chips=dnode('div',{class:'d-chips'}),query=dfield('Search research categories','','search'),tree=dnode('div',{class:'d-tree'}),breadcrumbs=dnode('div',{class:'d-bar'});let current='WORLD';
@@ -123,11 +124,16 @@ async function editProfile(profile,create){const {body,dialog}=drawer(create?'Cr
   query.input.oninput=renderTree;themeSection.append(chips,query.wrapper,breadcrumbs,tree,dbutton('Clear themes',()=>{profile.themes=[];renderTree();}));body.append(themeSection);renderTree();
   const levels=dnode('details',{open:''},[dnode('summary',{text:'OpenBEXI Discovery — Knowledge Progression'})]);D.levels.forEach((level,i)=>{const input=dnode('input',{type:'radio',name:'learning-level',value:level.id});input.checked=profile.learning_level===level.id;input.onchange=()=>profile.learning_level=level.id;const example=profile.themes.some(id=>id.startsWith('02.01'))?level.example:`${level.description} Apply this to ${profile.theme_title}.`;levels.append(dnode('label',{class:'d-level'},[input,dnode('strong',{text:String(i+1).padStart(2,'0')+' '+level.name}),dnode('small',{text:example})]));});levels.append(dnode('p',{class:'d-muted',text:'Beyond the Frontier represents experimental inquiry, not a guarantee of scientific discovery. AI-generated hypotheses require independent verification.'}));body.append(levels);
   const options=dnode('details',{},[dnode('summary',{text:'Tabs, panels, sources & tools'})]);for(const [key,values]of [['tabs',['evidence','documents','datasets','connections','quizzes','notes']],['panels',['guidance','constraints','tip']],['sources',['pubmed','ensembl','gwas']],['tools',Object.keys(D.tools)]]){options.append(dnode('h4',{text:key[0].toUpperCase()+key.slice(1)}));for(const value of values){const c=dcheck(value+(key==='tools'&&D.tools[value]!=='available'?' · planned':''),profile[key].includes(value));if(key==='tools'&&D.tools[value]!=='available')c.input.disabled=true;c.input.onchange=()=>{profile[key]=c.input.checked?[...profile[key],value]:profile[key].filter(x=>x!==value);};options.append(c.wrapper);}}const initial=dselect('Initial tab',profile.tabs,profile.default_tab);options.append(initial.wrapper);const panelsOrder=dfield('Side-panel order (comma separated)',profile.panels.join(', '));options.append(panelsOrder.wrapper);body.append(options);
-  const wording=dnode('details',{},[dnode('summary',{text:'Edit page wording'})]);const fields={};for(const [key,value]of Object.entries(profile.ui)){const f=dfield(key.replaceAll('_',' '),Array.isArray(value)?value.join('\n'):value,Array.isArray(value)||String(value).length>100?'textarea':'text');fields[key]=f.input;f.input.addEventListener('input',()=>{if(['ai','ai_edited'].includes(profile.provenance[key]?.origin))profile.provenance[key].origin='ai_edited';});wording.append(f.wrapper);}body.append(wording);
+  const wording=dnode('details',{},[dnode('summary',{text:'Edit page wording'})]);const fields={};for(const [key,value]of Object.entries(profile.ui)){if(key==='welcome_heading')continue;const labels={eyebrow:'Workspace heading',heading:'Description lead-in (optional)',introduction:'Workspace description',welcome_title:'Evidence welcome title',welcome_text:'Evidence welcome text'};const f=dfield(labels[key]||key.replaceAll('_',' '),Array.isArray(value)?value.join('\n'):value,Array.isArray(value)||String(value).length>100?'textarea':'text');fields[key]=f.input;f.input.addEventListener('input',()=>{if(['ai','ai_edited'].includes(profile.provenance[key]?.origin))profile.provenance[key].origin='ai_edited';});wording.append(f.wrapper);}body.append(wording);
   const instruction=dfield('Optional AI instructions','Adapt this workspace to my themes, goal, and chosen level.','textarea');const aiDetails=dnode('details',{},[dnode('summary',{text:'AI-assisted wording (optional)'}),instruction.wrapper]);const preview=dnode('div',{class:'d-preview',hidden:''});let reviewed=false;
   function collect(){profile.name=name.input.value.trim();profile.goal=goal.input.value.trim();profile.theme_title=themeTitle.input.value.trim();profile.default_tab=profile.tabs.includes(initial.input.value)?initial.input.value:profile.tabs[0];const ordered=panelsOrder.input.value.split(',').map(x=>x.trim()).filter(x=>profile.panels.includes(x));profile.panels=[...new Set([...ordered,...profile.panels])];for(const [key,input]of Object.entries(fields))profile.ui[key]=key==='examples'?input.value.split('\n').map(x=>x.trim()).filter(Boolean):input.value;return profile;}
   aiDetails.append(dbutton('Generate wording draft',async()=>{collect();dstatus(status,'Generating a draft…');const result=await dapi('/ai/draft',{task:create?'create_profile':'update_profile',profile,instruction:instruction.input.value},{timeout:90000});profile=result.profile;D.draft=profile;for(const [key,input]of Object.entries(fields))input.value=Array.isArray(profile.ui[key])?profile.ui[key].join('\n'):profile.ui[key];themeTitle.input.value=profile.theme_title;D.dirty=true;reviewed=false;dstatus(status,result.explanation);await refreshBudget();}));body.append(aiDetails,status,preview);
-  function showPreview(){collect();preview.hidden=false;preview.replaceChildren(dnode('h1',{text:profile.ui.heading}),dnode('p',{text:profile.ui.introduction}),dnode('h2',{text:profile.ui.welcome_heading}),dnode('p',{text:profile.ui.welcome_text}),dnode('p',{text:profile.theme_title+' · '+profile.learning_level}),dnode('p',{text:'Tabs: '+profile.tabs.join(' · ')}),dnode('pre',{text:JSON.stringify(profile.ui,null,2)}));for(const node of preview.children)if(Object.values(profile.provenance).some(x=>x.origin==='ai'))node.classList.add('d-ai');reviewed=true;}
+  function showPreview(){collect();preview.hidden=false;
+    const intro=dnode('div',{class:'intro'},[dnode('h1'),' ',dnode('p')]);renderIntroduction(profile,intro);
+    const title=dnode('h2',{text:profile.ui.welcome_title}),text=dnode('p',{text:profile.ui.welcome_text});
+    decorate(title,profile.provenance.welcome_title);decorate(text,profile.provenance.welcome_text);
+    preview.replaceChildren(intro,dnode('div',{class:'d-card'},[title,text]),dnode('p',{text:profile.theme_title+' / '+profile.learning_level}),dnode('p',{text:'Tabs: '+profile.tabs.join(', ')}));reviewed=true;
+  }
   body.addEventListener('input',()=>reviewed=false);body.append(dnode('div',{class:'d-bar'},[dbutton('Preview',showPreview),dbutton('Save profile',async()=>{collect();if(!profile.name||!profile.goal||!profile.tabs.length)throw new Error('Provide a name, goal, and at least one tab.');if(!reviewed){showPreview();dstatus(status,'Review the draft above, then select Save profile again.');return;}const original=D.profiles.find(p=>p.id===profile.id);const changedThemes=original&&JSON.stringify([...original.themes].sort())!==JSON.stringify([...profile.themes].sort());if(changedThemes&&!create&&!confirm('These themes differ. Save as a new profile and keep the original?'))return;const saved=await dapi('/profiles/save',{profile,base_revision:original?.revision,create:create||!!changedThemes});await D.saveQueue;await dapi('/profiles/action',{id:saved.id,revision:saved.revision,action:'activate'});await reloadProfiles();resetTabBodies();await useProfile(saved);D.dirty=false;dialog.close();toast('Profile saved.');},'primary')]));
 }
 

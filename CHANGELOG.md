@@ -3,12 +3,18 @@
 
 ## 1.1.1 — Compact layout and profile settings
 
-- Makes the active profile button open the same Profile settings panel as the settings gear.
+- Makes the active profile button open the same Settings panel as the settings gear.
+- Keeps the brand on the left and AI status, AI settings, Settings, and Help aligned on the right; shows the version in small text after the brand.
+- Moves Saved research and Local library into Settings, with search as the default view.
+- Places the compact introduction inline with a smaller description that wraps naturally.
+- Removes the extra heading above the initial evidence welcome card, retaining search status and result headings.
+- Refreshes the v1.1.1 live demo, documentation, Windows installer, source archives, release notes, and checksums with the latest UI.
 - Reduces the heading and source bar height, keeping full profile details available on hover.
 - Uses golden-ratio desktop columns, consistent spacing, and softer panel backgrounds, with responsive mobile layouts.
 - Corrects the IntelliJ module and interpreter configuration.
 - Consolidates repository links and Windows upgrade checks in OpenBEXI Discovery.
 - Provides source ZIP and tar.gz downloads, standalone release notes, and checksums, with updated guides and a versioned live-demo link.
+- Aligns profile templates, wording controls, previews, and AI draft guidance with the compact workspace; preserves custom wording and adapts the original REI introduction.
 - Preserves existing profile schemas, saved work, and installed application data locations.
 
 ## 1.1.0 — OpenBEXI Discovery

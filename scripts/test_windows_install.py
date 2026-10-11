@@ -95,6 +95,10 @@ def smoke(setup, test_tray=False, previous_setup=None):
                 html = response.read().decode("utf-8")
                 assert 'id="app-version"' in html and ">V" + VERSION + "</span>" in html
                 assert 'id="context-tip" class="side-card tip"' in html
+                assert '<div class="section-line" hidden><h2 id="results-heading"></h2>' in html
+                assert 'aria-label="Workspace controls"' in html
+                assert 'id="nav-search"' not in html and 'id="nav-saved"' not in html
+                assert 'Explore topics, genes, or genomic regions to find evidence and shape your next question.' in html
                 assert "#evidence-area{min-width:0;padding:16px" in html
                 assert ".record[data-source]" in html
             with get("/api/discovery/bootstrap") as response:

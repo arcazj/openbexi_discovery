@@ -8,6 +8,7 @@ from pathlib import Path
 DOCUMENTS = (
     "README.md",
     "CHANGELOG.md",
+    "RELEASE-NOTES-v1.1.1.md",
     "WINDOWS_INSTALLATION.md",
     "HELP.md",
     "REI_RESEARCH_EXPLORER_PROMPT.md",
