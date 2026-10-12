@@ -10,11 +10,30 @@ import tempfile
 import threading
 import unittest
 import urllib.request
+from unittest.mock import patch
+
+import run_discovery
 
 ROOT = Path(__file__).resolve().parent.parent
 
 
 class DevelopmentLaunchTests(unittest.TestCase):
+    def test_missing_dependency_reports_environment_specific_repair(self):
+        for project_environment in (True, False):
+            with self.subTest(project_environment=project_environment):
+                prefix = ROOT / (".venv" if project_environment else "other-python")
+                missing = ModuleNotFoundError("No module named 'cryptography'", name="cryptography")
+                with patch.object(sys, "prefix", str(prefix)), \
+                        patch("builtins.__import__", side_effect=missing), \
+                        self.assertRaises(SystemExit) as failure:
+                    run_discovery.run()
+                message = str(failure.exception)
+                self.assertIn("Missing dependency: cryptography", message)
+                self.assertIn("-m pip install -r", message)
+                self.assertIn(str(ROOT / "requirements.lock.txt"), message)
+                self.assertEqual("dependencies are incomplete" in message, project_environment)
+                self.assertEqual("select the project interpreter" in message, not project_environment)
+
     def test_ide_entry_points_serve_full_discovery_without_ai(self):
         for script in ("run_discovery.py", "serve_frontend.py", "backend/app.py"):
             with self.subTest(script=script), tempfile.TemporaryDirectory() as directory:

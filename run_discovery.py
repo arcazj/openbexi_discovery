@@ -35,13 +35,23 @@ def run(port=8000, allow_fallback=True):
         root = Path(__file__).resolve().parent
         interpreter = root / ".venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
         install_command = ('& ' if os.name == "nt" else '') + '"' + str(interpreter) + '" -m pip install -r "' + str(root / "requirements.lock.txt") + '"'
+        if Path(sys.prefix).resolve() == (root / ".venv").resolve():
+            advice = (
+                "The project interpreter is selected, but its dependencies are incomplete.\n"
+                "Install or refresh them in a terminal after updating the source:\n"
+                + install_command + "\nThen restart the Run/Debug session."
+            )
+        else:
+            advice = (
+                "In IntelliJ, edit THIS Run/Debug configuration and select the project interpreter:\n"
+                + str(interpreter) + "\n"
+                "Then stop the current session and run it again. The module interpreter does not override an existing configuration's explicit interpreter.\n"
+                "If the project environment needs packages, run: " + install_command
+            )
         raise SystemExit(
             "Missing dependency: " + str(exc.name) + "\n"
             "Current interpreter: " + sys.executable + "\n"
-            "In IntelliJ, edit THIS Run/Debug configuration and select the project interpreter:\n"
-            + str(interpreter) + "\n"
-            "Then stop the current session and run it again. The module interpreter does not override an existing configuration's explicit interpreter.\n"
-            "If the project environment needs packages, run: " + install_command
+            + advice
         ) from None
     try:
         listener = create_listener(port, allow_fallback)

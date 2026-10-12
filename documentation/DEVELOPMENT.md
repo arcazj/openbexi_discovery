@@ -19,7 +19,7 @@
 ## IntelliJ IDEA
 
 1. Install `requirements.lock.txt` into the project's `.venv` and enable Python support in IntelliJ.
-2. Set the `openbexi_discovery` module interpreter to `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux. Select the shared **OpenBEXI Discovery** run configuration, which inherits that module interpreter.
+2. Set the project module interpreter to `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux. Select the shared **OpenBEXI Discovery** run configuration, which points to the Windows project interpreter by default. On macOS/Linux, select the module interpreter in this configuration.
 3. Run or Debug, then open the clickable `http://127.0.0.1:8000` URL in the Run console. If the port is busy, use the alternative URL printed there.
 
 The single Python process serves the UI and all backend features. Breakpoints work in backend modules. No AI key is required for profile settings, themes, local libraries, SQLite, or quizzes; AI generation uses the configured key and budget.
@@ -29,6 +29,8 @@ Right-clicking `backend/app.py` and choosing Run also works, including with `bac
 Opening `index.html` in IntelliJ's built-in web server does not start Python. Start the full run configuration first, or open the Run console URL. Settings can reconnect after a delayed backend startup without reloading the page.
 
 If Run/Debug reports **Missing dependency: uvicorn**, check the interpreter in that specific run configuration, including an existing `serve_frontend` configuration. An explicit system Python selection overrides the module interpreter. Set it to the project's `.venv/Scripts/python.exe` (Windows) or `.venv/bin/python` (macOS/Linux), then stop and restart the session. Install dependencies with that exact interpreter using `-m pip install -r requirements.lock.txt`; installing them into another Python environment will not fix the selected one.
+
+If the project interpreter is already selected and a dependency such as `cryptography` is missing, refresh the environment after pulling source updates: run `.\.venv\Scripts\python.exe -m pip install -r requirements.lock.txt` from the project root, then restart Run/Debug. There is no need to change interpreters.
 
 ## Contracts
 
