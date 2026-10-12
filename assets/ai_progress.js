@@ -7,10 +7,11 @@ window.AIWork=(()=>{
   const node=(tag,attributes={},text='')=>{const item=document.createElement(tag);for(const [key,value] of Object.entries(attributes))item.setAttribute(key,value);if(text)item.textContent=text;return item;};
   function taskName(url,options){
     const path=new URL(url,location.href).pathname;
-    if(!/^\/api\/(?:ai(?:\/(?:check|configure))?|discovery\/(?:ai\/[^/]+|api-connections\/recommend|datasets\/[^/]+\/ask))$/.test(path))return '';
+    if(!/^\/api\/(?:ai(?:\/(?:check|configure))?|discovery\/(?:ai\/[^/]+|api-connections\/recommend|datasets\/[^/]+\/ask|library\/[^/]+\/analyze))$/.test(path))return '';
     if(path.endsWith('/ai/check'))return 'Checking AI connection';
     if(path.endsWith('/ai/configure'))return 'Saving AI connection settings';
     if(path.endsWith('/api-connections/recommend'))return 'Finding API recommendations';
+    if(/\/library\/[^/]+\/analyze$/.test(path))return 'Analyzing saved material';
     if(/\/datasets\/[^/]+\/ask$/.test(path))return 'Analyzing your reviewed dataset';
     let payload={};try{payload=JSON.parse(options.body||'{}');}catch{/* A malformed request still gets a working indicator. */}
     return {create_quiz:'Creating an 8-question quiz',create_profile:'Drafting profile wording',update_profile:'Updating profile wording',adapt_profile:'Preparing profile preview',

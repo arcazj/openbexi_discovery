@@ -45,12 +45,12 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
     await page.waitForFunction(()=>!state.searchController);
   };
   assert.equal(await page.locator('#profile-search-update').isVisible(),false);
-  await search('ovarian aging');await page.locator('#profile-search-update').waitFor();
+  await search('ovarian aging');assert.equal(await page.locator('#profile-search-update').count(),0);
   assert.equal(drafts.length,0,'Related search does not make a profile AI call');
   assert.equal((await api('/bootstrap')).profiles.find(p=>p.id==='rei').revision,1);
-  await page.locator('#profile-search-update').click();await page.locator('#profile-update-dialog[open]').waitFor();
+  await settings();await page.locator('#profile-update-request').fill('Focus my research on ovarian aging.');
   assert.ok((await page.locator('#profile-update-request').inputValue()).includes('ovarian aging'));
-  assert.equal(drafts.length,0,'Opening the shortcut does not make an AI call');
+  assert.equal(drafts.length,0,'Opening Settings does not make an AI call');
   assert.equal(await page.locator('#profile-update-level').isChecked(),false);
   assert.equal(await page.locator('#profile-update-layout').isChecked(),false);
   await assertCaptions(page,'search-based profile update');
@@ -65,7 +65,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
   await page.screenshot({path:path.join(root,'test-results/profile-preparing-desktop.png')});
   await page.setViewportSize({width:320,height:740});await page.locator('#ai-work-status').scrollIntoViewIfNeeded();
-  assert.equal(await page.locator('#profile-update-dialog').evaluate(n=>n.scrollWidth>n.clientWidth),false);
+  assert.equal(await page.locator('#profile-dialog').evaluate(n=>n.scrollWidth>n.clientWidth),false);
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await page.locator('.d-ai-progress span').evaluate(n=>getComputedStyle(n).animationName),'none');
   await page.screenshot({path:path.join(root,'test-results/profile-preparing-mobile.png')});
@@ -80,11 +80,11 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   await page.screenshot({path:path.join(root,'test-results/profile-update-preview-desktop.png')});
   await page.getByLabel('Apply Search examples',{exact:true}).uncheck();
   await page.getByLabel('Apply Tip text',{exact:true}).uncheck();
-  await page.locator('#profile-update-apply').click();await page.locator('#profile-update-dialog').waitFor({state:'hidden'});
+  await page.locator('#profile-update-apply').click();await page.locator('#profile-dialog').waitFor({state:'hidden'});
   let saved=await page.evaluate(()=>D.profile);
   assert.equal(saved.revision,2);assert.notEqual(saved.goal,original.goal);assert.deepEqual(saved.ui,original.ui);
   assert.deepEqual(saved.tabs,original.tabs);assert.equal(saved.learning_level,original.learning_level);
-  await page.locator('#source-update-notice').getByRole('button',{name:'Roll back profile',exact:true}).click();
+  await page.locator('#d-tab-sources').click();await page.locator('#sources-settings>summary').click();await page.locator('#source-update-notice').getByRole('button',{name:'Roll back profile',exact:true}).click();
   await page.waitForFunction(goal=>D.profile.goal===goal,original.goal);
   assert.deepEqual((await api('/library/'+note.id)).profile_snapshot.goal,original.goal);
 
@@ -95,15 +95,15 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   await page.getByLabel('Apply Learning level',{exact:true}).check();await page.getByLabel('Apply Workspace layout (tabs and side panels)',{exact:true}).check();
   await page.locator('#profile-update-apply').click();await page.locator('#profile-dialog').waitFor({state:'hidden'});
   assert.equal(await page.evaluate(()=>D.profile.learning_level),'researcher');
-  assert.equal(await page.locator('[role=tab]').count(),3);
+  assert.equal(await page.locator('[role=tab]').count(),4);
   await page.reload();await page.waitForFunction(()=>D.ready&&!D.connecting);
   await settings();await page.locator('[data-profile-id="rei"]').getByRole('button',{name:'Roll back profile',exact:true}).click();
   await page.waitForFunction(()=>D.profile.learning_level==='advanced');
   assert.deepEqual(await page.evaluate(()=>D.profile.ui),original.ui);
-  assert.equal(await page.locator('[role=tab]').count(),6);await close('profile-dialog');
+  assert.equal(await page.locator('[role=tab]').count(),7);await close('profile-dialog');
 
-  await search('quantum entanglement');await page.waitForFunction(()=>$('profile-search-tip').hidden);
-  await search('PCOS');await page.locator('#profile-search-update').waitFor();
+  await search('quantum entanglement');assert.equal(await page.locator('#profile-search-tip').count(),0);
+  await search('PCOS');assert.equal(await page.locator('#profile-search-update').count(),0);
   await page.locator('#query').fill('PCOS unavailable');await page.locator('#search-button').click();
   await page.getByRole('heading',{name:'Search unavailable',exact:true}).waitFor();assert.equal(await page.locator('#profile-search-update').isVisible(),false);
   const beforeCancel=(await api('/library?profile=rei&kind=search')).activities.length;
@@ -179,7 +179,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   });
   const colors=await page.evaluate(()=>{
     const aiColor=getComputedStyle(document.querySelector('#content-provenance .d-ai')).backgroundColor;
-    const selectors=['.intro h1','.intro p span','#source-list-label','.source-caption','#d-theme small','#query','.examples'];
+    const selectors=['#workspace-title','.intro p span','#source-list-label','.source-caption','#d-theme small','#query','.examples'];
     return {aiColor,plain:selectors.map(selector=>{const node=document.querySelector(selector);return {selector,color:getComputedStyle(node).backgroundColor,origin:node.dataset.provenance};}),tip:getComputedStyle($('guidance-tip')).backgroundColor};
   });
   for(const item of colors.plain){assert.equal(item.origin,'ai');assert.notEqual(item.color,colors.aiColor,item.selector+' keeps its standard background');}

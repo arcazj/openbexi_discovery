@@ -53,15 +53,15 @@ jobs:
           }
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: python -m scripts.test_windows_install
-      - name: Verify upgrade from the published V1.1.1 installer
+      - name: Verify upgrade from the published V1.2.0 installer
         shell: pwsh
         run: |
           $previousDirectory = Join-Path $env:GITHUB_WORKSPACE 'build/windows/previous'
           New-Item -ItemType Directory -Path $previousDirectory -Force | Out-Null
-          $previousName = 'OpenBEXIDiscovery-1.1.1-Windows-x64-Setup.exe'
+          $previousName = 'OpenBEXIDiscovery-1.2.0-Windows-x64-Setup.exe'
           $previousInstaller = Join-Path $previousDirectory $previousName
           $previousChecksum = Join-Path $previousDirectory 'SHA256SUMS-Windows.txt'
-          $previousRelease = 'https://github.com/arcazj/openbexi_discovery/releases/download/v1.1.1/'
+          $previousRelease = 'https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.0/'
           Invoke-WebRequest -Uri ($previousRelease + $previousName) -OutFile $previousInstaller
           Invoke-WebRequest -Uri ($previousRelease + 'SHA256SUMS-Windows.txt') -OutFile $previousChecksum
           $expected = (Get-Content -LiteralPath $previousChecksum -Raw).Trim() -split '\s+'
@@ -74,7 +74,7 @@ jobs:
         with:
           name: OpenBEXI-Discovery-Windows-x64
           path: |
-            dist/OpenBEXIDiscovery-1.2.0-Windows-x64-Setup.exe
+            dist/OpenBEXIDiscovery-1.2.1-Windows-x64-Setup.exe
             dist/SHA256SUMS-Windows.txt
           if-no-files-found: error
           retention-days: 30

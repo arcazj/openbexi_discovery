@@ -14,10 +14,51 @@ async function api(route,body){const r=await fetch(base+'/api/discovery'+route,b
 async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw new Error(logs);try{if((await fetch(base+'/api/health')).ok)return;}catch{}await new Promise(r=>setTimeout(r,100));}throw new Error('Server startup timed out');}
 (async()=>{try{
   await ready();browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:1365,height:950}}),errors=[];
+  await page.route('**/api/search',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({query:route.request().postDataJSON().query,records:[],coverage:[],retrieved_at:new Date().toISOString()})}));
   page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());await page.goto(base);await page.waitForFunction(()=>D.ready&&state.aiStatus.phase==='ready');
   await page.locator('#d-tab-connections').click();
   const apiButton=await page.getByRole('button',{name:'Connect to an API',exact:true}).boundingBox(),sqliteButton=await page.getByRole('button',{name:'Connect SQLite database',exact:true}).boundingBox();
   assert.ok(apiButton.y<=sqliteButton.y&&apiButton.x<sqliteButton.x,'API connection precedes SQLite');
+  const preset=page.locator('#d-content [data-service-id="crossref"]');
+  await preset.waitFor();
+  assert.deepEqual(await preset.locator('button').allTextContents(),['Edit connection','Connect','Explore API','Delete']);
+  assert.equal(await page.getByRole('button',{name:/^Use /}).count(),0);
+  await preset.getByRole('button',{name:'Edit connection',exact:true}).click();
+  assert.equal(await page.getByLabel('API URL',{exact:true}).inputValue(),'https://api.crossref.org/works');
+  await page.locator('#api-connect-dialog header button').click();
+  await preset.getByRole('button',{name:'Connect',exact:true}).click();
+  await preset.getByRole('button',{name:'Reconnect',exact:true}).waitFor();
+  assert.equal((await api('/api-connections?profile_id=rei')).connections.length,1);
+  assert.equal(await preset.count(),1,'Connected presets are not duplicated');
+  await page.route('**/api/discovery/api-connections/*/check',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({detail:'Synthetic API failure'})}));
+  await preset.getByRole('button',{name:'Reconnect',exact:true}).click();
+  await preset.getByText('Synthetic API failure',{exact:true}).waitFor();
+  await page.unroute('**/api/discovery/api-connections/*/check');
+  await preset.getByRole('button',{name:'Reconnect',exact:true}).click();
+  await preset.getByText('Connection verified. No data was sent to AI.',{exact:true}).waitFor();
+  await preset.getByRole('button',{name:'Explore API',exact:true}).click();
+  await page.locator('#api-explorer-dialog[open]').waitFor();await page.locator('#api-explorer-dialog header button').click();
+  await assertCaptions(page,'connection row actions');
+  fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
+  await page.screenshot({path:path.join(root,'test-results/connections-actions-desktop.png'),fullPage:true});
+  for(const width of [390,320]){
+    await page.setViewportSize({width,height:900});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Connection actions fit at '+width);
+    await page.screenshot({path:path.join(root,'test-results/connections-actions-mobile-'+width+'.png'),fullPage:true});
+  }
+  await page.setViewportSize({width:1365,height:950});
+  page.removeAllListeners('dialog');page.once('dialog',dialog=>dialog.dismiss());
+  await preset.getByRole('button',{name:'Delete',exact:true}).click();
+  assert.equal((await api('/api-connections?profile_id=rei')).connections.length,1,'Canceled deletion preserves the connection');
+  page.on('dialog',dialog=>dialog.accept());
+  await preset.getByRole('button',{name:'Delete',exact:true}).click();await preset.waitFor({state:'detached'});
+  assert.equal((await api('/api-connections?profile_id=rei')).connections.length,0);
+  await page.reload();await page.waitForFunction(()=>D.ready&&!D.connecting);await page.locator('#d-tab-connections').click();
+  await page.getByRole('button',{name:'Restore API suggestions',exact:true}).click();await preset.waitFor();
+  // Unconnected suggestions can also be removed and restored without creating a connection.
+  await preset.getByRole('button',{name:'Delete',exact:true}).click();await preset.waitFor({state:'detached'});
+  assert.equal((await api('/api-connections?profile_id=rei')).connections.length,0);
+  await page.getByRole('button',{name:'Restore API suggestions',exact:true}).click();await preset.waitFor();
   await page.getByRole('button',{name:'Recommend APIs with AI'}).click();await page.locator('.d-row.d-ai').filter({hasText:'advanced REI profile'}).waitFor();await assertCaptions(page,'API catalog and recommendations');
   await page.getByRole('button',{name:'Connect to an API',exact:true}).click();
   await page.getByLabel('Connection name',{exact:true}).fill('Clinical records fixture');await page.getByLabel('API URL',{exact:true}).fill('https://research.example/data');
@@ -43,11 +84,11 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   await page.locator('.d-analysis-answer').waitFor();assert.match(await page.locator('.d-analysis-answer').innerText(),/mean outcome is 4/);assert.match(await page.locator('#api-explorer-dialog').innerText(),/Question sent: Compare Patient 1 with Patient 2/);
   await page.screenshot({path:path.join(root,'test-results/data-analysis-desktop.png'),fullPage:false});
   await page.locator('#api-explorer-dialog header button').click();
-  await page.getByRole('button',{name:'Edit connection',exact:true}).click();assert.equal(await page.getByLabel('Password or API token',{exact:true}).inputValue(),'');
+  await page.locator('#d-content .d-api-connection').getByRole('button',{name:'Edit connection',exact:true}).click();assert.equal(await page.getByLabel('Password or API token',{exact:true}).inputValue(),'');
   await assertCaptions(page,'API connection editor');await page.getByRole('button',{name:'Test & save connection'}).click();await page.locator('#api-explorer-dialog[open]').waitFor();await page.locator('#api-explorer-dialog header button').click();
   await page.reload();await page.waitForFunction(()=>D.ready);await page.locator('#d-tab-connections').click();await page.getByRole('heading',{name:'Clinical records fixture'}).waitFor();
   await page.getByRole('button',{name:'Reconnect',exact:true}).click();await page.getByText('Connection verified. No data was sent to AI.',{exact:true}).waitFor();
-  await page.getByRole('button',{name:'Disconnect',exact:true}).click();await page.getByText('No connections for this profile yet.',{exact:true}).waitFor();
+  await page.locator('#d-content .d-api-connection').getByRole('button',{name:'Delete',exact:true}).click();await page.getByText('No connections for this profile yet.',{exact:true}).waitFor();
   const saved=(await api('/library?profile=rei&kind=dataset')).activities;assert.equal(saved.length,1);
   const exported=await fetch(base+'/api/discovery/archives/export',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({activity_id:saved[0].id,include_sensitive:true})});assert.ok(exported.ok);
   const archive=await api('/archives/open',{file_base64:Buffer.from(await exported.arrayBuffer()).toString('base64')});assert.ok(!/Alice Example|Bob Example|private-fixture-token|fictional-password/.test(JSON.stringify(archive)));

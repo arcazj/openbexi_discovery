@@ -76,6 +76,16 @@ class ActivityInput(Strict):
     status: Literal["complete", "failed", "canceled"] = "complete"
 
 
+class DocumentUpdate(Strict):
+    base_revision: int = Field(ge=1)
+    title: str = Field(min_length=1, max_length=240)
+    content: str = Field(default="", max_length=250000)
+    sensitive: bool = False
+    consent_local: bool = False
+    filename: str = Field(default="", max_length=200)
+    file_base64: Optional[str] = Field(default=None, max_length=MAX_FILE * 2)
+
+
 def decode_file(value, limit=MAX_FILE):
     try:
         content = base64.b64decode(value, validate=True)
@@ -84,6 +94,27 @@ def decode_file(value, limit=MAX_FILE):
     if len(content) > limit:
         raise HTTPException(413, "File exceeds the local size limit.")
     return content
+
+
+def prepare_attachment(filename, encoded):
+    name = Path(filename).name
+    if (name != filename or "/" in name or "\\" in name or ":" in name
+            or Path(name).suffix.lower() not in EXTENSIONS):
+        raise HTTPException(422, "Upload a PDF, Markdown, text, CSV, or JSON file.")
+    content = decode_file(encoded)
+    text = None
+    if Path(name).suffix.lower() == ".pdf":
+        if not content.startswith(b"%PDF-"):
+            raise HTTPException(422, "This file is not a PDF.")
+    else:
+        try:
+            text = redact(content.decode("utf-8-sig"))
+        except UnicodeDecodeError:
+            raise HTTPException(422, "Text files must use UTF-8 encoding.") from None
+        content = text.encode("utf-8")
+    if SECRET.search(content.decode("latin1")):
+        raise HTTPException(422, "Remove credentials from this file before saving.")
+    return "document" + Path(name).suffix.lower(), content, text
 
 
 def save_activity(value):
@@ -107,38 +138,25 @@ def save_activity(value):
             item.provenance = Provenance(**{**parent["provenance"], "origin": "ai_edited"})
     content = b""
     filename = ""
-    if item.file_base64:
-        name = Path(item.filename).name
-        if name != item.filename or "/" in name or "\\" in name or Path(name).suffix.lower() not in EXTENSIONS:
-            raise HTTPException(422, "Upload a PDF, Markdown, text, CSV, or JSON file.")
-        content = decode_file(item.file_base64)
-        if Path(name).suffix.lower() == ".pdf":
-            if not content.startswith(b"%PDF-"):
-                raise HTTPException(422, "This file is not a PDF.")
-        else:
-            try:
-                text = content.decode("utf-8-sig")
-            except UnicodeDecodeError:
-                raise HTTPException(422, "Text files must use UTF-8 encoding.") from None
-            text = redact(text)
-            content = text.encode("utf-8")
+    text = None
+    if item.file_base64 or item.filename:
+        filename, content, text = prepare_attachment(item.filename, item.file_base64)
+        if text is not None:
             item.content = text[:250000]
             if item.kind == "quiz":
                 item.payload = Quiz.model_validate_json(text).model_dump()
-        filename = "document" + Path(name).suffix.lower()
-        # Credentials cannot enter binary archives either.
-        if SECRET.search(content.decode("latin1")):
-            raise HTTPException(422, "Remove credentials from this file before saving.")
     aid = uuid.uuid4().hex
     record = redact(item.model_dump(exclude={"file_base64", "consent_local"}))
     record.update(id=aid, created_at=stamp(), filename=filename, original_filename=item.filename,
                   profile_snapshot=profile, themes=profile["themes"], learning_level=profile["learning_level"],
                   schema_version="1.1")
+    if item.kind == "document":
+        record.update(revision=1, content_truncated=text is not None and len(text) > 250000)
     folder = library_root() / "profiles" / item.profile_id / "activities" / aid
     with LOCK:
         folder.mkdir(parents=True, exist_ok=True)
         try:
-            if content:
+            if filename:
                 (folder / filename).write_bytes(content)
             write_json(folder / "activity.json", record)
             write_json(library_root() / "profiles" / item.profile_id / "profile.json", profile)
@@ -164,7 +182,76 @@ def find_path(aid):
 
 
 def get_activity(aid):
-    return read_json(find_path(aid))
+    with LOCK:
+        item = read_json(find_path(aid))
+        # Older documents have no revision or preview-length metadata.
+        if item["kind"] == "document":
+            item.setdefault("revision", 1)
+            if "content_truncated" not in item:
+                item["content_truncated"] = bool(item.get("filename") and not item["filename"].endswith(".pdf")
+                    and len(artifact_file(aid).read_text(encoding="utf-8-sig")) > 250000)
+        return item
+
+
+def update_document(aid, value):
+    update = DocumentUpdate.model_validate(value)
+    with LOCK:
+        path = find_path(aid)
+        folder = path.parent.resolve()
+        if library_root().resolve() not in folder.parents or path.parent.is_symlink() or path.is_symlink():
+            raise HTTPException(403, "Invalid activity storage path.")
+        current = get_activity(aid)
+        if current["kind"] != "document":
+            raise HTTPException(422, "Choose a saved document to edit.")
+        if update.base_revision != current.get("revision", 1):
+            raise HTTPException(409, "This document changed in another window. Reopen it before editing again.")
+        sensitive = bool(current.get("sensitive") or update.sensitive)
+        if sensitive and not update.consent_local:
+            raise HTTPException(403, "Confirm retention of this sensitive document.")
+        record = copy.deepcopy(current)
+        record.update(title=update.title, content=update.content, sensitive=sensitive,
+                      revision=update.base_revision + 1, updated_at=stamp())
+        attachment = None
+        old_filename = current.get("filename", "")
+        if old_filename and (Path(old_filename).name != old_filename or "/" in old_filename or "\\" in old_filename):
+            raise HTTPException(403, "Invalid attachment storage path.")
+        if update.file_base64 is not None:
+            filename, attachment, text = prepare_attachment(update.filename, update.file_base64)
+            record["original_filename"] = update.filename
+            record["content_truncated"] = text is not None and len(text) > 250000
+            if text is not None:
+                record["content"] = text[:250000]
+        elif update.filename:
+            raise HTTPException(422, "Include the replacement file contents.")
+        elif old_filename and not old_filename.endswith(".pdf") and update.content != current["content"]:
+            if current.get("content_truncated"):
+                raise HTTPException(422, "This text is a partial preview. Upload a replacement file to edit the full document.")
+            filename = old_filename
+            attachment = redact(update.content).encode("utf-8")
+        if current.get("provenance", {}).get("origin") in {"ai", "ai_edited"}:
+            record["provenance"]["origin"] = "ai_edited"
+        record = redact(record)
+        new_file = None
+        try:
+            if attachment is not None:
+                # Write a new attachment, then atomically publish its pointer in activity.json.
+                # A failed save leaves the previous document and attachment intact.
+                record["filename"] = "doc-" + uuid.uuid4().hex[:16] + Path(filename).suffix
+                new_file = folder / record["filename"]
+                new_file.write_bytes(attachment)
+            write_json(path, record)
+        except BaseException:
+            if new_file is not None:
+                new_file.unlink(missing_ok=True)
+            raise
+        if new_file is not None and old_filename:
+            try:
+                (folder / old_filename).unlink(missing_ok=True)
+            except OSError:
+                # Windows may still have the previous PDF open. Deletion of the
+                # activity removes the entire folder, including any retired files.
+                pass
+        return record
 
 
 def delete_activity(aid):
@@ -191,7 +278,16 @@ def list_activities(query="", profile="", kind="", level="", theme="", after="",
         searchable = " ".join(str(item.get(k, "")) for k in ("title", "content", "request", "payload"))
         if query.casefold() not in searchable.casefold():
             continue
-        records.append({k: item.get(k) for k in ("id", "profile_id", "kind", "title", "created_at", "learning_level", "themes", "sensitive", "provenance", "parent_id")})
+        summary = item.get("content") or item.get("request") or item.get("payload", {}).get("text") or ""
+        if item["kind"] == "dataset":
+            rows = item.get("payload", {}).get("rows")
+            summary = (str(len(rows)) + " saved rows" if isinstance(rows, list) else "Saved dataset")
+            summary += " · " + item.get("payload", {}).get("privacy", {}).get("status", "Privacy review available")
+        elif item["kind"] == "quiz":
+            summary = str(len(item.get("payload", {}).get("questions", []))) + " questions · Practice and review your answers"
+        entry = {k: item.get(k) for k in ("id", "profile_id", "kind", "title", "created_at", "learning_level", "themes", "sensitive", "provenance", "parent_id")}
+        entry["summary"] = " ".join(str(summary).split())[:180] or ("Saved " + item["kind"])
+        records.append(entry)
     return sorted(records, key=lambda r: r["created_at"], reverse=True)[:1000]
 
 
@@ -301,9 +397,13 @@ def export_zip(profile="", activity="", include_sensitive=False):
                 excluded.append(item["id"])
                 continue
             prefix = "profiles/" + identifier(item["profile_id"]) + "/activities/" + identifier(item["id"]) + "/"
-            entries = {prefix + "activity.json": json.dumps(redact(item), ensure_ascii=False).encode("utf-8")}
+            portable = redact(item)
+            entries = {}
             if item.get("filename"):
-                entries[prefix + item["filename"]] = artifact_file(item["id"]).read_bytes()
+                # Preserve the existing portable ZIP format after an in-place edit.
+                portable["filename"] = "document" + Path(item["filename"]).suffix.lower()
+                entries[prefix + portable["filename"]] = artifact_file(item["id"]).read_bytes()
+            entries[prefix + "activity.json"] = json.dumps(portable, ensure_ascii=False).encode("utf-8")
             for name, content in entries.items():
                 if len(files) >= 1000 or sum(f["size"] for f in files.values()) + len(content) > MAX_EXPANDED:
                     raise HTTPException(413, "Export a smaller selection (64 MB / 1000 entries maximum).")
@@ -444,7 +544,9 @@ def import_zip(zid, consent_sensitive=False):
             id_map = {}
             for item in activities:
                 try:
-                    old = get_activity(item["id"])
+                    old = read_json(find_path(item["id"]))
+                    if old.get("filename"):
+                        old["filename"] = "document" + Path(old["filename"]).suffix.lower()
                 except HTTPException as exc:
                     if exc.status_code != 404:
                         raise

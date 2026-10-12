@@ -1,19 +1,19 @@
-# OpenBEXI Discovery 1.2.0 Help
+# OpenBEXI Discovery 1.2.1 Help
 
 
-For Discovery 1.2.0 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. Both **REI · Advanced** beside Sources and the settings gear open **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
+For Discovery 1.2.1 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. The settings gear opens **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
 
-[Live demo · V1.2.0](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.0)
+[Live demo · V1.2.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.1)
 
 Version 1.2 adds reviewed AI profile updates with rollback, eight-question quizzes with score history, API connections, dataset privacy review, and progress bars for every AI task. The bundled REI/Advanced template includes the reviewed embryology research focus; existing profiles are preserved on upgrade.
 
 ## Quick start
 
-Search a topic such as **ovarian aging** or **PCOS**, a human gene such as **BRCA1**, or a chromosome region such as `17:43044295-43170245`. Check the interpreted search type and change it if necessary. Open a finding to inspect its source, then start a research brief with the references you want to keep.
+Search a topic such as **ovarian aging** or **PCOS**, a human gene such as **BRCA1**, or a chromosome region such as `17:43044295-43170245`. The search type is detected automatically. Open a finding to inspect its source, then start a research brief with the references you want to keep.
 
 ## Sources and coverage
 
-The **Sources** row sits above search and stays visible while browsing results. Use its checkboxes, per-source limit, and **Reset** control. Changing sources requires a new search; the existing coverage report describes the completed search.
+The **Sources** tab follows Evidence. Use its source checkboxes, **+ Add source**, and row actions. Open **Source settings** for the per-source limit, **Reset**, and theme/source management. Changing sources requires a new search; the existing coverage report describes the completed search.
 
 - **PubMed:** publications and available abstracts.
 - **Ensembl:** human genes, transcripts, and regions, using GRCh38.
@@ -33,19 +33,19 @@ Open **Settings > Saved research** to review your briefs. Choose **Back to resea
 
 ## AI assistance
 
-**Settings > Update profile with AI** lets you request changes, review a preview, apply selected fields, and roll back. Related searches can offer the same action in Tip; searching never changes your profile automatically. Repeating an already-applied request can report no changes.
+**Settings > Update profile with AI** lets you request changes, review a preview, apply selected fields, and roll back. Searching never changes your profile automatically. Repeating an already-applied request can report no changes.
 
-**Quizzes > Start a quiz** generates eight questions for your level. Grade locally, review scores and explanations in Quiz history, or remove saved attempts. Every AI task shows a labeled activity bar, elapsed time, and a polite wait message. Use Cancel where available to stop waiting.
+**Quizzes > Start a quiz** generates eight questions for your level. Each saved quiz has **Start** to retake it without AI and **Delete quiz** to remove it while preserving past scores. Grade locally, review scores and explanations in Quiz history, or remove saved attempts. Every AI task shows a labeled activity bar, elapsed time, and a polite wait message. Use Cancel where available to stop waiting.
 
-For connected data, open **Connections → Connect to an API** or use **Recommend APIs with AI**. Public APIs need no password; authenticated services support tokens, API keys, or username/password. After retrieving records, review their privacy rules before enabling questions and statistics. **Datasets → Import file → Review privacy** follows the same process for CSV/JSON. Repeated patient names receive consistent labels, credentials are removed, and AI analyzes only an approved working copy. See [API connections and dataset privacy](documentation/USER_GUIDE.md#api-connections).
+For connected data, open **Connections → Connect to an API** or use **Recommend APIs with AI**. Each API row offers **Edit connection**, **Connect/Reconnect**, **Explore API**, and **Delete**. Public presets connect directly; authenticated services support tokens, API keys, or username/password. After retrieving records, review their privacy rules before enabling questions and statistics. **Datasets → Import file → Review privacy** follows the same process for CSV/JSON. Repeated patient names receive consistent labels, credentials are removed, and AI analyzes only an approved working copy. See [API connections and dataset privacy](documentation/USER_GUIDE.md#api-connections).
 
 On Windows 10/11 x64, the [self-contained installer](WINDOWS_INSTALLATION.md) supplies the local backend and opens the browser automatically. Use its tray menu to reopen/quit the app. Private keys live in `%LOCALAPPDATA%\REIResearchExplorer\.env`; installation updates preserve that folder.
 
 AI is optional and runs through the Python backend. Click **Connect AI**, choose **Model** and **Reasoning** (default **GPT-6 Astra / xHigh**), enter your key, then select **Save & connect**. The password field clears after submission; the local backend saves the key and choices in ignored `.env` and checks model access without sending research evidence. No restart is needed. The same status button reopens the dialog, where you can change choices without entering the saved key again. **By profile and model** shows local usage; an **AI tokens unavailable** notice appears when the provider reports exhausted credits or quota.
 
-After each completed live search, **Make the next step useful** and **Tip** use AI to offer one short next step and one contextual tip. The request contains up to 20 retrieved records, source coverage, research constraints, and up to three saved questions. Guidance is cached for the session until that context changes; it is not generated on every keystroke. **Refresh suggestions** requests another response; open **Guidance preferences** in the AI connection dialog to turn automatic guidance off and use manual refresh only.
+The local REI workspace searches **Last Embryology research** once at launch. The input stays empty and shows that text as a placeholder; it disappears as soon as you type. Local-only or sensitive mode keeps this manual. The white results area retains its height even with zero records. The workspace omits recent-query chips, research-constraint panels, and tips. The search row contains only Search and, while searching, Cancel. Open Settings → Saved research → New brief to draft a research question. AI runs when you request an explanation, comparison, summary, or analysis.
 
-Open **Why this suggestion?** to review supporting source records and the model/date. **Use refined query** searches the proposed terms. **Save proposed question** opens a brief for review. **Add next step to a brief** lets you choose a saved brief and review the added note before saving. Saved AI material retains its evidence and provenance. Failed, canceled, empty, example, and browser-only states show labeled fallback guidance; browsing and saved work remain available.
+Saved-material rows include a preview and actions on the right. **Summarize** and **Analyze with AI** open a compact review panel; approve the text before sending it. Dataset analysis uses only a privacy-reviewed working copy. PDF summaries use saved notes. **Edit** is offered where supported, and **Delete** asks for confirmation.
 
 Alternatively, configure `.env` using `.env.example` and restart the backend:
 
@@ -59,7 +59,7 @@ Keys are stored only on the server. Never embed a key in HTML source, browser st
 
 `py -3 serve_frontend.py` starts the full application on port 8765. In IntelliJ, run **OpenBEXI Discovery**, `backend/app.py`, or `serve_frontend.py` and open the URL printed in Run. Use `--browser-only` only for the static demo; that mode needs a separate backend on port 8000 for full features. A custom backend URL in **Help → AI & connection** overrides automatic detection. `.env.example` is a public template.
 
-Use **Explain**, question generation, or comparison when evidence is available. Suggestions should cite supplied records and identify uncertainty. A suggested gap or novel question is provisional. Exports preserve the evidence identifiers, model, and prompt version for review. Canceling a browser request may not stop a provider request that has already started.
+Use **Explain with AI**, comparison, or saved-item analysis when evidence is available. Suggestions should cite supplied records and identify uncertainty. A suggested gap or novel question is provisional. Exports preserve the evidence identifiers, model, and prompt version for review. Canceling a browser request may not stop a provider request that has already started.
 
 ## Demonstration and browser-only use
 

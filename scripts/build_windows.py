@@ -15,7 +15,7 @@ import sys
 from scripts.build_pages import DOCUMENTS
 from scripts.sign_windows import WindowsSigner
 
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 ROOT = Path(__file__).resolve().parent.parent
 
 

@@ -2,44 +2,114 @@
 async function renderDataConnections(box){
   window.dispatchEvent(new Event('discovery-sources-changed'));
   const profile=clone(D.profile),list=dnode('div'),catalog=dnode('div');
-  box.replaceChildren(dnode('h3',{text:'Connections'}),dnode('p',{text:'Connect a JSON API for '+profile.name+', or browse a local SQLite database. Review retrieved data before asking AI to analyze it.'}),
-    dnode('div',{class:'d-bar'},[dbutton('Connect to an API',()=>apiConnectionForm(null,profile.id),'primary'),
-      dbutton('Recommend APIs with AI',async()=>{
-        if(!state.health?.ai.configured){openAISetup();return;}
-        const result=await dapi('/api-connections/recommend',{profile_id:profile.id},{timeout:270000});
-        renderAPICatalog(catalog,result.recommendations,profile.id,result.provenance);
-      }),dbutton('Connect SQLite database',()=>connectionForm()),dbutton('Refresh',()=>renderDataConnections(box))]),
-    list,dnode('h3',{text:'Explore API sources'}),catalog);
+  const toolbar=dnode('div',{class:'d-bar'},[dbutton('Connect to an API',()=>apiConnectionForm(null,profile.id),'primary'),
+    dbutton('Recommend APIs with AI',async()=>{
+      if(!state.health?.ai.configured){openAISetup();return;}
+      const result=await dapi('/api-connections/recommend',{profile_id:profile.id},{timeout:270000});
+      const saved=await dapi('/api-connections?profile_id='+profile.id);
+      if(D.profile.id===profile.id&&box.isConnected)renderAPICatalog(catalog,result.recommendations,profile.id,result.provenance,null,saved.connections);
+    }),dbutton('Connect SQLite database',()=>connectionForm()),dbutton('Refresh',()=>renderDataConnections(box))]);
+  if(profile.hidden_source_ids.some(id=>id.startsWith('api:catalog-')))toolbar.append(dbutton('Restore API suggestions',async()=>{
+    await saveCustomization({hidden_source_ids:D.profile.hidden_source_ids.filter(id=>!id.startsWith('api:catalog-'))},'API suggestions restored.');
+  }));
+  box.replaceChildren(dnode('h3',{text:'Connections'}),toolbar,list,dnode('h3',{text:'Available APIs'}),catalog);
   const [apis,databases,services]=await Promise.all([dapi('/api-connections?profile_id='+profile.id),dapi('/connections?profile_id='+profile.id),dapi('/api-connections/catalog')]);
-  const hasSavedConnections=apis.connections.length+databases.connections.length>0;
-  apis.connections=apis.connections.filter(item=>sourceVisible(profile,'api:'+item.id));
-  databases.connections=databases.connections.filter(item=>sourceVisible(profile,'sqlite:'+item.id));
-  renderAPICatalog(catalog,services.services,profile.id);
-  if(!apis.connections.length&&!databases.connections.length)list.append(dnode('p',{class:'d-muted',text:hasSavedConnections?'Saved connections are removed from this workspace. Restore them with Add source.':'No connections for this profile yet.'}));
-  for(const item of apis.connections){
-    const status=dnode('p',{class:'d-status',role:'status',text:'Connected · checked '+new Date(item.checked_at).toLocaleString()});
-    list.append(dnode('article',{class:'d-row d-api-connection'},[dnode('h3',{text:item.name}),
-      dnode('p',{class:'d-wrap-text',text:item.url}),dnode('small',{text:'HTTPS JSON · read-only · '+(item.auth_type==='none'?'Public access':'Private credentials saved')}),status,
-      dnode('div',{class:'d-bar'},[dbutton('Explore API',()=>apiExplorer(item)),dbutton('Edit connection',()=>apiConnectionForm(item,profile.id)),
-        dbutton('Reconnect',async()=>{dstatus(status,'Checking connection…');try{const r=await dapi('/api-connections/'+item.id+'/check',{profile_id:profile.id},{timeout:30000});dstatus(status,r.message);}catch(e){dstatus(status,e.message,true);}}),
-        dbutton('Disconnect',async()=>{if(!confirm('Disconnect this API and remove its saved credentials? Reviewed datasets will remain.'))return;await dapi('/api-connections/'+item.id+'/disconnect',{profile_id:profile.id});await renderDataConnections(box);},'quiet small d-danger')]) ]));
+  if(!box.isConnected||D.profile.id!==profile.id)return;
+  const visibleAPIs=apis.connections.filter(item=>sourceVisible(profile,'api:'+item.id));
+  const visibleDatabases=databases.connections.filter(item=>sourceVisible(profile,'sqlite:'+item.id));
+  renderAPICatalog(catalog,services.services.filter(service=>!apis.connections.some(item=>item.url===service.url)),profile.id);
+  if(!visibleAPIs.length&&!visibleDatabases.length)list.append(dnode('p',{class:'d-muted',text:apis.connections.length+databases.connections.length?'Saved connections are removed from this workspace. Restore them with Add source.':'No connections for this profile yet.'}));
+  for(const item of visibleAPIs)list.append(apiConnectionRow(services.services.find(service=>service.url===item.url),item,profile.id));
+  for(const item of visibleDatabases){
+    const remove=dbutton('Delete',async()=>{
+      if(!confirm('Delete this database connection? Saved datasets and the original database will remain.'))return;
+      await dapi('/connections/'+item.id+'/disconnect',{});refreshConnectionViews(profile.id);
+    },'quiet small d-danger');
+    remove.dataset.caption='Delete this saved database connection after confirmation. The original database and saved datasets remain.';
+    list.append(dnode('article',{class:'d-row d-item-row'},[
+      dnode('div',{class:'d-item-info'},[dnode('h3',{text:item.name}),dnode('p',{class:'d-item-summary',text:'SQLite · '+item.storage+' · read-only'})]),
+      dnode('div',{class:'d-item-actions'},[dbutton('Browse tables',()=>databaseBrowser(item)),remove])]));
   }
-  for(const item of databases.connections)list.append(dnode('article',{class:'d-row'},[dnode('h3',{text:item.name}),dnode('p',{text:'SQLite · '+item.storage+' · read-only'}),
-    dnode('div',{class:'d-bar'},[dbutton('Browse tables',()=>databaseBrowser(item)),dbutton('Disconnect',async()=>{if(confirm('Disconnect this database? Saved datasets will remain.')){await dapi('/connections/'+item.id+'/disconnect',{});await renderDataConnections(box);}},'quiet small d-danger')])]));
 }
-
-function renderAPICatalog(box,services,profileId,provenance=null,onUse=null){
+function refreshConnectionViews(profileId){
+  if(D.profile.id!==profileId)return;
+  resetTabBodies();selectTab(D.tab);window.dispatchEvent(new Event('discovery-sources-changed'));
+}
+function apiConnectionRow(service,connection,profileId,provenance=null,onEdit=null){
+  const item=connection||service,status=dnode('p',{class:'d-status d-connection-status',role:'status'});
+  const info=dnode('div',{class:'d-item-info'},[dnode('h3',{text:item.name})]);
+  if(service)info.append(dnode('p',{class:'d-item-summary',text:service.reason||service.description}));
+  info.append(dnode('p',{class:'d-item-summary d-wrap-text',text:item.url}),status);
+  if(service?.documentation)info.append(dnode('a',{class:'d-api-docs',href:service.documentation,target:'_blank',rel:'noopener noreferrer',text:'API documentation ↗'}));
+  if(provenance)info.append(dnode('small',{class:'d-origin',text:originLabel({provenance})}));
+  const actions=dnode('div',{class:'d-item-actions'});
+  const row=dnode('article',{class:'d-row d-item-row d-api-row '+(provenance?'d-ai':'d-source')},[info,actions]);
+  if(service)row.dataset.serviceId=service.id;
+  let busy=false;
+  async function run(action){
+    if(busy)return;
+    if(D.profile.id!==profileId)throw new Error('Reopen Connections for the active profile.');
+    busy=true;actions.querySelectorAll('button').forEach(button=>button.disabled=true);
+    try{await action();}catch(error){dstatus(status,error.message,true);}
+    finally{busy=false;actions.querySelectorAll('button').forEach(button=>button.disabled=false);}
+  }
+  function showConnection(){
+    row.classList.toggle('d-api-connection',!!connection);
+    if(connection)row.dataset.connectionId=connection.id;else delete row.dataset.connectionId;
+    connectButton.textContent=connection?'Reconnect':'Connect';
+    connectButton.dataset.caption=connection?'Test this API using its saved settings and credentials.':'Test and save this public API connection for the active profile.';
+    dstatus(status,connection?'Connected · checked '+new Date(connection.checked_at).toLocaleString():'Not connected');
+  }
+  async function connect(){
+    dstatus(status,connection?'Reconnecting…':'Connecting…');
+    if(connection){
+      const result=await dapi('/api-connections/'+connection.id+'/check',{profile_id:profileId},{timeout:30000});
+      connection.checked_at=new Date().toISOString();showConnection();dstatus(status,result.message);
+      if(D.profile.id===profileId&&!sourceVisible(D.profile,'api:'+connection.id))await saveCustomization({hidden_source_ids:D.profile.hidden_source_ids.filter(id=>id!=='api:'+connection.id)},'API connection restored.');
+    }else{
+      // A second catalogue row may already have connected this preset.
+      const saved=await dapi('/api-connections?profile_id='+profileId);
+      connection=saved.connections.find(value=>value.url===service.url&&value.auth_type==='none');
+      if(connection){await connect();return;}
+      const {name,url,query_parameter,rows_path,parameters}=service;
+      connection=await dapi('/api-connections',{profile_id:profileId,name,url,query_parameter,rows_path,parameters,auth_type:'none'},{timeout:30000});
+      showConnection();refreshConnectionViews(profileId);
+    }
+  }
+  const editButton=dbutton('Edit connection',()=>run(()=>{
+    const value=connection||{...service,id:null};
+    return onEdit?onEdit(value):apiConnectionForm(value,profileId);
+  }));
+  const connectButton=dbutton('Connect',()=>run(connect));
+  const explore=dbutton('Explore API',()=>run(async()=>{
+    if(!connection)await connect();
+    if(D.profile.id===profileId)await apiExplorer(connection);
+  }));
+  explore.dataset.caption='Open the API explorer to retrieve and review data. An available public API is connected first.';
+  const remove=dbutton('Delete',()=>run(async()=>{
+    const message=connection?'Delete this API connection and its saved credentials? Reviewed datasets will remain.':'Remove this API suggestion from this profile? Restore API suggestions in Connections to bring it back.';
+    if(!confirm(message))return;
+    if(connection)await dapi('/api-connections/'+connection.id+'/disconnect',{profile_id:profileId});
+    if(service&&D.profile.id===profileId){
+      const hidden=[...new Set([...D.profile.hidden_source_ids,'api:catalog-'+service.id])];
+      await saveCustomization({hidden_source_ids:hidden},'API removed. Restore API suggestions in Connections to add it again.');
+    }else refreshConnectionViews(profileId);
+    row.remove();
+  }),'quiet small d-danger');
+  remove.dataset.caption='Delete the saved API connection and credentials after confirmation, or remove an unconnected suggestion. Reviewed datasets remain.';
+  actions.append(editButton,connectButton,explore,remove);showConnection();return row;
+}
+function renderAPICatalog(box,services,profileId,provenance=null,onEdit=null,connections=[]){
   box.classList.add('d-api-catalog');
-  box.replaceChildren(dnode('p',{class:'d-muted',text:provenance?'AI recommendations for this profile. Test each connection to verify access.':'Available public sources. Ask AI above to recommend sources for your subjects and level.'}));
-  for(const item of services)box.append(dnode('article',{class:'d-row '+(provenance?'d-ai':'d-source')},[
-    dnode('h4',{text:item.name}),dnode('p',{text:item.reason||item.description}),
-    dnode('p',{class:'d-wrap-text',text:item.url}),dnode('small',{text:'Public API · no password required'}),
-    ...(provenance?[dnode('small',{class:'d-origin',text:originLabel({provenance})})]:[]),
-    dnode('div',{class:'d-bar'},[dbutton('Use '+item.name,()=>onUse?onUse(item):apiConnectionForm({...item,id:null},profileId)),
-      dnode('a',{href:item.documentation,target:'_blank',rel:'noopener noreferrer',text:'API documentation ↗'})]) ]));
+  box.replaceChildren();
+  const visible=services.filter(item=>sourceVisible(D.profile,'api:catalog-'+item.id));
+  if(provenance)box.append(dnode('p',{class:'d-muted',text:'AI recommendations for this profile. Connect to verify access.'}));
+  if(!visible.length)box.append(dnode('p',{class:'d-muted',text:'No additional API suggestions.'}));
+  for(const item of visible)box.append(apiConnectionRow(item,connections.find(value=>value.url===item.url),profileId,provenance,onEdit));
 }
 
 function apiConnectionForm(existing=null,profileId=D.profile.id){
+  const returnTab=D.tab==='sources'?'sources':'connections';
   const {body,dialog}=drawer(existing?.id?'Edit API connection':'Connect to an API','api-connect-dialog');
   const name=dfield('Connection name',existing?.name||''),url=dfield('API URL',existing?.url||'','url');
   const auth=dselect('Authentication',[['none','Public — no credentials'],['bearer','Bearer token'],['api_key_header','API key in header'],['api_key_query','API key in query'],['basic','Username and password']],existing?.auth_type||'none');
@@ -63,7 +133,7 @@ function apiConnectionForm(existing=null,profileId=D.profile.id){
         const item=await dapi('/api-connections',{id:existing?.id||null,profile_id:profileId,name:name.input.value,url:url.input.value.trim(),
           auth_type:auth.input.value,auth_name:authName.input.value,username:username.input.value,credential:credential.input.value,
           query_parameter:query.input.value.trim(),rows_path:rowsPath.input.value.trim(),parameters:fixed},{timeout:30000});
-        dialog.close();resetTabBodies();selectTab('connections');window.dispatchEvent(new Event('discovery-sources-changed'));await apiExplorer(item);
+        dialog.close();resetTabBodies();selectTab(returnTab);window.dispatchEvent(new Event('discovery-sources-changed'));await apiExplorer(item);
       }catch(error){dstatus(status,error.message,true);}finally{credential.input.value='';username.input.value='';}
     },'primary'));
   dialog.addEventListener('close',()=>{credential.input.value='';username.input.value='';},{once:true});
@@ -137,13 +207,13 @@ async function privacyReview(stage,onSaved=async item=>{resetTabBodies();selectT
     retained.wrapper,dnode('p',{class:'d-muted',text:'Private originals and replacement mappings are encrypted and excluded from library ZIPs and AI requests. Without a retained original, reimport it to undo removals. Working copies remain marked sensitive in ZIP export review.'}),approved.wrapper,save);
 }
 
-async function datasetAnalysisPanel(body,id){
+async function datasetAnalysisPanel(body,id,initialQuestion=''){
   const privacy=await dapi('/datasets/'+id+'/privacy'),panel=dnode('section',{class:'d-analysis'}),status=dnode('p',{class:'d-status',role:'status'});
   body.append(panel);panel.append(dnode('h3',{text:'Learning and research with this dataset'}),dnode('p',{class:'d-privacy-status',text:privacy.reviewed?'Reviewed working copy · pseudonymized · not guaranteed anonymous':'Privacy review required — AI analysis is disabled'}),
     dbutton(privacy.reviewed?'Revise privacy rules':'Review privacy and create working copy',async()=>privacyReview(await dapi('/datasets/'+id+'/review',{}))));
   if(!privacy.reviewed)return;
   panel.append(dnode('p',{class:'d-muted',text:'Source: '+privacy.source+' · reviewed '+new Date(privacy.reviewed_at).toLocaleString()}));
-  const question=dfield('Question about connected data','','textarea');question.input.placeholder='Ask about patterns, comparisons, study limitations, or what to learn next.';
+  const question=dfield('Question about connected data',initialQuestion,'textarea');question.input.placeholder='Ask about patterns, comparisons, study limitations, or what to learn next.';
   const consent=dcheck('Send my question and this reviewed working copy to the connected AI',false),output=dnode('div',{class:'d-analysis-output',tabindex:'-1'}),statistics=dnode('div');
   panel.append(dnode('p',{class:'d-muted',text:'Statistics use all rows in this saved copy. AI receives those statistics and a bounded sample of up to 100 rows. Original data and replacement mappings are never sent to AI.'}),
     dbutton('Calculate statistics',async()=>{const value=await dapi('/datasets/'+id+'/statistics');statistics.replaceChildren(dnode('p',{text:value.row_count+' rows. '+value.scope}));renderStatistics(statistics,value.columns);}),statistics,

@@ -1,4 +1,4 @@
-# Development and release 1.2.0
+# Development and release 1.2.1
 
 ## Code map
 
@@ -55,19 +55,24 @@ npx playwright install chromium
 npm test
 npm run test:ui
 npm run test:discovery
+npm run test:documents
 npm run test:upgrade
 npm run test:data
 npm run test:customization
 npm run test:profiles
 ```
 
+`workspaceTabs()` adds Sources after Evidence and presents Notes last as Private documents and Notes without changing stored profile schemas. `launchDefaultSearch()` passes the default REI query explicitly to `runSearch()` once after local hydration, with guards for local-only/sensitive mode, active searches, and edits during startup. The input stays empty with the default as its placeholder; typed text is never replaced by the launch search. It does not generate AI guidance. The header uses a 1:1.618:1 grid; the results area retains a 61.8vh minimum height (at least 360px).
+
+Document updates require the current revision and replace attachments through an atomic metadata update. Material summaries/analysis require a reviewed context hash and explicit AI consent; dataset items use the existing privacy-review workflow. Browser document and customization checks cover these behaviors. Connection-row checks exercise edit, connect/reconnect, API exploration, cancellation, deletion, and restoration; quiz checks verify that Start does not generate questions and deletion preserves score history.
+
 Discovery browser checks start an isolated backend and make no paid AI calls. Use synthetic fixtures for sensitive-data tests. See [Windows packaging](../WINDOWS_INSTALLATION.md) for installer/build checks.
 
-The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, Python SQLite support, and encryption dependencies. The reviewed REI configuration is versioned in `templates/rei.json`, retaining content provenance but excluding local revision timestamps and connection IDs. User profile storage, libraries, private settings, keys, and Git files are excluded. Data/profile/archive schemas remain `1.1`; the application release is `1.2.0`. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
+The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, Python SQLite support, and encryption dependencies. The reviewed REI configuration is versioned in `templates/rei.json`, retaining content provenance but excluding local revision timestamps and connection IDs. User profile storage, libraries, private settings, keys, and Git files are excluded. Data/profile/archive schemas remain `1.1`; the application release is `1.2.1`. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
 
-Publish releases from `master` in `arcazj/openbexi_discovery`. The current tag is **v1.2.0**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.0) and the [V1.2.0 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
+Publish releases from `master` in `arcazj/openbexi_discovery`. The release tag is **v1.2.1**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.1) and the [V1.2.1 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
 
-Release assets include the Windows installer, named source ZIP and tar.gz archives, downloadable release notes, and SHA-256 checksums. GitHub also provides automatic source archives for the tag. Keep the tag, documentation, and the installer's `BUILD-INFO.json` source commit aligned. The Windows workflow verifies installation and upgrading from the published v1.1.1 package; it does not depend on a retired release or repository.
+Release assets include the Windows installer, named source ZIP and tar.gz archives, downloadable release notes, and SHA-256 checksums. GitHub also provides automatic source archives for the tag. Keep the tag, documentation, and the installer's `BUILD-INFO.json` source commit aligned. The Windows workflow verifies installation and upgrading from the published v1.2.0 package; it does not depend on a retired release or repository.
 
 Before publishing, run the backend and browser suites, inspect the staged file list for private paths, and scan staged/source/package contents for configured keys without printing secret values. Commit the release, let the Windows workflow build and verify that exact commit, then attach its verified installer and checksums to the matching tag. Never add `.env`, `user_profiles/`, `.discovery/`, or `discovery_library/` to Git or release archives.
 

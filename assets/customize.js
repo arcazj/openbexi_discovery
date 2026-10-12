@@ -52,6 +52,7 @@ function showCustomizationNotice() {
   const undo=D.customizationUndo,applicable=!!undo&&undo.id===D.profile?.id&&undo.revision===D.profile?.revision;
   box.hidden=!applicable;
   box.replaceChildren();
+  if(applicable&&box.closest('details'))box.closest('details').open=true;
   if(applicable)box.append(dnode('span',{role:'status',text:undo.message}),dbutton(undo.profileUpdate?'Roll back profile':'Undo',undoCustomization,'quiet small'));
 }
 function applyCustomizedProfile(profile) {
@@ -86,7 +87,7 @@ async function manageThemes() {
       const names=draft.themes.map(id=>D.taxonomy.find(n=>n.id===id)?.name||id);
       const title=names.length?(names.slice(0,2).join(' · ')+(names.length>2?' + '+(names.length-2)+' more':'')).slice(0,180):'General Learning & Research';
       await saveCustomization({themes:draft.themes,theme_title:title,provenance:{...draft.provenance,theme_title:{origin:'user'}}},'Themes updated for '+draft.name+'.');
-      D.dirty=false;dialog.close();toast('Themes saved. Undo is available in the source bar.');
+      D.dirty=false;dialog.close();toast('Themes saved. Undo is available in Source settings.');
     },'primary'),dbutton('Cancel',()=>{D.dirty=false;dialog.close();})]));
 }
 
@@ -97,6 +98,54 @@ async function profileSources(profile) {
     ...apis.connections.map(item=>({id:'api:'+item.id,name:item.name,kind:'api',description:'Connected HTTPS JSON API',connection:item})),
     ...databases.connections.map(item=>({id:'sqlite:'+item.id,name:item.name,kind:'sqlite',description:'Connected read-only SQLite database',connection:item}))];
 }
+async function renderSources(box){
+  const profile=D.profile?clone(D.profile):{id:'browser',hidden_source_ids:[]},list=dnode('div',{'data-source-list':'',text:'Loading sources…'}),search=dfield('Search sources','','search');
+  let settings=$('sources-settings');
+  if(!settings){
+    settings=dnode('details',{id:'sources-settings'},[dnode('summary',{text:'Source settings'})]);
+    settings.append(document.querySelector('.source-tools'),dnode('div',{class:'d-bar'},[
+      dbutton('Manage themes',manageThemes),dbutton('Manage sources',manageSources)]),$('source-update-notice'));
+  }
+  box.replaceChildren(dnode('div',{class:'d-section-heading'},[dnode('h3',{text:'Sources'}),dnode('div',{class:'d-bar'},[
+    dbutton('+ Add source',addSource,'primary small'),dbutton('Refresh',()=>renderSources(box))])]),search.wrapper,settings,list);
+  const sources=(D.ready?await profileSources(profile):builtinSources.map(source=>({...source,kind:'evidence'}))).filter(source=>sourceVisible(profile,source.id));
+  if(!box.isConnected||D.ready&&D.profile.id!==profile.id)return;
+  function render(){
+    list.replaceChildren();
+    for(const source of sources.filter(source=>(source.name+' '+source.description).toLowerCase().includes(search.input.value.toLowerCase()))){
+      const info=dnode('div',{class:'d-item-info'},[dnode('h3',{text:source.name}),dnode('p',{class:'d-item-summary',text:source.description})]);
+      if(source.kind==='evidence'){
+        const included=dcheck('Include in evidence searches',sourcePreferences().includes(source.id));
+        included.input.setAttribute('aria-label','Include '+source.name+' in evidence searches');
+        included.input.onchange=()=>{const input=$('source-'+source.id);input.checked=included.input.checked;input.dispatchEvent(new Event('change'));};
+        info.append(included.wrapper);
+      }
+      const actions=dnode('div',{class:'d-item-actions'},[dbutton(source.kind==='evidence'?'Read':'Open',()=>openSource(source))]);
+      if(source.kind==='api')actions.append(dbutton('Edit',()=>apiConnectionForm(source.connection,profile.id)));
+      const remove=dbutton('Delete',async()=>{
+        const message=source.kind==='evidence'?'Remove '+source.name+' from this profile? You can restore it with Add source.':'Delete the '+source.name+' connection and its saved credentials? Saved datasets will remain.';
+        if(!confirm(message))return;
+        if(source.kind==='evidence')await setSourceVisible(source,false);
+        else{
+          await dapi(source.kind==='api'?'/api-connections/'+source.connection.id+'/disconnect':'/connections/'+source.connection.id+'/disconnect',source.kind==='api'?{profile_id:profile.id}:{});
+          await refreshLibraryViews();window.dispatchEvent(new Event('discovery-sources-changed'));
+        }
+      },'quiet small d-danger');
+      remove.disabled=!D.ready;remove.dataset.caption='Remove this source after confirmation. Saved research and datasets remain available.';actions.append(remove);
+      list.append(dnode('article',{class:'d-row d-item-row d-source','data-source-id':source.id},[info,actions]));
+    }
+    if(!list.children.length)list.append(dnode('p',{class:'d-muted',text:'No matching sources. Add a source to get started.'}));
+  }
+  search.input.oninput=render;render();list.dataset.loaded='true';
+}
+
+function openSource(source){
+  if(source.kind==='api')return apiExplorer(source.connection);
+  if(source.kind==='sqlite')return databaseBrowser(source.connection);
+  const {body}=drawer(source.name,'source-read-dialog');
+  body.append(dnode('p',{text:source.description}),dnode('p',{class:'d-muted',text:'Use the Evidence tab to search this source. Include it with the checkbox in Sources.'}),externalLink('Visit '+source.name+' ↗',sourceTerms[source.id].url));
+}
+
 async function setSourceVisible(source,visible) {
   const hidden=new Set(D.profile.hidden_source_ids||[]);
   visible?hidden.delete(source.id):hidden.add(source.id);
@@ -130,14 +179,14 @@ async function addSource() {
   async function render() {
     const profile=clone(D.profile),sources=await profileSources(profile);
     if(!dialog.open||D.profile.id!==profileId)return;
-    body.replaceChildren(dnode('p',{text:'Choose evidence sources for the search bar, restore a saved connection, or connect an API or database for this profile.'}),dnode('h3',{text:'Evidence search catalogue'}));
+    body.replaceChildren(dnode('p',{text:'Choose evidence sources for the Sources tab, restore a saved connection, or connect an API or database for this profile.'}),dnode('h3',{text:'Evidence search catalogue'}));
     for(const source of sources.filter(item=>item.kind==='evidence')){
       const action=sourceVisible(profile,source.id)?dnode('span',{class:'d-muted',text:'In workspace'}):dbutton('Add to workspace',async()=>{await setSourceVisible(source,true);await render();});
       body.append(sourceRow(source,action));
     }
     const removed=sources.filter(item=>item.kind!=='evidence'&&!sourceVisible(profile,item.id));
     if(removed.length){body.append(dnode('h3',{text:'Restore saved connections'}));for(const source of removed)body.append(sourceRow(source,dbutton('Add to workspace',async()=>{await setSourceVisible(source,true);await render();})));}
-    const catalog=dnode('div'),openForm=(item)=>{dialog.close();apiConnectionForm({...item,id:null},profileId);};
+    const catalog=dnode('div'),openForm=(item)=>{dialog.close();apiConnectionForm(item,profileId);};
     body.append(dnode('h3',{text:'Connect another source'}),dnode('p',{class:'d-muted',text:'Connected APIs and databases open in their own explorers. Retrieved data goes through privacy review before AI analysis.'}),
       dnode('div',{class:'d-bar'},[
         dbutton('Connect to an API',()=>{dialog.close();apiConnectionForm(null,profileId);},'primary'),
@@ -145,10 +194,10 @@ async function addSource() {
         dbutton('Recommend APIs with AI',async()=>{
           if(!state.health?.ai.configured){openAISetup();return;}
           const value=await dapi('/api-connections/recommend',{profile_id:profileId},{timeout:270000});
-          if(dialog.open&&D.profile.id===profileId)renderAPICatalog(catalog,value.recommendations,profileId,value.provenance,openForm);
+          if(dialog.open&&D.profile.id===profileId)renderAPICatalog(catalog,value.recommendations,profileId,value.provenance,openForm,sources.filter(item=>item.kind==='api').map(item=>item.connection));
         })]),catalog);
     const services=await dapi('/api-connections/catalog');
-    if(dialog.open&&D.profile.id===profileId)renderAPICatalog(catalog,services.services,profileId,null,openForm);
+    if(dialog.open&&D.profile.id===profileId)renderAPICatalog(catalog,services.services,profileId,null,openForm,sources.filter(item=>item.kind==='api').map(item=>item.connection));
   }
   await render();
 }

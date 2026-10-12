@@ -28,7 +28,7 @@
 :root{--source-surface:#eef5ee;--source-ink:#315e48;--source-border:#bed3c1;--ai-surface:#f5eee5;--ai-border:#d8c5ac;--ai-ink:#665341}
 .record[data-source="pubmed"] h3 button{color:var(--source-ink)}
 .d-source{background:var(--source-surface);border:1px solid var(--source-border);color:var(--source-ink)}
-.d-ai,:is([data-provenance="ai"],[data-provenance="ai_edited"]):not(#search-page>.intro [data-provenance],#source-strip [data-provenance],.search-surface [data-provenance]){background:var(--ai-surface)!important;color:var(--ai-ink);border-color:var(--ai-border)!important}
+.d-ai,:is([data-provenance="ai"],[data-provenance="ai_edited"]):not(#workspace-title,#search-page>.intro [data-provenance],#source-strip [data-provenance],.search-surface [data-provenance]){background:var(--ai-surface)!important;color:var(--ai-ink);border-color:var(--ai-border)!important}
 #search-page{padding-top:12px}
 .intro{max-width:none;margin-bottom:10px}
 .intro .eyebrow{margin-bottom:4px}
@@ -78,7 +78,7 @@
 .d-table-wrap{overflow:auto;max-height:440px;border:1px solid #d5ded1;border-radius:8px}.d-table{border-collapse:collapse;width:100%;font-size:12px}.d-table th,.d-table td{padding:8px;text-align:left;border-bottom:1px solid #e1e6db;max-width:260px;overflow-wrap:anywhere}.d-table th{position:sticky;top:0;background:#edf2e8}.d-document{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}.d-pdf{width:100%;height:65vh;border:1px solid #d6dfcf}.d-progress{width:100%;height:10px;accent-color:#487550}.d-budget-controls{display:grid;grid-template-columns:1fr 130px;gap:12px;align-items:center}.d-budget-controls input[type="range"]{accent-color:#497657}.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.d-grid label{margin:4px 0}.d-check{display:flex!important;align-items:center;gap:5px;font-weight:400!important}.d-label-value{font-size:22px;font-weight:700;margin:5px 0}.d-close{min-width:36px}
 @media(max-width:800px){.source-strip{flex-wrap:wrap}.d-theme{max-width:100%;flex:1;min-width:170px}.d-drawer{width:100vw;max-width:100vw}.d-body{padding:18px}.d-tabs{gap:3px}.d-grid{grid-template-columns:1fr}.d-theme small{display:none}.ai-controls{flex-wrap:wrap}.d-budget-controls{grid-template-columns:1fr 110px}}
 
-/* Golden-ratio columns and a Fibonacci spacing scale, kept compact on small screens. */
+/* Shared spacing for the workspace and controls. */
 :root{
   --space-xs:5px;
   --space-sm:8px;
@@ -108,7 +108,6 @@
 .site-header #connection-button .dot{flex:none}
 .site-header #connection-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .site-header .ai-controls #profile-settings,.site-header .ai-controls #nav-help{width:var(--header-control);min-width:var(--header-control);padding:0;flex:none;font-size:21px;line-height:1}
-.help-symbol{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border:1.5px solid currentColor;border-radius:50%;font-size:14px;font-weight:650}
 .search-captions{display:flex;flex-wrap:wrap;gap:4px 16px;margin:10px 0 0;color:#455e71;font-size:12px;line-height:1.5}
 .search-captions>span{flex:1 1 260px;min-width:0}
 .control-caption-guide{color:#53687a;font-size:11px;line-height:1.5;margin:6px 0 0}
@@ -198,4 +197,76 @@
   .search-surface,.search-surface:hover,#evidence-area{padding:var(--space-md)}
   .empty,.saved-card,.d-drawer header,.d-body{padding:var(--space-md)}
   .side-card,#context-tip.side-card{padding:var(--space-md)}
+}
+
+/* Compact workspace: one header, one tab surface, and narrow detail drawers. */
+:root{--golden-ratio:1.618}
+.site-header{height:auto;min-height:calc(var(--header-control) * var(--golden-ratio));grid-template-columns:minmax(0,1fr) minmax(0,1.618fr) minmax(0,1fr);gap:var(--space-lg)}
+#workspace-title{margin:0;font-size:clamp(21px,2.15vw,28px);line-height:1.25;letter-spacing:-.3px;text-align:center;overflow-wrap:anywhere;background:none!important;color:var(--ink)}
+.site-header .ai-controls{width:auto}
+.d-settings-icon,.d-help-icon{width:calc(var(--header-control) / var(--golden-ratio));height:calc(var(--header-control) / var(--golden-ratio));display:block;flex:none;color:#151515}
+#content-provenance{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 12px;margin:7px 0 0;font-size:11px;line-height:1.35}
+#content-provenance>span{padding:2px 6px}
+#content-provenance .d-legend-detail{display:none}
+#search-page .intro,#recent,#welcome{display:none!important}
+.site-header #workspace-title[data-provenance]{background:transparent!important}
+#d-tab-notes{margin-left:auto}
+#search-page .layout{display:block;margin-top:12px}
+#search-page aside.side,#source-strip,.search-options,.search-captions,.control-caption-guide{display:none!important}
+#evidence-area{padding:13px;background:var(--paper);box-shadow:none}
+#d-evidence,.d-content{min-height:max(360px,61.8vh)}
+.d-section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.d-section-heading h3,.d-section-heading .d-bar{margin:0}
+#sources-settings{margin:10px 0;font-size:12px}
+#sources-settings>summary,.d-search-privacy>summary{cursor:pointer;font-size:12px;color:var(--muted)}
+#sources-settings .source-tools{margin:10px 0;justify-content:flex-start}
+.d-search-privacy{margin-top:8px}
+.d-search-privacy .d-check{margin:7px 0;font-size:12px}
+.d-search-privacy small{display:block;font-size:11px}
+.d-item-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-lg);align-items:center;padding:12px;margin:8px 0;box-shadow:none}
+.d-item-info{min-width:0}
+.d-item-info h3{font-size:14px;line-height:1.4;overflow-wrap:anywhere;margin:0 0 4px}
+.d-item-info .d-item-summary{font-size:12px;line-height:1.45;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:3px 0 5px}
+.d-item-info small{font-size:11px}
+.d-item-info .d-origin{margin:3px 0 0}
+.d-item-info .d-check{font-size:12px;margin:8px 0 0}
+.d-item-actions{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex-wrap:wrap;max-width:320px}
+.d-item-actions button{font-size:12px;padding:6px 8px;min-height:32px;white-space:nowrap}
+.d-api-row .d-connection-status{font-size:11px;line-height:1.4;margin:5px 0;min-height:0}
+.d-api-docs{font-size:11px}
+.d-api-row .d-item-actions{max-width:none}
+@media(max-width:1000px){.d-api-row{grid-template-columns:minmax(0,1fr);gap:8px}}
+.d-drawer,dialog.drawer{width:min(520px,calc(100vw - 16px));max-width:calc(100vw - 16px)}
+.d-drawer header,.dialog-header{padding:12px 14px;gap:10px}
+.d-drawer header h2,.dialog-header h2{font-size:17px;line-height:1.3;overflow-wrap:anywhere}
+.d-body,.dialog-body{padding:14px;font-size:13px}
+.d-body p,.dialog-body p{font-size:13px;line-height:1.5}
+.d-body h3,.dialog-body h3{font-size:15px;margin:14px 0 7px}
+.d-body .d-row h3{margin:0 0 5px}
+.d-body label{font-size:12px;margin:9px 0 4px}
+.d-body input:not([type=checkbox]):not([type=radio]),.d-body select,.d-body textarea{padding:8px 10px;font-size:13px}
+.d-body textarea{min-height:72px;max-height:35vh}
+.d-body .d-bar{gap:6px;margin:9px 0}
+.d-body .d-grid{gap:9px}
+.d-body .d-row,.d-body .d-card{padding:11px;margin-block:8px}
+.d-body .d-item-row{grid-template-columns:minmax(0,1fr);gap:8px}
+.d-body .d-item-actions{max-width:none}
+.d-pdf{height:52vh}
+@media(max-width:1000px){.site-header{gap:var(--space-md)}.site-header .brand{font-size:15px}}
+@media(max-width:900px){
+  .site-header{grid-template-columns:minmax(0,1fr) auto}
+  #workspace-title{grid-column:1/-1;grid-row:2;font-size:26px}
+  .site-header .ai-controls{grid-column:2;grid-row:1}
+}
+@media(max-width:650px){
+  .site-header{grid-template-columns:minmax(0,1fr);gap:6px;padding-block:9px}
+  .site-header .brand{justify-self:start;height:34px}
+  #workspace-title{grid-column:auto;grid-row:auto;font-size:22px;text-align:left}
+  .site-header .ai-controls{grid-column:auto;grid-row:auto;width:100%}
+  .d-item-row{grid-template-columns:minmax(0,1fr);gap:9px}
+  .d-item-actions{max-width:none;justify-content:flex-end}
+  .d-item-actions button{min-height:36px}
+  .d-drawer,dialog.drawer{width:min(520px,100vw);max-width:100vw}
+  .d-drawer header,.d-body,.dialog-header,.dialog-body{padding:12px}
+  #evidence-area{padding:10px}
 }

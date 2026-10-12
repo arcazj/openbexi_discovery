@@ -44,6 +44,8 @@ class FakeAI:
         value={'recommendations':[{'service_id':'crossref','reason':'Find research publications relevant to your advanced REI profile.'}]} if schema is api_connections.Recommendations else {
             'answer':'The mean outcome is 4 across the three reviewed records. Compare Patient 1 and Patient 2 cautiously.',
             'limitations':['These are saved sample records, not a population estimate.']}
+        if schema.__name__ == 'Answer':
+            value = {'text': 'Synthetic summary of the reviewed material. Evidence and limitations require review.'}
         if schema is profile_adaptation.ProfileProposal:
             reference = json.loads(kwargs['input'][1]['content'].split('\n', 1)[1])
             current = profiles.get_profile(reference['profile']['id'])

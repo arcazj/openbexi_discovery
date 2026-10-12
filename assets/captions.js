@@ -14,9 +14,6 @@
     'recommended': 'Restore PubMed, Ensembl, and GWAS Catalog to the workspace and select them for the next search.',
     'search-button': 'Retrieve evidence for your query from the selected sources.',
     'cancel-search': 'Stop the current evidence search.',
-    'make-question': 'Start an editable research brief using the current search as context.',
-    'export-search': 'Download the search terms, sources, coverage, and retrieved evidence as a JSON audit.',
-    'suggest-questions': 'Ask the connected AI to propose research directions from the retrieved evidence.',
     'demo-button': 'Explore an illustrative workspace before running a live evidence search.',
     'guidance-query': 'Run a new evidence search using the suggested refined query.',
     'guidance-save': 'Review and edit the suggested research question before saving a brief.',
@@ -43,14 +40,17 @@
     'source-gwas': 'Include reported genetic trait associations from GWAS Catalog when relevant to the search.'
   };
   const tabs = {
+    sources: 'Choose evidence sources, add connections, and manage sources for this profile.',
     evidence: 'Search scientific sources, inspect evidence, and develop research briefs.',
-    documents: 'Import and read documents saved in this learning profile.',
+    documents: 'Create, import, read, edit, and delete documents saved in this learning profile.',
     datasets: 'Import data, review sensitive fields, and analyze a separate working copy.',
     connections: 'Connect research APIs or a SQLite database and retrieve data for this profile.',
     quizzes: 'Practice with eight-question AI quizzes, review scores, and manage attempt history.',
     notes: 'Write, revise, and revisit notes saved in this learning profile.'
   };
   const byText = {
+    'Manage themes': 'Choose the research themes used by this profile.',
+    'Manage sources': 'Hide or restore sources for this workspace while preserving saved connections.',
     'Add theme': 'Open the research theme catalogue to search or browse themes to add to this profile.',
     'Save themes': 'Save these theme selections in the active profile. Earlier research and quiz attempts remain available.',
     '+ Add source': 'Browse evidence sources, restore a saved connection, or connect another API or database.',
@@ -89,6 +89,9 @@
     'Generate wording draft': 'Ask AI to draft workspace wording for the selected themes, goal, and level.',
     'Preview': 'Review how this profile’s wording will appear before saving it.',
     'Save profile': 'Save the reviewed learning profile and apply its workspace settings.',
+    'Start': 'Start a fresh attempt at this saved quiz without generating new questions or calling AI.',
+    'Delete quiz': 'Delete this saved quiz after confirmation. Previous attempts and scores remain.',
+    'Restore API suggestions': 'Show the API suggestions removed from this profile so you can connect them again.',
     'Start a quiz': 'Ask AI for eight questions matched to your profile’s themes, goal, and learning level.',
     'Create quiz': 'Open the quiz editor to write a quiz or generate an editable AI draft.',
     'Try again': 'Retry generating an eight-question AI quiz for the current profile.',
@@ -98,6 +101,14 @@
     'Grade & save attempt': 'Check your answers, show your score and explanations, and save this attempt in history.',
     'Take quiz again': 'Start a fresh attempt at this saved quiz.',
     'New note': 'Write a note and save it in the current learning profile.',
+    'New document': 'Write a document or attach a file and save it in the current learning profile.',
+    'Summarize': 'Review this material and request a concise AI summary. Datasets require privacy review.',
+    'Summarize with AI': 'Send the text you approved to the connected AI for a concise summary.',
+    'Analyze with AI': 'Review selected material and ask AI about its evidence, patterns, and limitations.',
+    'Read': 'Read this source’s description and how to use it in evidence searches.',
+    'Edit document': 'Update this document’s title, text or PDF notes, or replace its attached file.',
+    'Save changes': 'Save your edits to this document in its original learning profile.',
+    'Download document file': 'Download the complete attached document file from local storage.',
     'Open': 'Open this saved activity to read its content, provenance, and available actions.',
     'Generate quiz with AI': 'Generate an editable eight-question quiz for your learning goal and level.',
     'Save locally': 'Save this material on this computer in the active profile’s library.',
@@ -175,6 +186,8 @@
       return selectHelp[name] || '';
     }
     if (node.tagName === 'SUMMARY') return 'Expand or collapse ' + label.replace(/\?$/, '').toLowerCase() + '.';
+    if (label === 'Edit' && node.closest('[data-activity-id]')) return node.closest('[aria-label="datasets"]') ? 'Review this dataset and save a revised working copy.' : 'Edit this saved material. Notes and quizzes are saved as revised copies.';
+    if (label === 'Edit' && node.closest('[data-source-id]')) return 'Edit this source connection and test its settings before saving.';
     if (label === 'Delete') return node.closest('#profile-dialog') ? 'Delete this learning profile after confirmation. Historical saved activities are retained.' : 'Review removal of this saved brief from the local workspace.';
     if (label === 'Cancel') return node.closest('dialog') ? 'Close this panel without saving this draft.' : 'Stop the current AI request.';
     if (label === 'Refresh') return node.closest('[aria-label="connections"]') ? 'Reload this profile’s saved API and SQLite connections.' : 'Reload the saved material and history shown in this tab.';

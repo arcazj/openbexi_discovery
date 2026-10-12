@@ -1,12 +1,13 @@
 {
   "name": "openbexi-discovery-checks",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Optional browser checks; the standalone application has no frontend build step.",
   "scripts": {
     "test": "node tests/check_frontend.cjs",
     "test:ui": "node tests/browser_v1.cjs",
     "test:discovery": "node tests/browser_discovery.cjs",
+    "test:documents": "node tests/browser_documents.cjs",
     "test:data": "node tests/browser_data.cjs",
     "test:customization": "node tests/browser_customization.cjs",
     "test:profiles": "node tests/browser_profile_updates.cjs",

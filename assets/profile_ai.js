@@ -1,6 +1,6 @@
 'use strict';
 
-// A search can offer a shortcut; only Generate preview invokes profile AI.
+// Profile changes are available on demand in Settings; only Generate preview invokes AI.
 let profileSearchContext=null,profileSearchRequest=0;
 const profileFieldLabels={goal:'Learning or research goal',theme_title:'Theme summary',themes:'Research themes',learning_level:'Learning level',tabs:'Visible tabs',default_tab:'Initial tab',panels:'Side panels',eyebrow:'Workspace heading',heading:'Description lead-in',introduction:'Workspace description',examples:'Search examples'};
 const profileLayoutFields=new Set(['tabs','default_tab','panels']);
@@ -125,7 +125,7 @@ function renderProfileUpdateSection(body,dialog,{instruction='',searches=[]}={})
         const saved=await dapi('/profiles/save',{profile:updated,base_revision:base.revision,create:false});
         D.customizationUndo={id:saved.id,revision:saved.revision,message:'AI profile update applied to '+saved.name+'.',profileUpdate:true};
         applyCustomizedProfile(saved);
-        dialog.close();toast('Profile updated. Roll back profile is available in Settings and the source bar.');
+        dialog.close();toast('Profile updated. Roll back profile is available in Settings and the Sources tab.');
       }catch(error){dstatus(status,error.message,true);status.scrollIntoView({block:'nearest'});}
     },'primary');apply.id='profile-update-apply';apply.dataset.caption='Save only the selected changes and update this workspace. The previous profile remains available for rollback.';
     const discard=dbutton('Discard preview',clearPreview);discard.dataset.caption='Discard this AI proposal and keep the currently saved profile.';
@@ -146,15 +146,9 @@ async function updateProfileFromSearches(){
 }
 
 function initProfileUpdates(){
-  const button=dbutton('Update my profile from recent searches',updateProfileFromSearches,'small');button.id='profile-search-update';
-  button.dataset.caption='Review recent searches related to this profile and ask AI for a profile update. You choose which changes to save.';
-  $('context-tip').append(dnode('div',{id:'profile-search-tip',hidden:''},[dnode('p',{id:'profile-search-reason'}),button]));
-  const originalApply=applyProfile;applyProfile=function(){originalApply();decorate($('d-theme').querySelectorAll('small')[1],D.profile.provenance.goal);refreshProfileSearchContext();};
-  const originalUse=useProfile;useProfile=async function(profile){state.searchController?.abort();++profileSearchRequest;profileSearchContext=null;renderProfileSearchTip();return originalUse(profile);};
-  const originalGuidance=renderGuidance;renderGuidance=function(...args){const result=originalGuidance(...args);renderProfileSearchTip();return result;};
-  window.addEventListener('discovery-search-saved',refreshProfileSearchContext);
-  window.addEventListener('discovery-search-started',()=>{++profileSearchRequest;profileSearchContext=null;renderProfileSearchTip();});
-  document.addEventListener('change',event=>{if(event.target.id==='d-sensitive')refreshProfileSearchContext();});
-  if(D.ready)refreshProfileSearchContext();
+  const originalApply=applyProfile;
+  applyProfile=function(){originalApply();decorate($('d-theme').querySelectorAll('small')[1],D.profile.provenance.goal);};
+  const originalUse=useProfile;
+  useProfile=async function(profile){state.searchController?.abort();return originalUse(profile);};
 }
 initProfileUpdates();

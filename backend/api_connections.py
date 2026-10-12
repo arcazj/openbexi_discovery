@@ -138,7 +138,7 @@ async def retrieve(config, credentials, query=''):
         if not config['query_parameter']:
             raise HTTPException(422, 'This endpoint has no search parameter. Edit its query parameter or fetch its current data without search terms.')
         params[config['query_parameter']] = query
-    headers = {'Accept':'application/json', 'User-Agent':'OpenBEXI-Discovery/1.2.0 (read-only research connector)'}
+    headers = {'Accept':'application/json', 'User-Agent':'OpenBEXI-Discovery/1.2.1 (read-only research connector)'}
     auth = None
     kind, secret = config['auth_type'], credentials.get('credential', '')
     if kind == 'bearer':

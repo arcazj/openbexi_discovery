@@ -1,10 +1,19 @@
 # Releases
 
+## 1.2.1 — Cleaner workspace, document editing, and reliable upgrades
+
+- Simplifies the workspace with a larger centered plain-background title, golden-ratio proportions, solid Settings gear and bold circled Help icon, inline provenance legend, and a tall white results area, and no recent-query chips, profile shortcut, introductory description, constraints, or tips. Moves Sources after Evidence and renames the rightmost Notes tab to Private documents and Notes.
+- Runs “Last Embryology research” once when the local REI workspace launches, respecting local-only/sensitive mode and user edits during startup. Shows the default as a placeholder, leaving the input empty and ready to type.
+- Removes More actions and Suggest research directions from the search row; Search remains the primary action. Manual briefs stay available through Settings → Saved research → New brief.
+- Replaces API catalogue “Use” buttons with Edit connection, Connect/Reconnect, Explore API, and confirmed Delete actions. Saved quizzes have Start and Delete quiz buttons; deletion preserves previous scores.
+- Adds compact right-side detail panels and saved-item previews with right-aligned summary, AI analysis, open, edit, and confirmed deletion actions. Dataset analysis retains its privacy-review gate.
+- Completes local document create/read/update/delete, with editable text and PDF notes, attachment replacement/download, conflict detection, and immediate library refresh. ZIP previews remain read-only.
+- Refreshes the browser UI automatically after upgrades using a fresh launch URL, content fingerprints for scripts/styles, and cache headers. Browser research, cookies, and saved profiles are preserved.
+- Prepares publisher signing for the app, uninstaller, and Setup, including timestamp verification and checksums after signing. A trusted certificate or Microsoft Artifact Signing identity must be configured before publishing signed installers; new downloads may still show reputation warnings.
+
 ## 1.2.0 — Reviewed profiles, quizzes, and private working copies
 
-- Installer maintenance in source (updated download pending): refreshes the browser UI automatically after upgrades using a fresh launch URL, content fingerprints for scripts/styles, and cache headers. Browser research, cookies, and saved profiles are preserved.
-- Prepares publisher signing for the app, uninstaller, and Setup, including timestamp verification and checksums after signing. A trusted certificate or Microsoft Artifact Signing identity must be configured before publishing signed installers; new downloads may still show reputation warnings.
-- Adds explicit AI profile updates with a text request, selectable preview, related-search shortcut, saved revisions, and rollback. Repeated or equivalent requests can report no changes; exact applicable repeats reuse the prior result locally.
+- Adds explicit AI profile updates with a text request, selectable preview, saved revisions, and rollback. Repeated or equivalent requests can report no changes; exact applicable repeats reuse the prior result locally.
 - Shows a labeled progress bar, elapsed time, and polite wait message for every AI request, including quiz generation, concurrent tasks, connection checks, and work inside dialogs.
 - Generates eight-question quizzes for the active profile and level, grades locally, and retains reviewable scores and history with individual or bulk removal.
 - Consolidates AI setup into Connect AI with model and reasoning choices, defaulting to GPT-6 Astra / xHigh. Keeps By profile and model usage, removes the Usage & budget editor, and explains exhausted quota or previously saved limits.

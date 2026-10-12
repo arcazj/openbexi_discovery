@@ -1,4 +1,4 @@
-OpenBEXI Discovery 1.2.0 — Windows
+OpenBEXI Discovery 1.2.1 — Windows
 
 Windows 10/11 x64 and a modern browser are required. Python, SQLite, templates,
 themes, and dependencies are included. No administrator access is required.
