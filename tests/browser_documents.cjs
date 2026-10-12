@@ -100,13 +100,14 @@ async function documents(){return (await api('/library?kind=document')).activiti
   const list=page.locator('#library-dialog');
   await list.getByLabel('Search text and metadata',{exact:true}).fill('Research revised');
   await list.getByLabel('Search text and metadata',{exact:true}).press('Tab');
+  await page.waitForFunction(()=>document.querySelectorAll('#library-dialog .d-row').length===1);
   await list.getByRole('heading',{name:'Research revised',exact:true}).waitFor();
-  await button(list,'Open').click();await edit();await editor.getByLabel('Title',{exact:true}).fill('Research final');await save('Save changes');
+  await button(list.locator('.d-row').filter({has:page.getByRole('heading',{name:'Research revised',exact:true})}),'Open').click();await edit();await editor.getByLabel('Title',{exact:true}).fill('Research final');await save('Save changes');
   assert.equal((await api('/library/'+id)).profile_id,'rei');await closeReader();
   assert.equal(await list.locator('.d-row').count(),0,'Edited document leaves the old search results immediately');
   await list.getByLabel('Search text and metadata',{exact:true}).fill('Research final');
   await list.getByLabel('Search text and metadata',{exact:true}).press('Tab');
-  await list.getByRole('heading',{name:'Research final',exact:true}).waitFor();await button(list,'Open').click();
+  await list.getByRole('heading',{name:'Research final',exact:true}).waitFor();await button(list.locator('.d-row').filter({has:page.getByRole('heading',{name:'Research final',exact:true})}),'Open').click();
   page.once('dialog',dialog=>dialog.dismiss());await button(reader,'Delete local activity').click();
   assert.equal((await documents()).length,2,'Canceling deletion preserves the document');
   page.once('dialog',dialog=>dialog.accept());await button(reader,'Delete local activity').click();
