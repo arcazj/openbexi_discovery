@@ -10,6 +10,7 @@ on:
       - 'scripts/sign_windows.py'
       - 'scripts/test_windows_install.py'
       - 'backend/**'
+      - 'tests/**'
       - 'assets/**'
       - 'themes/**'
       - 'templates/**'

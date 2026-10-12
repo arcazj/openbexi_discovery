@@ -39,12 +39,12 @@ class WindowsSigningTests(unittest.TestCase):
         with patch("scripts.sign_windows.subprocess.run", return_value=Mock(returncode=0)) as run:
             signer.sign(self.binary)
         command = run.call_args_list[0].args[0]
-        self.assertEqual(command[:4], [str(self.tool), "sign", "/fd", "SHA256"])
+        self.assertEqual(command[:4], [str(self.tool.resolve()), "sign", "/fd", "SHA256"])
         self.assertEqual(command[command.index("/sha1") + 1], "ab" * 20)
         self.assertEqual(command[command.index("/td") + 1], "SHA256")
         self.assertEqual(command[-1], str(self.binary.resolve()))
         self.assertEqual(run.call_args_list[1].args[0],
-                         [str(self.tool), "verify", "/pa", "/all", "/tw", str(self.binary.resolve())])
+                         [str(self.tool.resolve()), "verify", "/pa", "/all", "/tw", str(self.binary.resolve())])
         self.assertNotIn("/p", command, "Private-key passwords must not be passed on the command line")
         self.assertNotIn("shell", run.call_args.kwargs)
 
