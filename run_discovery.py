@@ -16,6 +16,10 @@ def create_listener(port, allow_fallback=True):
         try:
             if os.name == "nt":
                 listener.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+            else:
+                # Allow immediate restart after closed connections enter TIME_WAIT.
+                # Unlike SO_REUSEPORT, this cannot replace an active listener.
+                listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             listener.bind(("127.0.0.1", candidate))
             listener.listen(128)
             listener.setblocking(False)

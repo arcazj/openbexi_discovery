@@ -18,6 +18,23 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 class DevelopmentLaunchTests(unittest.TestCase):
+    def test_restart_reuses_closed_connections_but_never_an_active_listener(self):
+        import socket
+        listener = run_discovery.create_listener(0, allow_fallback=False)
+        port = listener.getsockname()[1]
+        try:
+            with self.assertRaises(OSError):
+                run_discovery.create_listener(port, allow_fallback=False)
+            listener.settimeout(5)
+            with socket.create_connection(("127.0.0.1", port), timeout=5) as peer:
+                connection, _ = listener.accept()
+                connection.close()  # Server initiates close, producing TIME_WAIT on Unix.
+                self.assertEqual(peer.recv(1), b"")
+        finally:
+            listener.close()
+        restarted = run_discovery.create_listener(port, allow_fallback=False)
+        restarted.close()
+
     def test_missing_dependency_reports_environment_specific_repair(self):
         for project_environment in (True, False):
             with self.subTest(project_environment=project_environment):
