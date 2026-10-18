@@ -1,30 +1,32 @@
-﻿# OpenBEXI Discovery · 1.2.1
+﻿# OpenBEXI Discovery · 1.2.2
 
 **Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.**
 
 A local learning and research workspace. Start with the **REI profile at Advanced level**, including PubMed, Ensembl, GWAS evidence, research briefs, and optional AI analysis. Version 1.2 includes the reviewed REI embryology and assisted-reproduction profile as its default template; upgrades preserve your saved profile.
 
-[Live demo · V1.2.1](https://arcazj.github.io/openbexi_discovery/) · [Release v1.2.1 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.1) · [Release notes](RELEASE-NOTES-v1.2.1.md) · [User guide](documentation/USER_GUIDE.md)
+[Live demo · V1.2.2](https://arcazj.github.io/openbexi_discovery/) · [Release v1.2.2 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2) · [Release notes](RELEASE-NOTES-v1.2.2.md) · [User guide](documentation/USER_GUIDE.md)
 
 The workspace uses a compact header and golden-ratio desktop columns. The header keeps one AI connection/status button, the **Settings** gear, and **Help (?)** on the right. **Connect AI** offers model and reasoning choices, defaulting to GPT-6 Astra / xHigh. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in small text after the brand.
 
+Version 1.2.2 adds **Overall Search** across the web and **Specific Search** within checked sources, using **GPT-6 Astra**. Each compact green search button includes Low / Medium / High reasoning, defaulting to Medium. Request privacy sits directly beneath Specific Search; the search box remains prominent and lightweight. Without AI, Specific Search can still retrieve checked sources directly.
+
 Version 1.2 adds reviewed AI profile updates with rollback, eight-question quizzes with scores and history, API connections, dataset privacy review, help captions, and visible progress for every AI task. Each progress bar names the task and shows elapsed time, including inside dialogs and when multiple requests are running.
 
-## Downloads · v1.2.1
+## Downloads · v1.2.2
 
 | Download | Contents |
 | --- | --- |
-| [Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.1/OpenBEXIDiscovery-1.2.1-Windows-x64-Setup.exe) | Windows 10/11 x64 app with Python and SQLite included. |
-| [Source ZIP](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.2.1.zip) | Tagged source code and documentation. |
-| [Source tar.gz](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.2.1.tar.gz) | The same tagged source for Unix-style tools. |
-| [Release notes](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.1/RELEASE-NOTES-v1.2.1.md) | Downloadable changes, compatibility, and validation notes. |
-| [SHA-256 checksums](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.1/SHA256SUMS.txt) | Checksums for the installer and named release assets. |
+| [Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.2/OpenBEXIDiscovery-1.2.2-Windows-x64-Setup.exe) | Windows 10/11 x64 app with Python and SQLite included. |
+| [Source ZIP](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.2.2.zip) | Tagged source code and documentation. |
+| [Source tar.gz](https://github.com/arcazj/openbexi_discovery/archive/refs/tags/v1.2.2.tar.gz) | The same tagged source for Unix-style tools. |
+| [Release notes](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.2/RELEASE-NOTES-v1.2.2.md) | Downloadable changes, compatibility, and validation notes. |
+| [SHA-256 checksums](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.2/SHA256SUMS.txt) | Checksums for the installer and named release assets. |
 
 The release also includes named source archives with checksums. Source archives require the setup below; they do not include the Windows runtime.
 
 ## Install on Windows
 
-[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.1/OpenBEXIDiscovery-1.2.1-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
+[Download the Windows installer](https://github.com/arcazj/openbexi_discovery/releases/download/v1.2.2/OpenBEXIDiscovery-1.2.2-Windows-x64-Setup.exe), run Setup, then open **OpenBEXI Discovery**. Windows 10/11, 64-bit. Python and SQLite are included; no database server or administrator access is needed.
 
 The app opens in your browser. Use the tray menu to reopen or quit. Private data survives upgrades and uninstall. [Installation help](WINDOWS_INSTALLATION.md)
 
@@ -41,7 +43,7 @@ The app opens in your browser. Use the tray menu to reopen or quit. Private data
 
 Green identifies source/user content whose upstream AI origin may be unknown. Orange identifies app-generated AI content, with its model recorded. Red signals errors or blocked AI usage.
 
-The centered workspace heading uses golden-ratio header proportions, with a solid gear for Settings. The heading and search controls keep their standard backgrounds. The orange/green legend sits below the header on one line when space allows. AI answers and previews retain orange highlighting. The REI profile records research goals; it does not add video or Excel processing, local AI, or automatically enforce local-only mode. See [the REI profile guide](documentation/USER_GUIDE.md#start-with-rei).
+The centered workspace heading uses golden-ratio header proportions, with a solid gear for Settings. The heading keeps its standard background; the prompt uses restrained contrast to stand out. The orange/green legend sits below the header on one line when space allows. AI answers and previews retain orange highlighting. The REI profile records research goals; it does not add video or Excel processing, local AI, or automatically enforce local-only mode. See [the REI profile guide](documentation/USER_GUIDE.md#start-with-rei).
 
 ## Run from source
 

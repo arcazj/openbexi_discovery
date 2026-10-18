@@ -30,7 +30,7 @@ from pydantic import ValidationError
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from . import ai
+from . import ai, search as search_service
 from .discovery_api import router as discovery_router, tracked_ai
 from .discovery_store import require_online, data_root, LOCK
 from .sources import SOURCE_INFO, SourceService, interpret, utc_now
@@ -45,21 +45,27 @@ def configuration_path():
 
 
 load_dotenv(configuration_path(), override=False)
-VERSION = "1.2.1"
+VERSION = "1.2.2"
 # The standalone launcher can select any free local port. Keep browser access
 # limited to exact loopback HTTP origins, using one policy for CORS and POSTs.
 LOCAL_PORT_PATTERN = r"(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])"
 LOCAL_ORIGIN_PATTERN = rf"http://(?:localhost|127\.0\.0\.1)(?::{LOCAL_PORT_PATTERN})?"
 LOCAL_ORIGIN = re.compile(LOCAL_ORIGIN_PATTERN)
-DOC_FILES = {"README.md", "CHANGELOG.md", "RELEASE-NOTES-v1.2.0.md", "RELEASE-NOTES-v1.2.1.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md", "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md", "LICENSE"}
+DOC_FILES = {"README.md", "CHANGELOG.md", "RELEASE-NOTES-v1.2.0.md", "RELEASE-NOTES-v1.2.1.md", "RELEASE-NOTES-v1.2.2.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md", "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md", "LICENSE"}
 
 
 class SearchRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     query: str = Field(min_length=1, max_length=250)
     mode: Literal["auto", "topic", "gene", "region"] = "auto"
-    sources: List[Literal["pubmed", "ensembl", "gwas"]] = Field(default_factory=lambda: ["pubmed", "ensembl", "gwas"], min_length=1, max_length=3)
-    limit: int = Field(default=10, ge=1, le=20)
+    sources: List[Literal["pubmed", "ensembl", "gwas"]] = Field(default_factory=lambda: ["pubmed", "ensembl", "gwas"], max_length=3)
+    limit: int = Field(default=10, ge=1, le=50)
+    scope: Optional[Literal["overall", "specific"]] = None
+    reasoning_effort: Literal["low", "medium", "high"] = "medium"
+    profile_id: str = Field(default="rei", pattern=r"^[a-zA-Z0-9_-]{1,80}$")
+    profile_revision: Optional[int] = None
+    sensitive: bool = False
+    consent_ai: bool = False
 
     @field_validator("query")
     @classmethod
@@ -191,6 +197,11 @@ async def health():
 @app.post("/api/search")
 async def search(request: SearchRequest):
     require_online()
+    if request.scope is not None:
+        async with app.state.search_slots, app.state.ai_slots:
+            return await tracked_ai(search_service.search(request, app.state.sources))
+    if not request.sources:
+        raise HTTPException(422, "Select a source for direct evidence retrieval.")
     try:
         interpretation = interpret(request.query, request.mode)
     except ValueError as exc:
@@ -293,7 +304,7 @@ async def license_file(filename: str):
 
 @app.get("/assets/{filename}")
 async def discovery_asset(filename: str):
-    if filename not in {"discovery.js", "discovery.css", "data.js", "captions.js", "customize.js", "profile_ai.js", "ai_progress.js"}:
+    if filename not in {"discovery.js", "discovery.css", "data.js", "captions.js", "customize.js", "profile_ai.js", "ai_progress.js", "search.js", "search.css"}:
         raise HTTPException(404, "Asset not found.")
     return FileResponse(ROOT / "assets" / filename)
 

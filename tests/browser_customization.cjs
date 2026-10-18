@@ -36,13 +36,13 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   const sourceSettings=async()=>{await sourcesTab();if(!await page.locator('#sources-settings').evaluate(n=>n.open))await page.locator('#sources-settings>summary').click();};
   assert.equal(await page.locator('#query').inputValue(),'','Startup leaves the input empty instead of inserting stale saved text');
   assert.ok(await page.evaluate(()=>state.prefs.recent.includes('ovarian aging')),'Hidden history is preserved');
-  assert.equal(await page.locator('#query').getAttribute('placeholder'),'Last Embryology research');
+  assert.equal(await page.locator('#query').getAttribute('placeholder'),'e.g. Find research linking BRCA1 variants to breast cancer');
   await page.waitForFunction(()=>!state.searchController&&state.search?.query===DEFAULT_QUERY);
   assert.deepEqual(searches,['Last Embryology research']);
   assert.equal(await page.locator('#query').evaluate(n=>n.matches(':placeholder-shown')),true,'The launch search keeps the placeholder visible');
   assert.equal(await page.locator('#result-count').textContent(),'1 records');
   assert.equal(await page.locator('.record').count(),1);
-  assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Search']);
+  assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Overall Search']);
   assert.equal(aiRequests.length,0,'Startup search does not call AI');
   await page.evaluate(()=>{launchDefaultSearch();launchDefaultSearch();});
   assert.equal(searches.length,1,'Repeated readiness does not repeat the startup search');

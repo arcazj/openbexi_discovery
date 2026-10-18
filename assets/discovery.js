@@ -12,9 +12,9 @@ function dselect(label,options,value){const input=dnode('select',{'aria-label':l
 function drawer(title,id='discovery-dialog'){let dialog=$(id);if(!dialog){dialog=dnode('dialog',{id,class:'d-drawer'});document.body.append(dialog);}dialog.replaceChildren();const body=dnode('div',{class:'d-body'});const heading=dnode('h2',{id:id+'-title',text:title});dialog.setAttribute('aria-labelledby',heading.id);dialog.append(dnode('header',{},[heading,dbutton('×',()=>{if(D.dirty&&['profile-dialog','themes-dialog'].includes(id)&&!confirm('Discard unsaved profile changes?'))return;D.dirty=false;dialog.close();},'quiet d-close')]),body);dialog.oncancel=event=>{if(D.dirty&&['profile-dialog','themes-dialog'].includes(id)&&!confirm('Discard unsaved profile changes?'))event.preventDefault();else D.dirty=false;};if(!dialog.open)dialog.showModal();return {dialog,body};}
 const legacyFetchBounded=fetchBounded;
 fetchBounded=async function(url,options={},timeout=18000,parentSignal){
-  const target=new URL(url,location.href),aiRequest=target.pathname==='/api/ai',aiDraft=/^\/api\/discovery\/(ai\/draft$|api-connections\/recommend$|datasets\/[^/]+\/ask$|library\/[^/]+\/analyze$)/.test(target.pathname);
+  const target=new URL(url,location.href),searchRequest=target.pathname==='/api/search'&&!!JSON.parse(options.body||'{}').scope,aiRequest=target.pathname==='/api/ai'||searchRequest,aiDraft=/^\/api\/discovery\/(ai\/draft$|api-connections\/recommend$|datasets\/[^/]+\/ask$|library\/[^/]+\/analyze$)/.test(target.pathname);
   if(D.ready&&D.settings.local_only&&(target.origin!==new URL(endpoint('/'),location.href).origin||['/api/search','/api/ai','/api/ai/check'].includes(target.pathname)))throw new Error('Local-only mode: use saved material in Local library.');
-  if(D.ready&&aiRequest){const body=JSON.parse(options.body);body.profile_id=D.profile.id;body.profile_revision=D.profile.revision;body.sensitive=!!D.sensitive;body.consent_ai=!D.sensitive||await reviewSensitiveRequest(body);if(!body.consent_ai)throw new Error('Sensitive AI request canceled.');options={...options,body:JSON.stringify(body)};}
+  if(aiRequest&&(D.ready||searchRequest)){const body=JSON.parse(options.body);body.profile_id=D.profile?.id||'rei';body.profile_revision=D.profile?.revision;body.sensitive=!!$('d-sensitive').checked;body.consent_ai=!body.sensitive||await reviewSensitiveRequest(body);if(!body.consent_ai)throw new Error('Sensitive AI request canceled.');options={...options,body:JSON.stringify(body)};}
   try{return await legacyFetchBounded(url,options,timeout,parentSignal);}catch(error){if(/AI paused|allowance|limit reached/.test(error.message)){D.lastBudgetError=error.message;updateBudgetBadge();}throw error;}finally{if(D.ready&&(aiRequest||aiDraft))refreshBudget().catch(()=>{});}
 };
 async function dapi(path,body,options={}){const response=await fetchBounded(endpoint('/api/discovery'+path),body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},options.timeout||20000,options.signal);return options.raw?response:response.json();}
@@ -23,7 +23,7 @@ function originLabel(item){const p=item.provenance||{};return p.origin==='ai'||p
 function decorate(node,provenance){node.dataset.provenance=provenance?.origin||'template';node.title=originLabel({provenance});}
 async function reviewSensitiveRequest(payload){
   const {body,dialog}=drawer('Review sensitive AI request','sensitive-dialog');
-  body.append(dnode('p',{text:'The exact request below will be sent to '+(state.health?.ai?.model||'the configured AI model')+'. Routine history omits sensitive request and response bodies.'}),dnode('pre',{text:JSON.stringify(payload,null,2)}));
+  body.append(dnode('p',{text:'The exact request below will be sent to '+(payload.scope?(state.health?.ai?.configured?'GPT-6 Astra and the requested external search sources':'the selected external search sources'):(state.health?.ai?.model||'the configured AI model'))+'. Routine history omits sensitive request and response bodies.'}),dnode('pre',{text:JSON.stringify(payload,null,2)}));
   return new Promise(resolve=>{let authorized=false;dialog.addEventListener('close',()=>resolve(authorized),{once:true});body.append(dbutton('Send this request',()=>{authorized=true;dialog.close();},'primary'),dbutton('Cancel',()=>dialog.close()));});
 }
 async function requiresLocal(){
@@ -37,24 +37,24 @@ async function requiresLocal(){
   })().finally(()=>D.connecting=null);
   return D.connecting;
 }
-function captureWorkspace(){return {sensitive:!!D.sensitive,workspace:clone(state.workspace),prefs:{sources:sourcePreferences(),limit:Number($('limit').value),mode:$('mode').value,recent:state.prefs.recent},query:$('query').value};}
+function captureWorkspace(){return {sensitive:!!D.sensitive,workspace:clone(state.workspace),prefs:{sources:sourcePreferences(),limit:Number($('limit').value),mode:$('mode').value,recent:state.prefs.recent,searchReasoning:state.prefs.searchReasoning},query:$('query').value};}
 function queueWorkspace(){if(!D.ready||D.suppressSave)return;const pid=D.profile.id,data=captureWorkspace();D.saveQueue=D.saveQueue.catch(()=>{}).then(async()=>{const result=await dapi('/workspace',{profile_id:pid,revision:D.workspaceRevision,data});if(D.profile.id===pid)D.workspaceRevision=result.revision;}).catch(error=>{D.saveError=error;toast('Workspace save failed: '+error.message);throw error;});D.saveQueue.catch(()=>{});}
 const legacyPersistWorkspace=persistWorkspace;
 persistWorkspace=function(){if(!D.ready)return legacyPersistWorkspace();state.workspace.app_version=VERSION;state.workspace.updated_at=now();renderSaved();updateGuidance({auto:true});queueWorkspace();return true;};
 const legacyPersistPrefs=persistPrefs;
 persistPrefs=function(){legacyPersistPrefs();if(D.ready)queueWorkspace();};
 const legacyRunSearch=runSearch;
-runSearch=async function(queryOverride=null){
+runSearch=async function(queryOverride=null,scope='overall',options={}){
   if(D.settings.local_only){toast('Local-only mode is on. Search saved material in Local library.');return;}
   const pid=D.profile?.id,sensitive=!!D.sensitive,previous=state.search,sequence=D.searchSequence=(D.searchSequence||0)+1;
   if(D.ready)selectTab('evidence');
-  const pending=legacyRunSearch(queryOverride);
+  const pending=legacyRunSearch(queryOverride,scope,options);
   if(state.searchController)window.dispatchEvent(new Event('discovery-search-started'));
   await pending;
   const result=state.search;
   if(D.ready&&D.profile.id===pid&&sequence===D.searchSequence&&result&&result!==previous&&!result.demo){
     try{
-      await dapi('/library',{profile_id:pid,kind:'search',title:sensitive?'Sensitive search':'Search: '+result.query,request:sensitive?'[sensitive query omitted]':result.query,payload:sensitive?{omitted:'Sensitive search content excluded'}:result,provenance:{origin:'unverified'}});
+      await dapi('/library',{profile_id:pid,kind:'search',title:sensitive?'Sensitive search':'Search: '+result.query,request:sensitive?'[sensitive query omitted]':result.query,payload:sensitive?{omitted:'Sensitive search content excluded'}:result,provenance:result.model?{origin:'ai',model:result.model,generated_at:result.retrieved_at}:{origin:'unverified'}});
       window.dispatchEvent(new Event('discovery-search-saved'));queueWorkspace();
     }catch(error){toast('Search completed; archive save failed: '+error.message);}
   }
@@ -88,15 +88,15 @@ function updateBudgetBadge(){
 
 async function refreshBudget(){D.budget=await dapi('/budget');updateBudgetBadge();renderProfileModelUsage(D.budget);return D.budget;}
 
-async function useProfile(profile){cancelAI();cancelGuidance();D.suppressSave=true;try{D.profile=profile;const stored=await dapi('/workspace/'+profile.id);D.workspaceRevision=stored.revision;const value=stored.data;D.sensitive=!!value.sensitive;if($("d-sensitive"))$("d-sensitive").checked=D.sensitive;if(D.sensitive)state.prefs.autoGuidance=false;if(value.workspace){state.workspace=value.workspace;}else if(profile.id==='rei'&&stored.revision===0){/* Migrate existing browser work once, preserving the original browser backup. */}else state.workspace={schema_version:SCHEMA,app_version:VERSION,questions:[],constraints:{deadline:'',data:'',mentor:''}};
+async function useProfile(profile){if(state.searchController){state.searchController.abort();state.searchController=null;searchBusy(false);}cancelAI();cancelGuidance();D.suppressSave=true;try{D.profile=profile;const stored=await dapi('/workspace/'+profile.id);D.workspaceRevision=stored.revision;const value=stored.data;D.sensitive=!!value.sensitive;if($("d-sensitive"))$("d-sensitive").checked=D.sensitive;if(D.sensitive)state.prefs.autoGuidance=false;if(value.workspace){state.workspace=value.workspace;}else if(profile.id==='rei'&&stored.revision===0){/* Migrate existing browser work once, preserving the original browser backup. */}else state.workspace={schema_version:SCHEMA,app_version:VERSION,questions:[],constraints:{deadline:'',data:'',mentor:''}};
   for(const field of ['deadline','data','mentor'])$('constraint-'+field).value=state.workspace.constraints?.[field]||'';
-  if(value.prefs)Object.assign(state.prefs,value.prefs);else if(profile.id!=='rei'||stored.revision!==0)state.prefs.sources=profile.sources;
+  state.prefs.searchReasoning={overall:'medium',specific:'medium'};if(value.prefs)Object.assign(state.prefs,value.prefs);else if(profile.id!=='rei'||stored.revision!==0)state.prefs.sources=profile.sources;
   for(const s of ['pubmed','ensembl','gwas'])$('source-'+s).checked=state.prefs.sources.includes(s);
   if(D.hydrated||!D.startupQueryEdited)$('query').value=D.states.get(profile.id)?.query||'';$('limit').value=state.prefs.limit||10;$('mode').value='auto';
   state.search=D.states.get(profile.id)?.search||null;state.filter='all';state.selected.clear();state.lastAi=null;guidanceCache.clear();$('ai-output').hidden=true;renderSearch();renderSaved();renderRecent();applyProfile();selectTab(D.states.get(profile.id)?.tab||profile.default_tab);updateGuidance();
- }finally{D.suppressSave=false;}queueWorkspace();}
+ }finally{D.suppressSave=false;}syncSearchControls();resizeSearchPrompt();queueWorkspace();}
 function applyProfile(){const p=D.profile,u=p.ui;renderIntroduction(p);const nodes={sources_caption:document.querySelector('.source-caption'),welcome_title:$('welcome').querySelector('h2'),welcome_text:$('welcome').querySelector('p'),guidance_heading:$('guidance-card').querySelector('h3'),tip_heading:$('context-tip').querySelector('strong')};for(const [key,node]of Object.entries(nodes)){node.textContent=u[key];decorate(node,p.provenance[key]);}
-  $('source-list-label').firstChild.textContent=u.sources_title;decorate($('source-list-label'),p.provenance.sources_title);decorate($('query'),p.provenance.search_placeholder);decorate(document.querySelector('label[for="query"]'),p.provenance.search_label);$('query').placeholder=p.id==='rei'?DEFAULT_QUERY:'';document.querySelector('label[for="query"]').textContent=u.search_label;
+  $('source-list-label').firstChild.textContent=u.sources_title;decorate($('source-list-label'),p.provenance.sources_title);decorate($('query'),p.provenance.search_placeholder);decorate(document.querySelector('label[for="query"]'),p.provenance.search_label);$('query').placeholder=p.id==='rei'?'e.g. Find research linking BRCA1 variants to breast cancer':u.search_placeholder;document.querySelector('label[for="query"]').textContent=u.search_label==='Research topic, gene, or chromosome region'?'What would you like to discover?':u.search_label;
   if(!state.search)$('results-heading').parentElement.hidden=true;
   $('constraints').querySelector('summary').textContent=u.constraints_heading;decorate($('constraints').querySelector('summary'),p.provenance.constraints_heading);
   for(const [field,key]of [['deadline','deadline'],['data','data'],['mentor','mentor']]){const input=$('constraint-'+field);input.parentNode.firstChild.textContent=u[key+'_label'];input.placeholder=u[key+'_hint'];decorate(input,p.provenance[key+'_hint']);decorate(input.parentNode,p.provenance[key+'_label']);}
@@ -433,7 +433,7 @@ function launchDefaultSearch(){
   if(D.launchSearchStarted)return;
   D.launchSearchStarted=true;
   if(!D.ready||D.profile?.id!=='rei'||D.settings.local_only||D.sensitive||D.startupQueryEdited||state.searchController||state.search||$('query').value.trim()||!selectedSources().length)return;
-  runSearch(DEFAULT_QUERY).catch(error=>toast(error.message));
+  runSearch(DEFAULT_QUERY,'specific',{automatic:true}).catch(error=>toast(error.message));
 }
 function settingsIcon(){
   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'),path=document.createElementNS(svg.namespaceURI,'path');
@@ -442,6 +442,7 @@ function settingsIcon(){
   svg.append(path);return svg;
 }
 async function initDiscovery(){
+  $('d-sensitive').onchange=()=>{D.sensitive=$('d-sensitive').checked;D.sensitiveConsent=false;if(D.sensitive){state.prefs.autoGuidance=false;cancelGuidance();}queueWorkspace();updateGuidance();};
   $('query').addEventListener('input',()=>{if(!D.hydrated)D.startupQueryEdited=true;});
   const legend=$('content-provenance');document.querySelector('.site-header').after(legend);legend.querySelector('.d-legend-detail').hidden=true;
   const gear=dbutton('',()=>profileSettings(),'quiet small d-gear');gear.append(settingsIcon());gear.id='profile-settings';gear.title='Settings';gear.setAttribute('aria-label','Settings');$('connection-button').after(gear);
@@ -457,7 +458,7 @@ async function initDiscovery(){
 async function hydrateDiscovery(){
   try{const data=await dapi('/bootstrap');Object.assign(D,{ready:true,profiles:data.profiles,levels:data.levels,tools:data.tools,settings:data.settings,budget:data.budget});await useProfile(data.profiles.find(p=>p.id===data.settings.active_profile));updateBudgetBadge();document.querySelector('footer').append(dnode('span',{class:'d-muted',text:'Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.'}));
     for(const input of [$('query'),$('constraint-deadline'),$('constraint-data'),$('constraint-mentor')])input.addEventListener('change',queueWorkspace);
-    const sensitive=dcheck('This request contains sensitive information (manual AI approval required)',!!D.sensitive);sensitive.input.id="d-sensitive";sensitive.input.onchange=()=>{D.sensitive=sensitive.input.checked;D.sensitiveConsent=false;if(D.sensitive){state.prefs.autoGuidance=false;cancelGuidance();}queueWorkspace();updateGuidance();};const privacy=dnode('details',{class:'d-search-privacy'},[dnode('summary',{text:'Request privacy'}),sensitive.wrapper,dnode('small',{text:'Each sensitive AI request opens a preview before it is sent.'})]);document.querySelector('.search-surface').append(privacy);
+    $('d-sensitive').checked=!!D.sensitive;
     window.addEventListener('beforeunload',event=>{if(D.dirty||D.saveError){event.preventDefault();event.returnValue='';}});
     D.hydrated=true;launchDefaultSearch();
   }catch(error){D.ready=false;throw new Error('Discovery setup failed: '+error.message);}

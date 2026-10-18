@@ -24,7 +24,7 @@ const server=http.createServer((req,res)=>{
   if(name==='/'||name==='/index.html'){
     res.setHeader('Content-Type','text/html; charset=utf-8');
     res.end(req.url.startsWith('/hosted/')?html.replace('<head>','<head><meta name="rei-hosted-demo" content="github-pages">'):html);
-  }else if(['/assets/discovery.js','/assets/discovery.css','/assets/data.js','/assets/captions.js','/assets/customize.js','/assets/profile_ai.js','/assets/ai_progress.js'].includes(name)){res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript':'text/css');res.end(fs.readFileSync(path.join(root,name.slice(1))));}else if(['/README.md','/HELP.md','/CHANGELOG.md'].includes(name))res.end(fs.readFileSync(path.join(root,name.slice(1))));
+  }else if(['/assets/discovery.js','/assets/discovery.css','/assets/search.js','/assets/search.css','/assets/data.js','/assets/captions.js','/assets/customize.js','/assets/profile_ai.js','/assets/ai_progress.js'].includes(name)){res.setHeader('Content-Type',name.endsWith('.js')?'text/javascript':'text/css');res.end(fs.readFileSync(path.join(root,name.slice(1))));}else if(['/README.md','/HELP.md','/CHANGELOG.md'].includes(name))res.end(fs.readFileSync(path.join(root,name.slice(1))));
   else{res.statusCode=404;res.end('Not available');}
 });
 let browser, base, passed=0;
@@ -36,7 +36,7 @@ async function scenario(name,options,run){
   await page.route('**/api/**',async route=>{
     const req=route.request(),url=new URL(req.url());calls.api.push(url.pathname);
     const json=async body=>route.fulfill({contentType:'application/json',body:JSON.stringify(body)});
-    if(url.pathname==='/api/health')return json({version:'1.2.1',ai:{configured:options.connected!==false,model:'gpt-6.1-sol'}});
+    if(url.pathname==='/api/health')return json({version:'1.2.2',ai:{configured:options.connected!==false,model:'gpt-6.1-sol'}});
     if(url.pathname==='/api/ai/check')return json({accessible:true,model:'gpt-6.1-sol',message:'Fixture access verified'});
     if(url.pathname==='/api/search'){
       const payload=req.postDataJSON();calls.queries.push(payload.query);
@@ -66,7 +66,7 @@ async function scenario(name,options,run){
     await page.goto(base+(options.hosted?'/hosted/':'/'));
     await page.waitForFunction(()=>document.querySelector('#connection-label').textContent!== 'Checking AI');
     if(options.connected!==false&&!options.hosted)await page.waitForFunction(()=>document.querySelector('#connection-button').dataset.state==='ready');
-    const search=async query=>{await page.locator('#query').fill(query);await page.locator('#search-button').click();await page.waitForFunction(query=>!state.searchController&&state.search?.query===query,query);};
+    const search=async query=>{await page.locator('#query').fill(query);await page.locator('#specific-search-button').click();await page.waitForFunction(query=>!state.searchController&&state.search?.query===query,query);};
     const newBrief=async()=>{await page.locator('#profile-settings').click();await page.getByRole('button',{name:'Open saved research',exact:true}).click();await page.locator('#saved-new').click();};
     await run({page,calls,search,newBrief});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth),false,'No horizontal overflow');
@@ -80,7 +80,7 @@ async function scenario(name,options,run){
     await assertCaptions(page,'initial search');
     await page.locator('#query').focus();await page.keyboard.press('Tab');
     assert.equal(await page.locator('#search-button').evaluate(n=>n===document.activeElement),true);
-    assert.match(await page.locator('#control-caption').innerText(),/Retrieve evidence/);
+    assert.match(await page.locator('#control-caption').innerText(),/Search broadly/);
     await assertCaptionFits(page);await page.keyboard.press('Escape');
     await page.locator('#connection-button').click();await assertCaptions(page,'AI connection dialog');
     await page.locator('#ai-save-key').hover();await page.locator('#control-caption').waitFor({state:'visible'});
@@ -108,13 +108,13 @@ async function scenario(name,options,run){
     for(const selector of ['#source-strip','aside.side','.search-options','.search-captions','.control-caption-guide'])assert.equal(await page.locator(selector).isVisible(),false);
     assert.equal(await page.locator('#workspace-title').textContent(),'Embryology research workspace');
     assert.equal(await page.locator('#query').inputValue(),'');
-    assert.equal(await page.locator('#query').getAttribute('placeholder'),'Last Embryology research');
+    assert.equal(await page.locator('#query').getAttribute('placeholder'),'e.g. Find research linking BRCA1 variants to breast cancer');
     assert.equal(await page.locator('#query').evaluate(n=>n.matches(':placeholder-shown')),true);
     assert.equal(await page.locator('#d-evidence').innerText(),'');
     assert.equal(await page.locator('#welcome').isVisible(),false);
     assert.equal(await page.locator('#search-page .intro').isVisible(),false);
     await page.screenshot({path:path.join(root,'test-results','empty-workspace-'+width+'.png'),fullPage:true});
-    assert.equal(await page.locator('#app-version').textContent(),'V1.2.1');
+    assert.equal(await page.locator('#app-version').textContent(),'V1.2.2');
     assert.equal(await page.locator('#search-page .intro h1').count(),0,'Workspace title is not duplicated');
     const header=await page.locator('.site-header').boundingBox(),legend=await page.locator('#content-provenance').boundingBox();
     assert.ok(legend.y>=header.y+header.height,'Legend directly follows the header');
@@ -129,7 +129,7 @@ async function scenario(name,options,run){
     assert.deepEqual(calls.queries,['ovarian aging'],'Typed searches contain only the user’s query');
     assert.equal(await page.locator('.record').count(),8);assert.equal(await page.locator('#results-heading').isVisible(),true);
     assert.equal(await page.locator('#recent').isVisible(),false);
-    assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Search']);
+    assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Overall Search']);
     assert.equal(await page.getByText('More actions',{exact:true}).count(),0);
     assert.equal(await page.getByText('Suggest research directions',{exact:true}).count(),0);
     await newBrief();
@@ -174,7 +174,7 @@ async function scenario(name,options,run){
   });
   await scenario('empty evidence never invokes AI',{empty:true},async({page,calls,search})=>{
     await search('ovarian aging');assert.equal(calls.actions.length,0);
-    assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Search']);
+    assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Overall Search']);
   });
   assert.deepEqual(pageErrors,[]);console.log(`${passed} browser scenarios passed; no page errors.`);
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{await browser?.close();server.close();});

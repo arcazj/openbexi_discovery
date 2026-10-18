@@ -1,5 +1,14 @@
 # Releases
 
+## 1.2.2 ? Broad and specific search with compact reasoning controls
+
+- Adds Overall Search with GPT-6 Astra web search, clickable citations, and no checkbox restrictions.
+- Adds Specific Search with Astra-generated queries limited to selected sources; an empty selection runs an overall search.
+- Places Request privacy directly beneath Specific Search, with two right-aligned green split buttons and independent Low / Medium / High reasoning settings, defaulting to Medium.
+- Makes the prompt box prominent through restrained contrast and spacing, with responsive layouts, captions, cancellation and empty-result recovery.
+- Preserves direct source browsing without AI, source error reporting, sensitive-request review, local-only mode, existing profiles and saved work. Meters web-search calls as well as tokens.
+- Keeps automatic launch retrieval free of AI generation. Adds backend and desktop/mobile regression checks; application version is 1.2.2 and saved-data schemas stay at 1.1.
+
 ## 1.2.1 — Cleaner workspace, document editing, and reliable upgrades
 
 - Simplifies the workspace with a larger centered plain-background title, golden-ratio proportions, solid Settings gear and bold circled Help icon, inline provenance legend, and a tall white results area, and no recent-query chips, profile shortcut, introductory description, constraints, or tips. Moves Sources after Evidence and renames the rightmost Notes tab to Private documents and Notes.

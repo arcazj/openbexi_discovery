@@ -1,6 +1,6 @@
 {
   "name": "openbexi-discovery-checks",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": true,
   "description": "Optional browser checks; the standalone application has no frontend build step.",
   "scripts": {
@@ -11,7 +11,8 @@
     "test:data": "node tests/browser_data.cjs",
     "test:customization": "node tests/browser_customization.cjs",
     "test:profiles": "node tests/browser_profile_updates.cjs",
-    "test:upgrade": "node tests/browser_cache_upgrade.cjs"
+    "test:upgrade": "node tests/browser_cache_upgrade.cjs",
+    "test:search": "node tests/browser_search.cjs"
   },
   "devDependencies": {
     "playwright": "1.60.0"

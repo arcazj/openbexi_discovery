@@ -11,7 +11,7 @@ Unicode True
   !error "Installer output path is required."
 !endif
 !ifndef VERSION
-  !define VERSION "1.2.1"
+  !define VERSION "1.2.2"
 !endif
 !ifdef SIGN_PYTHON
   ; Sign the uninstaller before it is embedded; any failure aborts the build.

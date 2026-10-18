@@ -99,7 +99,7 @@ jobs:
         with:
           name: OpenBEXI-Discovery-Windows-x64
           path: |
-            dist/OpenBEXIDiscovery-1.2.1-Windows-x64-Setup.exe
+            dist/OpenBEXIDiscovery-1.2.2-Windows-x64-Setup.exe
             dist/SHA256SUMS-Windows.txt
           if-no-files-found: error
           retention-days: 30

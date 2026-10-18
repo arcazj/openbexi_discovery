@@ -10,9 +10,14 @@
     'manage-themes': 'Add or remove research themes for the active profile, with an option to undo saved changes.',
     'add-source': 'Choose an evidence source from the catalogue, restore a removed source, or connect an API or database.',
     'manage-sources': 'Remove sources from this profile’s workspace while preserving saved connections and research.',
-    'limit': 'Choose the maximum number of results to retrieve from each selected source.',
+    'limit': 'Show up to 10, 20, or 50 retrieved records. Changing this does not start another AI search.',
     'recommended': 'Restore PubMed, Ensembl, and GWAS Catalog to the workspace and select them for the next search.',
-    'search-button': 'Retrieve evidence for your query from the selected sources.',
+    'search-button': 'Search broadly using your prompt, regardless of selected topics.',
+    'specific-search-button': 'Search selected topics or sources. If none are selected, search broadly.',
+    'overall-reasoning': 'Overall Search reasoning: Low prioritizes speed; Medium balances speed and depth; High allows deeper reasoning and may take longer. Changing this does not start a search.',
+    'specific-reasoning': 'Specific Search reasoning: Low prioritizes speed; Medium balances speed and depth; High allows deeper reasoning and may take longer. Coverage stays the same.',
+    'search-select-all': 'Select every available source for Specific Search.',
+    'search-clear': 'Clear the source selection. Specific Search will then search broadly.',
     'cancel-search': 'Stop the current evidence search.',
     'demo-button': 'Explore an illustrative workspace before running a live evidence search.',
     'guidance-query': 'Run a new evidence search using the suggested refined query.',
@@ -49,6 +54,7 @@
     notes: 'Write, revise, and revisit notes saved in this learning profile.'
   };
   const byText = {
+    'Search broadly with this prompt': 'Run Overall Search with the same prompt, without source restrictions.',
     'Manage themes': 'Choose the research themes used by this profile.',
     'Manage sources': 'Hide or restore sources for this workspace while preserving saved connections.',
     'Add theme': 'Open the research theme catalogue to search or browse themes to add to this profile.',

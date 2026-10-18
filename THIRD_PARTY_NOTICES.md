@@ -27,7 +27,7 @@ OpenAI's hosted API and public data providers have separate service and data-reu
 | pydantic | 2.13.5 | MIT | [LICENSE](licenses/pydantic-license.txt) |
 | pydantic_core | 2.46.5 | MIT | [LICENSE](licenses/pydantic-core-license.txt) |
 | pycparser | 2.23 | BSD-3-Clause | [LICENSE](licenses/pycparser-license.txt) |
-| python-dotenv | 1.2.1 | BSD-3-Clause | [LICENSE](licenses/python-dotenv-license.txt) |
+| python-dotenv | 1.2.2 | BSD-3-Clause | [LICENSE](licenses/python-dotenv-license.txt) |
 | sniffio | 1.3.1 | MIT OR Apache-2.0 | [LICENSE](licenses/sniffio-license.txt), [LICENSE.APACHE2](licenses/sniffio-license.apache2.txt), [LICENSE.MIT](licenses/sniffio-license.mit.txt) |
 | starlette | 0.49.3 | BSD-3-Clause | [LICENSE.md](licenses/starlette-license.md.txt) |
 | tqdm | 4.70.1 | MPL-2.0 AND MIT | [LICENCE](licenses/tqdm-licence.txt) |

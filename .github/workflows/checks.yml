@@ -38,6 +38,7 @@ jobs:
       - run: python -m pip install -r requirements.lock.txt
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - run: npm run test:search
       - run: npm run test:ui
       - run: npm run test:discovery
       - run: npm run test:documents

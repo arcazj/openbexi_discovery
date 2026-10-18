@@ -17,3 +17,5 @@ new vm.Script(fs.readFileSync(path.join(__dirname, '..', 'assets', 'customize.js
 new vm.Script(fs.readFileSync(path.join(__dirname, '..', 'assets', 'profile_ai.js'), 'utf8'), {filename: 'assets/profile_ai.js'});
 new vm.Script(fs.readFileSync(path.join(__dirname, '..', 'assets', 'ai_progress.js'), 'utf8'), {filename: 'assets/ai_progress.js'});
 console.log(`Frontend syntax verified: ${count} inline script(s).`);
+
+new vm.Script(fs.readFileSync(path.join(__dirname, '..', 'assets', 'search.js'), 'utf8'), {filename: 'assets/search.js'});

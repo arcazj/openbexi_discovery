@@ -115,14 +115,19 @@ def estimated_cost(rates, input_tokens, output_tokens, cached=0, writes=0):
             + output_tokens * rates["output"]) / 1_000_000
 
 
-def reserve(profile, model, messages, max_output):
+def reserve(profile, model, messages, max_output, web_calls=0):
     require_online()
     # UTF-8 bytes plus framing/schema allowance intentionally overestimates input.
     input_tokens = len(json.dumps(messages, ensure_ascii=False).encode("utf-8")) + 16000
     rates = rate(model)
+    if web_calls and rates:
+        rates = {**rates, "web_search_call": read_json(ROOT / "templates" / "pricing.json")["web_search_call"]}
+        # Allow for retrieved web context; this remains a conservative estimate.
+        input_tokens += web_calls * 32000
     cost = estimated_cost(rates, input_tokens, max_output)
     if rates:
         cost = max(cost, (input_tokens * rates["write"] + max_output * rates["output"]) / 1_000_000)
+        cost += web_calls * rates.get("web_search_call", 0)
     with transaction() as db:
         current = summary(db)
         if current["blocked"]:
@@ -136,7 +141,7 @@ def reserve(profile, model, messages, max_output):
         return rid
 
 
-def finish(rid, usage=None):
+def finish(rid, usage=None, web_calls=None):
     with transaction() as db:
         row = db.execute("SELECT * FROM usage WHERE id=?", (rid,)).fetchone()
         if not row or row["status"] == "complete":
@@ -149,7 +154,10 @@ def finish(rid, usage=None):
         details = value.get("input_tokens_details") or {}
         cached = min(inp, int(details.get("cached_tokens") or 0))
         writes = min(inp - cached, int(details.get("cache_write_tokens") or 0))
-        cost = estimated_cost(json.loads(row["rates"]), inp, out, cached, writes)
+        rates = json.loads(row["rates"])
+        cost = estimated_cost(rates, inp, out, cached, writes)
+        if rates and "web_search_call" in rates:
+            cost = None if web_calls is None else cost + web_calls * rates["web_search_call"]
         db.execute("UPDATE usage SET status='complete', input_tokens=?, output_tokens=?, cached_tokens=?, cost=? WHERE id=?", (inp, out, cached, cost, rid))
 
 

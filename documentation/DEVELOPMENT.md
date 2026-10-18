@@ -1,4 +1,4 @@
-# Development and release 1.2.1
+# Development and release 1.2.2
 
 ## Code map
 
@@ -55,6 +55,7 @@ Add categories through the linked taxonomy. Change UI schemas and rendering toge
 npm ci
 npx playwright install chromium
 npm test
+npm run test:search
 npm run test:ui
 npm run test:discovery
 npm run test:documents
@@ -64,15 +65,15 @@ npm run test:customization
 npm run test:profiles
 ```
 
-`workspaceTabs()` adds Sources after Evidence and presents Notes last as Private documents and Notes without changing stored profile schemas. `launchDefaultSearch()` passes the default REI query explicitly to `runSearch()` once after local hydration, with guards for local-only/sensitive mode, active searches, and edits during startup. The input stays empty with the default as its placeholder; typed text is never replaced by the launch search. It does not generate AI guidance. The header uses a 1:1.618:1 grid; the results area retains a 61.8vh minimum height (at least 360px).
+`workspaceTabs()` adds Sources after Evidence and presents Notes last as Private documents and Notes without changing stored profile schemas. `launchDefaultSearch()` passes the default REI query explicitly to `runSearch()` once after local hydration, with guards for local-only/sensitive mode, active searches, and edits during startup. The input stays empty with an example placeholder; typed text is never replaced by the launch search. It does not generate AI guidance. The header uses a 1:1.618:1 grid; the results area retains a 61.8vh minimum height (at least 360px).
 
 Document updates require the current revision and replace attachments through an atomic metadata update. Material summaries/analysis require a reviewed context hash and explicit AI consent; dataset items use the existing privacy-review workflow. Browser document and customization checks cover these behaviors. Connection-row checks exercise edit, connect/reconnect, API exploration, cancellation, deletion, and restoration; quiz checks verify that Start does not generate questions and deletion preserves score history.
 
 Discovery browser checks start an isolated backend and make no paid AI calls. Use synthetic fixtures for sensitive-data tests. See [Windows packaging](../WINDOWS_INSTALLATION.md) for installer/build checks.
 
-The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, Python SQLite support, and encryption dependencies. The reviewed REI configuration is versioned in `templates/rei.json`, retaining content provenance but excluding local revision timestamps and connection IDs. User profile storage, libraries, private settings, keys, and Git files are excluded. Data/profile/archive schemas remain `1.1`; the application release is `1.2.1`. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
+The bundle includes frontend assets, templates, taxonomy, runtime prompts, schemas, documentation, Python SQLite support, and encryption dependencies. The reviewed REI configuration is versioned in `templates/rei.json`, retaining content provenance but excluding local revision timestamps and connection IDs. User profile storage, libraries, private settings, keys, and Git files are excluded. Data/profile/archive schemas remain `1.1`; the application release is `1.2.2`. Internal Windows executable/data-directory identifiers retain `REIResearchExplorer` for upgrade compatibility; the displayed product and installer are OpenBEXI Discovery.
 
-Publish releases from `master` in `arcazj/openbexi_discovery`. The release tag is **v1.2.1**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.1) and the [V1.2.1 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
+Publish releases from `master` in `arcazj/openbexi_discovery`. The release tag is **v1.2.2**; [release downloads and notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2) and the [V1.2.2 live demo](https://arcazj.github.io/openbexi_discovery/) use that version.
 
 Release assets include the Windows installer, named source ZIP and tar.gz archives, downloadable release notes, and SHA-256 checksums. GitHub also provides automatic source archives for the tag. Keep the tag, documentation, and the installer's `BUILD-INFO.json` source commit aligned. The Windows workflow verifies installation and upgrading from v1.2.0. If its release download is unavailable, the workflow retrieves the same installer and checksum from its retained successful Windows build (run 38171600551). The checksum and upgrade checks still apply; if neither source is available, restore a verified predecessor before building.
 
@@ -80,3 +81,9 @@ Before publishing, run the backend and browser suites, inspect the staged file l
 
 
 Profile and full-library ZIP exports include the current profile configuration and workspace, even for an empty profile. After importing, open a historical item and choose **Restore as a new profile** to create an inactive copy; a workspace backup also restores its saved briefs and preferences. Select the new copy in Profile settings. Live connections must be configured again. Sensitive workspace backups are excluded unless explicitly included.
+
+## Search 1.2.2
+
+`assets/search.js` owns compact scope/reasoning controls and result rendering. `backend/search.py` handles explicit `overall`/`specific` search requests. Overall Search uses Astra web search; Specific Search validates an Astra query plan against exactly the selected source IDs before calling the existing bounded adapters. Request-local reasoning never modifies shared AI configuration. Scope-less `/api/search` calls retain direct retrieval for startup and legacy clients. Empty sources are accepted only for an explicit scope and resolve to overall.
+
+Broad answers use only provider URL annotations for links, with safe URL validation and text-node rendering. Web tools are capped at three calls and metered in the existing usage ledger, including retrieved input tokens. Privacy, local-only and allowance gates precede generation. Automated checks use synthetic provider responses; they do not establish account-specific Astra availability.

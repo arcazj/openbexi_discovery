@@ -7,6 +7,7 @@ window.AIWork=(()=>{
   const node=(tag,attributes={},text='')=>{const item=document.createElement(tag);for(const [key,value] of Object.entries(attributes))item.setAttribute(key,value);if(text)item.textContent=text;return item;};
   function taskName(url,options){
     const path=new URL(url,location.href).pathname;
+    if(path==='/api/search'){const search=JSON.parse(options.body||'{}');return search.scope&&state.health?.ai?.configured?(search.scope==='overall'||!search.sources?.length?'Searching the web with GPT-6 Astra':'Preparing source queries with GPT-6 Astra'):'';}
     if(!/^\/api\/(?:ai(?:\/(?:check|configure))?|discovery\/(?:ai\/[^/]+|api-connections\/recommend|datasets\/[^/]+\/ask|library\/[^/]+\/analyze))$/.test(path))return '';
     if(path.endsWith('/ai/check'))return 'Checking AI connection';
     if(path.endsWith('/ai/configure'))return 'Saving AI connection settings';

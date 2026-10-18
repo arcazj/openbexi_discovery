@@ -1,0 +1,49 @@
+/* The prompt carries the emphasis; supporting controls stay compact. */
+.search-surface,.search-surface:hover{position:static;padding:16px;background:#f3f7f4;border:1px solid #b4c8bc;border-radius:12px;box-shadow:none}
+.search-form{display:block}
+.search-label{display:block;margin-bottom:8px;font-size:14px;font-weight:600;color:#254d3b}
+.search-surface #query{display:block;width:100%;min-height:76px;max-height:152px;margin:0;padding:12px 14px;border:1px solid #709581;border-radius:8px;background:#fff;box-shadow:0 2px 8px #254d3b0a;font-size:17px;line-height:1.5;resize:vertical}
+.search-surface #query:hover{border-color:#375f4d}
+.search-surface #query:focus-visible{outline:2px solid #375f4d;outline-offset:2px;box-shadow:none}
+.search-overall-row,.search-specific-row{display:grid;grid-template-columns:minmax(0,1fr) 258px;align-items:center;gap:12px;margin-top:10px}
+.search-overall-row{display:flex;justify-content:flex-end}
+.search-split{display:flex;align-items:stretch;justify-self:end;width:258px;max-width:100%;gap:0}
+.search-split button.primary{flex:1;min-width:0;min-height:38px;padding:8px 10px;border-radius:7px 0 0 7px;background:#315d46;border:1px solid #315d46;color:#fff;font-size:13px;white-space:nowrap}
+.search-split button.primary:hover{background:#254a37}
+.search-split select{width:91px;min-width:91px;min-height:38px;padding:7px 5px 7px 8px;border:1px solid #315d46;border-left:1px solid #8aa996;border-radius:0 7px 7px 0;background:#315d46;color:#fff;font-size:12px;cursor:pointer}
+.search-split option{background:#fff;color:#25332f}
+.search-split :focus-visible{outline:2px solid #183c2a;outline-offset:3px;z-index:1}
+.search-specific-action{width:258px;max-width:100%;justify-self:end}
+.search-specific-action .d-search-privacy{margin-top:4px}
+.search-specific-action .d-search-privacy>summary{font-size:11px}
+.search-specific-row{align-items:center;margin-top:8px}
+#search-coverage{min-width:0;margin:0;padding:0;border:0}
+#search-coverage legend{font-size:12px;font-weight:600;padding:0;margin-bottom:6px;color:#3b5145}
+#search-coverage .source-choices{display:flex;flex-wrap:wrap;gap:5px;background:none;padding:0}
+#search-coverage .source-chip{min-height:32px;min-width:0;flex:0 1 auto;padding:5px 9px;gap:6px;border:1px solid #c1cec5;border-radius:6px;box-shadow:none;background:#fff;font-size:12px}
+#search-coverage .source-chip:has(input:checked){background:#e5efe7;border-color:#7b9c88;color:#254d3b}
+#search-coverage .source-chip .source-name{font-size:12px;line-height:1.4}
+#search-coverage .source-chip small{display:none}
+#search-coverage input{margin:0;accent-color:#315d46}
+.search-selection-tools{display:inline-flex;gap:8px;margin:4px 0}
+.search-selection-tools button{padding:3px 0;font-size:11px;text-decoration:underline;text-underline-offset:2px}
+.search-footer{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+.search-footer:has(#cancel-search[hidden]){margin:0}
+.section-line .result-limit{margin-left:auto;width:auto;padding:5px 26px 5px 8px;min-height:32px;font-size:12px;background:#fff;border:1px solid #c7d2cb;border-radius:6px}
+#search-notice:not(.error):not(.warn){display:none}
+.search-answer{padding:16px;margin:0 0 14px;background:var(--ai-surface);border:1px solid var(--ai-border);border-radius:9px}
+.search-answer p{white-space:pre-wrap;font-size:14px;line-height:1.65;margin:0 0 12px;overflow-wrap:anywhere}
+.search-answer a{font-weight:600;text-decoration:underline}
+.web-source-list{list-style:none;margin:10px 0;padding:0}
+.web-source-list li{font-size:13px;padding:7px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+@media(max-width:650px){
+ .search-surface,.search-surface:hover{padding:12px}
+ .search-overall-row,.search-specific-row{grid-template-columns:minmax(0,1fr);gap:8px}
+ .search-split{width:100%;justify-self:stretch}
+ .search-specific-action{width:100%;justify-self:stretch}
+ .search-split button.primary,.search-split select{min-height:44px}
+ #search-coverage .source-chip{min-height:40px;padding:6px 8px}
+ .search-selection-tools button{min-height:32px;padding:5px 0}
+ .search-surface #query{font-size:16px;min-height:78px}
+ #results-heading{font-size:17px;letter-spacing:-.3px}
+}

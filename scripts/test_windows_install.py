@@ -127,7 +127,7 @@ def smoke(setup, test_tray=False, previous_setup=None):
             settings = json.loads((private / "desktop.json").read_text(encoding="utf-8"))
             with opener.open(browser_url(settings["port"], settings["instance_id"]), timeout=5) as response:
                 assert response.read().decode("utf-8") == html
-            for path in ["/" + asset for asset in assets] + ["/documentation/USER_GUIDE.md", "/api/docs/RELEASE-NOTES-v1.2.1.md"]:
+            for path in ["/" + asset for asset in assets] + ["/documentation/USER_GUIDE.md", "/api/docs/RELEASE-NOTES-v1.2.2.md"]:
                 with get(path) as response:
                     assert response.status == 200
                     assert response.headers["Cache-Control"] == "no-store"

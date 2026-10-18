@@ -1,9 +1,9 @@
-# OpenBEXI Discovery 1.2.1 Help
+# OpenBEXI Discovery 1.2.2 Help
 
 
-For Discovery 1.2.1 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. The settings gear opens **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
+For Discovery 1.2.2 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. The settings gear opens **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
 
-[Live demo · V1.2.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.1)
+[Live demo · V1.2.2](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2)
 
 Version 1.2 adds reviewed AI profile updates with rollback, eight-question quizzes with score history, API connections, dataset privacy review, and progress bars for every AI task. The bundled REI/Advanced template includes the reviewed embryology research focus; existing profiles are preserved on upgrade.
 

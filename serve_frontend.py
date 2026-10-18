@@ -15,6 +15,7 @@ DOCUMENTS = {
     "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md",
     "RELEASE-NOTES-v1.2.0.md",
     "RELEASE-NOTES-v1.2.1.md",
+    "RELEASE-NOTES-v1.2.2.md",
 }
 
 
@@ -37,7 +38,7 @@ class FrontendHandler(BaseHTTPRequestHandler):
         elif route.startswith("/api/docs/") and route[10:] in DOCUMENTS:
             file_path = ROOT / route[10:]
         elif route in {"/assets/discovery.js", "/assets/discovery.css", "/assets/data.js", "/assets/customize.js",
-                       "/assets/captions.js", "/assets/profile_ai.js", "/assets/ai_progress.js"}:
+                       "/assets/captions.js", "/assets/profile_ai.js", "/assets/ai_progress.js", "/assets/search.js", "/assets/search.css"}:
             file_path = ROOT / route[1:]
             media_type = "text/javascript; charset=utf-8" if route.endswith(".js") else "text/css; charset=utf-8"
         elif route.startswith("/documentation/"):

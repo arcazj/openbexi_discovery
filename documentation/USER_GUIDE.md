@@ -1,6 +1,6 @@
-# Using OpenBEXI Discovery 1.2.1
+# Using OpenBEXI Discovery 1.2.2
 
-[Live demo · V1.2.1](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.1)
+[Live demo · V1.2.2](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2)
 
 Version 1.2 adds reviewed profile updates and rollback, quizzes with scores and history, API connections, dataset privacy review, control captions, and progress bars for every AI task. These features require the local application; the public demo remains an evidence-browsing preview.
 
@@ -12,7 +12,13 @@ The bundled [REI template](../templates/rei.json) now includes the reviewed embr
 
 Profile wording describes research requirements, not additional processing capabilities. Video analysis, Excel workbook processing, and local AI are not implemented. To prevent external requests, explicitly enable **Local-only mode** in the AI connection dialog; mentioning local-only handling in a profile does not enable the switch. Public evidence searches and configured OpenAI requests require external connections.
 
-The large workspace title is centered between equally sized side sections; the title column uses a 1.618 proportion and keeps a plain background. A solid gear opens Settings. The local REI workspace automatically searches **Last Embryology research** once on launch, using the selected sources. This text appears as a placeholder in the empty search field and disappears when you type. Local-only mode, sensitive mode, or editing the query during startup prevents the automatic search. Other profiles and the public demo keep manual search. The workspace omits recent-query chips, the profile description, and the welcome card. The search row keeps only **Search** and, while searching, **Cancel**. To draft a question, open **Settings → Saved research → New brief**. Results use the full workspace width and a tall white area, including when there are no records; detail panels stay compact and fit smaller screens. The public demo supports evidence browsing and manual briefs; profiles, local libraries, SQLite, and AI require the local application.
+The search box is the workspace's main control. Enter a question, then use **Overall Search** to search the web broadly, or check sources under **Search coverage** and use **Specific Search**. Overall Search ignores checkbox selections. Specific Search prepares precise queries for PubMed, Ensembl and/or GWAS; clearing every checkbox makes it search broadly. The results header contains only Source evidence and a 10 / 20 / 50 records selector. The evidence cards follow immediately; coverage details remain in saved search data. A failed source is shown as unavailable rather than as zero matches.
+
+Each green search button includes a reasoning selector: **Low** favors speed, **Medium** balances speed and depth (default), and **High** allows deeper processing. The two choices are independent, persist per profile, and do not start a search when changed. Both AI search modes use **GPT-6 Astra**. Overall Search requires AI; Specific Search can query selected sources directly without it and reports that distinction. The public demo supports direct Specific Search. Other AI features retain their model/reasoning settings in Connect AI.
+
+Use **Select all** or **Clear selection** to adjust coverage. Results preserve your prompt and selections. An empty specific result offers **Search broadly with this prompt**. Cancel stops waiting; already-started provider work may still incur usage. Enter runs Overall Search; Shift+Enter adds a line. On mobile, buttons stack beneath their related controls.
+
+The local REI workspace still automatically retrieves **Last Embryology research** once at launch without an AI request. The input stays empty with an example placeholder. Local-only mode, sensitive mode, or editing during startup prevents automatic retrieval. Other profiles and the public demo keep manual search. Saved research and New brief remain available in Settings.
 
 Buttons, tabs, and selectors have short help captions. Hover over a control or focus it with the keyboard to read its purpose; on touch screens, press and hold without activating it. Press Escape to dismiss a caption. Captions are also available to screen readers. Search automatically recognizes a topic, gene, or genomic region. Gene and region searches use the human genome (GRCh38); literature can include other organisms.
 
