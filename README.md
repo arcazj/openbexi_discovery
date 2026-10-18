@@ -6,6 +6,8 @@ A local learning and research workspace. Start with the **REI profile at Advance
 
 [Live demo · V1.2.2](https://arcazj.github.io/openbexi_discovery/) · [Release v1.2.2 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2) · [Release notes](RELEASE-NOTES-v1.2.2.md) · [User guide](documentation/USER_GUIDE.md)
 
+[Watch the 81-second walkthrough: create your first profile](https://github.com/arcazj/openbexi_discovery/tree/master/videos)
+
 **Verify every result before use.** AI output, retrieved sources, citations, and calculations may be incorrect, incomplete, or outdated. Users are responsible for independent verification and their decisions. This is a learning and research tool, not professional advice. Warranty and liability exclusions apply to the extent permitted by law. Read the [disclaimer](DISCLAIMER.md) and [commercial licensing terms](COMMERCIAL_LICENSING.md).
 
 The workspace uses a compact header and golden-ratio desktop columns. The header keeps one AI connection/status button, the **Settings** gear, and **Help (?)** on the right. **Connect AI** offers OpenAI (default, GPT-6 Astra / xHigh), Anthropic, Gemini, DeepSeek, OpenRouter, and custom OpenAI-compatible providers, with separate saved keys and model settings. Token usage includes its date (UTC). Open **Settings** to select REI, Cosmologie, or another profile, or create a complete AI-generated profile by describing a field or area of interest. **Saved research** and **Local library** remain available in the workspace footer. The application version appears in small text after the brand.

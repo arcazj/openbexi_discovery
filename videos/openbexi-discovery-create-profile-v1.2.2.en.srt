@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:07,543
+Make OpenBEXI Discovery your own. Start in the installed local app, then create a profile
+for your research.
+
+2
+00:00:07,543 --> 00:00:16,013
+Choose Connect AI. Select your provider, paste your API key, and save. OpenAI is the
+default.
+
+3
+00:00:16,013 --> 00:00:22,327
+The key step is Create new profile. Open Settings, then choose the button at the top.
+
+4
+00:00:22,327 --> 00:00:31,991
+Describe your field or area of interest, not just a title. For example: understand dark
+matter, dark energy, and the expanding universe.
+
+5
+00:00:31,991 --> 00:00:40,624
+Choose a reasoning level from Medium to Ultra. Higher levels may take longer and use more
+tokens. Then create your profile.
+
+6
+00:00:40,624 --> 00:00:48,152
+AI chooses a name and builds your overview, goals, and topics. This demonstration uses an
+example response.
+
+7
+00:00:48,152 --> 00:00:55,520
+Review the orange AI-generated overview and the topic checkboxes. Your new profile opens
+its own workspace.
+
+8
+00:00:55,520 --> 00:01:05,921
+Write a question. Overall Search is broad. Specific Search focuses on checked topics or
+sources. For web search, use OpenAI.
+
+9
+00:01:05,921 --> 00:01:12,575
+Switch profiles in Settings. Your selected profile returns when you reopen the local app.
+
+10
+00:01:12,575 --> 00:01:21,308
+Always open the sources and verify the results. Start with a clear field. Create your
+profile. Then explore.
