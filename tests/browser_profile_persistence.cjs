@@ -61,7 +61,13 @@ async function assertRestored(page,profile){
   await page.locator('#query').fill('Resume my research on dark energy');
   await page.locator('#overall-reasoning').selectOption('max');await page.locator('#specific-reasoning').selectOption('xhigh');
   await page.locator('#search-clear').click();await page.getByLabel('Dark energy',{exact:true}).check();
-  await page.waitForFunction(async id=>{const r=await fetch('/api/discovery/workspace/'+id),w=await r.json();return w.data.query==='Resume my research on dark energy'&&w.data.prefs.searchReasoning?.overall==='max'&&w.data.prefs.searchTopics?.join(',')==='02.03.03.04';},custom.id);
+  // Playwright's predicate treats an async function's Promise as truthy; wait
+  // for the actual save queue, then inspect the persisted state before stopping.
+  await page.evaluate(()=>flushWorkspace());
+  const stored=(await api('/workspace/'+custom.id)).data;
+  assert.equal(stored.query,'Resume my research on dark energy');
+  assert.deepEqual(stored.prefs.searchReasoning,{overall:'max',specific:'xhigh'});
+  assert.deepEqual(stored.prefs.searchTopics,['02.03.03.04']);
   await stop();await start();page=await open();await assertRestored(page,custom);
   await page.locator('#search-topic-choices input').first().waitFor();
   assert.equal(await page.locator('#query').inputValue(),'Resume my research on dark energy');
