@@ -31,7 +31,7 @@ async function documents(){return (await api('/library?kind=document')).activiti
   async function closeReader(){await reader.locator('header button').click();}
   async function save(name){await button(editor,name).click();await page.waitForSelector('#material-dialog:not([open])',{state:'attached'});await reader.locator('h2').waitFor();}
   async function edit(){await button(reader,'Edit document').click();await editor.waitFor();}
-  async function openLibrary(){await page.locator('#profile-settings').click();await page.locator('#nav-library').click();await page.locator('#library-dialog[open]').waitFor();}
+  async function openLibrary(){await page.locator('#nav-library').click();await page.locator('#library-dialog[open]').waitFor();}
   await page.goto(base);await ready();assert.equal(searchRequests,0,'Local-only mode prevents automatic startup searches');await page.locator('#d-tab-documents').click();
   await button(page,'New document').click();
   await button(editor,'Save locally').click();await editor.getByText('Enter a document title.',{exact:true}).waitFor();

@@ -41,7 +41,12 @@
 .d-origin{display:block;font-size:12px;margin:8px 0;color:#536052}
 .ai-model-controls{display:grid;grid-template-columns:minmax(0,1.618fr) minmax(0,1fr);gap:13px}
 .ai-model-controls select{display:block;width:100%;min-height:44px;margin-top:6px}
+#ai-provider{display:block;width:100%;margin-top:6px;min-height:40px}
+.ai-model-controls input{min-width:0;min-height:44px}
 #ai-setup-form .form-hint{margin:0}
+#ai-usage-table .d-table{min-width:480px}
+#ai-usage-table .d-table th,#ai-usage-table .d-table td{overflow-wrap:normal}
+#ai-usage-table .d-table td:nth-child(-n+2),#ai-usage-table .d-table td:nth-child(n+4){white-space:nowrap}
 #ai-discovery-settings{border-top:1px solid var(--line);margin-top:21px;padding-top:13px}
 #ai-discovery-settings h3{margin:18px 0 10px}
 #ai-discovery-settings .d-check{font-size:13px;margin:0 0 8px}
@@ -270,3 +275,36 @@
   .d-drawer header,.d-body,.dialog-header,.dialog-body{padding:12px}
   #evidence-area{padding:10px}
 }
+
+/* Profile settings stay small; advanced controls open on demand. */
+#profile-dialog.d-profile-settings{width:min(440px,calc(100vw - 16px))}
+.d-profile-toolbar{display:flex;align-items:flex-end;gap:10px}
+.d-profile-toolbar>label{flex:1;min-width:0;margin:0}
+.d-profile-toolbar>button{flex:none;min-height:36px;padding:8px 10px;font-size:12px}
+.d-profile-toolbar select{min-height:36px}
+.d-profile-settings .d-status:empty{display:none}
+.d-profile-settings .d-status[data-error="true"]{color:var(--danger)}
+.d-profile-settings .d-profile-options,.d-profile-settings #profile-ai-options{border:0;border-top:1px solid var(--line);border-radius:0;padding:12px 0 0;margin:14px 0 0}
+.d-profile-settings summary{font-size:12px}
+.d-profile-settings .d-profile-update{padding:0;border:0;margin:10px 0 0}
+.d-workspace-heading{min-width:0;text-align:center}
+#active-profile-name{display:block;font-size:11px;margin-top:3px;color:var(--muted)}
+.d-workspace-links{display:flex;gap:8px;flex-wrap:wrap}
+.d-workspace-links button{font-size:11px;padding:4px 0;text-decoration:underline}
+@media(max-width:900px){.d-workspace-heading{grid-column:1/-1;grid-row:2}}
+@media(max-width:650px){
+ .d-workspace-heading{grid-column:auto;grid-row:auto;text-align:left}
+ .d-profile-toolbar>button,.d-profile-toolbar select,.d-profile-settings button{min-height:44px}
+ .d-profile-settings summary{min-height:32px;line-height:24px}
+}
+
+.d-profile-settings input:focus-visible,.d-profile-settings select:focus-visible{outline:2px solid #375f4d;outline-offset:2px}
+
+.d-profile-create-section{padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+.d-profile-overview{margin:12px 0;padding:10px 12px;border:1px solid var(--line);border-radius:7px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.d-profile-overview strong{font-size:12px}
+.d-profile-overview p{margin:5px 0;font-size:13px}
+.d-profile-overview small{font-size:11px}
+.d-profile-settings .d-profile-create-action select{width:91px;min-width:91px;flex:none;padding:7px 5px 7px 8px}
+.d-profile-create-section button{padding:8px 12px;font-size:12px;min-height:36px}
+@media(max-width:650px){.d-profile-create-section button{min-height:44px}}

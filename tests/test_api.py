@@ -204,7 +204,7 @@ class APIBoundaryTests(unittest.TestCase):
             }],
         })
         self.assertEqual(response.status_code, 503, response.text)
-        self.assertIn("OPENAI_API_KEY", response.json()["detail"])
+        self.assertIn("Connect AI", response.json()["detail"])
 
     def test_one_failed_source_keeps_successful_evidence_and_failure_coverage(self):
         async def retrieve(source, interpretation, limit):

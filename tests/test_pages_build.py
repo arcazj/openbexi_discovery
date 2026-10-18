@@ -49,6 +49,16 @@ class PagesBuildTests(unittest.TestCase):
         self.assertFalse((output / "licenses" / "dependency.txt").exists())
         self.assertEqual((output / "README.md").read_text(encoding="utf-8"), "updated documentation")
 
+    def test_project_license_and_disclaimer_are_required_for_public_artifacts(self):
+        for name in ("LICENSE", "DISCLAIMER.md"):
+            with self.subTest(document=name):
+                path = self.root / name
+                original = path.read_bytes()
+                path.unlink()
+                with self.assertRaises(ValueError):
+                    build_site(self.root)
+                path.write_bytes(original)
+
     def test_unrecognized_output_is_preserved(self):
         output = self.root / "_site"
         output.mkdir()

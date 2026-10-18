@@ -1,6 +1,11 @@
 # Releases
 
-## 1.2.2 ? Broad and specific search with compact reasoning controls
+## 1.2.2 - Profiles, provider choice, dated usage, and compact search
+
+- Adds compact Settings, persistent REI/Cosmologie/custom profile selection, AI-created profiles with generated names and topics, rejection of meaningless areas, orange AI overviews, and confirmed deletion.
+- Adds OpenAI-default provider selection, Anthropic, Gemini, DeepSeek, OpenRouter, and custom compatible providers, with separate saved credentials and supported reasoning controls.
+- Shows token usage by UTC date, newest first, retaining provider attribution and conservative accounting when usage is unknown.
+- Adds visible result-verification notices, user responsibility, and warranty/liability exclusions subject to applicable law, with licensing and disclaimer documents available through Help and release packages.
 
 - Adds Overall Search with GPT-6 Astra web search, clickable citations, and no checkbox restrictions.
 - Adds Specific Search with Astra-generated queries limited to selected sources; an empty selection runs an overall search.

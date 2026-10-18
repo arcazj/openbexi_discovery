@@ -23,7 +23,7 @@ function originLabel(item){const p=item.provenance||{};return p.origin==='ai'||p
 function decorate(node,provenance){node.dataset.provenance=provenance?.origin||'template';node.title=originLabel({provenance});}
 async function reviewSensitiveRequest(payload){
   const {body,dialog}=drawer('Review sensitive AI request','sensitive-dialog');
-  body.append(dnode('p',{text:'The exact request below will be sent to '+(payload.scope?(state.health?.ai?.configured?'GPT-6 Astra and the requested external search sources':'the selected external search sources'):(state.health?.ai?.model||'the configured AI model'))+'. Routine history omits sensitive request and response bodies.'}),dnode('pre',{text:JSON.stringify(payload,null,2)}));
+  body.append(dnode('p',{text:'The exact request below will be sent to '+(state.health?.ai?.configured?(state.health.ai.name||'AI')+' ('+state.health.ai.model+')'+(payload.scope?' and the requested external search sources':''):'the selected external search sources')+'. Routine history omits sensitive request and response bodies.'}),dnode('pre',{text:JSON.stringify(payload,null,2)}));
   return new Promise(resolve=>{let authorized=false;dialog.addEventListener('close',()=>resolve(authorized),{once:true});body.append(dbutton('Send this request',()=>{authorized=true;dialog.close();},'primary'),dbutton('Cancel',()=>dialog.close()));});
 }
 async function requiresLocal(){
@@ -37,8 +37,31 @@ async function requiresLocal(){
   })().finally(()=>D.connecting=null);
   return D.connecting;
 }
-function captureWorkspace(){return {sensitive:!!D.sensitive,workspace:clone(state.workspace),prefs:{sources:sourcePreferences(),limit:Number($('limit').value),mode:$('mode').value,recent:state.prefs.recent,searchReasoning:state.prefs.searchReasoning},query:$('query').value};}
-function queueWorkspace(){if(!D.ready||D.suppressSave)return;const pid=D.profile.id,data=captureWorkspace();D.saveQueue=D.saveQueue.catch(()=>{}).then(async()=>{const result=await dapi('/workspace',{profile_id:pid,revision:D.workspaceRevision,data});if(D.profile.id===pid)D.workspaceRevision=result.revision;}).catch(error=>{D.saveError=error;toast('Workspace save failed: '+error.message);throw error;});D.saveQueue.catch(()=>{});}
+function captureWorkspace(){return {sensitive:!!D.sensitive,workspace:clone(state.workspace),prefs:{sources:sourcePreferences(),limit:Number($('limit').value),mode:$('mode').value,recent:state.prefs.recent,searchReasoning:state.prefs.searchReasoning,searchTopics:state.prefs.searchTopics,autoGuidance:state.prefs.autoGuidance},query:$('query').value};}
+function queueWorkspace(){
+  if(!D.ready||D.suppressSave)return D.saveQueue;
+  const pid=D.profile.id,data=captureWorkspace();
+  D.workspaceRevisions??=new Map();
+  D.saveQueue=D.saveQueue.catch(()=>{}).then(async()=>{
+    const revision=D.workspaceRevisions.get(pid)??D.workspaceRevision;
+    const result=await dapi('/workspace',{profile_id:pid,revision,data});
+    D.workspaceRevisions.set(pid,result.revision);
+    if(D.profile.id===pid){D.workspaceRevision=result.revision;D.saveError=null;}
+  }).catch(error=>{D.saveError=error;toast('Workspace save failed: '+error.message);throw error;});
+  D.saveQueue.catch(()=>{});return D.saveQueue;
+}
+async function flushWorkspace(){clearTimeout(D.draftSaveTimer);await queueWorkspace();}
+async function activateProfile(profile){
+  if(D.switching)throw new Error('Please wait for the current profile to finish loading.');
+  D.switching=true;
+  try{
+    await flushWorkspace();
+    const stored=await dapi('/workspace/'+profile.id);
+    const active=await dapi('/profiles/action',{id:profile.id,revision:profile.revision,action:'activate'});
+    D.states.set(D.profile.id,{search:state.search,query:$('query').value,tab:D.tab});
+    D.settings.active_profile=active.id;resetTabBodies();await useProfile(active,stored);
+  }finally{D.switching=false;}
+}
 const legacyPersistWorkspace=persistWorkspace;
 persistWorkspace=function(){if(!D.ready)return legacyPersistWorkspace();state.workspace.app_version=VERSION;state.workspace.updated_at=now();renderSaved();updateGuidance({auto:true});queueWorkspace();return true;};
 const legacyPersistPrefs=persistPrefs;
@@ -88,14 +111,14 @@ function updateBudgetBadge(){
 
 async function refreshBudget(){D.budget=await dapi('/budget');updateBudgetBadge();renderProfileModelUsage(D.budget);return D.budget;}
 
-async function useProfile(profile){if(state.searchController){state.searchController.abort();state.searchController=null;searchBusy(false);}cancelAI();cancelGuidance();D.suppressSave=true;try{D.profile=profile;const stored=await dapi('/workspace/'+profile.id);D.workspaceRevision=stored.revision;const value=stored.data;D.sensitive=!!value.sensitive;if($("d-sensitive"))$("d-sensitive").checked=D.sensitive;if(D.sensitive)state.prefs.autoGuidance=false;if(value.workspace){state.workspace=value.workspace;}else if(profile.id==='rei'&&stored.revision===0){/* Migrate existing browser work once, preserving the original browser backup. */}else state.workspace={schema_version:SCHEMA,app_version:VERSION,questions:[],constraints:{deadline:'',data:'',mentor:''}};
+async function useProfile(profile,storedWorkspace){const stored=storedWorkspace||await dapi('/workspace/'+profile.id);if(state.searchController){state.searchController.abort();state.searchController=null;searchBusy(false);}cancelAI();cancelGuidance();D.suppressSave=true;try{D.profile=profile;D.workspaceRevision=stored.revision;D.workspaceRevisions??=new Map();D.workspaceRevisions.set(profile.id,stored.revision);const value=stored.data;D.sensitive=!!value.sensitive;if($("d-sensitive"))$("d-sensitive").checked=D.sensitive;if(D.sensitive)state.prefs.autoGuidance=false;if(value.workspace){state.workspace=value.workspace;}else if(profile.id==='rei'&&stored.revision===0){/* Migrate existing browser work once, preserving the original browser backup. */}else state.workspace={schema_version:SCHEMA,app_version:VERSION,questions:[],constraints:{deadline:'',data:'',mentor:''}};
   for(const field of ['deadline','data','mentor'])$('constraint-'+field).value=state.workspace.constraints?.[field]||'';
-  state.prefs.searchReasoning={overall:'medium',specific:'medium'};if(value.prefs)Object.assign(state.prefs,value.prefs);else if(profile.id!=='rei'||stored.revision!==0)state.prefs.sources=profile.sources;
+  const migrating=profile.id==='rei'&&stored.revision===0;state.prefs={...state.prefs,limit:10,mode:'auto',recent:[],sources:[...profile.sources],searchTopics:null,autoGuidance:false,searchReasoning:{overall:'medium',specific:'medium'},...(migrating?state.prefs:{}),...value.prefs};if(D.sensitive)state.prefs.autoGuidance=false;
   for(const s of ['pubmed','ensembl','gwas'])$('source-'+s).checked=state.prefs.sources.includes(s);
-  if(D.hydrated||!D.startupQueryEdited)$('query').value=D.states.get(profile.id)?.query||'';$('limit').value=state.prefs.limit||10;$('mode').value='auto';
+  if(D.hydrated||!D.startupQueryEdited)$('query').value=D.states.get(profile.id)?.query??value.query??'';$('limit').value=state.prefs.limit||10;$('mode').value=state.prefs.mode||'auto';
   state.search=D.states.get(profile.id)?.search||null;state.filter='all';state.selected.clear();state.lastAi=null;guidanceCache.clear();$('ai-output').hidden=true;renderSearch();renderSaved();renderRecent();applyProfile();selectTab(D.states.get(profile.id)?.tab||profile.default_tab);updateGuidance();
  }finally{D.suppressSave=false;}syncSearchControls();resizeSearchPrompt();queueWorkspace();}
-function applyProfile(){const p=D.profile,u=p.ui;renderIntroduction(p);const nodes={sources_caption:document.querySelector('.source-caption'),welcome_title:$('welcome').querySelector('h2'),welcome_text:$('welcome').querySelector('p'),guidance_heading:$('guidance-card').querySelector('h3'),tip_heading:$('context-tip').querySelector('strong')};for(const [key,node]of Object.entries(nodes)){node.textContent=u[key];decorate(node,p.provenance[key]);}
+function applyProfile(){const p=D.profile,u=p.ui;renderSearchTopics(p);if($('active-profile-name')){$('active-profile-name').textContent='Profile: '+p.name;$('active-profile-name').hidden=false;}if($('nav-library'))$('nav-library').disabled=!D.ready;renderIntroduction(p);const nodes={sources_caption:document.querySelector('.source-caption'),welcome_title:$('welcome').querySelector('h2'),welcome_text:$('welcome').querySelector('p'),guidance_heading:$('guidance-card').querySelector('h3'),tip_heading:$('context-tip').querySelector('strong')};for(const [key,node]of Object.entries(nodes)){node.textContent=u[key];decorate(node,p.provenance[key]);}
   $('source-list-label').firstChild.textContent=u.sources_title;decorate($('source-list-label'),p.provenance.sources_title);decorate($('query'),p.provenance.search_placeholder);decorate(document.querySelector('label[for="query"]'),p.provenance.search_label);$('query').placeholder=p.id==='rei'?'e.g. Find research linking BRCA1 variants to breast cancer':u.search_placeholder;document.querySelector('label[for="query"]').textContent=u.search_label==='Research topic, gene, or chromosome region'?'What would you like to discover?':u.search_label;
   if(!state.search)$('results-heading').parentElement.hidden=true;
   $('constraints').querySelector('summary').textContent=u.constraints_heading;decorate($('constraints').querySelector('summary'),p.provenance.constraints_heading);
@@ -130,53 +153,141 @@ function renderIntroduction(profile,root=document.querySelector('.intro')){
 async function profileSettings(){
   let connectionError='';
   if(!HOSTED_DEMO)try{await requiresLocal();}catch(error){connectionError=error.message;}
-  const {body,dialog}=drawer('Settings','profile-dialog');D.dirty=false;
-  const saved=dnode('section',{class:'d-settings-section','aria-labelledby':'saved-settings-heading'},[
-    dnode('h3',{id:'saved-settings-heading',text:'Saved research'}),
-    dnode('p',{class:'d-muted',text:state.workspace.questions.length+' saved briefs in this workspace. Review questions, compare briefs, or export a backup.'}),
-    dbutton('Open saved research',()=>{dialog.close();setView('saved');$('saved-page').querySelector('h1').focus();})
-  ]);
-  body.append(saved);
-  const library=dbutton('Open local library',async()=>{await requiresLocal();dialog.close();await localLibrary();});library.id='nav-library';library.disabled=!D.ready;
-  body.append(dnode('section',{class:'d-settings-section','aria-labelledby':'library-settings-heading'},[
-    dnode('h3',{id:'library-settings-heading',text:'Local library'}),
-    dnode('p',{class:'d-muted',text:D.ready?'Browse saved activities across profiles, import files, and open or export ZIP archives.':'Run the local application to browse activities and manage ZIP archives.'}),library
-  ]));
-  if(!D.ready){body.append(dnode('h3',{text:'Profiles'}),dnode('p',{class:'d-muted',text:HOSTED_DEMO?'Run OpenBEXI Discovery locally to use profiles and the library.':connectionError}));return;}
-  body.append(dnode('h3',{text:'Profiles'}));
-  body.append(dnode('p',{text:'REI is the default. Switch workspaces or create a profile for another learning goal.'}));
-  renderProfileUpdateSection(body,dialog);
-  for(const p of D.profiles){
-    const goal=dnode('p',{text:p.goal});decorate(goal,p.provenance.goal);
-    const row=dnode('div',{class:'d-row','data-profile-id':p.id},[dnode('h3',{text:p.name+(p.id===D.profile.id?' · active':'')}),goal,dnode('small',{text:p.learning_level+' · revision '+p.revision})]);
-    row.append(dnode('div',{class:'d-bar'},[
-      dbutton('Edit',()=>editProfile(clone(p),false)),
-      dbutton('Use profile',async()=>{if(p.id===D.profile.id){dialog.close();return;}await D.saveQueue;D.states.set(D.profile.id,{search:state.search,query:$('query').value,tab:D.tab});await dapi('/profiles/action',{id:p.id,revision:p.revision,action:'activate'});resetTabBodies();await useProfile(p);dialog.close();}),
-      dbutton(p.id==='rei'?'Reset REI':'Delete',async()=>{if(!confirm(p.id==='rei'?'Reset REI settings? Saved work will remain.':'Delete this profile? Archived work will remain.'))return;await dapi('/profiles/action',{id:p.id,revision:p.revision,action:p.id==='rei'?'reset':'delete'});await reloadProfiles();await useProfile(D.profiles.find(x=>x.id===(p.id===D.profile.id?'rei':D.profile.id)));await profileSettings();},'quiet small d-danger'),
-      p.revision>1?dbutton('Roll back profile',async()=>{await rollbackProfile(p);await profileSettings();}):null
-    ]));body.append(row);
-  }
-  body.append(dbutton('Create profile',async()=>editProfile(await dapi('/templates/general'),true),'primary'));
+  $('profile-dialog')?.close();
+  const {body,dialog}=drawer('Settings','profile-dialog');dialog.classList.add('d-profile-settings');D.dirty=false;
+  const current=dselect('Current profile',D.profiles.map(p=>[p.id,p.name]),D.profile?.id);
+  current.input.id='current-profile';current.input.dataset.caption='Switch workspaces. Your selection is saved automatically and opens the next time you launch the app. Current settings and unfinished searches are saved first.';
+  const create=dbutton('Create new profile',()=>createProfile(),'primary small');create.dataset.caption='Describe an area of interest. AI will choose a suitable name and generate a complete profile with topics.';
+  const status=dnode('p',{class:'d-status',role:'status','aria-live':'polite'});
+  current.input.disabled=create.disabled=!D.ready;
+  body.append(dnode('section',{class:'d-profile-create-section','aria-label':'Create a profile'},[create]),dnode('div',{class:'d-profile-toolbar'},[current.wrapper]),status);
+  if(!D.ready){body.append(dnode('p',{class:'d-muted',text:HOSTED_DEMO?'Profiles are available in the local application.':connectionError}));return;}
+  current.input.onchange=async()=>{
+    current.input.disabled=create.disabled=true;dstatus(status,'Switching profile...');
+    try{
+      const profile=D.profiles.find(p=>p.id===current.input.value);
+      if(profile.id!==D.profile.id)await activateProfile(profile);
+      dialog.close();setView('search');$('query').focus();toast('Switched to '+D.profile.name+'.');
+    }catch(error){current.input.value=D.profile.id;dstatus(status,'Could not switch profiles. Your current workspace is still open. '+error.message,true);}
+    finally{current.input.disabled=create.disabled=false;}
+  };
+  const p=D.profile;
+  const overview=dnode('section',{id:'profile-overview',class:'d-profile-overview','aria-label':'Profile overview'});
+  const useIntroduction=!p.provenance.description&&['ai','ai_edited'].includes(p.provenance.introduction?.origin)&&p.ui.introduction;
+  const origin=(useIntroduction?p.provenance.introduction:p.provenance.description)||{origin:'template'};
+  overview.append(dnode('strong',{text:'Profile overview'}),dnode('p',{text:useIntroduction?p.ui.introduction:p.description||p.goal}));
+  if(['ai','ai_edited'].includes(origin.origin))overview.append(dnode('small',{text:origin.origin==='ai'?'AI-generated':'AI-assisted, user-edited'}));
+  decorate(overview,origin);body.append(overview);
+  const actions=dnode('details',{class:'d-profile-options'},[dnode('summary',{text:'Profile options'})]);
+  const edit=dbutton('Edit profile',()=>editProfile(clone(p),false));edit.dataset.caption='Edit the goals, themes, level, and page wording for this profile.';
+  const rename=dbutton('Rename',()=>renameProfile(p));rename.dataset.caption='Change the name of this profile while preserving its settings and saved work.';
+  const duplicate=dbutton('Duplicate',()=>createProfile(p));duplicate.dataset.caption='Create a separate profile with these settings. Saved work stays in the original profile.';
+  actions.append(dnode('div',{class:'d-bar'},[edit,rename,duplicate,
+    dbutton(p.id==='rei'?'Reset REI':'Delete profile',async()=>{
+      if(!confirm(p.id==='rei'?'Reset REI settings? Saved work will remain.':'Are you sure you want to delete '+p.name+'? Archived research will be kept.'))return;
+      await flushWorkspace();
+      await dapi('/profiles/action',{id:p.id,revision:p.revision,action:p.id==='rei'?'reset':'delete'});
+      await reloadProfiles();resetTabBodies();await useProfile(D.profiles.find(x=>x.id==='rei'));dialog.close();setView('search');$('query').focus();toast(p.id==='rei'?'REI reset.':'Profile deleted. Archived research has been kept.');
+    },'quiet small d-danger'),p.revision>1?dbutton('Roll back profile',async()=>{await rollbackProfile(p);await profileSettings();}):null]));
+  const ai=dnode('details',{id:'profile-ai-options'},[dnode('summary',{text:'Update profile with AI'})]);
+  renderProfileUpdateSection(ai,dialog);
+  ai.querySelector('h3')?.remove();
+  body.append(actions,ai);
+}
+function uniqueProfileName(base){
+  let name=base.slice(0,100),number=2;
+  while(D.profiles.some(p=>p.name.toLocaleLowerCase()===name.toLocaleLowerCase()))name=base.slice(0,94)+' '+number++;
+  return name;
+}
+async function createProfile(copy=null){
+  let profile=clone(copy||await dapi('/templates/general'));
+  $('profile-dialog')?.close();
+  const {body,dialog}=drawer(copy?'Duplicate profile':'Create new profile','profile-dialog');dialog.classList.add('d-profile-settings');D.dirty=false;
+  const name=dfield(copy?'Profile name':'Field or area of interest',copy?uniqueProfileName(copy.name+' copy'):'');name.input.required=true;name.input.maxLength=copy?100:500;name.input.autocomplete='off';
+  if(!copy)name.input.placeholder='e.g. How galaxies form and evolve';
+  const goal=dfield('Learning or research goal',copy?profile.goal:'','textarea');goal.input.maxLength=1000;
+  const description=dfield('Description',copy?profile.description:'','textarea');description.input.maxLength=1000;
+  const level=dselect('Learning level',D.levels.map(l=>[l.id,l.name]),profile.learning_level);level.input.dataset.caption='Choose the learning level for this profile.';
+  const more=dnode('details',{},[dnode('summary',{text:'More options'}),goal.wrapper,description.wrapper,level.wrapper]);
+  const status=dnode('p',{class:'d-status',role:'status',id:'profile-create-status'});name.input.setAttribute('aria-describedby',status.id);
+  const form=dnode('form',{},[name.wrapper,more,status]);let saved=null,generated=null,busy=false,controller=null;
+  const submit=dnode('button',{type:'submit',class:'primary small',text:copy?'Duplicate profile':'Create new profile','data-caption':copy?'Copy these settings into a separate profile.':'Ask AI to interpret your area of interest, choose a suitable name, and generate topics and settings.'});
+  const reasoning=dselect('Profile creation reasoning level',[['medium','Medium'],['high','High'],['xhigh','xHigh'],['max','Ultra']],'medium');
+  const syncCreationReasoning=()=>{setReasoningChoices(reasoning.input,(state.health?.ai?.reasoning_levels??['medium','high','xhigh','max']).filter(level=>level!=='low'),reasoning.input.value||'medium');reasoning.input.disabled=state.health?.ai?.reasoning_levels?.length===0;};
+  syncCreationReasoning();window.addEventListener('discovery-ai-provider-changed',syncCreationReasoning);dialog.addEventListener('close',()=>window.removeEventListener('discovery-ai-provider-changed',syncCreationReasoning),{once:true});
+  reasoning.input.id='profile-create-reasoning';reasoning.input.dataset.caption='Choose a reasoning level supported by the selected provider. Ultra uses maximum effort and may take longer and use more tokens. Custom providers use their default. Changing this does not start a request.';
+  const createAction=copy?submit:dnode('div',{class:'search-split d-profile-create-action'},[submit,reasoning.input]);
+  const cancel=dbutton('Cancel',()=>{if(busy&&controller){controller.abort();return;}if(D.dirty&&!confirm('Discard this profile draft?'))return;D.dirty=false;profileSettings();});
+  const connect=dbutton('Connect AI',openAISetup,'quiet small');connect.hidden=!!copy||!!state.health?.ai?.configured;form.append(connect);
+  dialog.addEventListener('close',()=>controller?.abort(),{once:true});
+  form.append(dnode('div',{class:'d-bar'},[createAction,cancel]));body.append(form);name.input.focus();
+  form.oninput=()=>{D.dirty=true;generated=null;name.input.removeAttribute('aria-invalid');dstatus(status,'');};
+  form.onsubmit=async event=>{
+    event.preventDefault();if(busy)return;
+    const value=name.input.value.trim();
+    if(!saved&&(!value||(copy&&D.profiles.some(p=>p.name.toLocaleLowerCase()===value.toLocaleLowerCase())))){name.input.setAttribute('aria-invalid','true');dstatus(status,value?'A profile with this name already exists. Choose another name.':copy?'Enter a profile name.':'Describe a field or area of interest.',true);name.input.focus();return;}
+    busy=true;submit.disabled=true;cancel.disabled=!!saved;controller=new AbortController();submit.textContent=saved?'Opening...':copy?'Duplicating...':'Generating...';form.setAttribute('aria-busy','true');
+    for(const input of form.querySelectorAll('input,textarea,select'))input.disabled=true;
+    try{
+      await flushWorkspace();
+      if(!saved){
+        if(copy)profile.name=value;profile.goal=goal.input.value.trim()||profile.goal;profile.description=description.input.value.trim();profile.learning_level=level.input.value;
+        if(!copy){
+          if(!generated){
+            const payload={task:'generate_profile',profile,instruction:value,reasoning_effort:reasoning.input.value,sensitive:!!D.sensitive,consent_ai:false};
+            if(payload.sensitive){payload.consent_ai=await reviewSensitiveRequest(payload);if(!payload.consent_ai)throw new Error('Profile generation canceled.');}
+            const result=await dapi('/ai/draft',payload,{timeout:270000,signal:controller.signal});
+            if(result.decision==='rejected'){name.input.setAttribute('aria-invalid','true');throw new Error(result.explanation);}
+            if(result.decision!=='accepted'||!result.profile)throw new Error('AI returned an incomplete profile. Please try again.');
+            generated=result.profile;
+          }
+          profile=clone(generated);
+        }
+        if(controller.signal.aborted||!dialog.open||!form.isConnected)return;
+        cancel.disabled=true;
+        saved=await dapi('/profiles/save',{profile,create:true});
+        D.profiles.push(saved);D.dirty=false;
+      }
+      if(!dialog.open||!form.isConnected){toast('Profile created. Select it in Settings.');return;}
+      await activateProfile(saved);dialog.close();toast('Profile created.');
+    }catch(error){dstatus(status,controller.signal.aborted?(saved?'Profile saved. Select it in Settings.':'Generation canceled. Your profile has not been created.'):(saved?'Profile saved. Retry opening it. ':'')+error.message,true);connect.hidden=!!copy||!!state.health?.ai?.configured;}
+    finally{busy=false;submit.disabled=cancel.disabled=false;for(const input of form.querySelectorAll('input,textarea,select'))input.disabled=!!saved;submit.textContent=saved?'Open profile':copy?'Duplicate profile':'Create new profile';controller=null;form.setAttribute('aria-busy','false');}
+  };
+}
+async function renameProfile(profile){
+  $('profile-dialog')?.close();
+  const {body,dialog}=drawer('Rename profile','profile-dialog');D.dirty=false;
+  const name=dfield('Profile name',profile.name),status=dnode('p',{class:'d-status',role:'status'});name.input.maxLength=100;name.input.oninput=()=>D.dirty=true;
+  body.append(name.wrapper,status,dbutton('Save name',async()=>{
+    try{
+      if(!name.input.value.trim())throw new Error('Enter a profile name.');
+      await flushWorkspace();
+      const saved=await dapi('/profiles/save',{profile:{...profile,name:name.input.value.trim()},base_revision:profile.revision,create:false});
+      applyCustomizedProfile(saved);D.dirty=false;await profileSettings();toast('Profile renamed.');
+    }catch(error){dstatus(status,error.message,true);name.input.focus();}
+  },'primary small'));
+  body.querySelector('button').dataset.caption='Save the new name without changing this profile or its research.';
+  name.input.focus();name.input.select();
 }
 async function reloadProfiles(){const data=await dapi('/bootstrap');D.profiles=data.profiles;D.settings=data.settings;D.budget=data.budget;}
 
-async function editProfile(profile,create){alignProfileWording(profile);const {body,dialog}=drawer(create?'Create learning profile':'Edit '+profile.name,'profile-dialog');D.draft=profile;D.dirty=false;body.oninput=()=>D.dirty=true;const status=dnode('div',{class:'d-status',role:'status'});const name=dfield('Profile name',profile.name),goal=dfield('Learning or research goal',profile.goal,'textarea');body.append(name.wrapper,goal.wrapper);
+async function editProfile(profile,create){$('profile-dialog')?.close();alignProfileWording(profile);const {body,dialog}=drawer(create?'Create learning profile':'Edit '+profile.name,'profile-dialog');D.draft=profile;D.dirty=false;body.oninput=()=>D.dirty=true;const status=dnode('div',{class:'d-status',role:'status'});const name=dfield('Profile name',profile.name),goal=dfield('Learning or research goal',profile.goal,'textarea');body.append(name.wrapper,goal.wrapper);
   if(!D.taxonomy)D.taxonomy=(await dapi('/taxonomy')).nodes;
   const themeTitle=dfield('Theme summary',profile.theme_title);body.append(themeTitle.wrapper);
   body.append(buildThemePicker(profile,{open:create,onChange:()=>{D.dirty=true;}}));
   const levels=dnode('details',{open:''},[dnode('summary',{text:'OpenBEXI Discovery — Knowledge Progression'})]);D.levels.forEach((level,i)=>{const input=dnode('input',{type:'radio',name:'learning-level',value:level.id});input.checked=profile.learning_level===level.id;input.onchange=()=>profile.learning_level=level.id;const example=profile.themes.some(id=>id.startsWith('02.01'))?level.example:`${level.description} Apply this to ${profile.theme_title}.`;levels.append(dnode('label',{class:'d-level'},[input,dnode('strong',{text:String(i+1).padStart(2,'0')+' '+level.name}),dnode('small',{text:example})]));});levels.append(dnode('p',{class:'d-muted',text:'Beyond the Frontier represents experimental inquiry, not a guarantee of scientific discovery. AI-generated hypotheses require independent verification.'}));body.append(levels);
   const options=dnode('details',{},[dnode('summary',{text:'Tabs, sources & tools'})]);for(const [key,values]of [['tabs',['evidence','documents','datasets','connections','quizzes','notes']],['sources',['pubmed','ensembl','gwas']],['tools',Object.keys(D.tools)]]){options.append(dnode('h4',{text:key[0].toUpperCase()+key.slice(1)}));for(const value of values){const c=dcheck(value+(key==='tools'&&D.tools[value]!=='available'?' · planned':''),profile[key].includes(value));if(key==='tools'&&D.tools[value]!=='available')c.input.disabled=true;c.input.onchange=()=>{profile[key]=c.input.checked?[...profile[key],value]:profile[key].filter(x=>x!==value);};options.append(c.wrapper);}}const initial=dselect('Initial tab',profile.tabs,profile.default_tab);options.append(initial.wrapper);body.append(options);
   const wording=dnode('details',{},[dnode('summary',{text:'Edit page wording'})]);const fields={};for(const [key,value]of Object.entries(profile.ui)){if(['welcome_heading','guidance_heading','guidance_text','constraints_heading','deadline_label','deadline_hint','data_label','data_hint','mentor_label','mentor_hint','tip_heading','tip_text'].includes(key))continue;const labels={eyebrow:'Workspace heading',heading:'Description lead-in (optional)',introduction:'Workspace description',welcome_title:'Evidence welcome title',welcome_text:'Evidence welcome text'};const f=dfield(labels[key]||key.replaceAll('_',' '),Array.isArray(value)?value.join('\n'):value,Array.isArray(value)||String(value).length>100?'textarea':'text');fields[key]=f.input;f.input.addEventListener('input',()=>{if(['ai','ai_edited'].includes(profile.provenance[key]?.origin))profile.provenance[key].origin='ai_edited';});wording.append(f.wrapper);}body.append(wording);
-  const instruction=dfield('Optional AI instructions','Adapt this workspace to my themes, goal, and chosen level.','textarea');const aiDetails=dnode('details',{},[dnode('summary',{text:'AI-assisted wording (optional)'}),instruction.wrapper]);const preview=dnode('div',{class:'d-preview',hidden:''});let reviewed=false;
+  const instruction=dfield('Optional AI instructions','Adapt this workspace to my themes, goal, and chosen level.','textarea');const aiDetails=dnode('details',{},[dnode('summary',{text:'AI-assisted wording (optional)'}),instruction.wrapper]);const preview=dnode('div',{class:'d-preview',hidden:''});
   function collect(){profile.name=name.input.value.trim();profile.goal=goal.input.value.trim();profile.theme_title=themeTitle.input.value.trim();profile.default_tab=profile.tabs.includes(initial.input.value)?initial.input.value:profile.tabs[0];for(const [key,input]of Object.entries(fields))profile.ui[key]=key==='examples'?input.value.split('\n').map(x=>x.trim()).filter(Boolean):input.value;return profile;}
-  aiDetails.append(dbutton('Generate wording draft',async()=>{collect();dstatus(status,'Generating a draft…');const result=await dapi('/ai/draft',{task:create?'create_profile':'update_profile',profile,instruction:instruction.input.value},{timeout:270000});profile=result.profile;D.draft=profile;for(const [key,input]of Object.entries(fields))input.value=Array.isArray(profile.ui[key])?profile.ui[key].join('\n'):profile.ui[key];themeTitle.input.value=profile.theme_title;D.dirty=true;reviewed=false;dstatus(status,result.explanation);await refreshBudget();}));body.append(aiDetails,status,preview);
+  aiDetails.append(dbutton('Generate wording draft',async()=>{collect();dstatus(status,'Generating a draft…');const result=await dapi('/ai/draft',{task:create?'create_profile':'update_profile',profile,instruction:instruction.input.value},{timeout:270000});profile=result.profile;D.draft=profile;for(const [key,input]of Object.entries(fields))input.value=Array.isArray(profile.ui[key])?profile.ui[key].join('\n'):profile.ui[key];themeTitle.input.value=profile.theme_title;D.dirty=true;preview.hidden=true;dstatus(status,result.explanation);await refreshBudget();}));body.append(aiDetails,status,preview);
   function showPreview(){collect();preview.hidden=false;
     const intro=dnode('div',{class:'intro'},[dnode('h1'),' ',dnode('p')]);renderIntroduction(profile,intro);
     const title=dnode('h2',{text:profile.ui.welcome_title}),text=dnode('p',{text:profile.ui.welcome_text});
     decorate(title,profile.provenance.welcome_title);decorate(text,profile.provenance.welcome_text);
-    preview.replaceChildren(intro,dnode('div',{class:'d-card'},[title,text]),dnode('p',{text:profile.theme_title+' / '+profile.learning_level}),dnode('p',{text:'Tabs: '+profile.tabs.join(', ')}));reviewed=true;
+    preview.replaceChildren(intro,dnode('div',{class:'d-card'},[title,text]),dnode('p',{text:profile.theme_title+' / '+profile.learning_level}),dnode('p',{text:'Tabs: '+profile.tabs.join(', ')}));
   }
-  body.addEventListener('input',()=>reviewed=false);body.append(dnode('div',{class:'d-bar'},[dbutton('Preview',showPreview),dbutton('Save profile',async()=>{collect();if(!profile.name||!profile.goal||!profile.tabs.length)throw new Error('Provide a name, goal, and at least one tab.');if(!reviewed){showPreview();dstatus(status,'Review the draft above, then select Save profile again.');return;}const original=D.profiles.find(p=>p.id===profile.id);const saved=await dapi('/profiles/save',{profile,base_revision:original?.revision,create});await D.saveQueue;await dapi('/profiles/action',{id:saved.id,revision:saved.revision,action:'activate'});await reloadProfiles();resetTabBodies();await useProfile(saved);D.dirty=false;dialog.close();toast('Profile saved.');},'primary')]));
+  body.addEventListener('input',()=>preview.hidden=true);body.append(dnode('div',{class:'d-bar'},[dbutton('Preview',showPreview),dbutton('Save profile',async()=>{collect();if(!profile.name||!profile.goal||!profile.tabs.length)throw new Error('Provide a name, goal, and at least one tab.');const original=D.profiles.find(p=>p.id===profile.id);const saved=await dapi('/profiles/save',{profile,base_revision:original?.revision,create});await reloadProfiles();await activateProfile(saved);D.dirty=false;dialog.close();toast('Profile saved.');},'primary')]));
 }
 
 function quizLevelName(level){return D.levels.find(item=>item.id===level)?.name||level;}
@@ -404,9 +515,11 @@ function databaseBrowser(connection){const {body}=drawer(connection.name,'databa
 function renderProfileModelUsage(usage){
   const box=$('ai-usage-table');if(!box)return;
   if(!usage.breakdown.length){box.replaceChildren(dnode('p',{class:'d-muted',text:'No AI requests recorded yet.'}));return;}
-  renderTable(box,usage.breakdown.map(row=>({
+  renderTable(box,(usage.daily_usage||usage.breakdown).map(row=>({
+    'Date (UTC)':row.date||'Unavailable',
+    Tokens:row.tokens.toLocaleString(),Model:row.model,
     Profile:D.profiles.find(profile=>profile.id===row.profile)?.name||row.profile,
-    Model:row.model,Requests:row.requests,Tokens:row.tokens.toLocaleString(),
+    Requests:row.requests,
     'Estimated USD':row.unknown_cost?'Unknown':'$'+row.estimated_usd.toFixed(4)
   })));
 }
@@ -425,7 +538,7 @@ async function renderAISettingsDetails(){
     body.append(dbutton('Remove saved local limits',async()=>{D.budget=await dapi('/budget',{period:usage.config.period,token_limit:null,cost_limit:null});D.lastBudgetError='';updateBudgetBadge();await renderAISettingsDetails();if(!D.settings.local_only)await checkHealth();renderAISetup();}));
   }
   body.append(dnode('h3',{text:'By profile and model'}),dnode('div',{id:'ai-usage-table'}),
-    dnode('p',{class:'d-muted',text:'Requests from this installation in the current accounting period, including pending requests. Costs are estimates; OpenAI does not report your remaining account credits here.'}));
+    dnode('p',{class:'d-muted',text:'Daily usage by request date (UTC), newest first, for the current accounting period. Pending requests include reserved tokens. Account credits are managed by your provider.'}));
   renderProfileModelUsage(usage);
 }
 
@@ -445,7 +558,9 @@ async function initDiscovery(){
   $('d-sensitive').onchange=()=>{D.sensitive=$('d-sensitive').checked;D.sensitiveConsent=false;if(D.sensitive){state.prefs.autoGuidance=false;cancelGuidance();}queueWorkspace();updateGuidance();};
   $('query').addEventListener('input',()=>{if(!D.hydrated)D.startupQueryEdited=true;});
   const legend=$('content-provenance');document.querySelector('.site-header').after(legend);legend.querySelector('.d-legend-detail').hidden=true;
+  const heading=dnode('div',{class:'d-workspace-heading'}),active=dnode('small',{id:'active-profile-name',hidden:''});$('workspace-title').before(heading);heading.append($('workspace-title'),active);
   const gear=dbutton('',()=>profileSettings(),'quiet small d-gear');gear.append(settingsIcon());gear.id='profile-settings';gear.title='Settings';gear.setAttribute('aria-label','Settings');$('connection-button').after(gear);
+  const library=dbutton('Local library',()=>localLibrary(),'quiet small');library.id='nav-library';library.disabled=!D.ready;const saved=dbutton('Saved research',()=>{setView('saved');$('saved-page').querySelector('h1').focus();},'quiet small');saved.dataset.caption='Open saved research briefs in this workspace.';document.querySelector('footer').append(dnode('div',{class:'d-workspace-links'},[saved,library]));
   const theme=dbutton('REI · Advanced',()=>profileSettings(),'d-theme');theme.id='d-theme';theme.title='Settings';theme.setAttribute('aria-haspopup','dialog');$('source-list-label').after(theme);
   const evidence=$('evidence-area'),wrapper=dnode('div',{id:'d-evidence',role:'tabpanel'});while(evidence.firstChild)wrapper.append(evidence.firstChild);evidence.append(dnode('div',{id:'d-tabs',class:'d-tabs',role:'tablist','aria-label':'Workspace tabs'}),wrapper,dnode('div',{id:'d-content',class:'d-content',role:'tabpanel',hidden:''}));
   document.querySelector('.ai-controls').append(dnode('span',{id:'d-budget-alert',class:'d-muted',role:'status','aria-live':'polite'}));
@@ -458,6 +573,7 @@ async function initDiscovery(){
 async function hydrateDiscovery(){
   try{const data=await dapi('/bootstrap');Object.assign(D,{ready:true,profiles:data.profiles,levels:data.levels,tools:data.tools,settings:data.settings,budget:data.budget});await useProfile(data.profiles.find(p=>p.id===data.settings.active_profile));updateBudgetBadge();document.querySelector('footer').append(dnode('span',{class:'d-muted',text:'Make human knowledge accessible to everyone, from the first lesson to the frontiers of scientific discovery.'}));
     for(const input of [$('query'),$('constraint-deadline'),$('constraint-data'),$('constraint-mentor')])input.addEventListener('change',queueWorkspace);
+    $('query').addEventListener('input',()=>{clearTimeout(D.draftSaveTimer);D.draftSaveTimer=setTimeout(()=>queueWorkspace(),250);});
     $('d-sensitive').checked=!!D.sensitive;
     window.addEventListener('beforeunload',event=>{if(D.dirty||D.saveError){event.preventDefault();event.returnValue='';}});
     D.hydrated=true;launchDefaultSearch();

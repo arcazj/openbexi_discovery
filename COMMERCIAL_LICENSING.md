@@ -4,7 +4,9 @@ Checked against official sources on October 4, 2026. The first version's install
 
 ## Project license
 
-The license for original project code and documentation is **pending owner selection**. These third-party terms do not license the project itself. Add a project `LICENSE` after choosing proprietary commercial terms or an open-source license that permits commercial use.
+Original project code and documentation use the [OpenBEXI Discovery Proprietary Commercial and Evaluation License](LICENSE). Personal, noncommercial learning, research, and evaluation are permitted within its terms. **Commercial use and redistribution require separate written permission from the applicable rights holder.** This is source-available proprietary software, not an open-source license. Contact the [project maintainer](https://github.com/arcazj/openbexi_discovery) for commercial terms; no pricing, paid support, or additional warranty is implied by downloading the software.
+
+Users must independently verify every result before relying on or sharing it and are responsible for their decisions. The tool is for learning and research, not professional advice. The [disclaimer](DISCLAIMER.md) contains accuracy limitations, warranty exclusions, and liability exclusions to the extent permitted by applicable law. Mandatory legal rights and liabilities are preserved. Have jurisdiction-specific commercial agreements reviewed by a qualified licensing professional.
 
 ## Software dependencies
 
@@ -16,9 +18,9 @@ The license for original project code and documentation is **pending owner selec
 
 Three.js is deferred and is not bundled in this release. The full Python runtime inventory and license texts are linked from `THIRD_PARTY_NOTICES.md`; retain applicable notices when distributing dependencies. Transitive dependencies include MPL-2.0 code: follow its source-availability and notice requirements when redistributing those libraries or modifications, as explained in [Mozilla's MPL FAQ](https://www.mozilla.org/en-US/MPL/2.0/FAQ/). Review any additional fonts, icons, assets, and sample data before distribution.
 
-## Hosted OpenAI API
+## Hosted AI services
 
-The SDK license covers client software. Hosted API access is governed separately by the applicable [OpenAI Services Agreement](https://openai.com/policies/services-agreement/), [Service Terms](https://openai.com/policies/service-terms/), and [Usage Policies](https://openai.com/policies/usage-policies/). The Services Agreement permits API integration into customer applications offered to end users; applicable usage charges still apply.
+OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, and custom providers have separate service terms, usage policies, account permissions, and billing. A project license does not grant API credits or rights to provider services. The SDK license covers client software. Hosted API access is governed separately by the applicable [OpenAI Services Agreement](https://openai.com/policies/services-agreement/), [Service Terms](https://openai.com/policies/service-terms/), and [Usage Policies](https://openai.com/policies/usage-policies/). The Services Agreement permits API integration into customer applications offered to end users; applicable usage charges still apply.
 
 ## Implemented data sources
 
@@ -40,4 +42,4 @@ Full-text publication rights are separate. If adding [PMC Open Access content](h
 Expose these notes through **Help → Licences** and source details. Make the [NCBI copyright and disclaimer notice](https://www.ncbi.nlm.nih.gov/home/about/policies/) evident in source details and Help for PubMed and other NCBI integrations. Retain attribution and applicable terms in exports. Verify permissions for caching, AI processing, display, and redistribution for the content actually used. Recheck terms for the final dependency versions and datasets before commercial distribution.
 
 
-See the [Discovery licensing roadmap](documentation/LICENSING_ROADMAP.md) for the proposed Community Edition and commercial boundaries. Existing notices remain in force; no license is selected by that proposal.
+See the [Discovery licensing roadmap](documentation/LICENSING_ROADMAP.md) for future offering ideas. The current LICENSE governs this release; roadmap proposals grant no additional rights.

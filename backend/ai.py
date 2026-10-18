@@ -1,7 +1,6 @@
-"""Source-grounded OpenAI Responses integration for research and search guidance."""
+"""Source-grounded provider integration for research and search guidance."""
 
 import json
-import os
 import re
 from typing import Any, Dict, List, Literal, Optional
 
@@ -11,7 +10,7 @@ from openai import (AsyncOpenAI, APIConnectionError, APIStatusError, APITimeoutE
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from .sources import utc_now
-from . import budget
+from . import budget, ai_providers as providers
 from .profiles import get_profile
 from .prompting import compose
 
@@ -24,19 +23,21 @@ REASONING_EFFORTS = ("low", "medium", "high", "xhigh", "max")
 
 
 def configured() -> bool:
-    value = os.getenv("OPENAI_API_KEY", "").strip()
-    return bool(value and value.lower() not in {"your_api_key", "your_api_key_here", "your-key-here", "replace-me"})
+    return providers.configured()
 
 
 def model_name() -> str:
-    return os.getenv("OPENAI_MODEL", DEFAULT_MODEL).strip() or DEFAULT_MODEL
+    return providers.config()["model"]
 
 
 def reasoning_effort() -> str:
-    value = os.getenv("OPENAI_REASONING_EFFORT", DEFAULT_REASONING_EFFORT).strip().lower() or DEFAULT_REASONING_EFFORT
-    if value not in REASONING_EFFORTS:
-        raise HTTPException(422, "Choose a supported reasoning level in Connect AI: Low, Medium, High, xHigh, or Max.")
-    return value
+    return providers.validate_effort(providers.config()["effort"])
+
+
+def provider_client(timeout=240):
+    if providers.current_id() == "openai":
+        return AsyncOpenAI(api_key=providers.config()["key"], base_url="https://api.openai.com/v1", timeout=timeout, max_retries=0)
+    return providers.ProviderClient(timeout)
 
 
 def output_token_limit(effort: str) -> int:
@@ -212,6 +213,8 @@ its own supporting citations. Use the refined query to explore a direction, neve
 
 
 def ai_error(exc: Exception) -> HTTPException:
+    if isinstance(exc, HTTPException):
+        return exc
     if isinstance(exc, AuthenticationError):
         return HTTPException(401, "The OpenAI API key was rejected. Open AI connection settings and enter a valid key.")
     if isinstance(exc, PermissionDeniedError):
@@ -241,18 +244,18 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
     if request.sensitive and not request.consent_ai:
         raise HTTPException(403, "Review and authorize this sensitive request before sending it to AI.")
     if not configured():
-        raise HTTPException(503, "AI is not configured. Open AI connection settings and enter your OPENAI_API_KEY. Browsing and saved research remain available.")
-    model, effort = model_name(), reasoning_effort()
+        raise HTTPException(503, "AI is not configured. Open Connect AI, choose a provider, and enter its API key. Browsing and saved research remain available.")
+    model, effort, provider = model_name(), reasoning_effort(), providers.current_id()
     instructions = SYSTEM_PROMPT if profile["id"] == "rei" else SYSTEM_PROMPT.replace(
         "You help an REI fellow evaluate evidence and develop feasible fellowship research questions.",
         "Help the user evaluate supplied evidence at the learning level and goal in their active profile.")
     messages, prompt_version = compose(request.action, request.query, profile, request.model_dump(), instructions)
     max_output = output_token_limit(effort)
-    reservation = budget.reserve(profile["id"], model, messages, max_output)
+    reservation = budget.reserve(profile["id"], providers.accounting_model(model), messages, max_output)
     response = None
     # store=False disables stored response state. The API still has separate service data policies.
     try:
-        async with AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=240.0, max_retries=0) as client:
+        async with provider_client() as client:
             response = await client.responses.parse(
                 model=model, reasoning={"effort": effort}, input=messages,
                 text_format=GuidanceResult if request.action == "guidance" else AIResult,
@@ -262,7 +265,7 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
             raise ValueError("The model did not return a complete structured response.")
         result = (validate_guidance_result(response.output_parsed, request.records)
                   if request.action == "guidance" else validate_ai_result(response.output_parsed, request.records))
-        result.update(model=model, reasoning_effort=effort, prompt_version=prompt_version, generated_at=utc_now(),
+        result.update(model=model, provider=provider, reasoning_effort=effort, prompt_version=prompt_version, generated_at=utc_now(),
                       evidence_snapshot=request.model_dump(), coverage=request.coverage)
         result.update(profile_id=profile["id"], profile_revision=profile["revision"])
         from .library import save_activity
@@ -270,7 +273,7 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
                                   "request": "[sensitive request omitted]" if request.sensitive else request.query,
                                   "prompts": [] if request.sensitive else messages,
                                   "payload": {"omitted": "Sensitive input/output excluded"} if request.sensitive else result,
-                                  "provenance": {"origin": "ai", "model": model, "generated_at": result["generated_at"]}})
+                                  "provenance": {"origin": "ai", "model": model, "provider": provider, "generated_at": result["generated_at"]}})
         result["activity_id"] = archived["id"]
         return result
     except HTTPException:
@@ -281,27 +284,28 @@ async def generate(request: AIRequest) -> Dict[str, Any]:
         budget.finish(reservation, getattr(response, "usage", None) if response else None)
 
 
-async def structured_task(task, profile, request, context, output_type):
+async def structured_task(task, profile, request, context, output_type, *, effort=None):
     """Metered structured generation with caller-supplied, reviewed context only."""
     budget.check_available()
     if not configured():
         raise HTTPException(503, "Connect AI before requesting recommendations or analysis.")
-    model, effort = model_name(), reasoning_effort()
+    model, effort, provider = model_name(), effort or reasoning_effort(), providers.current_id()
+    providers.validate_effort(effort)
     try:
         messages, version = compose(task, request, profile, context)
     except ValueError:
         raise HTTPException(422, 'The reviewed context is too large for one AI request. Create a working copy with fewer columns or shorter text.') from None
     maximum = output_token_limit(effort)
-    reservation = budget.reserve(profile['id'], model, messages, maximum)
+    reservation = budget.reserve(profile['id'], providers.accounting_model(model), messages, maximum)
     response = None
     try:
-        async with AsyncOpenAI(api_key=os.environ['OPENAI_API_KEY'], base_url='https://api.openai.com/v1', timeout=240, max_retries=0) as client:
+        async with provider_client() as client:
             response = await client.responses.parse(model=model, reasoning={'effort':effort}, input=messages,
                 text_format=output_type, max_output_tokens=maximum, store=False)
         if response.output_parsed is None:
             raise ValueError('Incomplete response')
         result = output_type.model_validate(response.output_parsed.model_dump()).model_dump()
-        result.update(provenance={'origin':'ai', 'model':model, 'generated_at':utc_now()},
+        result.update(provenance={'origin':'ai', 'model':model, 'provider':provider, 'generated_at':utc_now()},
                       reasoning_effort=effort, prompt_version=version)
         return result
     except HTTPException:
@@ -315,12 +319,12 @@ async def structured_task(task, profile, request, context, output_type):
 async def check_connection() -> Dict[str, Any]:
     budget.check_available()
     if not configured():
-        raise HTTPException(503, "Open AI connection settings and enter your OPENAI_API_KEY to enable AI.")
-    model = model_name()
+        raise HTTPException(503, "Open Connect AI and enter the selected provider's API key to enable AI.")
+    model, connection = model_name(), providers.status()
     try:
-        async with AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=15.0, max_retries=0) as client:
+        async with provider_client(timeout=15) as client:
             await client.models.retrieve(model)
-        return {"configured": True, "model": model, "reasoning_effort": reasoning_effort(), "accessible": True,
-                "message": "The API account can see this model. Actual generation also depends on account permissions and quota.", "checked_at": utc_now()}
+        return {**connection, "accessible": True,
+                "message": "The provider endpoint lists this model. Generation also depends on key permissions, supported features, and credits or quota.", "checked_at": utc_now()}
     except Exception as exc:
         raise ai_error(exc) from None

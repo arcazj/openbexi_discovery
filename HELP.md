@@ -1,7 +1,9 @@
 # OpenBEXI Discovery 1.2.2 Help
 
+**Verify every result before use.** AI outputs and retrieved information may be wrong or outdated. Check original sources, citations, calculations, and suitability for your purpose. The tool provides learning and research assistance, not professional advice. Read the [disclaimer](DISCLAIMER.md) for warranty and liability terms.
 
-For Discovery 1.2.2 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. The settings gear opens **Settings**. Use its **Saved research** section for briefs and **Local library** section for local activities and archives. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
+
+For Discovery 1.2.2 profiles, themes, quizzes, offline archives, SQLite connections, and AI usage, read the [Discovery user guide](documentation/USER_GUIDE.md). The REI workflow below remains available in the default Advanced profile. The settings gear opens **Settings**. Use **Saved research** and **Local library** in the workspace footer for briefs and archived activities. The header keeps one AI connection/status button, the Settings gear, and **Help (?)** on the right.
 
 [Live demo · V1.2.2](https://arcazj.github.io/openbexi_discovery/) · [Downloads and release notes](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2)
 
@@ -29,7 +31,7 @@ Open source links to check findings. Study design, population, sample size, and 
 
 Record a question, population, exposure/intervention, outcome, study design, required data, notes, and feasibility uncertainties. Optionally record your deadline, available datasets, and mentor expertise. Review access, sample size, methods, and time with your mentor; the application cannot establish these from publications alone.
 
-Open **Settings > Saved research** to review your briefs. Choose **Back to research** or the OpenBEXI Discovery name to return to search. Saved research stays in this browser on this device. Export JSON for backup and transfer. Import merges new brief IDs, preserves existing briefs, and restores supplied research constraints. Import only trusted workspace files. Export Markdown for mentor review, including references and search provenance. Clearing browser storage removes local saved work, so keep a backup.
+Open **Saved research** in the workspace footer to review your briefs. Choose **Back to research** or the OpenBEXI Discovery name to return to search. Saved research stays in this browser on this device. Export JSON for backup and transfer. Import merges new brief IDs, preserves existing briefs, and restores supplied research constraints. Import only trusted workspace files. Export Markdown for mentor review, including references and search provenance. Clearing browser storage removes local saved work, so keep a backup.
 
 ## AI assistance
 
@@ -41,9 +43,13 @@ For connected data, open **Connections → Connect to an API** or use **Recommen
 
 On Windows 10/11 x64, the [self-contained installer](WINDOWS_INSTALLATION.md) supplies the local backend and opens the browser automatically. Use its tray menu to reopen/quit the app. Private keys live in `%LOCALAPPDATA%\REIResearchExplorer\.env`; installation updates preserve that folder.
 
-AI is optional and runs through the Python backend. Click **Connect AI**, choose **Model** and **Reasoning** (default **GPT-6 Astra / xHigh**), enter your key, then select **Save & connect**. The password field clears after submission; the local backend saves the key and choices in ignored `.env` and checks model access without sending research evidence. No restart is needed. The same status button reopens the dialog, where you can change choices without entering the saved key again. **By profile and model** shows local usage; an **AI tokens unavailable** notice appears when the provider reports exhausted credits or quota.
+AI is optional and runs through the Python backend. Click **Connect AI**, choose **AI provider**, **Model**, and **Reasoning**, enter that provider's API key, then select **Save & connect**. OpenAI is the default, with **GPT-6 Astra / xHigh**. You can also choose Anthropic, Google Gemini, DeepSeek, OpenRouter, or **Other (OpenAI-compatible)**. The key-page link follows your selection; obtain keys and credits directly from your provider. The password field clears after submission. Each provider keeps separate settings in the local, ignored `.env` file, and your selected provider returns when the app restarts. No restart is needed to switch providers.
 
-The local REI workspace searches **Last Embryology research** once at launch. The input stays empty and shows that text as a placeholder; it disappears as soon as you type. Local-only or sensitive mode keeps this manual. The white results area retains its height even with zero records. The workspace omits recent-query chips, research-constraint panels, and tips. The search row contains only Search and, while searching, Cancel. Open Settings → Saved research → New brief to draft a research question. AI runs when you request an explanation, comparison, summary, or analysis.
+Other providers support AI analysis, profile generation, and scientific-source query planning. Overall and topic web searches currently require OpenAI. Available reasoning levels depend on the provider and model; custom connections use the provider's default. For a custom connection, supply an HTTPS API base URL, a model ID, and a key for an API supporting Chat Completions with JSON output. Changing its URL requires entering the key again. Connection checks do not generate text or guarantee available credits or generation permissions.
+
+**By profile and model** shows token usage by **Date (UTC)**, newest first, within the current accounting period. Pending or interrupted requests retain a token reservation when reliable usage is unavailable. Non-OpenAI model names include the provider; their cost estimates are shown as unknown. Saved cost limits block models with unknown pricing, while token limits still apply. Account credits and billing remain with the provider.
+
+The local REI workspace retrieves **Last Embryology research** once at launch unless a saved search draft is restored. Local-only or sensitive mode keeps retrieval manual. Use Overall Search for broad web research or Specific Search for checked topics or sources, with an independent reasoning selector for each. Open **Saved research > New brief** from the workspace footer to draft a research question.
 
 Saved-material rows include a preview and actions on the right. **Summarize** and **Analyze with AI** open a compact review panel; approve the text before sending it. Dataset analysis uses only a privacy-reviewed working copy. PDF summaries use saved notes. **Edit** is offered where supported, and **Delete** asks for confirmation.
 
@@ -55,7 +61,7 @@ OPENAI_MODEL=gpt-6-astra
 OPENAI_REASONING_EFFORT=xhigh
 ```
 
-Keys are stored only on the server. Never embed a key in HTML source, browser storage, exported research, or Git. UI key entry is available only through a local HTTP backend. OpenAI API usage is metered and requires model access and sufficient quota; the connection check verifies key and model access without generating text.
+Keys are stored only on the server. Never embed a key in HTML source, browser storage, exported research, or Git. UI key entry is available only through a local HTTP backend. API usage requires model access and sufficient provider credits or quota.
 
 `py -3 serve_frontend.py` starts the full application on port 8765. In IntelliJ, run **OpenBEXI Discovery**, `backend/app.py`, or `serve_frontend.py` and open the URL printed in Run. Use `--browser-only` only for the static demo; that mode needs a separate backend on port 8000 for full features. A custom backend URL in **Help → AI & connection** overrides automatic detection. `.env.example` is a public template.
 
@@ -87,3 +93,7 @@ The HTML works without the AI backend for sources that allow browser requests. S
 Read [commercial licensing notes](COMMERCIAL_LICENSING.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [NCBI copyright and disclaimer notice](https://www.ncbi.nlm.nih.gov/home/about/policies/). Publication text and datasets have source-specific reuse terms. The project's original-code license remains pending owner selection.
 
 The [README](README.md) contains startup instructions. The [implementation prompt](REI_RESEARCH_EXPLORER_PROMPT.md) records the agreed scope and acceptance criteria.
+
+## Profiles
+
+Use **Settings > Current profile** to switch between REI, Cosmologie, and your own profiles and return directly to the workspace. **Create new profile** asks for a **Field or area of interest**. AI chooses a suitable name and generates an overview, topics, goals, and workspace wording; unclear or meaningless requests are rejected without saving a profile. AI-generated overviews use an orange background. The creation button includes a reasoning selector: Medium, High, xHigh, or Ultra (maximum API effort). Optional fields are under More options. **Profile options > Delete profile** asks for confirmation and preserves archived research; REI can be reset. Your settings and unfinished search are saved before switching and restored after reload. **Local library** is in the workspace footer.

@@ -5,7 +5,7 @@
   const byId = {
     'connection-button': 'Connect an AI model, choose its reasoning level, or update your API key.',
     'nav-help': 'Read help for evidence search, AI connections, saved work, and source terms.',
-    'profile-settings': 'Manage learning profiles, open saved research, or browse the local library.',
+    'profile-settings': 'Switch profiles, read the profile overview, or create and manage profiles.',
     'd-theme': 'View the active learning profile and open settings to change its themes, goal, or level.',
     'manage-themes': 'Add or remove research themes for the active profile, with an option to undo saved changes.',
     'add-source': 'Choose an evidence source from the catalogue, restore a removed source, or connect an API or database.',
@@ -14,10 +14,10 @@
     'recommended': 'Restore PubMed, Ensembl, and GWAS Catalog to the workspace and select them for the next search.',
     'search-button': 'Search broadly using your prompt, regardless of selected topics.',
     'specific-search-button': 'Search selected topics or sources. If none are selected, search broadly.',
-    'overall-reasoning': 'Overall Search reasoning: Low prioritizes speed; Medium balances speed and depth; High allows deeper reasoning and may take longer. Changing this does not start a search.',
-    'specific-reasoning': 'Specific Search reasoning: Low prioritizes speed; Medium balances speed and depth; High allows deeper reasoning and may take longer. Coverage stays the same.',
-    'search-select-all': 'Select every available source for Specific Search.',
-    'search-clear': 'Clear the source selection. Specific Search will then search broadly.',
+    'overall-reasoning': 'Overall Search reasoning: Medium balances speed and depth; High and xHigh allow deeper reasoning; Ultra uses the model\'s maximum effort. Higher levels may take longer and use more tokens. Changing this does not start a search.',
+    'specific-reasoning': 'Specific Search reasoning: Medium balances speed and depth; High and xHigh allow deeper reasoning; Ultra uses the model\'s maximum effort. Higher levels may take longer and use more tokens. Coverage stays the same.',
+    'search-select-all': 'Select every available topic or source for Specific Search.',
+    'search-clear': 'Clear the topic or source selection. Specific Search will then search broadly.',
     'cancel-search': 'Stop the current evidence search.',
     'demo-button': 'Explore an illustrative workspace before running a live evidence search.',
     'guidance-query': 'Run a new evidence search using the suggested refined query.',
@@ -33,8 +33,8 @@
     'compare-ai': 'Ask the connected AI to compare the two selected research briefs.',
     'export-workspace': 'Download a JSON backup of this research workspace, including saved briefs.',
     'import-workspace': 'Choose a previously exported JSON workspace to import saved research.',
-    'ai-model': 'Choose the model used for future AI requests. The initial default is GPT-6 Astra.',
-    'ai-reasoning': 'Choose how much reasoning effort the model uses. Higher levels may take longer and use more tokens; xHigh is the default.',
+    'ai-model': 'Choose or enter a model supported by the selected provider. OpenAI defaults to GPT-6 Astra.',
+    'ai-reasoning': 'Choose a reasoning level supported by the provider and model. Higher levels may take longer and use more tokens. Custom providers use their default.',
     'ai-save-key': 'Save the chosen model, reasoning level, and any new key, then check AI access.',
     'ai-retry-connection': 'Check whether the local backend is available and reload the AI connection settings.',
     'ai-connection-help': 'Open instructions for starting the backend and connecting an AI model.',
@@ -194,6 +194,7 @@
     if (node.tagName === 'SUMMARY') return 'Expand or collapse ' + label.replace(/\?$/, '').toLowerCase() + '.';
     if (label === 'Edit' && node.closest('[data-activity-id]')) return node.closest('[aria-label="datasets"]') ? 'Review this dataset and save a revised working copy.' : 'Edit this saved material. Notes and quizzes are saved as revised copies.';
     if (label === 'Edit' && node.closest('[data-source-id]')) return 'Edit this source connection and test its settings before saving.';
+    if (label === 'Delete profile') return 'Delete this profile after confirming its name. Archived research is kept.';
     if (label === 'Delete') return node.closest('#profile-dialog') ? 'Delete this learning profile after confirmation. Historical saved activities are retained.' : 'Review removal of this saved brief from the local workspace.';
     if (label === 'Cancel') return node.closest('dialog') ? 'Close this panel without saving this draft.' : 'Stop the current AI request.';
     if (label === 'Refresh') return node.closest('[aria-label="connections"]') ? 'Reload this profile’s saved API and SQLite connections.' : 'Reload the saved material and history shown in this tab.';

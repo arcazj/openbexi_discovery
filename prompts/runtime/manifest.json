@@ -13,6 +13,8 @@
     "recommend_apis": "recommend_apis.md",
     "analyze_dataset": "analyze_dataset.md",
     "overall_search": "overall_search.md",
-    "specific_search": "specific_search.md"
+    "specific_search": "specific_search.md",
+    "generate_profile": "generate_profile.md",
+    "topic_search": "topic_search.md"
   }
 }

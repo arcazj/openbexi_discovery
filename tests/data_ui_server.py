@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import httpx
 import uvicorn
 
-from backend import ai, api_connections, profile_adaptation, profiles
+from backend import ai, api_connections, profile_adaptation, profile_creation, profiles
 from backend.app import app
 
 ROWS = [{'patient_name':'Alice Example','age':34,'outcome':2,'notes':'Alice Example at alice@example.org','password':'fictional-password'},
@@ -46,6 +46,16 @@ class FakeAI:
             'limitations':['These are saved sample records, not a population estimate.']}
         if schema.__name__ == 'Answer':
             value = {'text': 'Synthetic summary of the reviewed material. Evidence and limitations require review.'}
+        if schema is profile_creation.ProfileCreation:
+            request = json.loads(kwargs['input'][-1]['content'])
+            if request['area_of_interest'] == 'asdf qzxv':
+                value = {'decision': 'rejected', 'explanation': 'Describe a meaningful field or area of interest, such as Cosmology.', 'content': None}
+            else:
+                template = profiles.template('cosmologie')
+                value = {'decision': 'accepted', 'explanation': 'Created a profile around the supplied research topic.',
+                         'content': {key: template[key] for key in ('name', 'description', 'goal', 'theme_title', 'themes', 'sources', 'ui')}}
+                value['content']['name'] = 'Orbital dynamics'
+                value['content']['ui'].update(heading='Explore orbital dynamics', welcome_heading='Start exploring')
         if schema is profile_adaptation.ProfileProposal:
             reference = json.loads(kwargs['input'][1]['content'].split('\n', 1)[1])
             current = profiles.get_profile(reference['profile']['id'])

@@ -7,7 +7,7 @@ window.AIWork=(()=>{
   const node=(tag,attributes={},text='')=>{const item=document.createElement(tag);for(const [key,value] of Object.entries(attributes))item.setAttribute(key,value);if(text)item.textContent=text;return item;};
   function taskName(url,options){
     const path=new URL(url,location.href).pathname;
-    if(path==='/api/search'){const search=JSON.parse(options.body||'{}');return search.scope&&state.health?.ai?.configured?(search.scope==='overall'||!search.sources?.length?'Searching the web with GPT-6 Astra':'Preparing source queries with GPT-6 Astra'):'';}
+    if(path==='/api/search'){const search=JSON.parse(options.body||'{}');return search.scope&&state.health?.ai?.configured?(search.scope==='overall'||!search.sources?.length?'Searching the web with GPT-6 Astra':'Preparing source queries with '+state.health.ai.model):'';}
     if(!/^\/api\/(?:ai(?:\/(?:check|configure))?|discovery\/(?:ai\/[^/]+|api-connections\/recommend|datasets\/[^/]+\/ask|library\/[^/]+\/analyze))$/.test(path))return '';
     if(path.endsWith('/ai/check'))return 'Checking AI connection';
     if(path.endsWith('/ai/configure'))return 'Saving AI connection settings';
@@ -15,7 +15,7 @@ window.AIWork=(()=>{
     if(/\/library\/[^/]+\/analyze$/.test(path))return 'Analyzing saved material';
     if(/\/datasets\/[^/]+\/ask$/.test(path))return 'Analyzing your reviewed dataset';
     let payload={};try{payload=JSON.parse(options.body||'{}');}catch{/* A malformed request still gets a working indicator. */}
-    return {create_quiz:'Creating an 8-question quiz',create_profile:'Drafting profile wording',update_profile:'Updating profile wording',adapt_profile:'Preparing profile preview',
+    return {generate_profile:'Creating a complete profile',create_quiz:'Creating an 8-question quiz',create_profile:'Drafting profile wording',update_profile:'Updating profile wording',adapt_profile:'Preparing profile preview',
       explain:'Explaining source evidence',questions:'Developing research questions',compare:'Comparing research briefs',guidance:'Preparing research guidance',answer:'Preparing an AI answer'}[payload.task||payload.action]||'Preparing an AI response';
   }
   function create(){

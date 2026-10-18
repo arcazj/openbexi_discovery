@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 DOCUMENTS = (
+    "LICENSE",
     "README.md",
     "CHANGELOG.md",
     "RELEASE-NOTES-v1.1.1.md",
@@ -16,9 +17,10 @@ DOCUMENTS = (
     "HELP.md",
     "REI_RESEARCH_EXPLORER_PROMPT.md",
     "COMMERCIAL_LICENSING.md",
+    "DISCLAIMER.md",
     "THIRD_PARTY_NOTICES.md",
 )
-OPTIONAL_DOCUMENTS = ("LICENSE",)
+OPTIONAL_DOCUMENTS = ()
 HOSTED_MARKER = '<meta name="rei-hosted-demo" content="github-pages">'
 PUBLIC_FOLDERS = {"licenses": {".txt"}, "assets": {".js", ".css"}, "documentation": {".md"}}
 

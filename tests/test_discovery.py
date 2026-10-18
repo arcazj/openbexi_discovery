@@ -77,6 +77,32 @@ class DiscoveryTests(unittest.TestCase):
             self.assertIn(response.status_code, (409, 422), response.text)
         self.assertEqual(profiles.get_profile('rei')['revision'], 1)
 
+    def test_cosmologie_is_seeded_without_overwriting_profiles_or_recreating_deleted_copy(self):
+        initial = self.client.get('/api/discovery/bootstrap').json()
+        self.assertEqual([p['id'] for p in initial['profiles']], ['rei', 'cosmologie'])
+        cosmologie = profiles.get_profile('cosmologie')
+        self.assertEqual(cosmologie['name'], 'Cosmologie')
+        self.assertIn('02.03.03', cosmologie['themes'])
+        self.assertEqual(cosmologie['sources'], [])
+        self.assertIn('cosmic microwave', cosmologie['ui']['search_placeholder'])
+        updated = profiles.save_profile({**cosmologie, 'goal': 'My personal cosmology goal'}, 1)
+        rei = profiles.get_profile('rei')
+        profiles.ensure_default()
+        self.assertEqual(profiles.get_profile('cosmologie'), updated)
+        self.assertEqual(profiles.get_profile('rei'), rei)
+        profiles.profile_action('cosmologie', 'delete', updated['revision'])
+        self.assertEqual([p['id'] for p in profiles.list_profiles()], ['rei'])
+
+    def test_profile_names_are_trimmed_and_duplicates_or_blank_names_are_rejected(self):
+        draft = profiles.template('general')
+        created = self.post('/profiles/save', {'profile': {**draft, 'name': '  My research  '}, 'create': True})
+        self.assertEqual(created['name'], 'My research')
+        for name, code in [('my RESEARCH', 409), ('   ', 422)]:
+            response = self.client.post('/api/discovery/profiles/save', json={'profile': {**draft, 'name': name}, 'create': True})
+            self.assertEqual(response.status_code, code)
+        restored = profiles.save_profile({**created, 'name': 'Renamed research'}, created['revision'])
+        self.assertEqual(restored['id'], created['id'])
+
     def test_theme_and_source_changes_preserve_history_and_undo_in_place(self):
         original = profiles.get_profile('rei')
         other = profiles.save_profile(profiles.template('general'), create=True)
@@ -125,7 +151,7 @@ class DiscoveryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as other, patch.dict(os.environ, {'DISCOVERY_DATA_DIR':other}):
             second = library.open_zip(exported)
             result = library.import_zip(second['id'])
-            self.assertEqual(len(result['imported']),2)
+            self.assertEqual(len(result['imported']),3)
             self.assertEqual(library.artifact_file(first['id']).read_bytes(),b'# Source note')
             self.assertEqual(settings()['active_profile'],'rei')
             self.assertEqual(library.get_activity(first['id'])['profile_snapshot']['revision'],1)
@@ -231,6 +257,7 @@ class DiscoveryTests(unittest.TestCase):
                 profile = profiles.template('general')
                 profile['learning_level'] = level
                 profile['goal'] = 'Learn to evaluate scientific evidence.'
+                profile['name'] = 'Quiz '+level
                 profile = profiles.save_profile(profile, create=True)
                 with patch.dict(os.environ, {'OPENAI_API_KEY':'sk-test-fixture', 'OPENAI_MODEL':'gpt-6-astra', 'OPENAI_REASONING_EFFORT':'xhigh'}), patch('backend.ai.AsyncOpenAI', return_value=context):
                     result = self.post('/ai/draft', {'task':'create_quiz', 'profile':profile, 'instruction':'Start a quiz.'})

@@ -186,7 +186,7 @@ class DataPrivacyTests(unittest.TestCase):
                 update=self.post('/api-connections',self.connection(id=item['id'],auth_type=kind))
                 self.assertEqual(update['id'],item['id'])
                 reference=api_connections.get(item['id'],'rei')['credential_ref']
-                other=profiles.save_profile(profiles.template('general'),create=True)
+                other=profiles.save_profile({**profiles.template('general'), 'name': 'Authentication '+kind},create=True)
                 self.post('/api-connections/'+item['id']+'/check',{'profile_id':other['id']},404)
                 self.assertEqual(self.client.get('/api/discovery/api-connections?profile_id='+other['id']).json()['connections'],[])
                 self.post('/api-connections/'+item['id']+'/disconnect',{'profile_id':'rei'})

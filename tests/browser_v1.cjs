@@ -67,7 +67,7 @@ async function scenario(name,options,run){
     await page.waitForFunction(()=>document.querySelector('#connection-label').textContent!== 'Checking AI');
     if(options.connected!==false&&!options.hosted)await page.waitForFunction(()=>document.querySelector('#connection-button').dataset.state==='ready');
     const search=async query=>{await page.locator('#query').fill(query);await page.locator('#specific-search-button').click();await page.waitForFunction(query=>!state.searchController&&state.search?.query===query,query);};
-    const newBrief=async()=>{await page.locator('#profile-settings').click();await page.getByRole('button',{name:'Open saved research',exact:true}).click();await page.locator('#saved-new').click();};
+    const newBrief=async()=>{await page.getByRole('button',{name:'Saved research',exact:true}).click();await page.locator('#saved-new').click();};
     await run({page,calls,search,newBrief});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth),false,'No horizontal overflow');
     passed++;console.log('PASS '+name);
@@ -145,12 +145,12 @@ async function scenario(name,options,run){
       assert.equal(calls.queries.length,1);
     }
   });
-  await scenario('saved research remains available from Settings',{hosted:true,connected:false},async({page,calls})=>{
+  await scenario('saved research remains available from the workspace footer',{hosted:true,connected:false},async({page,calls})=>{
     await page.locator('#profile-settings').click();assert.equal(await page.locator('#nav-library').isDisabled(),true);
-    await page.getByRole('button',{name:'Open saved research',exact:true}).click();
+    await page.locator('#profile-dialog header button').click();await page.getByRole('button',{name:'Saved research',exact:true}).click();
     await page.locator('#saved-new').click();await page.locator('#brief-title').fill('Saved navigation check');await page.locator('#brief-question').fill('Can I reopen this brief from Settings?');
     await page.locator('#brief-form button[type=submit]').click();
-    await page.locator('.brand').click();await page.locator('#profile-settings').click();await page.getByRole('button',{name:'Open saved research',exact:true}).click();
+    await page.locator('.brand').click();await page.getByRole('button',{name:'Saved research',exact:true}).click();
     assert.ok((await page.locator('#saved-list').innerText()).includes('Saved navigation check'));
     await page.reload();await page.locator('#search-page').waitFor({state:'visible'});assert.equal(await page.locator('#saved-page').isVisible(),false);
     assert.equal(calls.api.length,0,'Hosted mode makes no private backend or key requests');

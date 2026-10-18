@@ -71,10 +71,10 @@ def verify_bundle(bundle):
     if private_paths:
         raise ValueError("The bundle contains private paths.")
     from dotenv import dotenv_values
-    private_key = dotenv_values(ROOT / ".env").get("OPENAI_API_KEY", "")
-    if private_key:
+    private_keys = [value.encode() for name, value in dotenv_values(ROOT / ".env").items() if name.endswith("_API_KEY") and value]
+    if private_keys:
         for path in bundle.rglob("*"):
-            if path.is_file() and private_key.encode() in path.read_bytes():
+            if path.is_file() and any(key in path.read_bytes() for key in private_keys):
                 raise ValueError("The bundle contains a private key.")
 
 
@@ -175,7 +175,8 @@ def build(require_signing=False):
     setup = safe_output(ROOT / "dist" / f"OpenBEXIDiscovery-{VERSION}-Windows-x64-Setup.exe")
     setup.parent.mkdir(exist_ok=True)
     installer_args = [str(compiler), "/DBUNDLE=" + str(bundle), "/DOUTPUT=" + str(setup), "/DICON=" + str(icon),
-                      "/DUNINSTALL_FILES=" + str(uninstall), "/DVERSION=" + VERSION]
+                      "/DUNINSTALL_FILES=" + str(uninstall), "/DVERSION=" + VERSION,
+                      "/DPROJECT_LICENSE=" + str(ROOT / "LICENSE")]
     if signer:
         installer_args += ["/DSIGN_PYTHON=" + sys.executable, "/DSIGN_SCRIPT=" + str(ROOT / "scripts" / "sign_windows.py")]
     subprocess.run([*installer_args, str(ROOT / "installer" / "windows.nsi")], cwd=ROOT, check=True)

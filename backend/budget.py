@@ -69,14 +69,16 @@ def summary(db):
         reasons.append("Token limit reached")
     if config["cost_limit"] is not None and (unknown or cost >= config["cost_limit"]):
         reasons.append("Cost is uncertain" if unknown else "Estimated cost limit reached")
-    breakdown = {}
+    breakdown, daily_usage = {}, {}
     for row in rows:
         key = row["profile"] + ":" + row["model"]
-        group = breakdown.setdefault(key, {"profile": row["profile"], "model": row["model"], "requests": 0, "tokens": 0, "estimated_usd": 0, "unknown_cost": False})
-        group["requests"] += 1
-        group["tokens"] += row["input_tokens"] + row["output_tokens"]
-        group["estimated_usd"] += row["cost"] or 0
-        group["unknown_cost"] |= row["cost"] is None
+        day = row["at"][:10]  # Stored request timestamps are UTC.
+        initial = {"profile": row["profile"], "model": row["model"], "requests": 0, "tokens": 0, "estimated_usd": 0, "unknown_cost": False}
+        for group in (breakdown.setdefault(key, dict(initial)), daily_usage.setdefault((day, key), dict(initial, date=day))):
+            group["requests"] += 1
+            group["tokens"] += row["input_tokens"] + row["output_tokens"]
+            group["estimated_usd"] += row["cost"] or 0
+            group["unknown_cost"] |= row["cost"] is None
     return {"config": config, "start": start, "reset_at": end, "timezone": "UTC", "updated_at": stamp(),
             "requests": len(rows), "input_tokens": sum(r["input_tokens"] for r in rows),
             "output_tokens": sum(r["output_tokens"] for r in rows), "total_tokens": tokens,
@@ -86,6 +88,7 @@ def summary(db):
             "remaining_tokens": None if config["token_limit"] is None else max(0, config["token_limit"] - tokens),
             "remaining_usd": None if config["cost_limit"] is None or unknown else max(0, config["cost_limit"] - cost),
             "blocked": bool(reasons), "reason": "; ".join(reasons), "breakdown": list(breakdown.values()),
+            "daily_usage": sorted(daily_usage.values(), key=lambda row: row["date"], reverse=True),
             "pricing": read_json(ROOT / "templates" / "pricing.json")}
 
 

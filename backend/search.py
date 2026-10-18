@@ -1,6 +1,6 @@
 """Explicit broad web search and bounded, source-specific query planning."""
 import asyncio
-import os
+import json
 from typing import List, Literal
 from urllib.parse import urlsplit
 
@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
 from . import ai, budget
-from .profiles import get_profile
+from .profiles import get_profile, taxonomy
 from .prompting import compose
 from .sources import interpret, utc_now
 
@@ -70,56 +70,67 @@ def web_answer(response):
 
 
 async def search(request, service):
-    scope = "specific" if request.scope == "specific" and request.sources else "overall"
+    scope = "specific" if request.scope == "specific" and (request.sources or request.topics) else "overall"
     profile = get_profile(request.profile_id)
     if request.profile_revision is not None and profile["revision"] != request.profile_revision:
         raise HTTPException(409, "The profile changed. Retry from its current revision.")
     if request.sensitive and not request.consent_ai:
         raise HTTPException(403, "Review and authorize this sensitive search before sending it.")
+    topics = request.topics if scope == "specific" else []
+    if topics and (request.sources or any(t not in profile["themes"] for t in topics)):
+        raise HTTPException(422, "Choose topics from this profile, separately from scientific sources.")
+    topic_names = [taxonomy()[tid]["name"] for tid in topics]
+    web_search = scope == "overall" or bool(topics)
+    if web_search and ai.providers.current_id() != "openai":
+        raise HTTPException(422, "Web search is currently integrated with OpenAI. Choose OpenAI in Connect AI for Overall Search or topic searches; selected scientific sources and AI analysis support your current provider.")
+    if topics and not ai.configured():
+        raise HTTPException(503, "Connect AI to search selected topics with GPT-6 Astra.")
     if scope == "overall" and not ai.configured():
         raise HTTPException(503, "Connect AI to use Overall Search with GPT-6 Astra. Specific Search can retrieve checked scientific sources without AI.")
     try:
-        interpretation = {"type": "topic", "term": request.query} if scope == "overall" else interpret(request.query, request.mode)
+        interpretation = {"type": "topic", "term": request.query} if web_search else interpret(request.query, request.mode)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from None
     metadata = {"scope": scope, "requested_scope": request.scope, "query": request.query,
                 "retrieved_at": utc_now(), "demo": False,
-                "interpretation": interpretation}
+                "interpretation": interpretation, "topics": topics}
     if not ai.configured():
         plan = [SourceQuery(source=source, query=request.query, mode=metadata["interpretation"]["type"])
                 for source in request.sources]
         metadata["search_note"] = "Direct source search. Connect AI to refine queries with the selected reasoning level."
     else:
         budget.check_available()
-        task = "overall_search" if scope == "overall" else "specific_search"
+        task = "topic_search" if topics else "overall_search" if web_search else "specific_search"
         # Broad search is not constrained by the active profile or checked sources.
-        if scope == "overall":
+        if web_search:
             from .discovery_store import ROOT, read_json
             root = ROOT / "prompts" / "runtime"
             messages = [{"role": "system", "content": (root / "base.md").read_text(encoding="utf-8") + "\n" +
-                         (root / "tasks" / "overall_search.md").read_text(encoding="utf-8")},
-                        {"role": "user", "content": request.query}]
+                         (root / "tasks" / (task + ".md")).read_text(encoding="utf-8")},
+                        {"role": "user", "content": json.dumps({"query": request.query, "selected_topics": topic_names}) if topics else request.query}]
             version = read_json(root / "manifest.json")["version"]
         else:
             messages, version = compose(task, request.query, profile, {"sources": request.sources})
-        maximum = ai.output_token_limit(request.reasoning_effort)
-        reservation = budget.reserve(profile["id"], MODEL, messages, maximum,
-                                     web_calls=MAX_WEB_CALLS if scope == "overall" else 0)
+        effort = ai.providers.validate_effort(request.reasoning_effort)
+        provider = ai.providers.current_id()
+        model = MODEL if provider == "openai" else ai.model_name()
+        maximum = ai.output_token_limit(effort)
+        reservation = budget.reserve(profile["id"], ai.providers.accounting_model(model), messages, maximum,
+                                     web_calls=MAX_WEB_CALLS if web_search else 0)
         response = None
         try:
-            async with ai.AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1",
-                                    timeout=240, max_retries=0) as client:
-                arguments = dict(model=MODEL, reasoning={"effort": request.reasoning_effort},
+            async with ai.provider_client() as client:
+                arguments = dict(model=model, reasoning={"effort": effort},
                                  input=messages, max_output_tokens=maximum, store=False)
-                if scope == "overall":
+                if web_search:
                     response = await client.responses.create(**arguments, tools=[{"type": "web_search", "search_context_size": "low"}],
                                                              tool_choice="required", max_tool_calls=MAX_WEB_CALLS)
                 else:
                     response = await client.responses.parse(**arguments, text_format=QueryPlan)
             if getattr(response, "status", "completed") != "completed":
                 raise ValueError("Incomplete search response")
-            metadata.update(model=MODEL, reasoning_effort=request.reasoning_effort, prompt_version=version)
-            if scope == "overall":
+            metadata.update(model=model, provider=provider, reasoning_effort=effort, prompt_version=version)
+            if web_search:
                 parts, sources, queries, _ = web_answer(response)
                 return {**metadata, "records": [], "answer": parts, "web_sources": sources,
                         "coverage": [{"source": "web", "status": "ok", "total": None,

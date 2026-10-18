@@ -1,4 +1,5 @@
 """Search coverage, reasoning, provenance and billing without paid requests."""
+import json
 import os
 import tempfile
 import unittest
@@ -73,6 +74,48 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(response.json()['scope'], 'overall')
         self.assertEqual(self.provider.responses.create.call_args.kwargs['reasoning'], {'effort': 'low'})
         self.provider.responses.parse.assert_not_called()
+
+    def test_upper_reasoning_levels_reach_astra_for_both_search_scopes(self):
+        self.provider.responses.parse.return_value = SimpleNamespace(status='completed', output=[],
+            usage={'input_tokens': 100, 'output_tokens': 100}, output_parsed=search.QueryPlan(queries=[
+                search.SourceQuery(source='pubmed', query='BRCA1 research', mode='topic')]))
+        for scope in ('overall', 'specific'):
+            for effort in ('xhigh', 'max'):
+                with self.subTest(scope=scope, effort=effort):
+                    result = self.post(scope=scope, reasoning_effort=effort)
+                    self.assertEqual(result.status_code, 200, result.text)
+                    self.assertEqual(result.json()['reasoning_effort'], effort)
+                    method = self.provider.responses.create if scope == 'overall' else self.provider.responses.parse
+                    self.assertEqual(method.call_args.kwargs['reasoning'], {'effort': effort})
+                    self.assertEqual(method.call_args.kwargs['max_output_tokens'], ai.output_token_limit(effort))
+
+    def test_specific_profile_topics_constrain_web_search(self):
+        response = self.post(scope='specific', sources=[], profile_id='cosmologie', topics=['02.03.03.03'])
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()['scope'], 'specific')
+        self.assertEqual(response.json()['topics'], ['02.03.03.03'])
+        request = json.loads(self.provider.responses.create.call_args.kwargs['input'][-1]['content'])
+        self.assertEqual(request, {'query': 'BRCA1 research', 'selected_topics': ['Dark matter']})
+        self.assertTrue(response.json()['answer'])
+        self.source.assert_not_called()
+        self.provider.responses.parse.assert_not_called()
+
+    def test_topic_selection_is_ignored_by_overall_search(self):
+        result = self.post(topics=['02.03.03.03'])
+        self.assertEqual(result.status_code, 200, result.text)
+        self.assertEqual(result.json()['topics'], [])
+        self.assertEqual(self.provider.responses.create.call_args.kwargs['input'][-1]['content'], 'BRCA1 research')
+
+    def test_invalid_topic_combinations_and_unconfigured_topic_search(self):
+        for overrides in ({'topics': ['unknown']}, {'topics': ['02.03.03.03'], 'sources': ['pubmed']},
+                          {'topics': ['02.03.03.03', '02.03.03.03']}, {'topics': ['02.01']}):
+            result = self.post(scope='specific', profile_id='cosmologie', **({'sources': []} | overrides))
+            self.assertEqual(result.status_code, 422, result.text)
+        with patch.dict(os.environ, {'OPENAI_API_KEY': ''}):
+            result = self.post(scope='specific', sources=[], profile_id='cosmologie', topics=['02.03.03.03'])
+            self.assertEqual(result.status_code, 503)
+        self.provider.responses.create.assert_not_called()
+        self.source.assert_not_called()
 
     def test_specific_queries_only_selected_sources_and_reports_exact_queries(self):
         self.provider.responses.parse.return_value = SimpleNamespace(status='completed', output=[],

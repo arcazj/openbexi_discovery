@@ -64,8 +64,12 @@ def redact(value):
         return [redact(v) for v in value]
     if isinstance(value, str):
         result = SECRET.sub("[credential omitted]", value)
-        key = os.getenv("OPENAI_API_KEY", "")
-        return result.replace(key, "[credential omitted]") if len(key) > 10 else result
+        from .ai_providers import PROVIDERS
+        for provider in PROVIDERS.values():
+            key = os.getenv(provider["prefix"] + "_API_KEY", "")
+            if key:
+                result = result.replace(key, "[credential omitted]")
+        return result
     return value
 
 

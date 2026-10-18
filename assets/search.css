@@ -13,7 +13,7 @@
 .search-split select{width:91px;min-width:91px;min-height:38px;padding:7px 5px 7px 8px;border:1px solid #315d46;border-left:1px solid #8aa996;border-radius:0 7px 7px 0;background:#315d46;color:#fff;font-size:12px;cursor:pointer}
 .search-split option{background:#fff;color:#25332f}
 .search-split :focus-visible{outline:2px solid #183c2a;outline-offset:3px;z-index:1}
-.search-specific-action{width:258px;max-width:100%;justify-self:end}
+.search-specific-action{grid-column:2;width:258px;max-width:100%;justify-self:end}
 .search-specific-action .d-search-privacy{margin-top:4px}
 .search-specific-action .d-search-privacy>summary{font-size:11px}
 .search-specific-row{align-items:center;margin-top:8px}
@@ -25,6 +25,8 @@
 #search-coverage .source-chip .source-name{font-size:12px;line-height:1.4}
 #search-coverage .source-chip small{display:none}
 #search-coverage input{margin:0;accent-color:#315d46}
+#search-topic-choices{display:flex;flex-wrap:wrap;gap:5px}
+#search-topic-choices .source-chip{white-space:normal}
 .search-selection-tools{display:inline-flex;gap:8px;margin:4px 0}
 .search-selection-tools button{padding:3px 0;font-size:11px;text-decoration:underline;text-underline-offset:2px}
 .search-footer{display:flex;align-items:center;justify-content:flex-end;gap:12px}
@@ -40,7 +42,7 @@
  .search-surface,.search-surface:hover{padding:12px}
  .search-overall-row,.search-specific-row{grid-template-columns:minmax(0,1fr);gap:8px}
  .search-split{width:100%;justify-self:stretch}
- .search-specific-action{width:100%;justify-self:stretch}
+ .search-specific-action{grid-column:1;width:100%;justify-self:stretch}
  .search-split button.primary,.search-split select{min-height:44px}
  #search-coverage .source-chip{min-height:40px;padding:6px 8px}
  .search-selection-tools button{min-height:32px;padding:5px 0}

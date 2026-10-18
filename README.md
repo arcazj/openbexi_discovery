@@ -6,9 +6,11 @@ A local learning and research workspace. Start with the **REI profile at Advance
 
 [Live demo · V1.2.2](https://arcazj.github.io/openbexi_discovery/) · [Release v1.2.2 and downloads](https://github.com/arcazj/openbexi_discovery/releases/tag/v1.2.2) · [Release notes](RELEASE-NOTES-v1.2.2.md) · [User guide](documentation/USER_GUIDE.md)
 
-The workspace uses a compact header and golden-ratio desktop columns. The header keeps one AI connection/status button, the **Settings** gear, and **Help (?)** on the right. **Connect AI** offers model and reasoning choices, defaulting to GPT-6 Astra / xHigh. Open **Settings** for **Saved research**, **Local library**, and profiles; the active profile button beside Sources opens the same panel. The application version appears in small text after the brand.
+**Verify every result before use.** AI output, retrieved sources, citations, and calculations may be incorrect, incomplete, or outdated. Users are responsible for independent verification and their decisions. This is a learning and research tool, not professional advice. Warranty and liability exclusions apply to the extent permitted by law. Read the [disclaimer](DISCLAIMER.md) and [commercial licensing terms](COMMERCIAL_LICENSING.md).
 
-Version 1.2.2 adds **Overall Search** across the web and **Specific Search** within checked sources, using **GPT-6 Astra**. Each compact green search button includes Low / Medium / High reasoning, defaulting to Medium. Request privacy sits directly beneath Specific Search; the search box remains prominent and lightweight. Without AI, Specific Search can still retrieve checked sources directly.
+The workspace uses a compact header and golden-ratio desktop columns. The header keeps one AI connection/status button, the **Settings** gear, and **Help (?)** on the right. **Connect AI** offers OpenAI (default, GPT-6 Astra / xHigh), Anthropic, Gemini, DeepSeek, OpenRouter, and custom OpenAI-compatible providers, with separate saved keys and model settings. Token usage includes its date (UTC). Open **Settings** to select REI, Cosmologie, or another profile, or create a complete AI-generated profile by describing a field or area of interest. **Saved research** and **Local library** remain available in the workspace footer. The application version appears in small text after the brand.
+
+Version 1.2.2 adds **Overall Search** across the web and **Specific Search** within checked sources or profile topics. OpenAI searches use **GPT-6 Astra**; other providers support scientific-source query planning with their selected model. Web search currently requires OpenAI. Each compact green search button includes supported reasoning choices up to **Ultra**, defaulting to Medium where available. Request privacy sits directly beneath Specific Search; the search box remains prominent and lightweight. Without AI, Specific Search can still retrieve checked sources directly.
 
 Version 1.2 adds reviewed AI profile updates with rollback, eight-question quizzes with scores and history, API connections, dataset privacy review, help captions, and visible progress for every AI task. Each progress bar names the task and shows elapsed time, including inside dialogs and when multiple requests are running.
 
@@ -33,7 +35,7 @@ The app opens in your browser. Use the tray menu to reopen or quit. Private data
 ## What you can do
 
 - **Research:** search evidence, inspect sources, save questions, and compare briefs.
-- **Personalize:** create profiles, choose research themes and one of seven levels, or request an AI update in Settings. Preview and select changes, then apply or roll back.
+- **Personalize:** describe an area of interest to create an AI-named profile with topics, goals, and an overview. Switch profiles from compact Settings, edit manually, or review AI updates. Delete profiles with confirmation while keeping archived research.
 - **Learn and practice:** generate an eight-question quiz for your profile and level, save scores, review answers, and remove attempts from history. Retake saved quizzes offline.
 - **Work locally:** create, import, read, edit, and delete documents; browse datasets, write notes, author quizzes, and open or export ZIP libraries without AI.
 - **Keep the workspace simple:** automatically search “Last Embryology research” when the local REI workspace launches, manage sources in the tab after Evidence, and use compact item actions and detail panels.
@@ -69,4 +71,4 @@ The [browser demo](https://arcazj.github.io/openbexi_discovery/) supports basic 
 - [Community Edition and commercial roadmap](documentation/LICENSING_ROADMAP.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-3D engines, full adaptive tutoring, knowledge graphs, autonomous agents, and account-provider integrations are planned extensions. Licensing remains pending owner review.
+3D engines, full adaptive tutoring, knowledge graphs, autonomous agents, and account-provider integrations are planned extensions. The [proprietary license](LICENSE) permits personal noncommercial learning, research, and evaluation; commercial use and redistribution require separate written permission. Third-party rights remain separate.

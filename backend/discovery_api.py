@@ -9,7 +9,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import Field, StrictInt
 
-from . import profiles, budget, library, connections, ai, datasets, api_connections, private_store, profile_adaptation
+from . import profiles, budget, library, connections, ai, datasets, api_connections, private_store, profile_adaptation, profile_creation
 from .discovery_store import ROOT, LOCK, stamp, settings, update_settings, redact, require_online
 from .prompting import compose
 
@@ -106,9 +106,10 @@ class QuizHistoryDelete(profiles.Strict):
 
 
 class DraftRequest(profiles.Strict):
-    task: Literal["create_profile", "update_profile", "adapt_profile", "create_quiz", "answer"]
+    task: Literal["create_profile", "generate_profile", "update_profile", "adapt_profile", "create_quiz", "answer"]
     profile: profiles.Profile
     instruction: str = Field(min_length=1, max_length=8000)
+    reasoning_effort: Optional[Literal["medium", "high", "xhigh", "max"]] = None
     sensitive: bool = False
     consent_ai: bool = False
     allow_level_change: bool = False
@@ -285,7 +286,7 @@ def taxonomy():
 
 
 @router.get("/templates/{name}")
-def template(name: Literal["rei", "general"]):
+def template(name: Literal["rei", "general", "cosmologie"]):
     return profiles.template(name)
 
 
@@ -504,6 +505,8 @@ def connection_query(value: DatabaseQuery):
 async def generate_draft(value):
     if value.sensitive and not value.consent_ai:
         raise HTTPException(403, "Review and authorize this sensitive AI request first.")
+    if value.task == "generate_profile":
+        return await profile_creation.generate(value)
     profile = profiles.validate_profile(value.profile.model_dump())
     if value.task != "create_profile":
         current = profiles.get_profile(profile["id"])
@@ -526,19 +529,18 @@ async def generate_draft(value):
         raise HTTPException(503, "Connect AI to generate a draft, or use the editable local template.")
     messages, version = compose(value.task, value.instruction, profile, context)
     output_type = profile_adaptation.ProfileProposal if value.task == "adapt_profile" else ProfileTextDraft if value.task.endswith("profile") else library.GeneratedQuiz if value.task == "create_quiz" else Answer
-    model, effort = ai.model_name(), ai.reasoning_effort()
+    model, effort, provider = ai.model_name(), ai.reasoning_effort(), ai.providers.current_id()
     max_output = ai.output_token_limit(effort)
-    reservation = budget.reserve(profile["id"], model, messages, max_output)
+    reservation = budget.reserve(profile["id"], ai.providers.accounting_model(model), messages, max_output)
     response = None
     try:
-        import os
-        async with ai.AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://api.openai.com/v1", timeout=240, max_retries=0) as client:
+        async with ai.provider_client() as client:
             response = await client.responses.parse(model=model, reasoning={"effort": effort}, input=messages,
                                                     text_format=output_type, max_output_tokens=max_output, store=False)
         if response.output_parsed is None:
             raise ValueError("Incomplete draft")
         output = output_type.model_validate(response.output_parsed.model_dump()).model_dump()
-        provenance = {"origin": "ai", "model": model, "generated_at": stamp()}
+        provenance = {"origin": "ai", "model": model, "provider": provider, "generated_at": stamp()}
         if value.task == "adapt_profile":
             output["profile"], output["changes"] = profile_adaptation.build_proposal(
                 profile, output, provenance, value.allow_level_change, value.allow_layout_changes)

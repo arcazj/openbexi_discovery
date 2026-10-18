@@ -6,7 +6,7 @@ from functools import lru_cache
 from typing import Dict, List, Literal, Optional
 
 from fastapi import HTTPException
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from .discovery_store import ROOT, LOCK, data_root, identifier, read_json, write_json, stamp, settings, update_settings, redact
 
@@ -57,6 +57,7 @@ class Copy(Strict):
 class Provenance(Strict):
     origin: Literal["template", "user", "ai", "ai_edited", "unverified"] = "template"
     model: Optional[str] = Field(default=None, max_length=100)
+    provider: Optional[str] = Field(default=None, max_length=30)
     generated_at: Optional[str] = Field(default=None, max_length=80)
 
 
@@ -82,6 +83,14 @@ class Profile(Strict):
     created_at: str = ""
     updated_at: str = ""
 
+    @field_validator("name")
+    @classmethod
+    def clean_name(cls, value):
+        value = value.strip()
+        if not value:
+            raise ValueError("Enter a profile name.")
+        return value
+
     @model_validator(mode="after")
     def supported(self):
         for items in (self.tabs, self.panels, self.sources, self.hidden_source_ids, self.themes, self.tools, self.connection_ids):
@@ -91,7 +100,7 @@ class Profile(Strict):
             raise ValueError("The initial tab must be visible.")
         if any(TOOLS.get(t) != "available" for t in self.tools):
             raise ValueError("Choose implemented tools only.")
-        if any(k not in Copy.model_fields and k not in {"goal", "theme_title", "themes", "learning_level", "tabs", "default_tab", "panels"} for k in self.provenance):
+        if any(k not in Copy.model_fields and k not in {"name", "description", "goal", "theme_title", "themes", "learning_level", "tabs", "default_tab", "panels"} for k in self.provenance):
             raise ValueError("Unknown content provenance field.")
         for value in self.connection_ids:
             identifier(value)
@@ -138,7 +147,9 @@ def validate_profile(value, check_themes=True):
 
 
 def template(name="rei"):
-    return validate_profile(read_json(ROOT / "templates" / ("general.json" if name == "general" else "rei.json")))
+    if name not in {"rei", "general", "cosmologie"}:
+        raise HTTPException(404, "Profile template not found.")
+    return validate_profile(read_json(ROOT / "templates" / (name + ".json")))
 
 
 def profile_path(pid):
@@ -147,10 +158,12 @@ def profile_path(pid):
 
 def ensure_default():
     with LOCK:
-        if not profile_path("rei").exists():
-            value = template()
-            value.update(id="rei", revision=1, created_at=stamp(), updated_at=stamp())
-            write_json(profile_path("rei"), value)
+        for pid in ("rei", "cosmologie"):
+            deleted = data_root() / ".discovery" / "deleted_profiles" / (pid + ".json")
+            if not profile_path(pid).exists() and (pid == "rei" or not deleted.exists()):
+                value = template(pid)
+                value.update(id=pid, revision=1, created_at=stamp(), updated_at=stamp())
+                write_json(profile_path(pid), value)
 
 
 def get_profile(pid):
@@ -163,13 +176,18 @@ def get_profile(pid):
 
 def list_profiles():
     ensure_default()
-    return [get_profile(p.stem) for p in sorted((data_root() / "user_profiles").glob("*.json"))]
+    values = [get_profile(p.stem) for p in (data_root() / "user_profiles").glob("*.json")]
+    return sorted(values, key=lambda p: (p["id"] != "rei", p["name"].casefold()))
 
 
 def save_profile(value, base_revision=None, create=False, preserve_provenance=False):
     with LOCK:
         value = validate_profile(value)
         old = None if create else get_profile(value["id"])
+        if (not old or old["name"].casefold() != value["name"].casefold()) and any(
+                p["name"].casefold() == value["name"].casefold() and (not old or p["id"] != old["id"])
+                for p in list_profiles()):
+            raise HTTPException(409, "A profile with this name already exists. Choose another name.")
         if old:
             if base_revision != old["revision"]:
                 raise HTTPException(409, "This profile changed. Reload it before saving.")
@@ -178,7 +196,7 @@ def save_profile(value, base_revision=None, create=False, preserve_provenance=Fa
                      revision=old["revision"] + 1 if old else 1,
                      created_at=old["created_at"] if old else stamp(), updated_at=stamp())
         if old and not preserve_provenance:
-            for key in (*Copy.model_fields, "goal", "theme_title", "themes", "learning_level", "tabs", "default_tab", "panels"):
+            for key in (*Copy.model_fields, "name", "description", "goal", "theme_title", "themes", "learning_level", "tabs", "default_tab", "panels"):
                 prior = old["provenance"].get(key, {})
                 changed = value["ui"][key] != old["ui"][key] if key in Copy.model_fields else value[key] != old[key]
                 if (changed and prior.get("origin") in {"ai", "ai_edited"}

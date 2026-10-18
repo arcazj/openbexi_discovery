@@ -1,6 +1,6 @@
 # Proposed Community Edition and commercial roadmap
 
-This is a proposal, not a license grant. Existing notices remain pending review.
+The current release uses the [Proprietary Commercial and Evaluation License](../LICENSE): personal noncommercial learning, research, and evaluation are permitted within its terms; commercial use and redistribution require separate written permission. The proposals below do not grant additional rights or change that license. See the [commercial terms](../COMMERCIAL_LICENSING.md) and [disclaimer](../DISCLAIMER.md).
 
 | Offering | Proposed scope | Licensing direction |
 | --- | --- | --- |
@@ -13,7 +13,7 @@ Release 1.2.2 adds no paywall or subscription billing. Labels/directories alone 
 Before commercialization:
 
 1. Confirm ownership/contributor rights and audit third-party code, taxonomy, data, and content.
-2. Select the Community license and review commercial boundaries and any dual licensing.
+2. Review any proposed future Community license and commercial boundaries before changing the current license.
 3. Prepare applicable EULA, SaaS terms, privacy policy, and enterprise agreements.
 4. Establish the business entity and verify registration, tax, and permit obligations.
 5. Search trademarks for OpenBEXI Discovery before substantial branding investment.

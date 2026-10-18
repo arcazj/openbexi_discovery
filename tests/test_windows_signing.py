@@ -104,6 +104,8 @@ class WindowsSigningTests(unittest.TestCase):
 
         def compile_package(arguments, **kwargs):
             if "PyInstaller" in arguments:
+                for name in ("LICENSE", "DISCLAIMER.md", "COMMERCIAL_LICENSING.md"):
+                    self.assertIn(str(root / name) + ";.", arguments)
                 bundle.mkdir(parents=True)
                 app.write_bytes(b"app")
             else:
@@ -112,6 +114,7 @@ class WindowsSigningTests(unittest.TestCase):
                 self.assertTrue(json.loads((bundle / "BUILD-INFO.json").read_text())["signed"])
                 self.assertTrue(any(arg.startswith("/DSIGN_SCRIPT=") for arg in arguments))
                 self.assertTrue(any(arg.startswith("/DSIGN_PYTHON=") for arg in arguments))
+                self.assertIn("/DPROJECT_LICENSE=" + str(root / "LICENSE"), arguments)
                 setup.write_bytes(b"setup")
 
         signer = Mock()

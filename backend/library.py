@@ -421,12 +421,17 @@ def export_zip(profile="", activity="", include_sensitive=False):
 
 def restore_profile(aid, consent_sensitive=False):
     """Explicitly restore reviewed history as a new inactive profile, never overwrite."""
-    from .profiles import save_profile, save_workspace
+    from .profiles import save_profile, save_workspace, list_profiles
     item = get_activity(aid)
     if item.get("sensitive") and not consent_sensitive:
         raise HTTPException(403, "Authorize local retention before restoring sensitive work.")
     value = copy.deepcopy(item["profile_snapshot"])
-    value["name"] = (value["name"] + " (restored)")[:100]
+    base_name = value["name"][:85] + " (restored)"
+    names = {p["name"].casefold() for p in list_profiles()}
+    value["name"], number = base_name, 2
+    while value["name"].casefold() in names:
+        value["name"] = base_name + " " + str(number)
+        number += 1
     value["connection_ids"] = []
     allowed = {}
     if item["kind"] == "workspace" and item.get("payload"):

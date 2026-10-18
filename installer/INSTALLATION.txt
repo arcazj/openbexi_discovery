@@ -30,3 +30,9 @@ may still trigger reputation warnings. Original-code licensing remains pending
 owner selection.
 
 Help: https://github.com/arcazj/openbexi_discovery
+
+Results may be incorrect, incomplete, or outdated. Independently verify every
+result before using or sharing it. The tool is for learning and research, not
+professional advice. Read LICENSE, DISCLAIMER.md, and COMMERCIAL_LICENSING.md
+in the application Help. Warranty and liability exclusions apply only to the
+extent permitted by applicable law.

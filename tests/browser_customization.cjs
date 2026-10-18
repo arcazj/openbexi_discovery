@@ -34,12 +34,12 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   const close=async id=>page.locator('#'+id+' header button').click();
   const sourcesTab=async()=>{await page.locator('#d-tab-sources').click();await page.locator('#d-content [data-source-list][data-loaded="true"]').waitFor();};
   const sourceSettings=async()=>{await sourcesTab();if(!await page.locator('#sources-settings').evaluate(n=>n.open))await page.locator('#sources-settings>summary').click();};
-  assert.equal(await page.locator('#query').inputValue(),'','Startup leaves the input empty instead of inserting stale saved text');
+  assert.equal(await page.locator('#query').inputValue(),'ovarian aging','Startup restores the saved draft');
   assert.ok(await page.evaluate(()=>state.prefs.recent.includes('ovarian aging')),'Hidden history is preserved');
   assert.equal(await page.locator('#query').getAttribute('placeholder'),'e.g. Find research linking BRCA1 variants to breast cancer');
+  assert.deepEqual(searches,[],'A saved draft prevents an automatic startup search');
+  await page.locator('#query').fill('Last Embryology research');await page.locator('#specific-search-button').click();
   await page.waitForFunction(()=>!state.searchController&&state.search?.query===DEFAULT_QUERY);
-  assert.deepEqual(searches,['Last Embryology research']);
-  assert.equal(await page.locator('#query').evaluate(n=>n.matches(':placeholder-shown')),true,'The launch search keeps the placeholder visible');
   assert.equal(await page.locator('#result-count').textContent(),'1 records');
   assert.equal(await page.locator('.record').count(),1);
   assert.deepEqual(await page.locator('.search-controls').getByRole('button').allTextContents(),['Overall Search']);
@@ -54,7 +54,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   assert.equal(legends[0],legends[1],'Provenance legend fits on one line on desktop');
   fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
   await page.screenshot({path:path.join(root,'test-results/startup-workspace-desktop.png'),fullPage:true});
-  await page.locator('#query').pressSequentially('embryo transfer');
+  await page.locator('#query').fill('');await page.locator('#query').pressSequentially('embryo transfer');
   assert.equal(await page.locator('#query').inputValue(),'embryo transfer','Typing does not append to the placeholder');
   assert.equal(await page.locator('#query').evaluate(n=>n.matches(':placeholder-shown')),false);
   await page.locator('#query').fill('');
@@ -93,7 +93,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   const chosen=await page.locator('#themes-dialog .d-tree input[type=checkbox]').first().evaluate(n=>n.closest('label').textContent.trim());
   const chosenId=await page.evaluate(name=>D.taxonomy.find(node=>node.name===name).id,chosen);
   await page.getByRole('button',{name:'Save themes',exact:true}).click();await page.locator('#themes-dialog').waitFor({state:'hidden'});
-  assert.equal(await page.evaluate(()=>D.profile.id),'rei');assert.equal((await api('/bootstrap')).profiles.length,2,'Theme changes do not create extra profiles');
+  assert.equal(await page.evaluate(()=>D.profile.id),'rei');assert.equal((await api('/bootstrap')).profiles.length,3,'Theme changes do not create extra profiles');
   const savedThemes=(await api('/bootstrap')).profiles.find(profile=>profile.id==='rei').themes;
   assert.deepEqual(savedThemes,[...original.themes.slice(1),chosenId],'All selected themes persist even when the compact title uses a more count');
   await sourceSettings();await page.locator('#sources-settings').getByRole('button',{name:'Manage themes',exact:true}).click();assert.ok((await page.locator('#themes-dialog .d-chips').innerText()).includes(chosen));await close('themes-dialog');
@@ -111,9 +111,9 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   await page.reload();await page.waitForFunction(()=>D.ready&&!D.connecting&&!!document.querySelector('#manage-sources'));assert.equal(await page.locator('#d-content [data-source-id="gwas"]').isVisible(),false);
   assert.equal(await page.locator('#source-gwas').isChecked(),true,'Removing a source remembers its search checkbox preference');
   assert.ok(!(await page.evaluate(()=>selectedSources())).includes('gwas'),'Hidden sources cannot participate in a search');
-  await page.locator('#profile-settings').click();await page.locator('#profile-dialog .d-row').filter({has:page.getByRole('heading',{name:'Independent profile',exact:true})}).getByRole('button',{name:'Use profile'}).click();
+  await page.locator('#profile-settings').click();await page.getByLabel('Current profile',{exact:true}).selectOption({label:'Independent profile'});await page.waitForFunction(()=>!D.switching&&!document.querySelector('#profile-dialog').open);
   await page.locator('#profile-dialog').waitFor({state:'hidden'});await page.waitForFunction(id=>D.profile.id===id,other.id);await sourcesTab();assert.equal(await page.locator('#d-content [data-source-id="gwas"]').isVisible(),true,'Other profiles keep their own source list');
-  await page.locator('#profile-settings').click();await page.locator('#profile-dialog .d-row').filter({has:page.getByRole('heading',{name:'REI',exact:true})}).getByRole('button',{name:'Use profile'}).click();
+  await page.locator('#profile-settings').click();await page.getByLabel('Current profile',{exact:true}).selectOption('rei');await page.waitForFunction(()=>!D.switching&&!document.querySelector('#profile-dialog').open);
   await page.locator('#profile-dialog').waitFor({state:'hidden'});await page.waitForFunction(()=>D.profile.id==='rei');assert.equal(await page.locator('#d-content [data-source-id="gwas"]').isVisible(),false);
   await sourcesTab();await page.locator('#d-content').getByRole('button',{name:'+ Add source',exact:true}).click();await page.locator('#add-source-dialog [data-source-id="gwas"]').getByRole('button',{name:'Add to workspace'}).click();
   await page.waitForFunction(()=>!D.profile.hidden_source_ids.includes('gwas'));await assertCaptions(page,'Add source catalogue');

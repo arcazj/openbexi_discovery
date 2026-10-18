@@ -10,6 +10,9 @@ Unicode True
 !ifndef OUTPUT
   !error "Installer output path is required."
 !endif
+!ifndef PROJECT_LICENSE
+  !error "The project license must be supplied by the build."
+!endif
 !ifndef VERSION
   !define VERSION "1.2.2"
 !endif
@@ -24,7 +27,7 @@ InstallDir "$LOCALAPPDATA\Programs\REIResearchExplorer"
 InstallDirRegKey HKCU "Software\openbexi\REIResearchExplorer" "InstallPath"
 RequestExecutionLevel user
 SetCompressor /SOLID zlib
-BrandingText "OpenBEXI Discovery Â· V${VERSION}"
+BrandingText "OpenBEXI Discovery - V${VERSION}"
 VIProductVersion "${VERSION}.0"
 VIAddVersionKey "ProductName" "OpenBEXI Discovery"
 VIAddVersionKey "ProductVersion" "${VERSION}"
@@ -36,12 +39,13 @@ VIAddVersionKey "LegalCopyright" "OpenBEXI Discovery contributors"
 !define MUI_UNICON "${ICON}"
 !define MUI_ABORTWARNING
 !define MUI_WELCOMEPAGE_TITLE "Install OpenBEXI Discovery"
-!define MUI_WELCOMEPAGE_TEXT "A personalized learning and research workspace for this Windows account.$\r$\n$\r$\nPython, SQLite, and dependencies are included. Saved material works offline. Administrator access is not required.$\r$\n$\r$\nInternet is needed for public sources. AI uses your own OpenAI API key, entered inside the app after installation."
+!define MUI_WELCOMEPAGE_TEXT "A personalized learning and research workspace for this Windows account.$\r$\n$\r$\nPython, SQLite, and dependencies are included. Saved material works offline. Administrator access is not required.$\r$\n$\r$\nAI uses your selected provider and API key. Results may be incorrect: independently verify every result before use. This tool is not professional advice."
 !define MUI_FINISHPAGE_RUN "$INSTDIR\REIResearchExplorer.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "Open OpenBEXI Discovery"
 !define MUI_FINISHPAGE_LINK "Installation help and source code"
 !define MUI_FINISHPAGE_LINK_LOCATION "https://github.com/arcazj/openbexi_discovery#install-on-windows"
 !insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "${PROJECT_LICENSE}"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_INSTFILES

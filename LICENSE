@@ -1,0 +1,77 @@
+OpenBEXI Discovery - Proprietary Commercial and Evaluation License
+Version 1.0 - October 18, 2026
+
+Copyright (c) 2026 OpenBEXI Discovery contributors. All rights reserved.
+
+1. Scope and ownership
+
+This license applies to original OpenBEXI Discovery software and documentation
+distributed with it (the "Software"). Ownership remains with the respective
+copyright holders. This is a proprietary, source-available license, not an
+open-source license. No trademark rights are granted.
+
+2. Limited noncommercial permission
+
+You may download, install, run, inspect, and privately modify the Software for
+personal, noncommercial learning, research, and evaluation. You may make copies
+needed for those purposes and backups. Keep this license, the disclaimer, and
+all applicable copyright and third-party notices with those copies. You may
+use the public demonstration for evaluation. No other rights are granted by
+this paragraph.
+
+3. Commercial use and redistribution
+
+Commercial use requires a separate written license from the applicable rights
+holder. Commercial use includes use for commercial advantage or business
+operations, offering paid or hosted services, incorporating the Software into
+a commercial product or service, and selling or commercially distributing it.
+Redistribution, sublicensing, and offering modified versions to others also
+require written permission, except for rights independently granted by the
+repository hosting platform's applicable terms or by mandatory law.
+
+Commercial pricing, deployment rights, support, and any additional warranties
+must be agreed in writing. Public availability of the repository, demonstration,
+or downloads does not grant a commercial license. Contact the project maintainer
+through https://github.com/arcazj/openbexi_discovery for commercial licensing.
+
+4. Verification and user responsibility
+
+Results, source material, citations, calculations, and AI-generated outputs can
+be incorrect, incomplete, misleading, or outdated. You must independently
+verify every result before using, sharing, publishing, or relying on it. You
+are responsible for suitability checks, permissions, backups, and your decisions
+and actions. The Software is for learning and research and does not provide
+medical, clinical, legal, financial, or other professional advice. Do not rely
+on its output alone for safety-critical or other potentially harmful decisions.
+The accompanying DISCLAIMER.md forms part of these terms.
+
+5. No warranty
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE AND ITS OUTPUTS
+ARE PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTIES OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING ACCURACY, COMPLETENESS, RELIABILITY, MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NO ERROR-FREE RESULT,
+UNINTERRUPTED SERVICE, OR PARTICULAR OUTCOME IS GUARANTEED.
+
+6. Limitation of liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHORS, COPYRIGHT
+HOLDERS, CONTRIBUTORS, AND DISTRIBUTORS SHALL NOT BE LIABLE FOR CLAIMS, LOSSES,
+OR DAMAGES ARISING FROM USE OF, INABILITY TO USE, OR RELIANCE ON THE SOFTWARE
+OR ITS OUTPUTS, INCLUDING INCORRECT RESULTS, LOST DATA, LOST PROFITS, BUSINESS
+INTERRUPTION, OR DIRECT, INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES,
+WHETHER BASED ON CONTRACT, TORT, OR ANOTHER LEGAL THEORY, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGES.
+
+Nothing excludes or limits rights, protections, or liabilities that applicable
+law does not permit to be excluded or limited. A separate written agreement
+governs to the extent it expressly overrides these terms.
+
+7. Third-party rights and severability
+
+Third-party libraries, content, datasets, and services retain their own licenses
+and terms. This license does not replace those terms, restrict rights granted
+independently by those licenses, or grant rights to third-party content. See
+THIRD_PARTY_NOTICES.md and COMMERCIAL_LICENSING.md. If a provision is unenforceable,
+it applies only to the extent permitted by law and the remaining provisions
+continue to apply.

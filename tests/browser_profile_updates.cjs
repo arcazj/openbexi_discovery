@@ -36,7 +36,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   });
   await page.goto(base);await page.waitForFunction(()=>D.ready&&!D.connecting).catch(async error=>{console.error(await page.evaluate(()=>({ready:D.ready,health:state.health,toast:$('toast')?.textContent,body:document.body.innerText.slice(-1500)})));throw error;});
   const close=async id=>page.locator('#'+id+' header button').click();
-  const settings=async()=>{await page.locator('#profile-settings').click();await page.locator('#profile-dialog[open]').waitFor();};
+  const settings=async()=>{await page.locator('#profile-settings').click();await page.locator('#profile-dialog[open]').waitFor();await page.locator('#profile-ai-options>summary').click();};
   const generate=async()=>{await page.locator('#profile-update-generate').click();await page.locator('#profile-update-apply').waitFor();};
   const search=async query=>{
     await page.locator('#query').fill(query);
@@ -80,7 +80,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   await page.screenshot({path:path.join(root,'test-results/profile-update-preview-desktop.png')});
   await page.getByLabel('Apply Search examples',{exact:true}).uncheck();
   await page.getByLabel('Apply Tip text',{exact:true}).uncheck();
-  await page.locator('#profile-update-apply').click();await page.locator('#profile-dialog').waitFor({state:'hidden'});
+  await page.locator('#profile-update-apply').click();await page.locator('#profile-dialog').waitFor({state:'hidden'}).catch(async error=>{console.error(await page.locator('#profile-dialog .d-status').allTextContents());throw error;});
   let saved=await page.evaluate(()=>D.profile);
   assert.equal(saved.revision,2);assert.notEqual(saved.goal,original.goal);assert.deepEqual(saved.ui,original.ui);
   assert.deepEqual(saved.tabs,original.tabs);assert.equal(saved.learning_level,original.learning_level);
@@ -97,7 +97,7 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   assert.equal(await page.evaluate(()=>D.profile.learning_level),'researcher');
   assert.equal(await page.locator('[role=tab]').count(),4);
   await page.reload();await page.waitForFunction(()=>D.ready&&!D.connecting);
-  await settings();await page.locator('[data-profile-id="rei"]').getByRole('button',{name:'Roll back profile',exact:true}).click();
+  await settings();await page.getByText('Profile options',{exact:true}).click();await page.getByRole('button',{name:'Roll back profile',exact:true}).click();
   await page.waitForFunction(()=>D.profile.learning_level==='advanced');
   assert.deepEqual(await page.evaluate(()=>D.profile.ui),original.ui);
   assert.equal(await page.locator('[role=tab]').count(),7);await close('profile-dialog');
@@ -110,10 +110,10 @@ async function ready(){for(let i=0;i<300;i++){if(server.exitCode!==null)throw ne
   await page.locator('#query').fill('PCOS slow');await page.locator('#search-button').click();await page.locator('#cancel-search').click();
   await page.waitForFunction(()=>!state.searchController);assert.equal((await api('/library?profile=rei&kind=search')).activities.length,beforeCancel);
 
-  await settings();await page.locator('[data-profile-id="'+other.id+'"]').getByRole('button',{name:'Use profile',exact:true}).click();
+  await settings();await page.getByLabel('Current profile',{exact:true}).selectOption(other.id);await page.waitForFunction(()=>!D.switching&&!document.querySelector('#profile-dialog').open);
   await page.waitForFunction(id=>D.profile.id===id,other.id);assert.equal(await page.locator('#profile-search-update').isVisible(),false);
   await settings();assert.ok((await page.locator('.d-profile-update').innerText()).includes('Physics'));
-  await page.locator('[data-profile-id="rei"]').getByRole('button',{name:'Use profile',exact:true}).click();await page.waitForFunction(()=>D.profile.id==='rei'&&!D.suppressSave);
+  await page.getByLabel('Current profile',{exact:true}).selectOption('rei');await page.waitForFunction(()=>!D.switching&&!document.querySelector('#profile-dialog').open);await page.waitForFunction(()=>D.profile.id==='rei'&&!D.suppressSave);
 
   await settings();await page.locator('#profile-update-request').fill('Focus my goal on ovarian aging.');await generate();
   await page.locator('#profile-update-request').fill('Keep a different research goal.');assert.equal(await page.locator('#profile-update-apply').isVisible(),false,'Editing instructions invalidates an earlier preview');

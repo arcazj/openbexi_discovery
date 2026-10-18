@@ -51,7 +51,7 @@ VERSION = "1.2.2"
 LOCAL_PORT_PATTERN = r"(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])"
 LOCAL_ORIGIN_PATTERN = rf"http://(?:localhost|127\.0\.0\.1)(?::{LOCAL_PORT_PATTERN})?"
 LOCAL_ORIGIN = re.compile(LOCAL_ORIGIN_PATTERN)
-DOC_FILES = {"README.md", "CHANGELOG.md", "RELEASE-NOTES-v1.2.0.md", "RELEASE-NOTES-v1.2.1.md", "RELEASE-NOTES-v1.2.2.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md", "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md", "LICENSE"}
+DOC_FILES = {"README.md", "CHANGELOG.md", "RELEASE-NOTES-v1.2.0.md", "RELEASE-NOTES-v1.2.1.md", "RELEASE-NOTES-v1.2.2.md", "WINDOWS_INSTALLATION.md", "HELP.md", "COMMERCIAL_LICENSING.md", "DISCLAIMER.md", "THIRD_PARTY_NOTICES.md", "REI_RESEARCH_EXPLORER_PROMPT.md", "LICENSE"}
 
 
 class SearchRequest(BaseModel):
@@ -59,9 +59,10 @@ class SearchRequest(BaseModel):
     query: str = Field(min_length=1, max_length=250)
     mode: Literal["auto", "topic", "gene", "region"] = "auto"
     sources: List[Literal["pubmed", "ensembl", "gwas"]] = Field(default_factory=lambda: ["pubmed", "ensembl", "gwas"], max_length=3)
+    topics: List[str] = Field(default_factory=list, max_length=30)
     limit: int = Field(default=10, ge=1, le=50)
     scope: Optional[Literal["overall", "specific"]] = None
-    reasoning_effort: Literal["low", "medium", "high"] = "medium"
+    reasoning_effort: Literal["low", "medium", "high", "xhigh", "max"] = "medium"
     profile_id: str = Field(default="rei", pattern=r"^[a-zA-Z0-9_-]{1,80}$")
     profile_revision: Optional[int] = None
     sensitive: bool = False
@@ -74,43 +75,56 @@ class SearchRequest(BaseModel):
             raise ValueError("Enter a nonempty query without control characters.")
         return value.strip()
 
-    @field_validator("sources")
+    @field_validator("sources", "topics")
     @classmethod
     def unique_sources(cls, value: List[str]) -> List[str]:
         if len(set(value)) != len(value):
-            raise ValueError("Select each source only once.")
+            raise ValueError("Select each source or topic only once.")
         return value
 
 
 class AIConfigureRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    api_key: Optional[SecretStr] = Field(default=None, min_length=20, max_length=512)
+    provider: Optional[Literal["openai", "anthropic", "gemini", "deepseek", "openrouter", "custom"]] = None
+    api_key: Optional[SecretStr] = Field(default=None, min_length=1, max_length=512)
     model: Optional[str] = Field(default=None, min_length=1, max_length=100)
     reasoning_effort: Optional[Literal["low", "medium", "high", "xhigh", "max"]] = None
+    base_url: Optional[str] = Field(default=None, min_length=1, max_length=500)
 
     @field_validator("api_key", mode="before")
     @classmethod
     def trim_key(cls, value):
         return value.strip() if isinstance(value, str) else value
 
-    @field_validator("api_key")
-    @classmethod
-    def valid_key(cls, value: Optional[SecretStr]) -> Optional[SecretStr]:
-        if value is not None and re.fullmatch(r"sk-[A-Za-z0-9_-]+", value.get_secret_value()) is None:
-            raise ValueError("Enter a complete OpenAI secret key beginning with sk-.")
-        return value
-
-    @field_validator("model")
-    @classmethod
-    def supported_model(cls, value):
-        if value is not None and value not in ai.MODELS and value != ai.model_name():
-            raise ValueError("Choose one of the supported AI models.")
-        return value
-
     @model_validator(mode="after")
     def has_change(self):
-        if self.api_key is None and self.model is None and self.reasoning_effort is None:
-            raise ValueError("Choose a model, reasoning level, or API key to save.")
+        if all(value is None for value in (self.provider, self.api_key, self.model, self.reasoning_effort, self.base_url)):
+            raise ValueError("Choose a provider, model, reasoning level, or API key to save.")
+        provider = self.provider or ai.providers.current_id()
+        saved = ai.providers.config(provider)
+        if self.api_key is not None:
+            key = self.api_key.get_secret_value()
+            if not re.fullmatch(r"[!-~]+", key):
+                raise ValueError("Enter an API key without spaces or control characters.")
+            if provider == "openai" and (len(key) < 20 or not re.fullmatch(r"sk-[A-Za-z0-9_-]+", key)):
+                raise ValueError("Enter a complete OpenAI secret key beginning with sk-.")
+        if self.model is not None:
+            if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:/@+-]*", self.model):
+                raise ValueError("Enter a model ID without spaces or control characters.")
+            if provider == "openai" and self.model not in ai.MODELS and self.model != saved["model"]:
+                raise ValueError("Choose one of the supported AI models.")
+        if self.reasoning_effort is not None and self.reasoning_effort not in (saved["levels"] or ("medium",)):
+            raise ValueError("Choose a reasoning level supported by this provider.")
+        if self.base_url is not None:
+            if provider != "custom":
+                raise ValueError("Only a custom provider accepts an API base URL.")
+            self.base_url = ai.providers.validate_url(self.base_url)
+            if self.base_url != saved["url"] and saved["key"] and self.api_key is None:
+                raise ValueError("Re-enter the API key when changing its destination URL.")
+        if provider == "custom":
+            ai.providers.validate_url(self.base_url or saved["url"])
+        if provider != "openai" and not (self.model or saved["model"]):
+            raise ValueError("Enter the model ID supplied by your provider.")
         return self
 
 
@@ -187,8 +201,7 @@ app.include_router(discovery_router)
 
 @app.get("/api/health")
 async def health():
-    result = {"version": VERSION, "ai": {"configured": ai.configured(), "model": ai.model_name(),
-              "reasoning_effort": ai.reasoning_effort()}, "sources": SOURCE_INFO}
+    result = {"version": VERSION, "ai": ai.providers.status(), "sources": SOURCE_INFO}
     if os.getenv("REI_DESKTOP_INSTANCE"):
         result["desktop"] = {"managed": True, "instance_id": os.environ["REI_DESKTOP_INSTANCE"]}
     return result
@@ -200,6 +213,8 @@ async def search(request: SearchRequest):
     if request.scope is not None:
         async with app.state.search_slots, app.state.ai_slots:
             return await tracked_ai(search_service.search(request, app.state.sources))
+    if request.topics:
+        raise HTTPException(422, "Choose Specific Search to search selected topics.")
     if not request.sources:
         raise HTTPException(422, "Select a source for direct evidence retrieval.")
     try:
@@ -235,13 +250,17 @@ async def ai_configure(configuration: AIConfigureRequest, request: Request):
         local_client = False
     if not local_client:
         raise HTTPException(403, "AI settings can only be configured from this computer.")
-    updates = {}
+    provider = configuration.provider or ai.providers.current_id()
+    prefix = ai.providers.PROVIDERS[provider]["prefix"]
+    updates = {"AI_PROVIDER": provider}
     if configuration.api_key is not None:
-        updates["OPENAI_API_KEY"] = configuration.api_key.get_secret_value()
+        updates[prefix + "_API_KEY"] = configuration.api_key.get_secret_value()
     if configuration.model is not None:
-        updates["OPENAI_MODEL"] = configuration.model
+        updates[prefix + "_MODEL"] = configuration.model
     if configuration.reasoning_effort is not None:
-        updates["OPENAI_REASONING_EFFORT"] = configuration.reasoning_effort
+        updates[prefix + "_REASONING_EFFORT"] = configuration.reasoning_effort
+    if configuration.base_url is not None:
+        updates["CUSTOM_AI_BASE_URL"] = configuration.base_url
     # Save the complete change atomically before updating the running process.
     # Omitted keys remain private and unchanged when only preferences are saved.
     with LOCK:
@@ -264,7 +283,7 @@ async def ai_configure(configuration: AIConfigureRequest, request: Request):
             if temporary is not None:
                 temporary.unlink(missing_ok=True)
         os.environ.update(updates)
-    return {"configured": ai.configured(), "model": ai.model_name(), "reasoning_effort": ai.reasoning_effort(),
+    return {**ai.providers.status(),
             "accessible": False, "message": "AI settings saved on this computer. Check AI access to verify the connection."}
 
 

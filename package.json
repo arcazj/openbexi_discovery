@@ -12,7 +12,10 @@
     "test:customization": "node tests/browser_customization.cjs",
     "test:profiles": "node tests/browser_profile_updates.cjs",
     "test:upgrade": "node tests/browser_cache_upgrade.cjs",
-    "test:search": "node tests/browser_search.cjs"
+    "test:search": "node tests/browser_search.cjs",
+    "test:settings": "node tests/browser_settings.cjs",
+    "test:providers": "node tests/browser_ai_providers.cjs",
+    "test:persistence": "node tests/browser_profile_persistence.cjs"
   },
   "devDependencies": {
     "playwright": "1.60.0"

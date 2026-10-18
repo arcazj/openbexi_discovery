@@ -20,6 +20,8 @@ on:
       - 'requirements.lock.txt'
       - 'index.html'
       - 'licenses/**'
+      - 'LICENSE'
+      - 'scripts/build_pages.py'
       - '*.md'
       - '.github/workflows/windows-installer.yml'
 

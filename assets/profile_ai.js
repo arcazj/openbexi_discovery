@@ -40,7 +40,7 @@ async function rollbackProfile(profile){
 function renderProfileUpdateSection(body,dialog,{instruction='',searches=[]}={}){
   const base=clone(D.profile),section=dnode('section',{class:'d-settings-section d-profile-update','aria-label':'Update profile with AI'});
   const request=dfield('What would you like to update?',instruction,'textarea');request.input.id='profile-update-request';request.input.maxLength=8000;
-  request.input.placeholder='For example: focus my research on ovarian aging and update the search examples.';
+  request.input.placeholder=base.id==='rei'?'For example: focus my research on ovarian aging and update the search examples.':'Describe a change to your topics, goal, or search examples.';
   const level=dcheck('Allow a learning-level change requested in my instructions');level.input.id='profile-update-level';
   const layout=dcheck('Allow changes to visible tabs and side panels');layout.input.id='profile-update-layout';
   const sensitive=dcheck('This request contains sensitive information',!!D.sensitive);sensitive.input.id='profile-update-sensitive';
@@ -149,6 +149,6 @@ function initProfileUpdates(){
   const originalApply=applyProfile;
   applyProfile=function(){originalApply();decorate($('d-theme').querySelectorAll('small')[1],D.profile.provenance.goal);};
   const originalUse=useProfile;
-  useProfile=async function(profile){state.searchController?.abort();return originalUse(profile);};
+  useProfile=async function(profile,stored){state.searchController?.abort();return originalUse(profile,stored);};
 }
 initProfileUpdates();
