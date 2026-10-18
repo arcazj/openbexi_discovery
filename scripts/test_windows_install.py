@@ -133,7 +133,9 @@ def smoke(setup, test_tray=False, previous_setup=None):
                     assert response.headers["Cache-Control"] == "no-store"
             with get("/api/discovery/templates/general") as response:
                 profile = json.load(response)
-            profile["name"] = "Installer fixture"
+            # This verification runs before and after reinstall. Keep the original
+            # fixture to verify preservation while using a distinct new name.
+            profile["name"] = "Installer fixture " + str(len(data["profiles"]))
             saved = post("/profiles/save", {"profile": profile, "create": True})
             pid = saved["id"]
             fixture = root / "synthetic.sqlite"

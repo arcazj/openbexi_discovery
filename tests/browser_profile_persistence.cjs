@@ -32,6 +32,8 @@ async function open(){
   const page=await browser.newPage({viewport:{width:1365,height:950}});
   page.on('pageerror',error=>errors.push(error.message));
   await page.route('**/api/search',route=>{errors.push('Unexpected startup search');return route.abort();});
+  // Topics can arrive after the workspace; readiness must include their restoration.
+  await page.route('**/api/discovery/taxonomy',async route=>{await new Promise(resolve=>setTimeout(resolve,350));return route.continue();});
   await page.goto(base);await page.waitForFunction(()=>D.hydrated&&!D.suppressSave);
   return page;
 }
@@ -64,7 +66,7 @@ async function assertRestored(page,profile){
   await page.locator('#search-topic-choices input').first().waitFor();
   assert.equal(await page.locator('#query').inputValue(),'Resume my research on dark energy');
   assert.equal(await page.locator('#overall-reasoning').inputValue(),'max');assert.equal(await page.locator('#specific-reasoning').inputValue(),'xhigh');
-  assert.deepEqual(await page.evaluate(()=>selectedSearchTopics()),['02.03.03.04']);
+  assert.deepEqual(await page.evaluate(()=>({selected:selectedSearchTopics(),saved:state.prefs.searchTopics})),{selected:['02.03.03.04'],saved:['02.03.03.04']},JSON.stringify(await api('/workspace/'+custom.id)));
   const saved=(await api('/bootstrap')).profiles.find(p=>p.id===custom.id);assert.deepEqual(saved,custom,'Launch preserves the complete profile');
   // Last selection wins for a bundled profile too; it needs no separate Save button.
   const cosmologie=(await api('/bootstrap')).profiles.find(p=>p.id==='cosmologie');await select(page,cosmologie.id);
